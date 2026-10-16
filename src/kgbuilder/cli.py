@@ -1058,6 +1058,7 @@ def sample(
 # benchmarked system, `agent_sql` the recommended upgrade, `agent_best` the measured combination
 WEB_VARIANTS = ("agent", "agent_sql", "agent_best")
 WEB_FOLDERS = OUT / "web"  # each dataset's working folder for questions (web/ask.py)
+WEB_PAGE = Path("frontend/dist")  # the built page (`npm run build` in frontend/, R223)
 
 
 @app.command()
@@ -1081,7 +1082,10 @@ def serve(host: str = "127.0.0.1", port: int = 8000):
         return from_build(dataset.build, s.data_dir, chunking)
 
     asker = AskService(contexts, read_prices(PRICES_FILE), WEB_FOLDERS)
-    uvicorn.run(create_app(datasets, graphs, asker, list(WEB_VARIANTS)), host=host, port=port)
+    page = WEB_PAGE if WEB_PAGE.exists() else None
+    if page is None:
+        typer.echo(f"{WEB_PAGE} not built: serving the API only (run `npm run build` in frontend/)")
+    uvicorn.run(create_app(datasets, graphs, asker, list(WEB_VARIANTS), page), host=host, port=port)
 
 
 @app.command()

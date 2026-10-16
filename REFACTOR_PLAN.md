@@ -11785,6 +11785,67 @@ upgrade."
 
 **R222 done 2026-10-16.** Next: R222b.
 
+### R223. The web page (done 2026-10-16; code, no run)
+
+The user agreed to build R223 before R222b (the load job), so the page could be seen first.
+
+**Design process** (the `impeccable` skill):
+- `PRODUCT.md` records the brief:
+  - audience: examiners, both on a projector at the defence and alone on laptops;
+  - what they must see first: the verifiable answer;
+  - the header name: "Automated KG Builder With Natural Language Querying Engine".
+- A decision page offered a dealt direction, a pick and the category standard. **The user chose the category standard.** The quality bar is Vercel, Neo4j Bloom, ChatGPT/Claude.ai and Linear.
+- The direction contract is in `.impeccable/surfaces/frontend-src-app-tsx.md`. `DESIGN.md` and `.impeccable/design.json` were written from the built page.
+
+**Scope:**
+- `frontend/` (new): Vite + React 19 + TypeScript 5.9 (openapi-typescript needs TS 5) + Cytoscape.js + lucide icons. Inter and JetBrains Mono are self-hosted, so the page works offline at the defence.
+  - **Header:** the name, the five tabs (a green dot plus the words "Loaded in Neo4j"), and the counts.
+  - **Graph area:**
+    - the 80 busiest things, with kind told by shape (record square, individual circle, concept diamond, unresolved mention dashed);
+    - labels kept at 15px on screen at any zoom, and culled where they collide;
+    - search; a thing's neighbourhood; its detail panel with properties, each with its source row, and facts with their sentence or row;
+    - a legend with counts.
+  - **Chat area:**
+    - each answer with numbered source markers, an outcome badge, time, cost and variant;
+    - its steps, live while the agent works: each call with "model x s · tool y s", a bar proportional to its time, refusals and send-backs, and the totals (calls, LLM requests, cache hits, tokens, cost);
+    - a source drawer: a passage with its quote marked and code's checks; a query with its statement, parameters, file and rows; a thing with its properties;
+    - while a source is open, its things are ringed on the graph and the rest dims;
+    - on a tab whose graph is not loaded, the question box says which graph Neo4j holds.
+  - **Types:** `src/api/schema.ts` is generated from the API (`npm run api`), so nothing is typed by hand.
+  - **Checks:** `npm run typecheck`, `npm run lint` (oxlint), `npm test` (vitest), `npm run build`.
+- `src/kgbuilder/web/`:
+  - `openapi.py`: the API's schema plus the stream's `StreamEvent` union, the source of the page's types.
+  - `knowledge.py` `locate` + `POST /locate`: places an answer's sources on the graph. A passage goes to the ends of the text facts it states; a query's rows go to their records, by the table's key column, or to the query's refs.
+  - `app.py`: serves `frontend/dist` at `/`, after the API routes.
+- `cli.py`: `kg serve` serves the built page when it exists.
+
+**Verified:**
+- Python gate:
+  - `uv run pytest -m "not neo4j and not postgres"`: 1795 passed (R222: 1765).
+  - The new tests:
+    - the committed `frontend/openapi.json` equals the live schema; it caught a stale file once, as meant;
+    - the page is served beside the API;
+    - sources are placed on the graph.
+  - `uv run ruff check .`: clean.
+- Frontend: 9 vitest tests, covering:
+  - steps rebuilt from the stream;
+  - the totals;
+  - the sources numbered with their passage, query and check;
+  - the stream parser;
+  - the answer card's folded and live steps, refusal, send-back and source click.
+  - `tsc` and oxlint are clean, and the design detector finds nothing.
+- **Visual review:**
+  - Screenshots in light and dark, at 1440x900 and 390 wide, were taken with the installed Edge through playwright-core.
+  - They show a real recorded R219 answer (`agent`, LF01), replayed by a dev-only server in the scratchpad. Its per-turn model times are made up and not committed.
+  - A fresh finish-review agent judged two rounds:
+    - Round 1 found 8 material fixes: graph highlighting covered only node sources; no markers in the answer; colliding labels; no selection ring; unlabelled times; accent on non-accent jobs; raw markdown; neon-bright dark status colours; hidden mobile tabs.
+    - Round 2 scored 6 resolved and 2 partial, plus one regression (the legend over labels).
+    - A third batch fixed the selection ring (a class, since re-added elements lose Cytoscape's selection), the opaque legend, and label culling against shapes. That batch was not re-scored.
+  - **Open:** a few overview labels are still touched by a neighbouring shape; that is the layout's limit.
+- **No run ($0).** No question was asked of the LLM. The end-to-end question is R224's, asked first.
+
+**R223 done 2026-10-16.** Next: R222b, the load job, then R224.
+
 ### Plan R225-R228: build accuracy of the lighthouses and NTSB builds, and its figures (accepted 2026-10-16)
 
 **The ask.** Three datasets were added after the build was measured: generality, lighthouses and NTSB. Of these, generality already has the full set of build records:

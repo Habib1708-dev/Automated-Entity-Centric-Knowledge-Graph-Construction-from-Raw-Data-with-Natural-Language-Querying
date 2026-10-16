@@ -1,0 +1,156 @@
+/* The graph region: a toolbar row above a canvas filling the rest; the legend and the detail panel float
+   inside the region, so the drawing keeps its full size. */
+.graph {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  background: var(--bg-subtle);
+}
+
+.graph-bar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  padding: var(--space-3) var(--space-5);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.graph-title {
+  font-size: var(--text-lead);
+  font-weight: 600;
+}
+
+.graph-view {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--text-2);
+  font-size: var(--text-label);
+  min-width: 0;
+}
+
+.graph-link {
+  border: 0;
+  background: none;
+  padding: 0;
+  color: var(--accent);
+  font-size: var(--text-label);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.graph-search {
+  position: relative;
+  margin-left: auto;
+  width: 300px;
+}
+
+.graph-search input {
+  width: 100%;
+  height: 40px;
+  padding: 0 var(--space-6) 0 40px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--bg);
+  font-size: var(--text-label);
+}
+
+.graph-search input::-webkit-search-cancel-button {
+  display: none;
+}
+
+.graph-search input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.graph-search-icon {
+  position: absolute;
+  left: 12px;
+  top: 11px;
+  color: var(--text-3);
+}
+
+.graph-search-clear {
+  position: absolute;
+  right: 6px;
+  top: 6px;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  color: var(--text-3);
+  cursor: pointer;
+}
+
+.graph-hits {
+  position: absolute;
+  z-index: 20;
+  top: 46px;
+  left: 0;
+  right: 0;
+  margin: 0;
+  padding: var(--space-1);
+  list-style: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg);
+  box-shadow: var(--shadow);
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+.graph-hits button {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-2) var(--space-3);
+  border: 0;
+  border-radius: 6px;
+  background: none;
+  text-align: left;
+  font-size: var(--text-label);
+  cursor: pointer;
+}
+
+.graph-hits button:hover,
+.graph-hits button:focus-visible {
+  background: var(--bg-muted);
+}
+
+.graph-hit-type {
+  color: var(--text-3);
+  white-space: nowrap;
+}
+
+/* the detail panel covers the canvas's right edge: the legend keeps to the part left visible, on one row,
+   by leaving out the line key (the panel names each fact's origin itself) */
+.graph-panel-open .legend {
+  max-width: calc(100% - var(--panel-w) - 2 * var(--space-4));
+}
+
+.graph-panel-open .legend-line {
+  display: none;
+}
+
+.graph-canvas {
+  flex: 1;
+  min-height: 0;
+}
+
+.graph-error {
+  position: absolute;
+  top: 80px;
+  left: var(--space-5);
+  color: var(--bad);
+  font-size: var(--text-label);
+}

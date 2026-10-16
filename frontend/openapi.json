@@ -1,0 +1,2766 @@
+{
+  "components": {
+    "schemas": {
+      "AgentCall": {
+        "description": "One tool call the agent proposed (R135): the tool and its arguments as written, why code refused it\n(empty when it ran), the result's note, the ids it returned, and how long it took.",
+        "properties": {
+          "arguments": {
+            "title": "Arguments",
+            "type": "string"
+          },
+          "latency_ms": {
+            "default": 0.0,
+            "title": "Latency Ms",
+            "type": "number"
+          },
+          "note": {
+            "default": "",
+            "title": "Note",
+            "type": "string"
+          },
+          "refused": {
+            "default": "",
+            "title": "Refused",
+            "type": "string"
+          },
+          "returned": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Returned",
+            "type": "array"
+          },
+          "tool": {
+            "title": "Tool",
+            "type": "string"
+          },
+          "turn": {
+            "title": "Turn",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "turn",
+          "tool",
+          "arguments"
+        ],
+        "title": "AgentCall",
+        "type": "object"
+      },
+      "AgentTrace": {
+        "description": "How the agent answered (R135): every call, how many turns it took, why the loop stopped (the model\nanswered, or a cap was reached and it answered with the tools closed), the characters of every prompt\nsent, and the citations code kept and dropped (ids no tool returned).",
+        "properties": {
+          "abstention_cited": {
+            "default": false,
+            "title": "Abstention Cited",
+            "type": "boolean"
+          },
+          "asks": {
+            "anyOf": [
+              {
+                "enum": [
+                  "things",
+                  "number",
+                  "statement"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Asks"
+          },
+          "calls": {
+            "items": {
+              "$ref": "#/components/schemas/AgentCall"
+            },
+            "title": "Calls",
+            "type": "array"
+          },
+          "citation_checks": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/CitationCheck"
+            },
+            "title": "Citation Checks",
+            "type": "array"
+          },
+          "cited": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Cited",
+            "type": "array"
+          },
+          "dropped": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Dropped",
+            "type": "array"
+          },
+          "emptied": {
+            "default": false,
+            "title": "Emptied",
+            "type": "boolean"
+          },
+          "entities_grounded": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Entities Grounded"
+          },
+          "entities_supported": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Entities Supported"
+          },
+          "evidence_read": {
+            "default": 0,
+            "title": "Evidence Read",
+            "type": "integer"
+          },
+          "evidence_rows": {
+            "default": 0,
+            "title": "Evidence Rows",
+            "type": "integer"
+          },
+          "evidence_sent": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Evidence Sent",
+            "type": "array"
+          },
+          "llm_ms": {
+            "default": 0.0,
+            "title": "Llm Ms",
+            "type": "number"
+          },
+          "number_stated": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Number Stated"
+          },
+          "number_supported": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Number Supported"
+          },
+          "outcome": {
+            "anyOf": [
+              {
+                "enum": [
+                  "answer",
+                  "clarify",
+                  "out_of_scope",
+                  "insufficient_evidence"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Outcome"
+          },
+          "outcome_sent": {
+            "default": false,
+            "title": "Outcome Sent",
+            "type": "boolean"
+          },
+          "prompt_chars": {
+            "title": "Prompt Chars",
+            "type": "integer"
+          },
+          "queries": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/QueryRecord"
+            },
+            "title": "Queries",
+            "type": "array"
+          },
+          "readings": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Readings",
+            "type": "array"
+          },
+          "rechecked": {
+            "default": false,
+            "title": "Rechecked",
+            "type": "boolean"
+          },
+          "reformed": {
+            "default": false,
+            "title": "Reformed",
+            "type": "boolean"
+          },
+          "retried": {
+            "default": false,
+            "title": "Retried",
+            "type": "boolean"
+          },
+          "stopped": {
+            "enum": [
+              "answer",
+              "turns",
+              "calls",
+              "prompt_chars",
+              "timeout"
+            ],
+            "title": "Stopped",
+            "type": "string"
+          },
+          "turns": {
+            "title": "Turns",
+            "type": "integer"
+          },
+          "ungrounded": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Ungrounded",
+            "type": "array"
+          },
+          "wall_ms": {
+            "default": 0.0,
+            "title": "Wall Ms",
+            "type": "number"
+          },
+          "workset_changed": {
+            "default": false,
+            "title": "Workset Changed",
+            "type": "boolean"
+          },
+          "workset_items": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Workset Items",
+            "type": "array"
+          },
+          "workset_left_out": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Workset Left Out",
+            "type": "array"
+          },
+          "workset_marks": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/WorksetMark"
+            },
+            "title": "Workset Marks",
+            "type": "array"
+          },
+          "workset_problems": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Workset Problems",
+            "type": "array"
+          },
+          "workset_sent": {
+            "default": false,
+            "title": "Workset Sent",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "calls",
+          "turns",
+          "stopped",
+          "prompt_chars"
+        ],
+        "title": "AgentTrace",
+        "type": "object"
+      },
+      "AnswerEvent": {
+        "description": "The answer with its trace and provenance, the question's wall-clock seconds and its cost.",
+        "properties": {
+          "answer": {
+            "$ref": "#/components/schemas/SystemAnswer"
+          },
+          "cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cost Usd"
+          },
+          "event": {
+            "const": "answer",
+            "default": "answer",
+            "title": "Event",
+            "type": "string"
+          },
+          "seconds": {
+            "title": "Seconds",
+            "type": "number"
+          }
+        },
+        "required": [
+          "answer",
+          "seconds",
+          "cost_usd"
+        ],
+        "title": "AnswerEvent",
+        "type": "object"
+      },
+      "AskRequest": {
+        "properties": {
+          "question": {
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Question",
+            "type": "string"
+          },
+          "variant": {
+            "title": "Variant",
+            "type": "string"
+          }
+        },
+        "required": [
+          "question",
+          "variant"
+        ],
+        "title": "AskRequest",
+        "type": "object"
+      },
+      "CallEvent": {
+        "description": "A tool call settled: run (its result as JSON, cut at `RESULT_CHARS`) or refused (`call.refused`).",
+        "properties": {
+          "call": {
+            "$ref": "#/components/schemas/AgentCall"
+          },
+          "cut": {
+            "default": false,
+            "title": "Cut",
+            "type": "boolean"
+          },
+          "event": {
+            "const": "call",
+            "default": "call",
+            "title": "Event",
+            "type": "string"
+          },
+          "result": {
+            "default": "",
+            "title": "Result",
+            "type": "string"
+          }
+        },
+        "required": [
+          "call"
+        ],
+        "title": "CallEvent",
+        "type": "object"
+      },
+      "ChunkView": {
+        "description": "A passage as the provenance drawer shows it: its document, the heading context, and its text.",
+        "properties": {
+          "chunk_id": {
+            "title": "Chunk Id",
+            "type": "string"
+          },
+          "context": {
+            "title": "Context",
+            "type": "string"
+          },
+          "doc_id": {
+            "title": "Doc Id",
+            "type": "string"
+          },
+          "text": {
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "chunk_id",
+          "doc_id",
+          "context",
+          "text"
+        ],
+        "title": "ChunkView",
+        "type": "object"
+      },
+      "Citation": {
+        "description": "A chunk the answer relies on and the words it quotes from it.",
+        "properties": {
+          "chunk_id": {
+            "title": "Chunk Id",
+            "type": "string"
+          },
+          "quote": {
+            "title": "Quote",
+            "type": "string"
+          }
+        },
+        "required": [
+          "chunk_id",
+          "quote"
+        ],
+        "title": "Citation",
+        "type": "object"
+      },
+      "CitationCheck": {
+        "description": "One kept citation checked against its own content (R210), recorded, never enforced: which of the\nanswer's entities and whether its number that content holds, and for a chunk whether its quote is in\nthe whole passage (None: no quote, or no number given). R142's check reads every result offering a\ncited id, notes and column names included; this one reads only what the id itself stands for.",
+        "properties": {
+          "entities_found": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Entities Found",
+            "type": "array"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "chunk",
+              "claim",
+              "node",
+              "query"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "number_found": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Number Found"
+          },
+          "quote_found": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Quote Found"
+          }
+        },
+        "required": [
+          "id",
+          "kind"
+        ],
+        "title": "CitationCheck",
+        "type": "object"
+      },
+      "ClaimHit": {
+        "description": "A claim that claim retrieval found (R120): its observation, the chunk it was read from, its truth\nfields as stored (truth is never left to the claim sentence's text, which an embedding and a full-text\nanalyzer both blur), and its siblings: the observations of the same canonical subject, predicate and\nobject whose triple has the opposite truth, with their chunks, so a disagreement is read together.",
+        "properties": {
+          "chunk_id": {
+            "title": "Chunk Id",
+            "type": "string"
+          },
+          "condition": {
+            "default": "",
+            "title": "Condition",
+            "type": "string"
+          },
+          "hedge": {
+            "default": "",
+            "title": "Hedge",
+            "type": "string"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "modality": {
+            "default": "actual",
+            "title": "Modality",
+            "type": "string"
+          },
+          "negation": {
+            "default": "",
+            "title": "Negation",
+            "type": "string"
+          },
+          "sibling_chunks": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Sibling Chunks",
+            "type": "array"
+          },
+          "siblings": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Siblings",
+            "type": "array"
+          },
+          "triple_truth": {
+            "default": "affirmed",
+            "title": "Triple Truth",
+            "type": "string"
+          },
+          "truth": {
+            "title": "Truth",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "chunk_id",
+          "truth"
+        ],
+        "title": "ClaimHit",
+        "type": "object"
+      },
+      "DatasetInfo": {
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "loaded": {
+            "title": "Loaded",
+            "type": "boolean"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "preset": {
+            "title": "Preset",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "preset",
+          "loaded"
+        ],
+        "title": "DatasetInfo",
+        "type": "object"
+      },
+      "DatasetsView": {
+        "description": "The tabs, whether Neo4j answered, and the id of the dataset it holds (None: another graph, or none).",
+        "properties": {
+          "datasets": {
+            "items": {
+              "$ref": "#/components/schemas/DatasetInfo"
+            },
+            "title": "Datasets",
+            "type": "array"
+          },
+          "loaded": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Loaded"
+          },
+          "neo4j": {
+            "title": "Neo4J",
+            "type": "boolean"
+          },
+          "variants": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Variants",
+            "type": "array"
+          }
+        },
+        "required": [
+          "datasets",
+          "neo4j",
+          "loaded",
+          "variants"
+        ],
+        "title": "DatasetsView",
+        "type": "object"
+      },
+      "ErrorEvent": {
+        "description": "The question failed with an expected error (`KgBuilderError`); `message` says why.",
+        "properties": {
+          "event": {
+            "const": "error",
+            "default": "error",
+            "title": "Event",
+            "type": "string"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          }
+        },
+        "required": [
+          "message"
+        ],
+        "title": "ErrorEvent",
+        "type": "object"
+      },
+      "ExactAttempt": {
+        "description": "One Cypher proposal of the exact route and what became of it.",
+        "properties": {
+          "cypher": {
+            "title": "Cypher",
+            "type": "string"
+          },
+          "issues": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Issues",
+            "type": "array"
+          },
+          "parameters": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "string"
+                },
+                {
+                  "items": {
+                    "type": "string"
+                  },
+                  "type": "array"
+                }
+              ]
+            },
+            "title": "Parameters",
+            "type": "object"
+          }
+        },
+        "required": [
+          "cypher",
+          "parameters",
+          "issues"
+        ],
+        "title": "ExactAttempt",
+        "type": "object"
+      },
+      "ExactTrace": {
+        "description": "How the exact route answered, or why it gave up (then the question falls back to retrieval).",
+        "properties": {
+          "answered": {
+            "title": "Answered",
+            "type": "boolean"
+          },
+          "attempts": {
+            "items": {
+              "$ref": "#/components/schemas/ExactAttempt"
+            },
+            "title": "Attempts",
+            "type": "array"
+          },
+          "rows": {
+            "default": 0,
+            "title": "Rows",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "attempts",
+          "answered"
+        ],
+        "title": "ExactTrace",
+        "type": "object"
+      },
+      "Fact": {
+        "description": "One edge with its provenance: from a table (`source` names the file and rows) or from a text claim\n(`evidence` is the sentence, `chunk_id` the passage holding it).",
+        "properties": {
+          "chunk_id": {
+            "default": "",
+            "title": "Chunk Id",
+            "type": "string"
+          },
+          "evidence": {
+            "default": "",
+            "title": "Evidence",
+            "type": "string"
+          },
+          "origin": {
+            "enum": [
+              "table",
+              "text"
+            ],
+            "title": "Origin",
+            "type": "string"
+          },
+          "row": {
+            "default": "",
+            "title": "Row",
+            "type": "string"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          },
+          "target": {
+            "title": "Target",
+            "type": "string"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "source",
+          "target",
+          "type",
+          "origin"
+        ],
+        "title": "Fact",
+        "type": "object"
+      },
+      "HTTPValidationError": {
+        "properties": {
+          "detail": {
+            "items": {
+              "$ref": "#/components/schemas/ValidationError"
+            },
+            "title": "Detail",
+            "type": "array"
+          }
+        },
+        "title": "HTTPValidationError",
+        "type": "object"
+      },
+      "LLMEvent": {
+        "description": "One LLM request: its model, whether the cache answered it, its tokens and latency, and its cost\n(None when prices.yaml has no price for the model).",
+        "properties": {
+          "cache_hit": {
+            "title": "Cache Hit",
+            "type": "boolean"
+          },
+          "completion_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Completion Tokens"
+          },
+          "cost_usd": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cost Usd"
+          },
+          "event": {
+            "const": "llm",
+            "default": "llm",
+            "title": "Event",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "generate",
+              "embed"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "latency_s": {
+            "title": "Latency S",
+            "type": "number"
+          },
+          "model": {
+            "title": "Model",
+            "type": "string"
+          },
+          "ok": {
+            "title": "Ok",
+            "type": "boolean"
+          },
+          "prompt_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Prompt Tokens"
+          },
+          "thinking_tokens": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Thinking Tokens"
+          }
+        },
+        "required": [
+          "model",
+          "kind",
+          "ok",
+          "cache_hit",
+          "prompt_tokens",
+          "completion_tokens",
+          "thinking_tokens",
+          "latency_s",
+          "cost_usd"
+        ],
+        "title": "LLMEvent",
+        "type": "object"
+      },
+      "Link": {
+        "description": "The facts between two things of one type, drawn as one line.",
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "origin": {
+            "enum": [
+              "table",
+              "text"
+            ],
+            "title": "Origin",
+            "type": "string"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          },
+          "target": {
+            "title": "Target",
+            "type": "string"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "source",
+          "target",
+          "type",
+          "origin",
+          "count"
+        ],
+        "title": "Link",
+        "type": "object"
+      },
+      "LinkTypeCount": {
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "origin": {
+            "enum": [
+              "table",
+              "text"
+            ],
+            "title": "Origin",
+            "type": "string"
+          },
+          "source_type": {
+            "title": "Source Type",
+            "type": "string"
+          },
+          "target_type": {
+            "title": "Target Type",
+            "type": "string"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "source_type",
+          "type",
+          "target_type",
+          "origin",
+          "count"
+        ],
+        "title": "LinkTypeCount",
+        "type": "object"
+      },
+      "LinkedNode": {
+        "description": "A graph node a question was linked to, and how.",
+        "properties": {
+          "by": {
+            "enum": [
+              "spelling",
+              "meaning"
+            ],
+            "title": "By",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "thing",
+              "kind"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "node_id": {
+            "title": "Node Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind",
+          "node_id",
+          "name",
+          "by"
+        ],
+        "title": "LinkedNode",
+        "type": "object"
+      },
+      "ModelEvent": {
+        "description": "The model replied during `turn` after `ms` milliseconds.",
+        "properties": {
+          "event": {
+            "const": "model",
+            "default": "model",
+            "title": "Event",
+            "type": "string"
+          },
+          "ms": {
+            "title": "Ms",
+            "type": "number"
+          },
+          "turn": {
+            "title": "Turn",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "turn",
+          "ms"
+        ],
+        "title": "ModelEvent",
+        "type": "object"
+      },
+      "PlanAttempt": {
+        "description": "One plan the planner wrote: the plan as written, why it was refused (empty when it ran to the end),\nthe optional filters code dropped, and the steps it ran.",
+        "properties": {
+          "dropped": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Dropped",
+            "type": "array"
+          },
+          "issues": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Issues",
+            "type": "array"
+          },
+          "plan": {
+            "$ref": "#/components/schemas/QueryPlan"
+          },
+          "steps": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/StepTrace"
+            },
+            "title": "Steps",
+            "type": "array"
+          }
+        },
+        "required": [
+          "plan"
+        ],
+        "title": "PlanAttempt",
+        "type": "object"
+      },
+      "PlanStep": {
+        "description": "One step of a plan: an operation and the fields it uses (the others stay empty).",
+        "properties": {
+          "include_parts": {
+            "default": false,
+            "description": "find_claims: also claims about the records that are parts of the input.",
+            "title": "Include Parts",
+            "type": "boolean"
+          },
+          "input": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The index (from 0) of an earlier step whose result this step works on.",
+            "title": "Input"
+          },
+          "label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "find_entity: an optional node label or entity type; filter_records: the label to filter; related and rank: the label at the other end; about, and list and count of the records claims are about: only the records of this label.",
+            "title": "Label"
+          },
+          "modality": {
+            "default": "actual",
+            "description": "find_claims: claims that hold (actual), may hold (possible) or hold under a condition (conditional).",
+            "enum": [
+              "actual",
+              "possible",
+              "conditional"
+            ],
+            "title": "Modality",
+            "type": "string"
+          },
+          "modality_words": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The words of the question that ask for `modality`.",
+            "title": "Modality Words"
+          },
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "find_entity: the name to look up, as the question writes it.",
+            "title": "Name"
+          },
+          "object_like": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "find_claims: words for the claim's object.",
+            "title": "Object Like"
+          },
+          "op": {
+            "description": "The primitive this step runs.",
+            "enum": [
+              "find_entity",
+              "filter_records",
+              "related",
+              "find_claims",
+              "about",
+              "read_check",
+              "retrieve_chunks",
+              "list",
+              "count",
+              "sum",
+              "rank",
+              "answer_from_chunks"
+            ],
+            "title": "Op",
+            "type": "string"
+          },
+          "operator": {
+            "anyOf": [
+              {
+                "enum": [
+                  "=",
+                  "!=",
+                  "<",
+                  "<=",
+                  ">",
+                  ">=",
+                  "contains",
+                  "year"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "How `property` is compared with `value`; rank by the value most records share: 'year' groups a date by its year.",
+            "title": "Operator"
+          },
+          "order": {
+            "anyOf": [
+              {
+                "enum": [
+                  "most",
+                  "fewest",
+                  "highest",
+                  "lowest"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "rank: most/fewest related items, highest/lowest property value, or with a property most/fewest: the value the most or fewest records share.",
+            "title": "Order"
+          },
+          "predicate": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "find_claims: the claim's predicate.",
+            "title": "Predicate"
+          },
+          "property": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "filter_records: the property compared; related: a property of the relationship; list, sum, rank: the property read.",
+            "title": "Property"
+          },
+          "relationship": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "related and rank: the relationship type followed.",
+            "title": "Relationship"
+          },
+          "statement": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "read_check: the statement each candidate must support.",
+            "title": "Statement"
+          },
+          "subject_like": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "find_claims: words for the claim's subject.",
+            "title": "Subject Like"
+          },
+          "time_words": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "find_claims: words the claim's time must contain, quoted from the question.",
+            "title": "Time Words"
+          },
+          "tone": {
+            "anyOf": [
+              {
+                "enum": [
+                  "positive",
+                  "negative",
+                  "neutral"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "find_claims: the claim's polarity.",
+            "title": "Tone"
+          },
+          "tone_words": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The words of the question that ask for `tone`.",
+            "title": "Tone Words"
+          },
+          "truth": {
+            "default": "affirmed",
+            "description": "find_claims: claims the text states (affirmed) or denies (negated).",
+            "enum": [
+              "affirmed",
+              "negated"
+            ],
+            "title": "Truth",
+            "type": "string"
+          },
+          "truth_words": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The words of the question that ask for `truth`.",
+            "title": "Truth Words"
+          },
+          "unit": {
+            "anyOf": [
+              {
+                "enum": [
+                  "items",
+                  "documents",
+                  "about"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "count: count the items, their distinct documents, or the records claims are about.",
+            "title": "Unit"
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "The value compared against.",
+            "title": "Value"
+          },
+          "what": {
+            "anyOf": [
+              {
+                "enum": [
+                  "name",
+                  "about",
+                  "subject",
+                  "object"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "description": "list: names of the items (name), or for claims the records they are about, their subjects or their objects.",
+            "title": "What"
+          }
+        },
+        "required": [
+          "op"
+        ],
+        "title": "PlanStep",
+        "type": "object"
+      },
+      "PlanTrace": {
+        "description": "How a plan system answered (R74): its plans, and the fallback that answered when no plan could.",
+        "properties": {
+          "attempts": {
+            "items": {
+              "$ref": "#/components/schemas/PlanAttempt"
+            },
+            "title": "Attempts",
+            "type": "array"
+          },
+          "checks": {
+            "default": 0,
+            "title": "Checks",
+            "type": "integer"
+          },
+          "fallback": {
+            "anyOf": [
+              {
+                "enum": [
+                  "text2cypher",
+                  "retrieval"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Fallback"
+          },
+          "frozen": {
+            "default": false,
+            "title": "Frozen",
+            "type": "boolean"
+          },
+          "verified": {
+            "default": 0,
+            "title": "Verified",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "attempts"
+        ],
+        "title": "PlanTrace",
+        "type": "object"
+      },
+      "PropertyRow": {
+        "description": "A record's column value and the row it came from (the agent's `Property.source` format).",
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          },
+          "value": {
+            "title": "Value",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "value",
+          "source"
+        ],
+        "title": "PropertyRow",
+        "type": "object"
+      },
+      "QueryPlan": {
+        "description": "An ordered list of steps; the last one, and only the last one, is a terminal.",
+        "properties": {
+          "steps": {
+            "description": "The steps, in order; the last ends the plan.",
+            "items": {
+              "$ref": "#/components/schemas/PlanStep"
+            },
+            "minItems": 1,
+            "title": "Steps",
+            "type": "array"
+          }
+        },
+        "required": [
+          "steps"
+        ],
+        "title": "QueryPlan",
+        "type": "object"
+      },
+      "QueryRecord": {
+        "description": "One structured query the agent ran (R208), kept so the `q-` id an answer cites resolves within the\nanswers file: the tool, the statement and its parameters as run, what it read (record labels or tables)\nand the source files behind them, and its result uncut (the agent saw the values cut at its cap). A\ntable row has no id of its own: the statement run again over the named staged file finds it.",
+        "properties": {
+          "columns": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Columns",
+            "type": "array"
+          },
+          "files": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Files",
+            "type": "array"
+          },
+          "parameters": {
+            "title": "Parameters",
+            "type": "string"
+          },
+          "query_id": {
+            "title": "Query Id",
+            "type": "string"
+          },
+          "refs": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Refs",
+            "type": "array"
+          },
+          "rows": {
+            "items": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "title": "Rows",
+            "type": "array"
+          },
+          "sources": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Sources",
+            "type": "array"
+          },
+          "statement": {
+            "title": "Statement",
+            "type": "string"
+          },
+          "tool": {
+            "title": "Tool",
+            "type": "string"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "query_id",
+          "tool",
+          "statement",
+          "parameters",
+          "sources",
+          "files",
+          "columns",
+          "rows",
+          "total"
+        ],
+        "title": "QueryRecord",
+        "type": "object"
+      },
+      "RetrievalTrace": {
+        "description": "How the graph route chose its chunks, kept so a wrong answer can be traced to its cause.",
+        "properties": {
+          "candidates": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Candidates",
+            "type": "array"
+          },
+          "claims": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/ClaimHit"
+            },
+            "title": "Claims",
+            "type": "array"
+          },
+          "linked": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/LinkedNode"
+            },
+            "title": "Linked",
+            "type": "array"
+          },
+          "lists": {
+            "additionalProperties": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "default": {},
+            "title": "Lists",
+            "type": "object"
+          },
+          "reached_by": {
+            "additionalProperties": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "default": {},
+            "title": "Reached By",
+            "type": "object"
+          },
+          "seeds": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Seeds",
+            "type": "array"
+          }
+        },
+        "title": "RetrievalTrace",
+        "type": "object"
+      },
+      "Route": {
+        "description": "The route of the query stage that should answer a question (Step 2 scores its router on it).",
+        "enum": [
+          "exact",
+          "retrieval"
+        ],
+        "title": "Route",
+        "type": "string"
+      },
+      "SchemaView": {
+        "description": "What the graph holds, by type: things per kind and type, facts per (source type, type, target type)\nand origin, and the build's text size.",
+        "properties": {
+          "chunks": {
+            "title": "Chunks",
+            "type": "integer"
+          },
+          "documents": {
+            "title": "Documents",
+            "type": "integer"
+          },
+          "links": {
+            "items": {
+              "$ref": "#/components/schemas/LinkTypeCount"
+            },
+            "title": "Links",
+            "type": "array"
+          },
+          "things": {
+            "items": {
+              "$ref": "#/components/schemas/TypeCount"
+            },
+            "title": "Things",
+            "type": "array"
+          }
+        },
+        "required": [
+          "things",
+          "links",
+          "chunks",
+          "documents"
+        ],
+        "title": "SchemaView",
+        "type": "object"
+      },
+      "ScreenVerdict": {
+        "description": "The security screen's decision on one request (R202, query/screen.py): allowed, or refused by `rule`\nbecause of the words `matched`.",
+        "properties": {
+          "allowed": {
+            "title": "Allowed",
+            "type": "boolean"
+          },
+          "matched": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Matched"
+          },
+          "rule": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Rule"
+          }
+        },
+        "required": [
+          "allowed"
+        ],
+        "title": "ScreenVerdict",
+        "type": "object"
+      },
+      "SentBackEvent": {
+        "description": "The reply of `turn` went back to the model once, for `reason`.",
+        "properties": {
+          "event": {
+            "const": "sent_back",
+            "default": "sent_back",
+            "title": "Event",
+            "type": "string"
+          },
+          "reason": {
+            "enum": [
+              "empty",
+              "outcome",
+              "form",
+              "recheck",
+              "evidence",
+              "citations"
+            ],
+            "title": "Reason",
+            "type": "string"
+          },
+          "turn": {
+            "title": "Turn",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "turn",
+          "reason"
+        ],
+        "title": "SentBackEvent",
+        "type": "object"
+      },
+      "ShownChunk": {
+        "description": "A chunk as the reader saw it: its id, the document it belongs to, and its text. R209: for a chunk the\nagent cited after reading only a cut view of it (a `find_passages` excerpt, a `filter_passages` quote),\n`text` is the whole stored passage and `excerpt` the view it read, so a quote is checked against the\nsource, not against one view of it (R182: three verbatim quotes failed against another view).",
+        "properties": {
+          "chunk_id": {
+            "title": "Chunk Id",
+            "type": "string"
+          },
+          "context": {
+            "title": "Context",
+            "type": "string"
+          },
+          "excerpt": {
+            "default": "",
+            "title": "Excerpt",
+            "type": "string"
+          },
+          "text": {
+            "title": "Text",
+            "type": "string"
+          }
+        },
+        "required": [
+          "chunk_id",
+          "context",
+          "text"
+        ],
+        "title": "ShownChunk",
+        "type": "object"
+      },
+      "SourceRef": {
+        "description": "An answer's source as the page knows it from the answer: its kind and id, and for a query the tables\nit read, its columns, its rows and the record refs it listed (query/answers.py `QueryRecord`).",
+        "properties": {
+          "columns": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Columns",
+            "type": "array"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "chunk",
+              "claim",
+              "node",
+              "query"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "refs": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Refs",
+            "type": "array"
+          },
+          "rows": {
+            "default": [],
+            "items": {
+              "items": {
+                "type": "string"
+              },
+              "type": "array"
+            },
+            "title": "Rows",
+            "type": "array"
+          },
+          "sources": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Sources",
+            "type": "array"
+          }
+        },
+        "required": [
+          "kind",
+          "id"
+        ],
+        "title": "SourceRef",
+        "type": "object"
+      },
+      "StepTrace": {
+        "description": "What one plan step did: how many items of each kind it produced, and a note (direction, checks).",
+        "properties": {
+          "items": {
+            "additionalProperties": {
+              "type": "integer"
+            },
+            "title": "Items",
+            "type": "object"
+          },
+          "note": {
+            "default": "",
+            "title": "Note",
+            "type": "string"
+          },
+          "op": {
+            "title": "Op",
+            "type": "string"
+          }
+        },
+        "required": [
+          "op",
+          "items"
+        ],
+        "title": "StepTrace",
+        "type": "object"
+      },
+      "StreamEvent": {
+        "discriminator": {
+          "mapping": {
+            "answer": "#/components/schemas/AnswerEvent",
+            "call": "#/components/schemas/CallEvent",
+            "error": "#/components/schemas/ErrorEvent",
+            "llm": "#/components/schemas/LLMEvent",
+            "model": "#/components/schemas/ModelEvent",
+            "sent_back": "#/components/schemas/SentBackEvent"
+          },
+          "propertyName": "event"
+        },
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/ModelEvent"
+          },
+          {
+            "$ref": "#/components/schemas/CallEvent"
+          },
+          {
+            "$ref": "#/components/schemas/SentBackEvent"
+          },
+          {
+            "$ref": "#/components/schemas/LLMEvent"
+          },
+          {
+            "$ref": "#/components/schemas/AnswerEvent"
+          },
+          {
+            "$ref": "#/components/schemas/ErrorEvent"
+          }
+        ]
+      },
+      "Subgraph": {
+        "description": "A drawable part of the graph: the things shown, the links among them, and how many things there are\nin all (so the page can say what was left out).",
+        "properties": {
+          "links": {
+            "items": {
+              "$ref": "#/components/schemas/Link"
+            },
+            "title": "Links",
+            "type": "array"
+          },
+          "things": {
+            "items": {
+              "$ref": "#/components/schemas/Thing"
+            },
+            "title": "Things",
+            "type": "array"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "things",
+          "links",
+          "total"
+        ],
+        "title": "Subgraph",
+        "type": "object"
+      },
+      "SystemAnswer": {
+        "description": "One system's answer to one question, with the chunks shown and its traces: the retrieval route's,\nthe exact route's (R71's graph system, and the text2cypher fallback of a plan system), the plans', the\nagent's (R135), and the security screen's verdict when it refused the request (R202).",
+        "properties": {
+          "agent": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/AgentTrace"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "citations": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/Citation"
+            },
+            "title": "Citations",
+            "type": "array"
+          },
+          "entities": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Entities"
+          },
+          "exact": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ExactTrace"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "latency_s": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Latency S"
+          },
+          "number": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Number"
+          },
+          "outcome": {
+            "anyOf": [
+              {
+                "enum": [
+                  "answer",
+                  "clarify",
+                  "out_of_scope",
+                  "insufficient_evidence",
+                  "refuse"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Outcome"
+          },
+          "plan": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/PlanTrace"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "question_id": {
+            "title": "Question Id",
+            "type": "string"
+          },
+          "retrieved": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Retrieved",
+            "type": "array"
+          },
+          "route": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/Route"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "screen": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ScreenVerdict"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          },
+          "shown": {
+            "default": [],
+            "items": {
+              "$ref": "#/components/schemas/ShownChunk"
+            },
+            "title": "Shown",
+            "type": "array"
+          },
+          "system": {
+            "title": "System",
+            "type": "string"
+          },
+          "text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Text"
+          },
+          "trace": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/RetrievalTrace"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null
+          }
+        },
+        "required": [
+          "question_id",
+          "system"
+        ],
+        "title": "SystemAnswer",
+        "type": "object"
+      },
+      "Thing": {
+        "description": "A node as the interface draws it: its id (a record ref, a canonical id, or a mention id), kind,\ntype (a record's label, a text thing's entity type), display name and number of facts.",
+        "properties": {
+          "degree": {
+            "default": 0,
+            "title": "Degree",
+            "type": "integer"
+          },
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "kind": {
+            "enum": [
+              "record",
+              "individual",
+              "concept",
+              "mention"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "kind",
+          "type",
+          "name"
+        ],
+        "title": "Thing",
+        "type": "object"
+      },
+      "ThingDetail": {
+        "description": "One thing with its properties, its facts (capped, `total_facts` in all), and the things at their\nother ends.",
+        "properties": {
+          "facts": {
+            "items": {
+              "$ref": "#/components/schemas/Fact"
+            },
+            "title": "Facts",
+            "type": "array"
+          },
+          "neighbours": {
+            "items": {
+              "$ref": "#/components/schemas/Thing"
+            },
+            "title": "Neighbours",
+            "type": "array"
+          },
+          "properties": {
+            "items": {
+              "$ref": "#/components/schemas/PropertyRow"
+            },
+            "title": "Properties",
+            "type": "array"
+          },
+          "thing": {
+            "$ref": "#/components/schemas/Thing"
+          },
+          "total_facts": {
+            "title": "Total Facts",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "thing",
+          "properties",
+          "facts",
+          "total_facts",
+          "neighbours"
+        ],
+        "title": "ThingDetail",
+        "type": "object"
+      },
+      "TypeCount": {
+        "properties": {
+          "count": {
+            "title": "Count",
+            "type": "integer"
+          },
+          "kind": {
+            "enum": [
+              "record",
+              "individual",
+              "concept",
+              "mention"
+            ],
+            "title": "Kind",
+            "type": "string"
+          },
+          "type": {
+            "title": "Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "kind",
+          "type",
+          "count"
+        ],
+        "title": "TypeCount",
+        "type": "object"
+      },
+      "ValidationError": {
+        "properties": {
+          "ctx": {
+            "title": "Context",
+            "type": "object"
+          },
+          "input": {
+            "title": "Input"
+          },
+          "loc": {
+            "items": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "integer"
+                }
+              ]
+            },
+            "title": "Location",
+            "type": "array"
+          },
+          "msg": {
+            "title": "Message",
+            "type": "string"
+          },
+          "type": {
+            "title": "Error Type",
+            "type": "string"
+          }
+        },
+        "required": [
+          "loc",
+          "msg",
+          "type"
+        ],
+        "title": "ValidationError",
+        "type": "object"
+      },
+      "WorksetMark": {
+        "description": "The agent's verdict on one item of its working set (R211, variant `agent_workset`), as code checked\nit: whether it included the item, the thing and quote it gave or why not, and whether the quote is\nverbatim in the item (None: the item was not included).",
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "include": {
+            "title": "Include",
+            "type": "boolean"
+          },
+          "quote": {
+            "default": "",
+            "title": "Quote",
+            "type": "string"
+          },
+          "quote_found": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Quote Found"
+          },
+          "reason": {
+            "default": "",
+            "title": "Reason",
+            "type": "string"
+          },
+          "thing": {
+            "default": "",
+            "title": "Thing",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "include"
+        ],
+        "title": "WorksetMark",
+        "type": "object"
+      }
+    }
+  },
+  "info": {
+    "title": "kgbuilder",
+    "version": "0.1.0"
+  },
+  "openapi": "3.1.0",
+  "paths": {
+    "/api/datasets": {
+      "get": {
+        "operationId": "list_datasets_api_datasets_get",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DatasetsView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          }
+        },
+        "summary": "List Datasets"
+      }
+    },
+    "/api/datasets/{dataset_id}/ask": {
+      "post": {
+        "operationId": "ask_api_datasets__dataset_id__ask_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "dataset_id",
+            "required": true,
+            "schema": {
+              "title": "Dataset Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AskRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Ask"
+      }
+    },
+    "/api/datasets/{dataset_id}/chunk": {
+      "get": {
+        "operationId": "chunk_api_datasets__dataset_id__chunk_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "dataset_id",
+            "required": true,
+            "schema": {
+              "title": "Dataset Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "title": "Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChunkView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Chunk"
+      }
+    },
+    "/api/datasets/{dataset_id}/graph": {
+      "get": {
+        "operationId": "overview_api_datasets__dataset_id__graph_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "dataset_id",
+            "required": true,
+            "schema": {
+              "title": "Dataset Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 60,
+              "maximum": 150,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Subgraph"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Overview"
+      }
+    },
+    "/api/datasets/{dataset_id}/locate": {
+      "post": {
+        "description": "Each source id -> the things it rests on (R223): what the page rings and focuses on the graph.",
+        "operationId": "locate_api_datasets__dataset_id__locate_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "dataset_id",
+            "required": true,
+            "schema": {
+              "title": "Dataset Id",
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "items": {
+                  "$ref": "#/components/schemas/SourceRef"
+                },
+                "title": "Sources",
+                "type": "array"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": {
+                    "items": {
+                      "type": "string"
+                    },
+                    "type": "array"
+                  },
+                  "title": "Response Locate Api Datasets  Dataset Id  Locate Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Locate"
+      }
+    },
+    "/api/datasets/{dataset_id}/neighbourhood": {
+      "get": {
+        "operationId": "neighbourhood_api_datasets__dataset_id__neighbourhood_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "dataset_id",
+            "required": true,
+            "schema": {
+              "title": "Dataset Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "thing",
+            "required": true,
+            "schema": {
+              "title": "Thing",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 40,
+              "maximum": 150,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Subgraph"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Neighbourhood"
+      }
+    },
+    "/api/datasets/{dataset_id}/schema": {
+      "get": {
+        "operationId": "schema_api_datasets__dataset_id__schema_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "dataset_id",
+            "required": true,
+            "schema": {
+              "title": "Dataset Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SchemaView"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Schema"
+      }
+    },
+    "/api/datasets/{dataset_id}/search": {
+      "get": {
+        "operationId": "search_api_datasets__dataset_id__search_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "dataset_id",
+            "required": true,
+            "schema": {
+              "title": "Dataset Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "q",
+            "required": true,
+            "schema": {
+              "title": "Q",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 20,
+              "maximum": 150,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/Thing"
+                  },
+                  "title": "Response Search Api Datasets  Dataset Id  Search Get",
+                  "type": "array"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Search"
+      }
+    },
+    "/api/datasets/{dataset_id}/thing": {
+      "get": {
+        "operationId": "thing_api_datasets__dataset_id__thing_get",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "dataset_id",
+            "required": true,
+            "schema": {
+              "title": "Dataset Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "title": "Id",
+              "type": "string"
+            }
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "required": false,
+            "schema": {
+              "default": 50,
+              "maximum": 300,
+              "minimum": 1,
+              "title": "Limit",
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ThingDetail"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Thing"
+      }
+    }
+  }
+}

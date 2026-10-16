@@ -10,3 +10,6 @@ mlruns/
 .ruff_cache/
 docs/
 .claude/skills/
+# the design skill's local captures and decision mocks (R223); its brief and design.json are committed
+.impeccable/review/
+.impeccable/mocks/

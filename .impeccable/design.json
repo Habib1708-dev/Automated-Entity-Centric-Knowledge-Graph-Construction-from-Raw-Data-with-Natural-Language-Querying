@@ -1,0 +1,177 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-16T00:00:00Z",
+  "title": "Design System: KG Builder",
+  "extensions": {
+    "colorMeta": {
+      "accent": { "role": "primary", "displayName": "Signal Blue", "canonical": "#2563eb", "tonalRamp": ["#172554", "#1e3a8a", "#1d4ed8", "#2563eb", "#3b82f6", "#93c5fd", "#dbeafe", "#eff6ff"] },
+      "accent-soft": { "role": "primary", "displayName": "Signal Blue Wash", "canonical": "#eff6ff", "tonalRamp": ["#172554", "#1e3a8a", "#1d4ed8", "#2563eb", "#3b82f6", "#93c5fd", "#dbeafe", "#eff6ff"] },
+      "accent-text": { "role": "primary", "displayName": "On Signal Blue", "canonical": "#ffffff" },
+      "bg": { "role": "neutral", "displayName": "White Ground", "canonical": "#ffffff", "tonalRamp": ["#020617", "#0f172a", "#334155", "#475569", "#64748b", "#cbd5e1", "#f1f5f9", "#ffffff"] },
+      "bg-subtle": { "role": "neutral", "displayName": "Canvas Mist", "canonical": "#f8fafc", "tonalRamp": ["#020617", "#0f172a", "#334155", "#475569", "#64748b", "#cbd5e1", "#f1f5f9", "#f8fafc"] },
+      "bg-muted": { "role": "neutral", "displayName": "Slate Wash", "canonical": "#f1f5f9", "tonalRamp": ["#020617", "#0f172a", "#334155", "#475569", "#64748b", "#cbd5e1", "#e2e8f0", "#f1f5f9"] },
+      "border": { "role": "neutral", "displayName": "Hairline", "canonical": "#e2e8f0", "tonalRamp": ["#020617", "#0f172a", "#334155", "#475569", "#64748b", "#94a3b8", "#cbd5e1", "#e2e8f0"] },
+      "border-strong": { "role": "neutral", "displayName": "Hairline Strong", "canonical": "#cbd5e1", "tonalRamp": ["#020617", "#0f172a", "#334155", "#475569", "#64748b", "#94a3b8", "#cbd5e1", "#e2e8f0"] },
+      "text": { "role": "neutral", "displayName": "Ink", "canonical": "#0f172a", "tonalRamp": ["#020617", "#0f172a", "#1e293b", "#334155", "#475569", "#64748b", "#94a3b8", "#cbd5e1"] },
+      "text-2": { "role": "neutral", "displayName": "Slate Ink", "canonical": "#475569", "tonalRamp": ["#020617", "#0f172a", "#1e293b", "#334155", "#475569", "#64748b", "#94a3b8", "#cbd5e1"] },
+      "text-3": { "role": "neutral", "displayName": "Quiet Slate", "canonical": "#64748b", "tonalRamp": ["#020617", "#0f172a", "#1e293b", "#334155", "#475569", "#64748b", "#94a3b8", "#cbd5e1"] },
+      "ok": { "role": "status", "displayName": "Ok Green", "canonical": "#15803d", "tonalRamp": ["#052e16", "#14532d", "#166534", "#15803d", "#16a34a", "#4ade80", "#bbf7d0", "#f0fdf4"] },
+      "warn": { "role": "status", "displayName": "Warn Amber", "canonical": "#b45309", "tonalRamp": ["#451a03", "#78350f", "#92400e", "#b45309", "#d97706", "#fbbf24", "#fde68a", "#fffbeb"] },
+      "bad": { "role": "status", "displayName": "Bad Red", "canonical": "#b91c1c", "tonalRamp": ["#450a0a", "#7f1d1d", "#991b1b", "#b91c1c", "#dc2626", "#f87171", "#fecaca", "#fef2f2"] },
+      "kind-record": { "role": "graph", "displayName": "Record Slate", "canonical": "#475569" },
+      "kind-individual": { "role": "graph", "displayName": "Text Teal", "canonical": "#0f766e", "tonalRamp": ["#042f2e", "#134e4a", "#115e59", "#0f766e", "#0d9488", "#5eead4", "#ccfbf1", "#f0fdfa"] },
+      "kind-concept": { "role": "graph", "displayName": "Concept Grey", "canonical": "#94a3b8" },
+      "kind-mention": { "role": "graph", "displayName": "Mention Pale", "canonical": "#cbd5e1" },
+      "edge": { "role": "graph", "displayName": "Table Edge", "canonical": "#cbd5e1" },
+      "edge-text": { "role": "graph", "displayName": "Text Edge", "canonical": "#0f766e" },
+      "dark-bg": { "role": "neutral", "displayName": "Night Ground", "canonical": "#0b0d12" },
+      "dark-bg-subtle": { "role": "neutral", "displayName": "Night Canvas", "canonical": "#11141b" },
+      "dark-bg-muted": { "role": "neutral", "displayName": "Night Wash", "canonical": "#171b24" },
+      "dark-border": { "role": "neutral", "displayName": "Night Hairline", "canonical": "#262c38" },
+      "dark-border-strong": { "role": "neutral", "displayName": "Night Hairline Strong", "canonical": "#353d4d" },
+      "dark-text": { "role": "neutral", "displayName": "Night Ink", "canonical": "#e8ecf3" },
+      "dark-text-2": { "role": "neutral", "displayName": "Night Slate Ink", "canonical": "#a7b0c0" },
+      "dark-text-3": { "role": "neutral", "displayName": "Night Quiet Slate", "canonical": "#8892a4" },
+      "dark-accent": { "role": "primary", "displayName": "Night Signal Blue", "canonical": "#4f8cff" },
+      "dark-accent-text": { "role": "primary", "displayName": "On Night Signal Blue", "canonical": "#0b0d12" },
+      "dark-accent-soft": { "role": "primary", "displayName": "Night Signal Wash", "canonical": "#15213a" },
+      "dark-ok": { "role": "status", "displayName": "Muted Ok Green", "canonical": "#6fae86" },
+      "dark-warn": { "role": "status", "displayName": "Muted Warn Amber", "canonical": "#c9a45a" },
+      "dark-bad": { "role": "status", "displayName": "Muted Bad Red", "canonical": "#d98080" },
+      "dark-kind-record": { "role": "graph", "displayName": "Night Record", "canonical": "#a7b0c0" },
+      "dark-kind-individual": { "role": "graph", "displayName": "Muted Text Teal", "canonical": "#4f9d95" },
+      "dark-kind-concept": { "role": "graph", "displayName": "Night Concept", "canonical": "#64748b" },
+      "dark-kind-mention": { "role": "graph", "displayName": "Night Mention", "canonical": "#475569" },
+      "dark-edge": { "role": "graph", "displayName": "Night Table Edge", "canonical": "#353d4d" },
+      "dark-edge-text": { "role": "graph", "displayName": "Night Text Edge", "canonical": "#4f9d95" }
+    },
+    "typographyMeta": {
+      "title": { "displayName": "Title", "purpose": "Empty-state heading in the chat." },
+      "lead": { "displayName": "Lead", "purpose": "Answer question, graph toolbar title, node name, drawer heading." },
+      "body": { "displayName": "Body", "purpose": "Answer and passage text, header tabs, the question box." },
+      "label": { "displayName": "Label", "purpose": "The 15px floor: meta, sources, steps, legend, properties, buttons, inputs, status." },
+      "mono": { "displayName": "Mono", "purpose": "Ids, tool arguments, SQL, relation types only." }
+    },
+    "shadows": [
+      { "name": "float", "value": "0 8px 24px rgb(15 23 42 / 0.12), 0 2px 6px rgb(15 23 42 / 0.06)", "purpose": "Overlays only: search results, node detail panel, source drawer." },
+      { "name": "float-dark", "value": "0 8px 24px rgb(0 0 0 / 0.5), 0 2px 6px rgb(0 0 0 / 0.3)", "purpose": "The float shadow in the dark theme." },
+      { "name": "focus-halo", "value": "0 0 0 3px var(--accent-soft)", "purpose": "Focus on the search input and the question box, with the stroke turned accent." },
+      { "name": "focus-ring", "value": "outline: 2px solid var(--accent); outline-offset: 2px", "purpose": "Global :focus-visible." }
+    ],
+    "motion": [
+      { "name": "state", "value": "120ms ease-out", "purpose": "Hover and focus colour, border, halo, opacity." },
+      { "name": "disclosure", "value": "150ms ease-out", "purpose": "Chevron rotation on Steps/Sources disclosure." },
+      { "name": "graph-dim", "value": "200ms opacity", "purpose": "Graph nodes dimming to 0.15 while a source is open." },
+      { "name": "ease-enter", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Drawer slide-in (220ms, 24px) and new step flash (260ms)." },
+      { "name": "pulse", "value": "1.4s ease-in-out infinite", "purpose": "Waiting-for-the-model row." },
+      { "name": "reduced-motion", "value": "transition: none; animation: none", "purpose": "All motion stops under prefers-reduced-motion." }
+    ],
+    "breakpoints": [
+      { "name": "compact-header", "value": "1400px" },
+      { "name": "stacked", "value": "1100px" }
+    ],
+    "graphKinds": [
+      { "kind": "record", "shape": "round-rectangle", "color": "var(--kind-record)", "meaning": "A table record." },
+      { "kind": "individual", "shape": "ellipse", "color": "var(--kind-individual)", "meaning": "An individual named in the text." },
+      { "kind": "concept", "shape": "diamond", "color": "var(--kind-concept)", "meaning": "A concept." },
+      { "kind": "mention", "shape": "ellipse, 2px dashed var(--text-3) border", "color": "var(--kind-mention)", "meaning": "A mention no identity covers." },
+      { "kind": "picked", "shape": "5px solid var(--accent) ring", "meaning": "The node the viewer picked." },
+      { "kind": "cited", "shape": "4px solid var(--accent) ring", "meaning": "A node cited by the open answer or source." }
+    ]
+  },
+  "components": [
+    {
+      "name": "Header Tabs",
+      "kind": "nav",
+      "refersTo": "header-tab",
+      "description": "Dataset tabs in the 64px header; the active one in the accent wash, a dot marks a loaded graph.",
+      "html": "<div class=\"ds-tabs\" role=\"tablist\"><button class=\"ds-tab\" role=\"tab\" aria-selected=\"false\">Furniture</button><button class=\"ds-tab\" role=\"tab\" aria-selected=\"true\">Lighthouses<span class=\"ds-dot\"></span></button><button class=\"ds-tab\" role=\"tab\" aria-selected=\"false\">NTSB accidents</button></div>",
+      "css": ".ds-tabs { display: flex; gap: var(--space-1, 4px); font-family: var(--font-ui, 'Inter Variable', system-ui, sans-serif); } .ds-tab { border: 0; background: none; padding: 8px 12px; border-radius: 8px; font: inherit; font-size: 17px; color: var(--text-2, #475569); cursor: pointer; white-space: nowrap; transition: background 120ms ease-out, color 120ms ease-out; } .ds-tab:hover { background: var(--bg-muted, #f1f5f9); color: var(--text, #0f172a); } .ds-tab[aria-selected='true'] { background: var(--accent-soft, #eff6ff); color: var(--accent, #2563eb); font-weight: 600; } .ds-tab:focus-visible { outline: 2px solid var(--accent, #2563eb); outline-offset: 2px; } .ds-dot { display: inline-block; width: 7px; height: 7px; margin-left: 8px; border-radius: 50%; background: var(--ok, #15803d); vertical-align: 2px; }"
+    },
+    {
+      "name": "Primary Button (Ask)",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one filled button: submits the question.",
+      "html": "<button class=\"ds-btn-primary\">Ask <svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"m5 12 7-7 7 7\"/><path d=\"M12 19V5\"/></svg></button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px; border: 0; border-radius: 8px; background: var(--accent, #2563eb); color: var(--accent-text, #fff); font-family: var(--font-ui, 'Inter Variable', system-ui, sans-serif); font-size: 15px; font-weight: 600; cursor: pointer; transition: opacity 120ms ease-out; } .ds-btn-primary:hover:not(:disabled) { opacity: 0.9; } .ds-btn-primary:focus-visible { outline: 2px solid var(--accent, #2563eb); outline-offset: 2px; } .ds-btn-primary:disabled { background: var(--bg-muted, #f1f5f9); color: var(--text-3, #64748b); cursor: not-allowed; }"
+    },
+    {
+      "name": "Search Input",
+      "kind": "input",
+      "refersTo": "input-search",
+      "description": "The graph toolbar's find-a-thing field.",
+      "html": "<label class=\"ds-search\"><svg class=\"ds-search-icon\" width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><circle cx=\"11\" cy=\"11\" r=\"8\"/><path d=\"m21 21-4.3-4.3\"/></svg><input type=\"search\" placeholder=\"Find a thing\"></label>",
+      "css": ".ds-search { position: relative; display: block; width: 300px; } .ds-search input { width: 100%; height: 40px; padding: 0 32px 0 40px; border: 1px solid var(--border-strong, #cbd5e1); border-radius: 8px; background: var(--bg, #fff); color: var(--text, #0f172a); font-family: var(--font-ui, 'Inter Variable', system-ui, sans-serif); font-size: 15px; transition: border-color 120ms ease-out, box-shadow 120ms ease-out; } .ds-search input:focus { outline: none; border-color: var(--accent, #2563eb); box-shadow: 0 0 0 3px var(--accent-soft, #eff6ff); } .ds-search-icon { position: absolute; left: 12px; top: 11px; color: var(--text-3, #64748b); }"
+    },
+    {
+      "name": "Question Box",
+      "kind": "input",
+      "refersTo": "input-question",
+      "description": "The chat input pinned at the bottom: textarea over a variant select and the Ask button.",
+      "html": "<div class=\"ds-ask\"><textarea rows=\"2\" placeholder=\"Ask about this graph\"></textarea><div class=\"ds-ask-actions\"><label class=\"ds-ask-variant\">Variant <select><option>agent</option></select></label><button class=\"ds-ask-send\">Ask</button></div></div>",
+      "css": ".ds-ask { border: 1px solid var(--border-strong, #cbd5e1); border-radius: 12px; background: var(--bg, #fff); font-family: var(--font-ui, 'Inter Variable', system-ui, sans-serif); transition: border-color 120ms ease-out, box-shadow 120ms ease-out; } .ds-ask:focus-within { border-color: var(--accent, #2563eb); box-shadow: 0 0 0 3px var(--accent-soft, #eff6ff); } .ds-ask textarea { display: block; width: 100%; resize: none; border: 0; background: none; padding: 12px 16px 0; font: inherit; font-size: 17px; line-height: 1.5; color: var(--text, #0f172a); } .ds-ask textarea:focus { outline: none; } .ds-ask-actions { display: flex; justify-content: space-between; align-items: center; padding: 8px 8px 8px 16px; } .ds-ask-variant { display: inline-flex; align-items: center; gap: 8px; font-size: 15px; color: var(--text-2, #475569); } .ds-ask-variant select { height: 34px; padding: 0 8px; border: 1px solid var(--border, #e2e8f0); border-radius: 6px; background: var(--bg, #fff); font: inherit; } .ds-ask-send { height: 40px; padding: 0 16px; border: 0; border-radius: 8px; background: var(--accent, #2563eb); color: var(--accent-text, #fff); font: inherit; font-size: 15px; font-weight: 600; cursor: pointer; }"
+    },
+    {
+      "name": "Answer Card with Citations",
+      "kind": "card",
+      "refersTo": "citation-mark",
+      "description": "One unboxed exchange: question, answer with inline numbered markers, meta with outcome badge, numbered source rows.",
+      "html": "<article class=\"ds-answer\"><p class=\"ds-answer-q\">When was Old Higher Lighthouse replaced?</p><p class=\"ds-answer-text\">Trinity House planned a replacement at Bill Point at the turn of the 20th century.<button class=\"ds-mark\">1</button></p><div class=\"ds-answer-meta\"><span class=\"ds-badge\">answer</span><span>4 steps</span><span>6.2 s</span></div><ol class=\"ds-sources\"><li><button class=\"ds-source ds-source-active\"><span class=\"ds-source-n\">1</span><span class=\"ds-source-kind\">Passage</span><span>old_higher_lighthouse.md#2</span></button></li><li><button class=\"ds-source\"><span class=\"ds-source-n\">2</span><span class=\"ds-source-kind\">Row</span><span>lighthouses.csv, row 14</span></button></li></ol></article>",
+      "css": ".ds-answer { display: flex; flex-direction: column; gap: 12px; padding: 24px 0; border-bottom: 1px solid var(--border, #e2e8f0); font-family: var(--font-ui, 'Inter Variable', system-ui, sans-serif); color: var(--text, #0f172a); } .ds-answer-q { margin: 0; font-size: 19px; font-weight: 600; line-height: 1.4; } .ds-answer-text { margin: 0; font-size: 17px; line-height: 1.6; } .ds-mark { margin-left: 4px; min-width: 22px; height: 22px; padding: 0 5px; border: 1px solid var(--accent, #2563eb); border-radius: 5px; background: none; color: var(--accent, #2563eb); font: inherit; font-size: 15px; font-weight: 700; line-height: 20px; vertical-align: 2px; cursor: pointer; } .ds-mark:hover { background: var(--accent, #2563eb); color: var(--accent-text, #fff); } .ds-mark:focus-visible { outline: 2px solid var(--accent, #2563eb); outline-offset: 2px; } .ds-answer-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; font-size: 15px; color: var(--text-2, #475569); } .ds-badge { padding: 1px 8px; border: 1px solid currentColor; border-radius: 6px; font-weight: 600; color: var(--ok, #15803d); } .ds-sources { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; } .ds-source { width: 100%; display: grid; grid-template-columns: 28px 74px 1fr; align-items: baseline; gap: 8px; padding: 4px 8px; border: 1px solid transparent; border-radius: 6px; background: none; text-align: left; font: inherit; font-size: 15px; color: inherit; cursor: pointer; } .ds-source:hover { background: var(--bg-subtle, #f8fafc); border-color: var(--border, #e2e8f0); } .ds-source-active { background: var(--accent-soft, #eff6ff); border-color: var(--accent, #2563eb); } .ds-source-n { font-weight: 700; color: var(--accent, #2563eb); text-align: right; } .ds-source-kind { color: var(--text-2, #475569); }"
+    },
+    {
+      "name": "Steps Table",
+      "kind": "custom",
+      "description": "Ruled list in fixed columns (turn | tool and outcome | time with model/tool timing bar).",
+      "html": "<ol class=\"ds-steps\"><li><div class=\"ds-step\"><span class=\"ds-step-turn\">1</span><span class=\"ds-step-main\"><b>search_text</b><span>6 passages</span></span><span class=\"ds-step-time\">1.8 s<span class=\"ds-bar\"><span style=\"width:70%;background:var(--border-strong,#cbd5e1)\"></span><span style=\"width:30%;background:var(--text-3,#64748b)\"></span></span></span></div></li><li><div class=\"ds-step\"><span class=\"ds-step-turn\">2</span><span class=\"ds-step-main\"><b>read_passage</b><span>old_higher_lighthouse.md#2</span></span><span class=\"ds-step-time\">0.9 s<span class=\"ds-bar\"><span style=\"width:85%;background:var(--border-strong,#cbd5e1)\"></span><span style=\"width:15%;background:var(--text-3,#64748b)\"></span></span></span></div></li></ol>",
+      "css": ".ds-steps { margin: 0; padding: 0; list-style: none; border-top: 1px solid var(--border, #e2e8f0); font-family: var(--font-ui, 'Inter Variable', system-ui, sans-serif); font-size: 15px; } .ds-steps li { border-bottom: 1px solid var(--border, #e2e8f0); } .ds-step { display: grid; grid-template-columns: 28px 1fr 200px; align-items: center; gap: 12px; padding: 8px 0; } .ds-step:hover { background: var(--bg-subtle, #f8fafc); } .ds-step-turn { color: var(--text-3, #64748b); text-align: right; } .ds-step-main { display: flex; flex-direction: column; min-width: 0; color: var(--text-2, #475569); } .ds-step-main b { font-weight: 600; color: var(--text, #0f172a); } .ds-step-time { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; color: var(--text-2, #475569); font-feature-settings: 'tnum'; } .ds-bar { display: flex; width: 100%; height: 6px; border-radius: 3px; background: var(--bg-muted, #f1f5f9); overflow: hidden; }"
+    },
+    {
+      "name": "Graph Legend",
+      "kind": "custom",
+      "refersTo": "legend",
+      "description": "Opaque one-row key at the canvas's bottom left; each kind drawn as its real shape, with counts.",
+      "html": "<div class=\"ds-legend\"><span><svg width=\"18\" height=\"18\"><rect x=\"3\" y=\"3\" width=\"12\" height=\"12\" rx=\"3\" fill=\"var(--kind-record,#475569)\"/></svg>Table record <i>146</i></span><span><svg width=\"18\" height=\"18\"><circle cx=\"9\" cy=\"9\" r=\"6.5\" fill=\"var(--kind-individual,#0f766e)\"/></svg>Named in the text <i>115</i></span><span><svg width=\"18\" height=\"18\"><path d=\"M9 2 16 9 9 16 2 9Z\" fill=\"var(--kind-concept,#94a3b8)\"/></svg>Concept <i>24</i></span><span><svg width=\"26\" height=\"18\"><line x1=\"2\" y1=\"9\" x2=\"24\" y2=\"9\" stroke=\"var(--edge,#cbd5e1)\" stroke-width=\"2.5\"/></svg>From a table</span><span><svg width=\"26\" height=\"18\"><line x1=\"2\" y1=\"9\" x2=\"24\" y2=\"9\" stroke=\"var(--edge-text,#0f766e)\" stroke-width=\"2.5\" opacity=\"0.55\"/></svg>From the text</span></div>",
+      "css": ".ds-legend { display: inline-flex; flex-wrap: wrap; gap: 8px 24px; padding: 8px 16px; border: 1px solid var(--border, #e2e8f0); border-radius: 8px; background: var(--bg, #fff); font-family: var(--font-ui, 'Inter Variable', system-ui, sans-serif); font-size: 15px; color: var(--text-2, #475569); } .ds-legend span { display: inline-flex; align-items: center; gap: 8px; } .ds-legend i { font-style: normal; color: var(--text-3, #64748b); }"
+    },
+    {
+      "name": "Source Drawer",
+      "kind": "custom",
+      "description": "Overlay on the chat column showing a cited passage with checks and the quoted span marked.",
+      "html": "<aside class=\"ds-drawer\"><header class=\"ds-drawer-head\"><h3><span class=\"ds-drawer-n\">1</span>Passage</h3><button class=\"ds-drawer-close\" aria-label=\"Close\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"><path d=\"M18 6 6 18\"/><path d=\"m6 6 12 12\"/></svg></button></header><div class=\"ds-drawer-body\"><code class=\"ds-drawer-id\">articles/old_higher_lighthouse.md#2</code><p class=\"ds-drawer-text\">Both Portland lighthouses were rebuilt in 1869. <mark>At the turn of the 20th century, Trinity House made plans to build a new lighthouse at Bill Point.</mark> The new lighthouse was completed in 1905.</p></div></aside>",
+      "css": ".ds-drawer { display: flex; flex-direction: column; max-width: 540px; background: var(--bg, #fff); border-left: 1px solid var(--border, #e2e8f0); box-shadow: 0 8px 24px rgb(15 23 42 / 0.12), 0 2px 6px rgb(15 23 42 / 0.06); font-family: var(--font-ui, 'Inter Variable', system-ui, sans-serif); color: var(--text, #0f172a); animation: ds-drawer-in 220ms cubic-bezier(0.16, 1, 0.3, 1); } @keyframes ds-drawer-in { from { transform: translateX(24px); opacity: 0; } } .ds-drawer-head { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; border-bottom: 1px solid var(--border, #e2e8f0); } .ds-drawer-head h3 { margin: 0; font-size: 19px; font-weight: 600; } .ds-drawer-n { color: var(--accent, #2563eb); margin-right: 4px; } .ds-drawer-close { width: 36px; height: 36px; display: grid; place-items: center; border: 0; border-radius: 8px; background: none; color: var(--text-2, #475569); cursor: pointer; } .ds-drawer-close:hover { background: var(--bg-muted, #f1f5f9); } .ds-drawer-close:focus-visible { outline: 2px solid var(--accent, #2563eb); outline-offset: 2px; } .ds-drawer-body { display: flex; flex-direction: column; gap: 12px; padding: 16px 24px 32px; } .ds-drawer-id { font-family: var(--font-mono, 'JetBrains Mono', ui-monospace, monospace); font-size: 15px; color: var(--text-3, #64748b); } .ds-drawer-text { margin: 0; font-size: 17px; line-height: 1.6; } .ds-drawer-text mark { background: var(--accent-soft, #eff6ff); color: var(--text, #0f172a); box-shadow: inset 0 -2px 0 var(--accent, #2563eb); padding: 0 2px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Verifiable Dashboard",
+    "overview": "The category standard, chosen on purpose: a clean modern dashboard at the level of Vercel, Linear, Neo4j Bloom and ChatGPT/Claude.ai. Dataset tabs sit on top, the graph on the left, the chat on the right. Every surface is graph, answer, step or source; there is no decoration, no hero, no novelty layout. The interface is shown on a projector, so sizes run larger than a typical dashboard: body 17px, nothing under 15px.\n\nDepth is flat: white grounds, slate text, 1px hairline rules, one panel level. Colour is almost entirely neutral slate; a single blue carries every \"this is selected / this is cited / this is where focus is\" signal, which makes the citation link between answer, source and graph node readable at a glance. The light theme is canonical; the dark theme follows the system setting and mutes every saturated tone so nothing reads as neon on near-black.",
+    "keyCharacteristics": [
+      "Slate neutrals plus one blue accent; status colours appear only as text and outlines.",
+      "Inter throughout, JetBrains Mono only for ids, tool arguments, SQL and relation types.",
+      "15px type floor, 17px body, tabular numerals everywhere.",
+      "Hairline borders and rules separate regions; shadows only on surfaces floating over the canvas.",
+      "Graph kinds told apart by shape first, muted tone second, always explained by the legend."
+    ],
+    "rules": [
+      { "name": "The One Accent Rule", "body": "Blue means selected, cited, focused or the primary action. Nothing else on the page is blue, and no second accent hue exists.", "section": "colors" },
+      { "name": "The Muted Dark Rule", "body": "In the dark theme every saturated tone (status, teal) is pulled toward grey; a bright tone on near-black reads as neon.", "section": "colors" },
+      { "name": "The 15px Floor Rule", "body": "No text, including the graph canvas labels, renders under 15px; it must read from the back of a room.", "section": "typography" },
+      { "name": "The One Panel Level Rule", "body": "A region holds content directly; panels never nest inside cards. Separation is a 1px rule and space.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do take every colour, size, space and radius from the tokens; components never write a raw colour.",
+      "Do keep Signal Blue for selected, cited, focused and the primary action only (The One Accent Rule).",
+      "Do keep every text at 15px or above, body at 17px, with tabular numerals.",
+      "Do tell graph kinds apart by shape and explain them in the legend; colour is never the only cue.",
+      "Do separate content with 1px hairlines and space; use the Float shadow only on overlays.",
+      "Do use SVG line icons (lucide) at text colour; JetBrains Mono only for machine text."
+    ],
+    "donts": [
+      "Don't add a second accent hue or fill a surface with a status colour.",
+      "Don't nest cards or box individual exchanges, steps or sources.",
+      "Don't use bright saturated tones in the dark theme.",
+      "Don't add decoration, hero areas or anything that is not graph, answer, step or source."
+    ]
+  }
+}

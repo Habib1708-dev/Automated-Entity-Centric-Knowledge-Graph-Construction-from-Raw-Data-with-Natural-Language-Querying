@@ -1,0 +1,148 @@
+/* The page's design tokens and base styles (R223): every colour, type size, space and radius the components
+   use is defined here once, for the light theme and the dark one (which follows the system setting).
+   Direction (the user's choice, 2026-10-16): the category standard, a clean modern dashboard, at the level
+   of Vercel, Linear, Neo4j Bloom and ChatGPT/Claude.ai. One blue accent; body 17px, nothing under 15px,
+   so the page reads on a projector. Components never write a raw colour or size, only these tokens. */
+
+@import '@fontsource-variable/inter';
+@import '@fontsource/jetbrains-mono/400.css';
+
+:root {
+  --font-ui: 'Inter Variable', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* type scale: nothing under 15px (the user's floor is 14px; 15px keeps labels readable from a room) */
+  --text-label: 15px;
+  --text-body: 17px;
+  --text-lead: 19px;
+  --text-title: 22px;
+  --leading: 1.6;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --radius: 8px;
+  --header-h: 64px;
+  --chat-w: 540px;
+  --panel-w: 420px; /* GraphPanel.tsx PANEL_PX */
+
+  --bg: #ffffff;
+  --bg-subtle: #f8fafc;
+  --bg-muted: #f1f5f9;
+  --border: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --text: #0f172a;
+  --text-2: #475569; /* 7.5:1 on white */
+  --text-3: #64748b; /* 4.8:1 on white: the lightest text allowed */
+  --accent: #2563eb;
+  --accent-text: #ffffff;
+  --accent-soft: #eff6ff;
+  --ok: #15803d;
+  --warn: #b45309;
+  --bad: #b91c1c;
+  --shadow: 0 8px 24px rgb(15 23 42 / 0.12), 0 2px 6px rgb(15 23 42 / 0.06);
+
+  /* the graph's kinds: told apart by shape as well, so no kind is carried by colour alone */
+  --kind-record: #475569;
+  --kind-individual: #0f766e;
+  --kind-concept: #94a3b8;
+  --kind-mention: #cbd5e1;
+  --edge: #cbd5e1;
+  --edge-text: #0f766e;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0b0d12;
+    --bg-subtle: #11141b;
+    --bg-muted: #171b24;
+    --border: #262c38;
+    --border-strong: #353d4d;
+    --text: #e8ecf3;
+    --text-2: #a7b0c0;
+    --text-3: #8892a4;
+    --accent: #4f8cff;
+    --accent-text: #0b0d12;
+    --accent-soft: #15213a;
+    --ok: #6fae86; /* muted to the graph's teal: bright green and amber on near-black read as neon */
+    --warn: #c9a45a;
+    --bad: #d98080;
+    --shadow: 0 8px 24px rgb(0 0 0 / 0.5), 0 2px 6px rgb(0 0 0 / 0.3);
+    --kind-record: #a7b0c0;
+    --kind-individual: #4f9d95; /* muted: a bright teal on near-black reads as neon */
+    --kind-concept: #64748b;
+    --kind-mention: #475569;
+    --edge: #353d4d;
+    --edge-text: #4f9d95;
+  }
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-ui);
+  font-size: var(--text-body);
+  line-height: var(--leading);
+  font-feature-settings: 'cv11', 'tnum'; /* tabular numerals: times and costs line up in columns */
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: var(--accent-soft);
+  color: var(--text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+code,
+pre {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}

@@ -8,7 +8,9 @@ individual or concept a text mention refers to (`REFERS_TO`); a mention no assig
 itself. A *fact* is one edge with its provenance: a table relationship (the source file and both rows'
 keys) or a text claim (its predicate, evidence sentence and chunk). The drawn views aggregate facts into
 links (one per ends and type, with a count), so a pair named in twenty sentences is one line; a thing's
-detail lists every fact. Every view is capped by its caller's `limit`.
+detail lists every fact. Every view is capped by its caller's `limit`. R223: `locate` places an answer's
+sources on the graph (a passage at the things its claims join, a query's rows at their records), so the page
+can light up what an answer rests on.
 Must not: open Neo4j, call a model, or decide anything the build did not: it only regroups the snapshot.
 """
 
@@ -120,6 +122,18 @@ class ChunkView(BaseModel):
     text: str
 
 
+class SourceRef(BaseModel):
+    """An answer's source as the page knows it from the answer: its kind and id, and for a query the tables
+    it read, its columns, its rows and the record refs it listed (query/answers.py `QueryRecord`)."""
+
+    kind: Literal["chunk", "claim", "node", "query"]
+    id: str
+    sources: list[str] = []
+    columns: list[str] = []
+    rows: list[list[str]] = []
+    refs: list[str] = []
+
+
 class KnowledgeGraph:
     """The things and facts of one build, with the views the web routes ask for."""
 
@@ -128,6 +142,8 @@ class KnowledgeGraph:
         self._properties: dict[str, list[PropertyRow]] = {}
         self._facts: list[Fact] = []
         self._chunks = {c.chunk_id: c for c in snapshot.chunks}
+        # a table's name (its staged file's stem) -> its node rule's label and key column, to place query rows
+        self._tables = {Path(r.source_file).stem: (r.label, r.unique_column) for r in plan.nodes}
         self._documents = len({c.doc_id for c in snapshot.chunks})
         self._add_records(snapshot, plan)
         self._add_relations(snapshot, plan)
@@ -257,6 +273,25 @@ class KnowledgeGraph:
         if chunk is None:
             return None
         return ChunkView(chunk_id=chunk.chunk_id, doc_id=chunk.doc_id, context=chunk.context, text=chunk.text)
+
+    def locate(self, source: SourceRef) -> list[str]:
+        """The things of this graph `source` rests on: a node itself; a passage's things, the ends of the text
+        facts it states; a query's listed records and, for a table query, the record of each row whose table
+        has a node rule with its key column among the columns. A claim has no fact id here: none. Unknown ids
+        are left out, so the page lights up only what is drawn."""
+        found: list[str] = []
+        if source.kind == "node":
+            found = [source.id]
+        elif source.kind == "chunk":
+            found = [end for f in self._facts if f.chunk_id == source.id for end in (f.source, f.target)]
+        elif source.kind == "query":
+            found = list(source.refs)
+            for table in source.sources:
+                label, key = self._tables.get(table, ("", ""))
+                if key in source.columns:
+                    at = source.columns.index(key)
+                    found += [f"{label}:{row[at]}" for row in source.rows if at < len(row)]
+        return [t for t in dict.fromkeys(found) if t in self._things]
 
     def _subgraph(self, ids: set[str]) -> Subgraph:
         counts = Counter(

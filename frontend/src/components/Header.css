@@ -1,0 +1,89 @@
+/* The header: name | tabs | status, one row of --header-h, ruled off from the work areas below. */
+.header {
+  height: var(--header-h);
+  display: flex;
+  align-items: center;
+  gap: var(--space-5);
+  padding: 0 var(--space-5);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.header-name {
+  font-size: 18px; /* the name leads the header: above the tabs' 17px */
+  font-weight: 600;
+  line-height: 1.25;
+  flex: none;
+  width: 330px; /* two lines at 18px; the tabs and status take the rest of a 1440 screen */
+  letter-spacing: -0.005em;
+}
+
+.header-tabs {
+  display: flex;
+  gap: var(--space-1);
+}
+
+.header-tab {
+  position: relative;
+  border: 0;
+  background: none;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius);
+  font-size: var(--text-body);
+  color: var(--text-2);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 120ms ease-out, color 120ms ease-out;
+}
+
+.header-tab:hover {
+  background: var(--bg-muted);
+  color: var(--text);
+}
+
+.header-tab[aria-selected='true'] {
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.header-dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  margin-left: var(--space-2);
+  border-radius: 50%;
+  background: var(--ok);
+  vertical-align: 2px;
+}
+
+.header-status {
+  margin-left: auto;
+  display: flex;
+  gap: var(--space-4);
+  font-size: var(--text-label);
+  color: var(--text-2);
+  white-space: nowrap;
+}
+
+.header-status span {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.header-on {
+  color: var(--ok);
+  font-weight: 600;
+}
+
+.header-off {
+  color: var(--text-2);
+}
+
+/* a laptop's 1280-1360 width: the passage count gives way so the tabs keep one row */
+@media (max-width: 1400px) {
+  .header-extra {
+    display: none !important;
+  }
+}

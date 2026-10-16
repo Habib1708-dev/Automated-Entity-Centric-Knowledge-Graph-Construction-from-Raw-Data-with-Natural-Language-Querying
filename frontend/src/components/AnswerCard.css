@@ -1,0 +1,168 @@
+/* One exchange: question, answer, one meta line, the sources as a numbered list, the steps folded below.
+   Exchanges are separated by a rule and space, never boxed. */
+.answer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.answer-question {
+  font-size: var(--text-lead);
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.answer-text {
+  font-size: var(--text-body);
+  white-space: pre-wrap;
+}
+
+.answer-mark {
+  margin-left: 4px;
+  min-width: 22px;
+  height: 22px;
+  padding: 0 5px;
+  border: 1px solid var(--accent);
+  border-radius: 5px;
+  background: none;
+  color: var(--accent);
+  font-size: var(--text-label);
+  font-weight: 700;
+  line-height: 20px;
+  vertical-align: 2px;
+  cursor: pointer;
+}
+
+.answer-mark:hover,
+.answer-mark-active {
+  background: var(--accent);
+  color: var(--accent-text);
+}
+
+.answer-readings {
+  margin: 0;
+  padding-left: var(--space-5);
+}
+
+.answer-meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-1) var(--space-4);
+  font-size: var(--text-label);
+  color: var(--text-2);
+}
+
+.answer-progress {
+  font-size: var(--text-label);
+  color: var(--text-2);
+}
+
+.answer-working {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.answer-error {
+  color: var(--bad);
+  font-size: var(--text-body);
+}
+
+.badge {
+  padding: 1px var(--space-2);
+  border: 1px solid currentColor;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.badge-answer {
+  color: var(--ok);
+}
+
+.badge-clarify,
+.badge-out_of_scope,
+.badge-insufficient_evidence {
+  color: var(--warn);
+}
+
+.badge-refuse {
+  color: var(--bad);
+}
+
+.sources {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.source {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 28px 74px 1fr;
+  align-items: baseline;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-2);
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background: none;
+  text-align: left;
+  font-size: var(--text-label);
+  cursor: pointer;
+}
+
+.source:hover {
+  background: var(--bg-subtle);
+  border-color: var(--border);
+}
+
+.source-active {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+}
+
+.source-n {
+  font-weight: 700;
+  color: var(--accent);
+  text-align: right;
+}
+
+.source-kind {
+  color: var(--text-2);
+}
+
+.source-label {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.disclosure {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) 0;
+  border: 0;
+  background: none;
+  font-size: var(--text-label);
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+}
+
+.disclosure-icon {
+  transition: transform 150ms ease-out;
+}
+
+.disclosure[aria-expanded='true'] .disclosure-icon {
+  transform: rotate(90deg);
+}
+
+.disclosure-count {
+  font-weight: 400;
+  color: var(--text-2);
+}

@@ -1,0 +1,78 @@
+/* The page frame: the header over a two-column grid, graph | chat, filling the window without page scroll;
+   each region scrolls on its own. Under 1100px the chat moves below the graph. */
+.app {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-main {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--chat-w);
+}
+
+.app-error {
+  margin: var(--space-6) auto;
+  max-width: 60ch;
+  color: var(--bad);
+}
+
+@media (max-width: 1100px) {
+  .app {
+    height: auto;
+    min-height: 100%;
+  }
+
+  .app-main {
+    grid-template-columns: 1fr;
+    grid-template-rows: 70vh auto;
+  }
+
+  .chat {
+    border-left: 0;
+    border-top: 1px solid var(--border);
+    min-height: 70vh;
+  }
+
+  .header {
+    height: auto;
+    flex-wrap: wrap;
+    gap: var(--space-2) var(--space-5);
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .header-name {
+    max-width: none;
+    width: 100%;
+  }
+
+  .header-tabs {
+    order: 3;
+    width: 100%;
+    flex-wrap: wrap; /* every tab stays in view: a scrolled row hid the active one */
+  }
+
+  .header-status {
+    margin-left: 0;
+  }
+
+  .graph-bar {
+    flex-wrap: wrap;
+    padding: var(--space-3) var(--space-4);
+  }
+
+  .graph-search {
+    width: 100%;
+  }
+
+  .legend {
+    position: static;
+    margin: 0 var(--space-4) var(--space-4);
+  }
+
+  .thing {
+    width: 100%;
+  }
+}

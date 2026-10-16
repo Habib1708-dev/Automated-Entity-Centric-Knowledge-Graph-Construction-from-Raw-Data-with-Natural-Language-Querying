@@ -9,7 +9,8 @@
   folder made from the build (and not made by reading which graph is loaded);
 - the routes: which tab is loaded, unknown ids, a streamed question, a refused variant, one question at a
   time, an unexpected error that still ends the stream;
-- `qa_parts` carrying the observer to the systems."""
+- `qa_parts` carrying the observer to the systems;
+- the committed OpenAPI file equal to the API's schema, and the built page served beside the API (R223)."""
 
 import json
 import threading
@@ -34,6 +35,7 @@ from kgbuilder.resolution.identity_graph import Assignment
 from kgbuilder.structured.plan import ConstructionPlan, NodeRule, RelationshipRule
 from kgbuilder.text.chunking import Chunk
 from kgbuilder.tracking.base import ModelPrice
+from kgbuilder.web import openapi
 from kgbuilder.web.app import create_app
 from kgbuilder.web.ask import AskService
 from kgbuilder.web.datasets import Dataset, read_datasets
@@ -46,7 +48,7 @@ from kgbuilder.web.events import (
     StreamListener,
     StreamObserver,
 )
-from kgbuilder.web.knowledge import KnowledgeGraph, PropertyRow
+from kgbuilder.web.knowledge import KnowledgeGraph, PropertyRow, SourceRef
 
 from .fakes import ScriptedLLM
 
@@ -375,3 +377,37 @@ def test_the_qa_parts_carry_the_observer_the_agent_is_built_with(tmp_path):
     ctx = PipelineContext(settings=Settings(), driver=object(), out=tmp_path,
                           llm=ScriptedLLM(lambda p, s: None), embedder=object())  # fmt: skip
     assert qa_parts(ctx, PipelineState(), observer=observer).observer is observer
+
+
+# --- the page (R223) --------------------------------------------------------------------------------------
+
+
+def test_the_committed_openapi_file_is_the_apis_schema():
+    """frontend/openapi.json is what the page's types are generated from (`npm run api`); a changed model
+    without a regenerated file would let the page and the API drift apart."""
+    committed = json.loads(Path("frontend/openapi.json").read_text(encoding="utf-8"))
+    assert committed == openapi.schema()
+    assert "StreamEvent" in committed["components"]["schemas"]
+
+
+def test_the_built_page_is_served_at_the_root_and_the_api_still_wins(tmp_path):
+    (tmp_path / "index.html").write_text("<!doctype html><title>page</title>", encoding="utf-8")
+    c = TestClient(create_app(DATASETS, lambda d: knowledge(), FakeAsker(), ["agent"], tmp_path))
+    assert "<title>page</title>" in c.get("/").text
+    assert c.get("/api/datasets").json()["loaded"] == "lamps"
+
+
+def test_an_answers_sources_are_placed_on_the_graph():
+    """R223: a passage at the things its claims join, a table query's rows at their records by the table's key
+    column, a node at itself; unknown ids and claims are placed nowhere."""
+    graph = knowledge()
+    assert graph.locate(SourceRef(kind="chunk", id="d.md#0")) == ["Product:P1", "i1", "m3"]
+    rows = SourceRef(
+        kind="query", id="q-1", sources=["products"], columns=["id", "name"], rows=[["P1", "x"], ["P9", "y"]]
+    )
+    assert graph.locate(rows) == ["Product:P1"]
+    assert graph.locate(SourceRef(kind="node", id="Part:L1")) == ["Part:L1"]
+    assert graph.locate(SourceRef(kind="node", id="nothing")) == []
+    assert graph.locate(SourceRef(kind="claim", id="c1")) == []
+    body = client().post("/api/datasets/kettles/locate", json=[{"kind": "chunk", "id": "d.md#0"}]).json()
+    assert body == {"d.md#0": ["Product:P1", "i1", "m3"]}

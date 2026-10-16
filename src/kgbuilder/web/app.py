@@ -7,7 +7,8 @@ Design: thin routes over injected parts: the datasets, a function giving a datas
 `Asker` (ask.py's service, or a fake in tests). A question streams as server-sent events (`text/event-
 stream`, one JSON event per `data:` line): the asker runs in a worker thread and emits into a queue the
 response drains, so the page shows each step as it happens. One question at a time: the graph, the LLM cache
-and the agent's tables are shared, and the reload of R222b will need the graph alone.
+and the agent's tables are shared, and the reload of R222b will need the graph alone. R223: the built page
+(frontend/dist) is served from the same app at `/`, mounted after the API so a route always wins over a file.
 Must not: open Neo4j, read settings, or build any concrete adapter (cli.py does); answer anything itself.
 """
 
@@ -15,15 +16,17 @@ import logging
 import queue
 import threading
 from collections.abc import Callable, Iterator
+from pathlib import Path
 from typing import Protocol
 
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.responses import StreamingResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from .datasets import Dataset
 from .events import Emit, ErrorEvent, StreamEvent
-from .knowledge import ChunkView, KnowledgeGraph, SchemaView, Subgraph, Thing, ThingDetail
+from .knowledge import ChunkView, KnowledgeGraph, SchemaView, SourceRef, Subgraph, Thing, ThingDetail
 
 log = logging.getLogger(__name__)
 
@@ -63,10 +66,12 @@ class AskRequest(BaseModel):
 
 
 def create_app(
-    datasets: list[Dataset], graphs: Callable[[Dataset], KnowledgeGraph], asker: Asker, variants: list[str]
-) -> FastAPI:
+    datasets: list[Dataset], graphs: Callable[[Dataset], KnowledgeGraph], asker: Asker, variants: list[str],
+    page: Path | None = None,
+) -> FastAPI:  # fmt: skip
     """The API over `datasets`; `graphs` gives a dataset's graph (called once per dataset), `asker` answers,
-    `variants` are the agent variants offered, the default first."""
+    `variants` are the agent variants offered, the default first; `page` is the built page's folder, served
+    at `/` (None: the API alone, as in development, where Vite serves the page)."""
     app = FastAPI(title="kgbuilder")
     by_id = {d.id: d for d in datasets}
     built: dict[str, KnowledgeGraph] = {}
@@ -128,6 +133,12 @@ def create_app(
             raise HTTPException(404, f"no passage {id!r}")
         return found
 
+    @app.post("/api/datasets/{dataset_id}/locate")
+    def locate(dataset_id: str, sources: list[SourceRef]) -> dict[str, list[str]]:
+        """Each source id -> the things it rests on (R223): what the page rings and focuses on the graph."""
+        found = graph(dataset_id)
+        return {s.id: found.locate(s) for s in sources}
+
     @app.post("/api/datasets/{dataset_id}/ask")
     def ask(dataset_id: str, request: AskRequest) -> StreamingResponse:
         chosen = dataset(dataset_id)
@@ -152,6 +163,8 @@ def create_app(
         threading.Thread(target=work, daemon=True).start()
         return StreamingResponse(_drain(events), media_type="text/event-stream")
 
+    if page is not None:
+        app.mount("/", StaticFiles(directory=page, html=True), name="page")
     return app
 
 

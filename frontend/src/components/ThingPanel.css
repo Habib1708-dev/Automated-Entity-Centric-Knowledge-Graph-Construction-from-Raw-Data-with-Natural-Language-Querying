@@ -1,0 +1,175 @@
+/* A thing's detail: a panel along the graph region's right edge, over the canvas, scrolling on its own. */
+.thing {
+  position: absolute;
+  z-index: 15;
+  top: 65px; /* below the graph's toolbar */
+  right: 0;
+  bottom: 0;
+  width: var(--panel-w);
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid var(--border);
+  background: var(--bg);
+  box-shadow: var(--shadow);
+}
+
+.thing-head {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  padding: var(--space-4) var(--space-5);
+  border-bottom: 1px solid var(--border);
+}
+
+.thing-name {
+  font-size: var(--text-lead);
+  font-weight: 600;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.thing-kind {
+  margin-top: var(--space-1);
+  font-size: var(--text-label);
+  color: var(--text-2);
+}
+
+.thing-close {
+  flex: none;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: var(--radius);
+  background: none;
+  color: var(--text-2);
+  cursor: pointer;
+}
+
+.thing-close:hover {
+  background: var(--bg-muted);
+}
+
+.thing-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: var(--space-4) var(--space-5) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+
+.thing-action {
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: 38px;
+  padding: 0 var(--space-4);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius);
+  background: var(--bg);
+  font-size: var(--text-label);
+  cursor: pointer;
+}
+
+.thing-action:hover {
+  background: var(--bg-muted);
+}
+
+.thing-section {
+  margin: 0 0 var(--space-2);
+  font-size: var(--text-label);
+  font-weight: 600;
+  color: var(--text-2);
+}
+
+.thing-count {
+  margin-left: var(--space-1);
+  font-weight: 400;
+  color: var(--text-3);
+}
+
+.thing-props {
+  margin: 0 0 var(--space-2);
+}
+
+.thing-props div {
+  display: grid;
+  grid-template-columns: 11.5em 1fr; /* room for a column name such as heritage_designation */
+  gap: var(--space-3);
+  padding: var(--space-1) 0;
+  border-bottom: 1px solid var(--border);
+  font-size: var(--text-label);
+}
+
+.thing-props dt {
+  color: var(--text-2);
+  overflow-wrap: break-word;
+}
+
+.thing-props dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+.facts {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fact {
+  padding: var(--space-3) 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.fact-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+  font-size: var(--text-label);
+}
+
+.fact-type {
+  font-family: var(--font-mono);
+  color: var(--text-2);
+}
+
+.fact-other {
+  border: 0;
+  background: none;
+  padding: 0;
+  font-size: var(--text-label);
+  font-weight: 600;
+  color: var(--accent);
+  cursor: pointer;
+  text-align: left;
+}
+
+.fact-evidence {
+  margin: var(--space-2) 0 var(--space-1);
+  padding-left: var(--space-3);
+  border-left: 1px solid var(--border-strong);
+  font-size: var(--text-label);
+  color: var(--text);
+}
+
+.fact-source {
+  display: block;
+  margin-top: var(--space-1);
+  color: var(--text-3);
+  overflow-wrap: anywhere;
+}
+
+.thing-more,
+.thing-error {
+  font-size: var(--text-label);
+  color: var(--text-2);
+}
+
+.thing-error {
+  padding: var(--space-4) var(--space-5);
+  color: var(--bad);
+}
