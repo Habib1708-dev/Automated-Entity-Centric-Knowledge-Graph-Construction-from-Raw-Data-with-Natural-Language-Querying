@@ -24,8 +24,11 @@ committed `tests/gold/` records and are only included here.
 
 ```
 cd thesis
-latexmk -pdf main.tex
+latexmk -xelatex main.tex
 ```
+
+The body font is Calibri, so the thesis compiles with XeLaTeX (or LuaLaTeX), not pdfLaTeX. Where Calibri is
+not installed, the preamble falls back to Carlito, which has the same metrics.
 
 ## Rules
 

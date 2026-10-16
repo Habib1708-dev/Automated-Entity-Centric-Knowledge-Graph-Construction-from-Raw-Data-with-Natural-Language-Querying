@@ -1,1 +1,671 @@
-% References (IEEE style via biblatex). An entry is added only after it is verified; see refs_check.md.
+% References (IEEE style via biblatex). Every entry was verified on 2026-10-16 against its DOI record, arXiv, the
+% proceedings page or the live documentation page; refs_check.md names the source per entry.
+
+% refs.bib -- verified 2026-10-16 against Crossref (DOI records), arXiv API, ACL Anthology,
+% NeurIPS proceedings pages, IJCAI / mlanthology, W3C, and official documentation pages.
+% See refs_check.md for the page each entry was verified on.
+
+% ---------------------------------------------------------------- Knowledge graphs
+@article{hogan2021knowledge,
+  author    = {Hogan, Aidan and Blomqvist, Eva and Cochez, Michael and d'Amato, Claudia and de Melo, Gerard and Gutierrez, Claudio and Kirrane, Sabrina and Labra Gayo, Jos{\'e} Emilio and Navigli, Roberto and Neumaier, Sebastian and Ngonga Ngomo, Axel-Cyrille and Polleres, Axel and Rashid, Sabbir M. and Rula, Anisa and Schmelzeisen, Lukas and Sequeda, Juan and Staab, Steffen and Zimmermann, Antoine},
+  title     = {Knowledge Graphs},
+  journal   = {ACM Computing Surveys},
+  volume    = {54},
+  number    = {4},
+  pages     = {71:1--71:37},
+  year      = {2021},
+  doi       = {10.1145/3447772},
+  eprint    = {2003.02320},
+  archivePrefix = {arXiv},
+  url       = {https://doi.org/10.1145/3447772}
+}
+
+@article{ji2022survey,
+  author    = {Ji, Shaoxiong and Pan, Shirui and Cambria, Erik and Marttinen, Pekka and Yu, Philip S.},
+  title     = {A Survey on Knowledge Graphs: Representation, Acquisition, and Applications},
+  journal   = {IEEE Transactions on Neural Networks and Learning Systems},
+  volume    = {33},
+  number    = {2},
+  pages     = {494--514},
+  year      = {2022},
+  doi       = {10.1109/TNNLS.2021.3070843},
+  eprint    = {2002.00388},
+  archivePrefix = {arXiv},
+  url       = {https://doi.org/10.1109/TNNLS.2021.3070843}
+}
+
+@article{pan2024unifying,
+  author    = {Pan, Shirui and Luo, Linhao and Wang, Yufei and Chen, Chen and Wang, Jiapu and Wu, Xindong},
+  title     = {Unifying Large Language Models and Knowledge Graphs: A Roadmap},
+  journal   = {IEEE Transactions on Knowledge and Data Engineering},
+  volume    = {36},
+  number    = {7},
+  pages     = {3580--3599},
+  year      = {2024},
+  doi       = {10.1109/TKDE.2024.3352100},
+  eprint    = {2306.08302},
+  archivePrefix = {arXiv},
+  url       = {https://doi.org/10.1109/TKDE.2024.3352100}
+}
+
+@article{zhu2024llms,
+  author    = {Zhu, Yuqi and Wang, Xiaohan and Chen, Jing and Qiao, Shuofei and Ou, Yixin and Yao, Yunzhi and Deng, Shumin and Chen, Huajun and Zhang, Ningyu},
+  title     = {{LLMs} for Knowledge Graph Construction and Reasoning: Recent Capabilities and Future Opportunities},
+  journal   = {World Wide Web},
+  volume    = {27},
+  number    = {5},
+  pages     = {58},
+  year      = {2024},
+  doi       = {10.1007/s11280-024-01297-w},
+  eprint    = {2305.13168},
+  archivePrefix = {arXiv},
+  url       = {https://doi.org/10.1007/s11280-024-01297-w}
+}
+
+@inproceedings{zhang2024extract,
+  author    = {Zhang, Bowen and Soh, Harold},
+  title     = {Extract, Define, Canonicalize: An {LLM}-based Framework for Knowledge Graph Construction},
+  booktitle = {Proceedings of the 2024 Conference on Empirical Methods in Natural Language Processing},
+  pages     = {9820--9836},
+  year      = {2024},
+  publisher = {Association for Computational Linguistics},
+  doi       = {10.18653/v1/2024.emnlp-main.548},
+  eprint    = {2404.03868},
+  archivePrefix = {arXiv},
+  url       = {https://aclanthology.org/2024.emnlp-main.548}
+}
+
+@inproceedings{auer2007dbpedia,
+  author    = {Auer, S{\"o}ren and Bizer, Christian and Kobilarov, Georgi and Lehmann, Jens and Cyganiak, Richard and Ives, Zachary},
+  title     = {{DBpedia}: A Nucleus for a Web of Open Data},
+  booktitle = {The Semantic Web: 6th International Semantic Web Conference, 2nd Asian Semantic Web Conference (ISWC 2007 + ASWC 2007)},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {4825},
+  pages     = {722--735},
+  publisher = {Springer},
+  year      = {2007},
+  doi       = {10.1007/978-3-540-76298-0_52},
+  url       = {https://doi.org/10.1007/978-3-540-76298-0_52}
+}
+
+@article{lehmann2015dbpedia,
+  author    = {Lehmann, Jens and Isele, Robert and Jakob, Max and Jentzsch, Anja and Kontokostas, Dimitris and Mendes, Pablo N. and Hellmann, Sebastian and Morsey, Mohamed and van Kleef, Patrick and Auer, S{\"o}ren and Bizer, Christian},
+  title     = {{DBpedia} -- A Large-scale, Multilingual Knowledge Base Extracted from {Wikipedia}},
+  journal   = {Semantic Web},
+  volume    = {6},
+  number    = {2},
+  pages     = {167--195},
+  year      = {2015},
+  doi       = {10.3233/SW-140134},
+  url       = {https://doi.org/10.3233/SW-140134}
+}
+
+@article{vrandecic2014wikidata,
+  author    = {Vrande{\v{c}}i{\'c}, Denny and Kr{\"o}tzsch, Markus},
+  title     = {{Wikidata}: A Free Collaborative Knowledgebase},
+  journal   = {Communications of the ACM},
+  volume    = {57},
+  number    = {10},
+  pages     = {78--85},
+  year      = {2014},
+  doi       = {10.1145/2629489},
+  url       = {https://doi.org/10.1145/2629489}
+}
+
+% ---------------------------------------------------------------- Graph data models
+@article{angles2008survey,
+  author    = {Angles, Renzo and Gutierrez, Claudio},
+  title     = {Survey of Graph Database Models},
+  journal   = {ACM Computing Surveys},
+  volume    = {40},
+  number    = {1},
+  pages     = {1--39},
+  year      = {2008},
+  doi       = {10.1145/1322432.1322433},
+  url       = {https://doi.org/10.1145/1322432.1322433}
+}
+
+@article{angles2023pgschema,
+  author    = {Angles, Renzo and Bonifati, Angela and Dumbrava, Stefania and Fletcher, George and Green, Alastair and Hidders, Jan and Li, Bei and Libkin, Leonid and Marsault, Victor and Martens, Wim and Murlak, Filip and Plantikow, Stefan and Savkovi{\'c}, Ognjen and Schmidt, Michael and Sequeda, Juan and Staworko, S{\l}awek and Tomaszuk, Dominik and Voigt, Hannes and Vrgo{\v{c}}, Domagoj and Wu, Mingxi and {\v{Z}}ivkovi{\'c}, Du{\v{s}}an},
+  title     = {{PG-Schema}: Schemas for Property Graphs},
+  journal   = {Proceedings of the ACM on Management of Data},
+  volume    = {1},
+  number    = {2},
+  pages     = {1--25},
+  year      = {2023},
+  doi       = {10.1145/3589778},
+  url       = {https://doi.org/10.1145/3589778}
+}
+
+% ---------------------------------------------------------------- Information extraction
+@inproceedings{banko2007open,
+  author    = {Banko, Michele and Cafarella, Michael J. and Soderland, Stephen and Broadhead, Matthew and Etzioni, Oren},
+  title     = {Open Information Extraction from the Web},
+  booktitle = {Proceedings of the 20th International Joint Conference on Artificial Intelligence (IJCAI 2007)},
+  pages     = {2670--2676},
+  year      = {2007},
+  url       = {https://www.ijcai.org/Abstract/07/429}
+}
+
+@article{xu2024large,
+  author    = {Xu, Derong and Chen, Wei and Peng, Wenjun and Zhang, Chao and Xu, Tong and Zhao, Xiangyu and Wu, Xian and Zheng, Yefeng and Wang, Yang and Chen, Enhong},
+  title     = {Large Language Models for Generative Information Extraction: A Survey},
+  journal   = {Frontiers of Computer Science},
+  volume    = {18},
+  number    = {6},
+  pages     = {186357},
+  year      = {2024},
+  doi       = {10.1007/s11704-024-40555-y},
+  eprint    = {2312.17617},
+  archivePrefix = {arXiv},
+  url       = {https://doi.org/10.1007/s11704-024-40555-y}
+}
+
+% ---------------------------------------------------------------- Entity resolution, linking, schema matching
+@article{fellegi1969theory,
+  author    = {Fellegi, Ivan P. and Sunter, Alan B.},
+  title     = {A Theory for Record Linkage},
+  journal   = {Journal of the American Statistical Association},
+  volume    = {64},
+  number    = {328},
+  pages     = {1183--1210},
+  year      = {1969},
+  doi       = {10.1080/01621459.1969.10501049},
+  url       = {https://doi.org/10.1080/01621459.1969.10501049}
+}
+
+@book{christen2012data,
+  author    = {Christen, Peter},
+  title     = {Data Matching: Concepts and Techniques for Record Linkage, Entity Resolution, and Duplicate Detection},
+  series    = {Data-Centric Systems and Applications},
+  publisher = {Springer},
+  address   = {Berlin, Heidelberg},
+  year      = {2012},
+  isbn      = {978-3-642-31163-5},
+  doi       = {10.1007/978-3-642-31164-2},
+  url       = {https://doi.org/10.1007/978-3-642-31164-2}
+}
+
+@article{papadakis2020blocking,
+  author    = {Papadakis, George and Skoutas, Dimitrios and Thanos, Emmanouil and Palpanas, Themis},
+  title     = {Blocking and Filtering Techniques for Entity Resolution: A Survey},
+  journal   = {ACM Computing Surveys},
+  volume    = {53},
+  number    = {2},
+  pages     = {1--42},
+  year      = {2020},
+  doi       = {10.1145/3377455},
+  url       = {https://doi.org/10.1145/3377455}
+}
+
+@article{shen2015entity,
+  author    = {Shen, Wei and Wang, Jianyong and Han, Jiawei},
+  title     = {Entity Linking with a Knowledge Base: Issues, Techniques, and Solutions},
+  journal   = {IEEE Transactions on Knowledge and Data Engineering},
+  volume    = {27},
+  number    = {2},
+  pages     = {443--460},
+  year      = {2015},
+  doi       = {10.1109/TKDE.2014.2327028},
+  url       = {https://doi.org/10.1109/TKDE.2014.2327028}
+}
+
+@article{rahm2001survey,
+  author    = {Rahm, Erhard and Bernstein, Philip A.},
+  title     = {A Survey of Approaches to Automatic Schema Matching},
+  journal   = {The VLDB Journal},
+  volume    = {10},
+  number    = {4},
+  pages     = {334--350},
+  year      = {2001},
+  doi       = {10.1007/s007780100057},
+  url       = {https://doi.org/10.1007/s007780100057}
+}
+
+% ---------------------------------------------------------------- Provenance
+@misc{moreau2013provdm,
+  author       = {Moreau, Luc and Missier, Paolo},
+  editor       = {Moreau, Luc and Missier, Paolo},
+  title        = {{PROV-DM}: The {PROV} Data Model},
+  howpublished = {W3C Recommendation},
+  year         = {2013},
+  month        = apr,
+  note         = {W3C Recommendation, 30 April 2013},
+  url          = {https://www.w3.org/TR/2013/REC-prov-dm-20130430/},
+  urldate      = {2026-10-16}
+}
+
+% ---------------------------------------------------------------- RAG and GraphRAG
+@inproceedings{lewis2020retrieval,
+  author    = {Lewis, Patrick and Perez, Ethan and Piktus, Aleksandra and Petroni, Fabio and Karpukhin, Vladimir and Goyal, Naman and K{\"u}ttler, Heinrich and Lewis, Mike and Yih, Wen-tau and Rockt{\"a}schel, Tim and Riedel, Sebastian and Kiela, Douwe},
+  title     = {Retrieval-Augmented Generation for Knowledge-Intensive {NLP} Tasks},
+  booktitle = {Advances in Neural Information Processing Systems 33 (NeurIPS 2020)},
+  year      = {2020},
+  eprint    = {2005.11401},
+  archivePrefix = {arXiv},
+  url       = {https://papers.nips.cc/paper/2020/hash/6b493230205f780e1bc26945df7481e5-Abstract.html}
+}
+
+@misc{gao2023retrieval,
+  author    = {Gao, Yunfan and Xiong, Yun and Gao, Xinyu and Jia, Kangxiang and Pan, Jinliu and Bi, Yuxi and Dai, Yi and Sun, Jiawei and Wang, Meng and Wang, Haofen},
+  title     = {Retrieval-Augmented Generation for Large Language Models: A Survey},
+  year      = {2023},
+  eprint    = {2312.10997},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CL},
+  url       = {https://arxiv.org/abs/2312.10997}
+}
+
+@misc{edge2024local,
+  author    = {Edge, Darren and Trinh, Ha and Cheng, Newman and Bradley, Joshua and Chao, Alex and Mody, Apurva and Truitt, Steven and Metropolitansky, Dasha and Ness, Robert Osazuwa and Larson, Jonathan},
+  title     = {From Local to Global: A Graph {RAG} Approach to Query-Focused Summarization},
+  year      = {2024},
+  eprint    = {2404.16130},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.CL},
+  url       = {https://arxiv.org/abs/2404.16130}
+}
+
+@inproceedings{gutierrez2024hipporag,
+  author    = {Guti{\'e}rrez, Bernal Jim{\'e}nez and Shu, Yiheng and Gu, Yu and Yasunaga, Michihiro and Su, Yu},
+  title     = {{HippoRAG}: Neurobiologically Inspired Long-Term Memory for Large Language Models},
+  booktitle = {Advances in Neural Information Processing Systems 37 (NeurIPS 2024)},
+  year      = {2024},
+  doi       = {10.52202/079017-1902},
+  eprint    = {2405.14831},
+  archivePrefix = {arXiv},
+  url       = {https://papers.nips.cc/paper_files/paper/2024/hash/6ddc001d07ca4f319af96a3024f6dbd1-Abstract-Conference.html}
+}
+
+@article{peng2026graph,
+  author    = {Peng, Boci and Zhu, Yun and Liu, Yongchao and Bo, Xiaohe and Shi, Haizhou and Hong, Chuntao and Zhang, Yan and Tang, Siliang},
+  title     = {Graph Retrieval-Augmented Generation: A Survey},
+  journal   = {ACM Transactions on Information Systems},
+  volume    = {44},
+  number    = {2},
+  pages     = {1--52},
+  year      = {2026},
+  note      = {Published online 23 December 2025; preprint arXiv:2408.08921 (2024)},
+  doi       = {10.1145/3777378},
+  eprint    = {2408.08921},
+  archivePrefix = {arXiv},
+  url       = {https://doi.org/10.1145/3777378}
+}
+
+% ---------------------------------------------------------------- Agents, reasoning, KGQA
+@inproceedings{yao2023react,
+  author    = {Yao, Shunyu and Zhao, Jeffrey and Yu, Dian and Du, Nan and Shafran, Izhak and Narasimhan, Karthik and Cao, Yuan},
+  title     = {{ReAct}: Synergizing Reasoning and Acting in Language Models},
+  booktitle = {The Eleventh International Conference on Learning Representations (ICLR 2023)},
+  year      = {2023},
+  eprint    = {2210.03629},
+  archivePrefix = {arXiv},
+  url       = {https://openreview.net/forum?id=WE_vluYUL-X}
+}
+
+@inproceedings{schick2023toolformer,
+  author    = {Schick, Timo and Dwivedi-Yu, Jane and Dess{\`i}, Roberto and Raileanu, Roberta and Lomeli, Maria and Hambro, Eric and Zettlemoyer, Luke and Cancedda, Nicola and Scialom, Thomas},
+  title     = {Toolformer: Language Models Can Teach Themselves to Use Tools},
+  booktitle = {Advances in Neural Information Processing Systems 36 (NeurIPS 2023)},
+  year      = {2023},
+  doi       = {10.52202/075280-2997},
+  eprint    = {2302.04761},
+  archivePrefix = {arXiv},
+  url       = {https://proceedings.neurips.cc/paper/2023/hash/d842425e4bf79ba039352da0f658a906-Abstract.html}
+}
+
+@inproceedings{wei2022chain,
+  author    = {Wei, Jason and Wang, Xuezhi and Schuurmans, Dale and Bosma, Maarten and Ichter, Brian and Xia, Fei and Chi, Ed and Le, Quoc and Zhou, Denny},
+  title     = {Chain-of-Thought Prompting Elicits Reasoning in Large Language Models},
+  booktitle = {Advances in Neural Information Processing Systems 35 (NeurIPS 2022)},
+  year      = {2022},
+  doi       = {10.52202/068431-1800},
+  eprint    = {2201.11903},
+  archivePrefix = {arXiv},
+  url       = {https://proceedings.neurips.cc/paper/2022/hash/9d5609613524ecf4f15af0f7b31abca4-Abstract-Conference.html}
+}
+
+@article{wang2024survey,
+  author    = {Wang, Lei and Ma, Chen and Feng, Xueyang and Zhang, Zeyu and Yang, Hao and Zhang, Jingsen and Chen, Zhiyuan and Tang, Jiakai and Chen, Xu and Lin, Yankai and Zhao, Wayne Xin and Wei, Zhewei and Wen, Jirong},
+  title     = {A Survey on Large Language Model Based Autonomous Agents},
+  journal   = {Frontiers of Computer Science},
+  volume    = {18},
+  number    = {6},
+  pages     = {186345},
+  year      = {2024},
+  doi       = {10.1007/s11704-024-40231-1},
+  eprint    = {2308.11432},
+  archivePrefix = {arXiv},
+  url       = {https://doi.org/10.1007/s11704-024-40231-1}
+}
+
+@article{liu2024lost,
+  author    = {Liu, Nelson F. and Lin, Kevin and Hewitt, John and Paranjape, Ashwin and Bevilacqua, Michele and Petroni, Fabio and Liang, Percy},
+  title     = {Lost in the Middle: How Language Models Use Long Contexts},
+  journal   = {Transactions of the Association for Computational Linguistics},
+  volume    = {12},
+  pages     = {157--173},
+  year      = {2024},
+  doi       = {10.1162/tacl_a_00638},
+  eprint    = {2307.03172},
+  archivePrefix = {arXiv},
+  url       = {https://doi.org/10.1162/tacl_a_00638}
+}
+
+@inproceedings{sun2024thinkongraph,
+  author    = {Sun, Jiashuo and Xu, Chengjin and Tang, Lumingyuan and Wang, Saizhuo and Lin, Chen and Gong, Yeyun and Ni, Lionel M. and Shum, Heung-Yeung and Guo, Jian},
+  title     = {Think-on-Graph: Deep and Responsible Reasoning of Large Language Model on Knowledge Graph},
+  booktitle = {The Twelfth International Conference on Learning Representations (ICLR 2024)},
+  year      = {2024},
+  eprint    = {2307.07697},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2307.07697}
+}
+
+@inproceedings{luo2024reasoning,
+  author    = {Luo, Linhao and Li, Yuan-Fang and Haffari, Gholamreza and Pan, Shirui},
+  title     = {Reasoning on Graphs: Faithful and Interpretable Large Language Model Reasoning},
+  booktitle = {The Twelfth International Conference on Learning Representations (ICLR 2024)},
+  year      = {2024},
+  eprint    = {2310.01061},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2310.01061}
+}
+
+@inproceedings{jiang2023structgpt,
+  author    = {Jiang, Jinhao and Zhou, Kun and Dong, Zican and Ye, Keming and Zhao, Wayne Xin and Wen, Ji-Rong},
+  title     = {{StructGPT}: A General Framework for Large Language Model to Reason over Structured Data},
+  booktitle = {Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing},
+  pages     = {9237--9251},
+  year      = {2023},
+  publisher = {Association for Computational Linguistics},
+  doi       = {10.18653/v1/2023.emnlp-main.574},
+  eprint    = {2305.09645},
+  archivePrefix = {arXiv},
+  url       = {https://aclanthology.org/2023.emnlp-main.574}
+}
+
+% ---------------------------------------------------------------- Retrieval, fusion, reranking
+@article{robertson2009probabilistic,
+  author    = {Robertson, Stephen and Zaragoza, Hugo},
+  title     = {The Probabilistic Relevance Framework: {BM25} and Beyond},
+  journal   = {Foundations and Trends{\textregistered} in Information Retrieval},
+  volume    = {3},
+  number    = {4},
+  pages     = {333--389},
+  year      = {2009},
+  doi       = {10.1561/1500000019},
+  url       = {https://doi.org/10.1561/1500000019}
+}
+
+@inproceedings{karpukhin2020dense,
+  author    = {Karpukhin, Vladimir and Oguz, Barlas and Min, Sewon and Lewis, Patrick and Wu, Ledell and Edunov, Sergey and Chen, Danqi and Yih, Wen-tau},
+  title     = {Dense Passage Retrieval for Open-Domain Question Answering},
+  booktitle = {Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing (EMNLP)},
+  pages     = {6769--6781},
+  year      = {2020},
+  publisher = {Association for Computational Linguistics},
+  doi       = {10.18653/v1/2020.emnlp-main.550},
+  eprint    = {2004.04906},
+  archivePrefix = {arXiv},
+  url       = {https://aclanthology.org/2020.emnlp-main.550}
+}
+
+@inproceedings{cormack2009reciprocal,
+  author    = {Cormack, Gordon V. and Clarke, Charles L. A. and B{\"u}ttcher, Stefan},
+  title     = {Reciprocal Rank Fusion Outperforms {Condorcet} and Individual Rank Learning Methods},
+  booktitle = {Proceedings of the 32nd International ACM SIGIR Conference on Research and Development in Information Retrieval (SIGIR '09)},
+  pages     = {758--759},
+  year      = {2009},
+  publisher = {ACM},
+  doi       = {10.1145/1571941.1572114},
+  url       = {https://doi.org/10.1145/1571941.1572114}
+}
+
+@article{bruch2023analysis,
+  author    = {Bruch, Sebastian and Gai, Siyu and Ingber, Amir},
+  title     = {An Analysis of Fusion Functions for Hybrid Retrieval},
+  journal   = {ACM Transactions on Information Systems},
+  volume    = {42},
+  number    = {1},
+  pages     = {1--35},
+  year      = {2023},
+  doi       = {10.1145/3596512},
+  url       = {https://doi.org/10.1145/3596512}
+}
+
+@misc{nogueira2019passage,
+  author    = {Nogueira, Rodrigo and Cho, Kyunghyun},
+  title     = {Passage Re-ranking with {BERT}},
+  year      = {2019},
+  eprint    = {1901.04085},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.IR},
+  url       = {https://arxiv.org/abs/1901.04085}
+}
+
+@inproceedings{sun2023chatgpt,
+  author    = {Sun, Weiwei and Yan, Lingyong and Ma, Xinyu and Wang, Shuaiqiang and Ren, Pengjie and Chen, Zhumin and Yin, Dawei and Ren, Zhaochun},
+  title     = {Is {ChatGPT} Good at Search? Investigating Large Language Models as Re-Ranking Agents},
+  booktitle = {Proceedings of the 2023 Conference on Empirical Methods in Natural Language Processing},
+  pages     = {14918--14937},
+  year      = {2023},
+  publisher = {Association for Computational Linguistics},
+  doi       = {10.18653/v1/2023.emnlp-main.923},
+  eprint    = {2304.09542},
+  archivePrefix = {arXiv},
+  url       = {https://aclanthology.org/2023.emnlp-main.923}
+}
+
+@inproceedings{chen2024m3,
+  author    = {Chen, Jianlv and Xiao, Shitao and Zhang, Peitian and Luo, Kun and Lian, Defu and Liu, Zheng},
+  title     = {{M3-Embedding}: Multi-Linguality, Multi-Functionality, Multi-Granularity Text Embeddings Through Self-Knowledge Distillation},
+  booktitle = {Findings of the Association for Computational Linguistics: ACL 2024},
+  pages     = {2318--2335},
+  year      = {2024},
+  publisher = {Association for Computational Linguistics},
+  doi       = {10.18653/v1/2024.findings-acl.137},
+  eprint    = {2402.03216},
+  archivePrefix = {arXiv},
+  url       = {https://aclanthology.org/2024.findings-acl.137}
+}
+
+@misc{baai2024bgererankerv2m3,
+  author       = {{Beijing Academy of Artificial Intelligence (BAAI)}},
+  title        = {{BAAI/bge-reranker-v2-m3}: Model Card},
+  howpublished = {Hugging Face model repository},
+  url          = {https://huggingface.co/BAAI/bge-reranker-v2-m3},
+  urldate      = {2026-10-16}
+}
+
+% ---------------------------------------------------------------- Text-to-SQL / text-to-Cypher / hybrid QA
+@inproceedings{yu2018spider,
+  author    = {Yu, Tao and Zhang, Rui and Yang, Kai and Yasunaga, Michihiro and Wang, Dongxu and Li, Zifan and Ma, James and Li, Irene and Yao, Qingning and Roman, Shanelle and Zhang, Zilin and Radev, Dragomir},
+  title     = {Spider: A Large-Scale Human-Labeled Dataset for Complex and Cross-Domain Semantic Parsing and Text-to-{SQL} Task},
+  booktitle = {Proceedings of the 2018 Conference on Empirical Methods in Natural Language Processing},
+  pages     = {3911--3921},
+  year      = {2018},
+  publisher = {Association for Computational Linguistics},
+  doi       = {10.18653/v1/D18-1425},
+  eprint    = {1809.08887},
+  archivePrefix = {arXiv},
+  url       = {https://aclanthology.org/D18-1425}
+}
+
+@inproceedings{li2023bird,
+  author    = {Li, Jinyang and Hui, Binyuan and Qu, Ge and Yang, Jiaxi and Li, Binhua and Li, Bowen and Wang, Bailin and Qin, Bowen and Cao, Rongyu and Geng, Ruiying and Huo, Nan and Zhou, Xuanhe and Ma, Chenhao and Li, Guoliang and Chang, Kevin C. C. and Huang, Fei and Cheng, Reynold and Li, Yongbin},
+  title     = {Can {LLM} Already Serve as A Database Interface? {A} {BIg} Bench for Large-Scale Database Grounded Text-to-{SQLs}},
+  booktitle = {Advances in Neural Information Processing Systems 36 (NeurIPS 2023), Datasets and Benchmarks Track},
+  year      = {2023},
+  eprint    = {2305.03111},
+  archivePrefix = {arXiv},
+  url       = {https://arxiv.org/abs/2305.03111}
+}
+
+@inproceedings{sequeda2024benchmark,
+  author    = {Sequeda, Juan and Allemang, Dean and Jacob, Bryon},
+  title     = {A Benchmark to Understand the Role of Knowledge Graphs on Large Language Model's Accuracy for Question Answering on Enterprise {SQL} Databases},
+  booktitle = {Proceedings of the 7th Joint Workshop on Graph Data Management Experiences \& Systems (GRADES) and Network Data Analytics (NDA)},
+  pages     = {1--12},
+  year      = {2024},
+  publisher = {ACM},
+  doi       = {10.1145/3661304.3661901},
+  eprint    = {2311.07509},
+  archivePrefix = {arXiv},
+  url       = {https://doi.org/10.1145/3661304.3661901}
+}
+
+@inproceedings{ozsoy2025text2cypher,
+  author    = {Ozsoy, Makbule Gulcin and Messallem, Leila and Besga, Jon and Minneci, Gianandrea},
+  title     = {{Text2Cypher}: Bridging Natural Language and Graph Databases},
+  booktitle = {Proceedings of the Workshop on Generative AI and Knowledge Graphs (GenAIK)},
+  pages     = {100--108},
+  address   = {Abu Dhabi, UAE},
+  year      = {2025},
+  publisher = {International Committee on Computational Linguistics},
+  eprint    = {2412.10064},
+  archivePrefix = {arXiv},
+  url       = {https://aclanthology.org/2025.genaik-1.11}
+}
+
+@inproceedings{chen2020hybridqa,
+  author    = {Chen, Wenhu and Zha, Hanwen and Chen, Zhiyu and Xiong, Wenhan and Wang, Hong and Wang, William Yang},
+  title     = {{HybridQA}: A Dataset of Multi-Hop Question Answering over Tabular and Textual Data},
+  booktitle = {Findings of the Association for Computational Linguistics: EMNLP 2020},
+  pages     = {1026--1036},
+  year      = {2020},
+  publisher = {Association for Computational Linguistics},
+  doi       = {10.18653/v1/2020.findings-emnlp.91},
+  eprint    = {2004.07347},
+  archivePrefix = {arXiv},
+  url       = {https://aclanthology.org/2020.findings-emnlp.91}
+}
+
+@inproceedings{zhu2021tatqa,
+  author    = {Zhu, Fengbin and Lei, Wenqiang and Huang, Youcheng and Wang, Chao and Zhang, Shuo and Lv, Jiancheng and Feng, Fuli and Chua, Tat-Seng},
+  title     = {{TAT-QA}: A Question Answering Benchmark on a Hybrid of Tabular and Textual Content in Finance},
+  booktitle = {Proceedings of the 59th Annual Meeting of the Association for Computational Linguistics and the 11th International Joint Conference on Natural Language Processing (Volume 1: Long Papers)},
+  pages     = {3277--3287},
+  year      = {2021},
+  publisher = {Association for Computational Linguistics},
+  doi       = {10.18653/v1/2021.acl-long.254},
+  eprint    = {2105.07624},
+  archivePrefix = {arXiv},
+  url       = {https://aclanthology.org/2021.acl-long.254}
+}
+
+% ---------------------------------------------------------------- Evaluation and statistics
+@inproceedings{zheng2023judging,
+  author    = {Zheng, Lianmin and Chiang, Wei-Lin and Sheng, Ying and Zhuang, Siyuan and Wu, Zhanghao and Zhuang, Yonghao and Lin, Zi and Li, Zhuohan and Li, Dacheng and Xing, Eric P. and Zhang, Hao and Gonzalez, Joseph E. and Stoica, Ion},
+  title     = {Judging {LLM}-as-a-Judge with {MT-Bench} and {Chatbot Arena}},
+  booktitle = {Advances in Neural Information Processing Systems 36 (NeurIPS 2023), Datasets and Benchmarks Track},
+  year      = {2023},
+  eprint    = {2306.05685},
+  archivePrefix = {arXiv},
+  url       = {https://proceedings.neurips.cc/paper_files/paper/2023/hash/91f18a1287b398d378ef22505bf41832-Abstract-Datasets_and_Benchmarks.html}
+}
+
+@inproceedings{es2024ragas,
+  author    = {Es, Shahul and James, Jithin and Espinosa Anke, Luis and Schockaert, Steven},
+  title     = {{RAGAs}: Automated Evaluation of Retrieval Augmented Generation},
+  booktitle = {Proceedings of the 18th Conference of the European Chapter of the Association for Computational Linguistics: System Demonstrations},
+  pages     = {150--158},
+  year      = {2024},
+  publisher = {Association for Computational Linguistics},
+  doi       = {10.18653/v1/2024.eacl-demo.16},
+  eprint    = {2309.15217},
+  archivePrefix = {arXiv},
+  url       = {https://aclanthology.org/2024.eacl-demo.16}
+}
+
+@article{mcnemar1947note,
+  author    = {McNemar, Quinn},
+  title     = {Note on the Sampling Error of the Difference Between Correlated Proportions or Percentages},
+  journal   = {Psychometrika},
+  volume    = {12},
+  number    = {2},
+  pages     = {153--157},
+  year      = {1947},
+  doi       = {10.1007/BF02295996},
+  url       = {https://doi.org/10.1007/BF02295996}
+}
+
+@article{wilson1927probable,
+  author    = {Wilson, Edwin B.},
+  title     = {Probable Inference, the Law of Succession, and Statistical Inference},
+  journal   = {Journal of the American Statistical Association},
+  volume    = {22},
+  number    = {158},
+  pages     = {209--212},
+  year      = {1927},
+  doi       = {10.1080/01621459.1927.10502953},
+  url       = {https://doi.org/10.1080/01621459.1927.10502953}
+}
+
+@article{dietterich1998approximate,
+  author    = {Dietterich, Thomas G.},
+  title     = {Approximate Statistical Tests for Comparing Supervised Classification Learning Algorithms},
+  journal   = {Neural Computation},
+  volume    = {10},
+  number    = {7},
+  pages     = {1895--1923},
+  year      = {1998},
+  doi       = {10.1162/089976698300017197},
+  url       = {https://doi.org/10.1162/089976698300017197}
+}
+
+% ---------------------------------------------------------------- Research method
+@article{hevner2004design,
+  author    = {Hevner, Alan R. and March, Salvatore T. and Park, Jinsoo and Ram, Sudha},
+  title     = {Design Science in Information Systems Research},
+  journal   = {MIS Quarterly},
+  volume    = {28},
+  number    = {1},
+  pages     = {75--105},
+  year      = {2004},
+  doi       = {10.2307/25148625},
+  url       = {https://doi.org/10.2307/25148625}
+}
+
+% ---------------------------------------------------------------- Software, documentation, courses
+@misc{neo4j2026graphrag,
+  author       = {{Neo4j, Inc.}},
+  title        = {{GraphRAG} for {Python} (neo4j-graphrag) -- Documentation},
+  howpublished = {Official documentation},
+  url          = {https://neo4j.com/docs/neo4j-graphrag-python/current/},
+  urldate      = {2026-10-16}
+}
+
+@misc{neo4j2026llmgraphbuilder,
+  author       = {{Neo4j Labs}},
+  title        = {Neo4j {LLM} Knowledge Graph Builder},
+  howpublished = {Neo4j Labs project page},
+  url          = {https://neo4j.com/labs/genai-ecosystem/llm-graph-builder/},
+  urldate      = {2026-10-16}
+}
+
+@misc{llamaindex2026propertygraph,
+  author       = {{LlamaIndex}},
+  title        = {Using a Property Graph Index},
+  howpublished = {LlamaIndex Python framework documentation},
+  url          = {https://developers.llamaindex.ai/python/framework/module_guides/indexing/lpg_index_guide/},
+  urldate      = {2026-10-16}
+}
+
+@misc{kollegger2025agentic,
+  author       = {Kollegger, Andreas},
+  title        = {Agentic Knowledge Graph Construction},
+  howpublished = {DeepLearning.AI short course, in collaboration with Neo4j},
+  year         = {2025},
+  note         = {Announced 27 August 2025; uses Google's Agent Development Kit (ADK)},
+  url          = {https://www.deeplearning.ai/short-courses/agentic-knowledge-graph-construction/},
+  urldate      = {2026-10-16}
+}
+
+@misc{google2026adk,
+  author       = {{Google}},
+  title        = {Agent Development Kit ({ADK}) Documentation},
+  howpublished = {Official documentation},
+  url          = {https://adk.dev/},
+  urldate      = {2026-10-16}
+}

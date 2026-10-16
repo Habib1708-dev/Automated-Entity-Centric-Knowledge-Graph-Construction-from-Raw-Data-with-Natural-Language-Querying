@@ -1,32 +1,382 @@
 % Research Methodology and Evaluation Framework: about 10 pages of the main body.
-% Skeleton only: headings and the sources each section draws on. Prose is written in its approved stage.
+% Every number below has a row in evidence_registry.csv or is a count read from the committed files named
+% next to it. Written in Stage 4.
 \chapter{Research Methodology and Evaluation Framework}\label{ch03}
 
+This chapter states how the research was carried out and how every result in Chapters~\ref{ch05}
+and~\ref{ch07} was measured. It defines the datasets, the reference answers, the two ways an answer is
+scored, the metrics with their denominators, and the statistical tests. These are defined once here, so
+that the evaluation chapters can concentrate on what was found.
+
 \section{Research Approach}\label{sec:ch03-research-approach}
-% Sources: design science; pre-registered decision rules
+
+The work follows a design-science approach~\cite{hevner2004design}: an artefact (the knowledge-graph
+builder and the query engine) is built to address a practical problem, and its design is justified by
+evaluating it rather than by argument alone. Three choices give this general approach its specific form.
+
+\paragraph{Small, measured steps.} The system was developed in a sequence of numbered steps (R0 to R231 in
+the project roadmap). Each step addressed one concern, ended in runnable and tested code, and was recorded
+with its commit, its cost and the measurements it made. The step identifiers are used throughout this thesis
+as experiment identifiers; \cref{app:complete-result-tables} maps each one to its records.
+
+\paragraph{Alternatives as parallel arms.} When a design question could not be settled by reasoning, the
+alternatives were built as separate arms on their own version-control branches and measured against each
+other on the same inputs. The graph representation went through four such arms (\cref{sec:ch04-evolution});
+the retrieval and query components through several more (\cref{sec:ch07-retrieval-components}).
+Because each arm is preserved on its branch, every comparison can be re-run from the code that produced it.
+
+\paragraph{Decision rules fixed before measuring.} Where a measurement decided between designs, the rule
+that would decide was written down before the measurement was made. Three examples recur in later chapters.
+The pass thresholds of the builder's audit criteria C0--C9 were fixed in the design document before the
+first audit~(\cref{sec:ch05-method}). The choice of the agent's start-node seeding
+was made by a rule chosen before the grid of candidate settings was scored~(\cref{sec:ch07-retrieval-components}).
+The adoption of a combined agent variant required, in advance, that it lose no question the baseline
+answered; it did lose one, and it was not adopted~(\cref{sec:ch07-targeted-ablations}). Fixing the rule
+first protects a small study from the most common error of iterative development: choosing, after the
+fact, the reading of the numbers that favours the newest change.
+
+\paragraph{Paired comparisons.} Whenever two designs could be run on the same questions, they were compared
+question by question rather than by their overall rates (\cref{sec:ch03-statistical-analysis}). With the
+small samples available here, two overlapping confidence intervals rarely decide anything, while the
+handful of questions on which two systems disagree often does.
 
 \section{Requirements}\label{sec:ch03-requirements}
 
+The requirements below were stated at the start of the project and refined as the design evolved.
+\Cref{tab:requirements} lists them; each is traced to the chapter that shows whether it is met.
+
+\begin{table}[htbp]
+\centering
+\caption{Functional (F) and non-functional (N) requirements of the system.}
+\label{tab:requirements}
+\small
+\begin{tabularx}{\linewidth}{@{}lXl@{}}
+\toprule
+ID & Requirement & Shown in \\
+\midrule
+F1 & Ingest structured sources (CSV, JSON, NDJSON, PostgreSQL tables) and text documents (Markdown, plain text, PDF) in one run. & \cref{ch04} \\
+F2 & Propose a graph plan for the tables and a fact schema for the text automatically, for a goal stated in one sentence. & \cref{ch04} \\
+F3 & Link what the text mentions to the records it is about, and keep distinct things apart. & \cref{ch04,ch05} \\
+F4 & Answer natural-language questions that combine records and text, with citations to the evidence used. & \cref{ch06,ch07} \\
+F5 & Recognise questions that cannot or should not be answered: unclear, out of scope, without evidence, or asking to change the data. & \cref{ch06,ch07} \\
+\midrule
+N1 & \emph{Domain neutrality}: no dataset-specific code, setting or prompt text; the domain comes only from the proposed plan and schema. & \cref{ch04,ch05} \\
+N2 & \emph{Verifiability}: every output of a language model is parsed into a typed model and checked by code before it is used; every item derived from text carries a verbatim quote that code finds in its source. & \cref{ch04,ch05} \\
+N3 & \emph{Provenance}: every node and edge made from text, and every answer, can be traced to the chunk or record that supports it. & \cref{ch05,ch06} \\
+N4 & \emph{Safety}: the query engine can only read; it cannot change the graph or the tables. & \cref{ch06,ch07} \\
+N5 & \emph{Reproducibility and cost}: every model call is logged with its tokens and price, and repeated runs can be served from a cache at no cost. & \cref{sec:ch03-reproducibility} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Requirement N1 is checked by an automated test that fails if a word specific to one of the datasets appears
+in the code or in any prompt. Requirement N2 is the principle summarised throughout this thesis as
+\emph{the language model proposes, code decides}: anything that can be computed exactly is computed in code,
+and the model is used only for what is left.
+
 \section{System Overview}\label{sec:ch03-system-overview}
-% Sources: Figure F1
+
+\Cref{fig:system-overview} shows the system as a whole. It has two subsystems that share three stores.
+
+\begin{figure}[htbp]
+\centering
+\figplaceholder{F1}{End-to-end architecture: the builder's stages, the three stores (Neo4j graph with its vector and full-text indexes; DuckDB tables; MLflow), the query engine with its screen, agent and tools, and the web interface.}
+\caption{Overall architecture. Rounded boxes call a language model; square boxes are deterministic code; cylinders are stores.}
+\label{fig:system-overview}
+\end{figure}
+
+\paragraph{The builder} (\cref{ch04}) reads a folder of mixed sources. A language model proposes a plan that
+maps each table to node labels, keys and relations; code validates the plan and imports the rows into a Neo4j
+graph. The text is split into chunks, embedded, and indexed. A second proposal names the kinds of facts the
+text holds; a model extracts them, and the mentions of things in the text, with quotes that code verifies.
+Code and, for the uncertain cases only, a model then decide which mentions refer to which records and to
+each other. The result is an \emph{anchor graph}: an index that leads from the things a question is about
+to the records and passages that concern them.
+
+\paragraph{The query engine} (\cref{ch06}) answers a question with an agent: a language model that calls
+read-only tools one at a time --- graph navigation, passage search, and typed queries over the records and
+tables --- and finally answers with citations to what the tools returned. A deterministic screen in front
+of the agent refuses requests to change the data, and code checks every citation and the form of every
+answer before it is returned.
+
+\paragraph{The stores.} Neo4j holds the graph and its vector and full-text indexes; DuckDB holds the
+tables for structured queries; MLflow records every stage and every model call.
 
 \section{Datasets}\label{sec:ch03-datasets}
-% Sources: Table T1; four datasets; the fifth dropped (C4 34/36 < 0.95), tests/gold/r228/lighthouses
+
+The thesis is about building one graph from tables and text together, so every dataset combines both.
+\Cref{tab:datasets} summarises the four datasets on which the results are reported.
+
+\begin{table}[htbp]
+\centering
+\caption{The four datasets. Words are those of the text documents; rows those of all tables.}
+\label{tab:datasets}
+\small
+\begin{tabularx}{\linewidth}{@{}lXXl@{}}
+\toprule
+Dataset & Tables & Text & Role \\
+\midrule
+Furniture & 5 CSV files, 358 rows (products, assemblies, components, part--supplier mapping, suppliers) & 10 files of product reviews, 70 reviews, 5{,}494 words & development \\
+NHTSA & vehicles (CSV, 5), recalls (nested JSON, 29), complaints (NDJSON, 25) & 5 files of owners' complaint narratives, 1{,}974 words & held out, then development \\
+Generality & staff (CSV, 5), pumps (CSV, 3) & 32 short documents from three unrelated domains, 2{,}316 words & identity hard cases \\
+NTSB & 7 tables, 386 rows (models, events, aircraft, crew, injuries, findings, event sequences) & 6 accident narratives, one per aircraft model, 5{,}513 words & unseen until the benchmark \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{Furniture.} Ten furniture products with their assemblies, components and suppliers, and customer
+reviews that report defects in those parts. The tables and reviews are synthetic and come from the course
+material that inspired the project's first design~\cite{kollegger2025agentic}. The original goal of
+the dataset is root-cause analysis: from a defect a reviewer reports, reach the part and the supplier behind
+it. All development of the builder started here.
+
+\paragraph{NHTSA.} Public records of the US National Highway Traffic Safety Administration: five vehicles of
+five makes (one model year each), all 29 of their recalls, and five owner complaints per vehicle, selected by
+a rule fixed before any narrative was read (the earliest-filed complaints of 40--110 words naming only that
+vehicle). It was introduced as a held-out test of generalisation, with the pipeline frozen for it. After the
+first held-out measurement, however, failures observed on it informed later changes. It is therefore
+reported as \emph{development-adjacent}, not as unseen data.
+
+\paragraph{Generality.} A synthetic corpus written for this project to probe what product-like data does
+not: three unrelated domains (a water utility, a research institute and local news) in one corpus, documents
+about several things at once, and eight identity hard cases --- two people with the same name, one person
+under three names, two machines of the same model told apart only by serial number, a claim made by someone
+other than the author, a negation, a number to filter on, and a negative control. Its first version had 11 documents; 21 distractor documents were added later, so that
+retrieval has to find the relevant documents among unrelated ones.
+
+\paragraph{NTSB.} Accident records of the US National Transportation Safety Board: 30 accidents of six
+aircraft models (2021--2023), selected by a rule fixed before any narrative was read, with their findings,
+event sequences, crew and injuries. Each of the six documents holds the narratives of the five accidents of
+one model. It was added after the query engine was frozen, and its questions were written before its graph
+was built, so it is the one dataset that neither component saw during development.
+
+\paragraph{A fifth dataset.} A fifth dataset, built from encyclopaedia articles and the open structured data
+describing the same subjects, was built and measured with the same rules. Its graph failed one of the
+builder's hard audit gates: of 36 links from text mentions to records, 34 were right, below the 95\,\%
+bound fixed in advance (criterion C4, \cref{sec:ch05-method}). Since a graph that
+fails a hard gate does not meet the builder's own definition of correctness, the dataset is not used in this
+thesis. Its records remain in the project repository. Excluding it does not favour the reported question-answering
+results: on the question sets where it was measured, its accuracy was equal to or higher than the average of
+the other four.
+
+\paragraph{Scale.} All four datasets are small: tens of documents and at most a few hundred rows each. This
+was deliberate --- every judged number in the thesis required reading the sources in full --- but it limits
+what the results say about larger corpora (\cref{sec:ch08-threats-to-validity}).
 
 \section{Ground Truth}\label{sec:ch03-ground-truth}
-% Sources: Claude-written gold, blind; gold corrections
 
-\section{Scoring: Exact Match and Judgement by Meaning}\label{sec:ch03-scoring-exact-match-and-judgem}
-% Sources: validation/qa.py; two blind judges + lead
+\paragraph{Who wrote it.} No human-labelled reference exists for these datasets, and labelling one by hand
+was not feasible in the time available. All reference data (\emph{gold}) was therefore written by a strong
+language model from a different family than the system under test: Claude (Opus~5.5 for most sets, Fable~5.1
+and Sonnet~5.5 for some later ones), while the system itself uses Gemini models. This is a limitation stated
+wherever a number depends on it. Three rules reduce its effect.
+
+\begin{enumerate}[nosep]
+\item \emph{Gold before output.} Each gold set was written from the source files only, before any output of
+the system for those files was opened.
+\item \emph{Verbatim evidence.} Every gold item carries the sentence that supports it, copied verbatim; an
+automated test fails if a quote is not found in its document, a record is not in its table, or the answer to
+a structured question differs from the answer DuckDB computes from the tables.
+\item \emph{Recorded corrections.} A gold item changed after output was seen is a \emph{gold correction}; it
+is allowed, since the writer can be wrong, but it is listed with its reason in the step that made it.
+\end{enumerate}
+
+\paragraph{Builder gold.} The builder is measured against several references, each described with its
+experiment in \cref{ch05}: the claims a careful reader lists for 40 randomly chosen sentences per dataset; the
+mentions of things in the same sentences; pairs of names that do or do not refer to the same thing; and, for
+each question, the names it starts from, the records it should reach and its evidence chunks.
+
+\paragraph{Question gold.} The question sets used in \cref{ch07} are listed in \cref{tab:question-sets}. The
+benchmark questions were written after the query engine was frozen, and each confirmation set before the
+fixes it was meant to confirm existed; their writers opened no output, verdict or failure analysis. Each file
+was then reviewed twice by independent reviewers, who re-derived every answer from the sources, re-ran every
+structured query and checked that no question repeated a fact asked before, and corrected in a third pass.
+
+\begin{table}[htbp]
+\centering
+\caption{Question sets. Counts are per dataset unless stated.}
+\label{tab:question-sets}
+\small
+\begin{tabularx}{\linewidth}{@{}lXl@{}}
+\toprule
+Set & Written & Questions \\
+\midrule
+Development & during development; seen by the designers & 68 / 68 / 41 (furniture / NHTSA / generality) \\
+Fresh & after a round of failure analysis & 10 on each of three datasets \\
+Benchmark & after the engine was frozen; reviewed twice & 50 per dataset (200 on the four) \\
+Confirmation 1--3 & each after a round of fixes, blind to the fixes' cases & 20 per dataset per set (80 on the four) \\
+Outcomes & for the five answer outcomes; 8 non-answerable and 4 answerable per dataset & 12 per dataset \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Every development, fresh, benchmark and confirmation question has one of six types (\cref{tab:question-types}), so that accuracy can be reported per kind of
+reasoning rather than as one number.
+
+\begin{table}[htbp]
+\centering
+\caption{Question types, with their counts in the benchmark on the four datasets ($n=200$).}
+\label{tab:question-types}
+\small
+\begin{tabularx}{\linewidth}{@{}lXr@{}}
+\toprule
+Type & The answer is right only if the system \dots & Benchmark \\
+\midrule
+Lookup & states what the sources say about one named thing & 32 \\
+Structured filter & restricts by a record field (``2019 models only'') & 36 \\
+Multi-hop & joins two sources: a text and a record, or two documents & 36 \\
+Aggregation & counts, ranks or collects every match across the corpus & 37 \\
+Disambiguation & keeps apart two things with similar names & 31 \\
+Negation-sensitive & does not count a negated or merely possible mention & 28 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Scoring: Exact Match and Judgement by Meaning}\label{sec:ch03-scoring-exact-match-and-judgement}
+
+Every answer and every judged builder output is scored in two ways, and every number in this thesis names
+which of the two it is.
+
+\paragraph{Exact match} is computed by code. A set of names is right when it equals the gold set after
+normalisation (case, accents and spacing); a number is right when it equals the gold number; a short free-text
+answer, which code cannot compare, takes the judge's verdict. Exact match is free, deterministic and
+reproducible, but strict about form: ``over 440 miles'' is wrong against the gold number 440.
+
+\paragraph{Judgement by meaning} uses a language model as the judge~\cite{zheng2023judging}. The judge is
+Claude, never the Gemini model that built the graph or answered the question, since a model judging its own
+output tends to favour its own phrasing. The judge reads the question, the answer, the gold answer and its
+evidence, and follows six fixed rules, of which the central one is \emph{content, not form}: an answer is right
+when it states what the gold answer states, in any wording, with nothing contradicting the source; an answer
+missing a part of the gold answer, or giving only part of a value, is wrong; ``the texts do not say'' is wrong
+when the source does say.
+
+\paragraph{The judging protocol.} For question answering, two judges work blind and independently on each
+answer file; a third, lead judge resolves their disagreements. On the 250-question benchmark the two blind
+judges agreed on every verdict. For builder outputs, one blind judge labels each batch, and the lead reviews
+every verdict other than \emph{valid} and a seeded random 10\,\% of the valid ones. Builder verdicts use five
+labels: \emph{valid}; \emph{valid alternative} (right, though not as the gold has it); \emph{incorrect};
+\emph{ambiguous} (the text honestly supports both readings); and \emph{unjudgeable}. From them three rates are
+derived:
+\begin{align*}
+\text{strict} &= \frac{\#\text{valid}}{n_{\text{decided}}}, &
+\text{accepted} &= \frac{\#\text{valid} + \#\text{valid alternative}}{n_{\text{decided}}}, &
+\text{worst case} &= \frac{\#\text{valid} + \#\text{valid alternative}}{n_{\text{all}}},
+\end{align*}
+where $n_{\text{decided}}$ excludes ambiguous and unjudgeable items and $n_{\text{all}}$ counts them as wrong.
+The accepted rate is reported unless stated otherwise; where the worst case differs, it is given too.
+
+\paragraph{The judge is not ground truth.} Judgement by meaning is lenient about form by design, and the judge
+belongs to the same model family as the gold writer. Neither score replaces the other: exact match is a lower
+bound that undercounts correct paraphrases, and the judge is an informed reading that may share the gold
+writer's blind spots. No agreement figure with a human judge exists (\cref{sec:ch08-threats-to-validity}).
 
 \section{Metrics}\label{sec:ch03-metrics}
-% Sources: Table T3 with formulas
+
+\Cref{tab:metrics} defines every metric used in \cref{ch05,ch07}. For each, $n$ is stated with the result.
+Builder criteria C0--C9 are defined with their evaluation in \cref{sec:ch05-method}.
+
+\begin{table}[htbp]
+\centering
+\caption{Metric definitions. $G_q$ is the set of gold evidence chunks of question $q$; $R_q^K$ the first $K$
+items a retriever returns for $q$; $Q$ the set of questions with gold evidence.}
+\label{tab:metrics}
+\small
+\renewcommand{\arraystretch}{1.6}
+\begin{tabularx}{\linewidth}{@{}lXl@{}}
+\toprule
+Metric & Definition & Score \\
+\midrule
+Claim precision & $\dfrac{\#\text{stored claims judged right}}{\#\text{stored claims judged}}$; \emph{strict}: every stored field right; \emph{content}: the subject--relation--object triple right & judge \\
+Claim recall & $\dfrac{\#\text{reader claims matched by a stored claim}}{\#\text{reader claims in 40 random sentences}}$ & judge \\
+Mention recall & $\dfrac{\#\text{gold mentions found}}{\#\text{gold mentions}}$, by exact name (code) or with near names the judge maps (judge) & both \\
+Recall@$K$ & $\dfrac{1}{|Q|}\sum_{q \in Q} \dfrac{|G_q \cap R_q^K|}{|G_q|}$ & code \\
+Complete@$K$ & $\sum_{q \in Q} \mathbb{1}\left[G_q \subseteq R_q^K\right]$, the questions whose evidence is all retrieved & code \\
+Seed recall@$K$ & $\dfrac{\#\text{gold start nodes among the first } K \text{ nodes}}{\#\text{gold start nodes}}$, pooled over questions & code \\
+Accuracy & $\dfrac{\#\text{questions answered right}}{n}$ & both \\
+Outcome accuracy & $\dfrac{\#\text{replies with the gold outcome label}}{n}$ & code \\
+Cost & $\sum_{\text{calls}} (\text{input tokens} \cdot p_{\text{in}} + \text{output tokens} \cdot p_{\text{out}})$ at list prices & code \\
+Latency & wall-clock seconds from question to answer; mean, median, 90th percentile & code \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Two remarks apply to the retrieval metrics. First, they measure whether the evidence is \emph{available} to
+the reader of the retrieved items, not whether an answer is right: \cref{ch07} keeps the two strictly apart.
+Second, Complete@$K$ is the stricter of the two: a question with three evidence chunks counts only if all three
+are retrieved, which is what a question that collects every match needs.
 
 \section{Statistical Analysis}\label{sec:ch03-statistical-analysis}
-% Sources: Wilson; exact McNemar (validation/paired.py); two-proportion z
+
+\paragraph{Confidence intervals.} Every rate is reported as $k/n$ with a 95\,\% Wilson score
+interval~\cite{wilson1927probable}, which, unlike the normal approximation, stays within $[0,1]$ and remains
+reliable for rates near 0 or 1 and for small $n$ --- both common here. With $\hat p = k/n$ and $z = 1.96$:
+\[
+\frac{\hat p + \frac{z^2}{2n} \pm z\sqrt{\frac{\hat p(1-\hat p)}{n} + \frac{z^2}{4n^2}}}{1 + \frac{z^2}{n}}.
+\]
+
+\paragraph{Paired comparisons.} When systems A and B answer the same questions, only the discordant questions
+carry information about which is better: $b$, right only in A, and $c$, right only in B. The exact McNemar
+test~\cite{mcnemar1947note,dietterich1998approximate} treats each discordant question as equally likely to
+fall either way under the null hypothesis, so $\min(b,c)$ follows a binomial distribution with
+$n = b + c$ and probability $\frac12$, and the two-sided p-value is
+\[
+p = \min\left(1,\; 2\sum_{i=0}^{\min(b,c)} \binom{b+c}{i} 2^{-(b+c)}\right).
+\]
+The exact form is used rather than the chi-square approximation because a single change typically alters a
+handful of questions, where the approximation is unreliable. Results are written ``$b$/$c$, $p$''. The same
+test is applied to retrieval outcomes (a question's evidence complete or not) and to builder arms.
+
+\paragraph{Unpaired comparisons.} Different question sets cannot be paired. Accuracy on two such sets is
+compared with a two-proportion $z$-test, computed in the analysis of the step concerned. Since the sets differ
+in their questions, a difference between them is never attributed to a change in the system; they are read as
+repeated measurements of one level.
+
+\paragraph{Significance and its limits.} The significance level is $\alpha = 0.05$. A test whose comparison
+was chosen after seeing the data is labelled \emph{exploratory}, and its p-value is reported but not used to
+decide. Several experiments were run on sets chosen because the system had failed them; their rates describe
+those failures and say nothing about the general error rate. No correction for multiple comparisons is
+applied; the number of tests in each experiment is stated instead, so their weight can be judged.
 
 \section{Reproducibility}\label{sec:ch03-reproducibility}
-% Sources: MLflow, git SHA, LLM cache, prices.yaml
+
+\paragraph{Tracking.} Every stage of every run is an MLflow run, nested under a parent run for a whole pipeline.
+Each records its parameters (models, temperature, thinking level, prompt version hash, thresholds, dataset
+path), its metrics (counts, rates, latency, tokens, cost) and its output files, and is tagged with the git
+commit it ran on and any uncommitted files. The project holds 2{,}566 such runs. Every result in this thesis
+names its run; \cref{app:complete-result-tables} lists them.
+
+\paragraph{Records.} Each experiment's inputs and outcomes --- gold files, judges' verdicts, per-question
+outcomes and the list of runs --- are committed to the repository under the step's identifier. The figures of
+this thesis are drawn by scripts from these committed records only, never from a database or a working
+folder, and a test checks that the numbers in each figure equal the records.
+
+\paragraph{Cost-free replay.} Every model response is cached by the exact request. A run repeated with the same
+code and inputs is served from the cache at no cost, which is how the graphs were reloaded for every question
+set and how several analyses were re-run on recorded data. A content digest of each graph confirms that a
+reloaded graph is identical to the one measured.
+
+\paragraph{Cost accounting.} Each model call's tokens are priced from a versioned price table at the providers'
+list prices. Embedding calls are not priced, because the embedding service reports no token usage; their cost
+is therefore missing from the totals and is stated as such.
+
+\paragraph{Code.} The system is about 36{,}700 lines of Python with about 1{,}185 automated tests, which run
+without a network or a paid model (models and databases are replaced by test doubles behind the same
+interfaces). \Cref{app:reproducibility-guide} gives the commands to rebuild each graph and repeat each
+measurement.
 
 \section{Validity Framework}\label{sec:ch03-validity-framework}
-% Sources: expanded in Chapter 8
+
+The threats to the validity of the results are examined in \cref{sec:ch08-threats-to-validity}. They fall
+into four groups, each with the mitigations described in this chapter:
+\begin{itemize}[nosep]
+\item \emph{Construct validity} --- whether the metrics measure what is claimed. Two scores, both reported; the
+graph evaluated as an index by criteria fixed in advance rather than only through answers.
+\item \emph{Internal validity} --- whether an observed difference is caused by the design change. Paired tests,
+pre-stated decision rules, arms run on identical inputs.
+\item \emph{External validity} --- whether results carry over to other data. Four datasets of different domains
+and forms, one of them unseen; limited by their small size.
+\item \emph{Conclusion validity} --- whether the statistics support the conclusions. Wilson intervals,
+exact tests, exploratory comparisons labelled, single runs stated.
+\end{itemize}
+The largest single threat is that the gold, the judge and much of the failure analysis come from one model
+family. It cannot be removed without human labelling; it is stated with every judged number.

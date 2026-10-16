@@ -3,9 +3,11 @@
 % A4, 12 pt, 1.5 line spacing, a wider binding margin.
 
 \usepackage[a4paper,top=2.5cm,bottom=2.5cm,inner=3cm,outer=2.5cm]{geometry}
-\usepackage[T1]{fontenc}
-\usepackage[utf8]{inputenc}
-\usepackage{lmodern}
+% Calibri (author's choice, 2026-10-16) needs a Unicode engine: compile with XeLaTeX or LuaLaTeX.
+% Calibri ships with Windows and Office; where it is missing (Overleaf, Linux) Carlito is used, a free font
+% with the same metrics, so line and page breaks stay the same.
+\usepackage{fontspec}
+\IfFontExistsTF{Calibri}{\setmainfont{Calibri}}{\setmainfont{Carlito}}
 \usepackage{microtype}
 \usepackage{setspace}
 \onehalfspacing
@@ -33,6 +35,10 @@
 
 % Figures are drawn by figures/scripts/ (repository root); the thesis only includes them.
 \graphicspath{{../figures/results/}{../figures/diagrams/}}
+
+% A framed box standing in for a figure that is drawn in a later stage, so the text compiles before it exists;
+% \figplaceholder{plan id}{what the figure will show}. None may remain in the submitted thesis (Stage 8 check).
+\newcommand{\figplaceholder}[2]{\fbox{\parbox{0.9\linewidth}{\centering\vspace{2cm}\textbf{[#1]} #2\vspace{2cm}}}}
 
 % A proportion with its denominator, e.g. \kn{195}{200}; every rate in the text is written this way.
 \newcommand{\kn}[2]{#1/#2}

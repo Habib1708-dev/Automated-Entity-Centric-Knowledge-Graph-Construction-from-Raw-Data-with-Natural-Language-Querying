@@ -1,36 +1,277 @@
 % Background and Related Work: about 12 pages of the main body.
-% Skeleton only: headings and the sources each section draws on. Prose is written in its approved stage.
+% Every citation is an entry of refs.bib verified on 2026-10-16 (refs_check.md). Statements about a cited work
+% stay within what its abstract or official page says. Written in Stage 4.
 \chapter{Background and Related Work}\label{ch02}
 
-\section{Knowledge Graphs}\label{sec:ch02-knowledge-graphs}
-% Sources: RDF vs labelled property graph; schemas, ontologies
+This chapter introduces the concepts the thesis builds on and the work it relates to. It follows the path of
+the system: how knowledge graphs are modelled (\cref{sec:ch02-knowledge-graphs}), how knowledge is extracted
+from tables and text (\cref{sec:ch02-knowledge-extraction-from-tables-a}), how the things they mention are
+identified and linked (\cref{sec:ch02-entity-resolution-and-linking}), and how provenance is kept
+(\cref{sec:ch02-provenance-and-traceability}); then how a graph and its texts are searched
+(\cref{sec:ch02-information-retrieval,sec:ch02-retrieval-augmented-generation-and}), how language models act
+through tools (\cref{sec:ch02-llm-agents-and-tool-use}) and query structured data
+(\cref{sec:ch02-text-to-sql-and-question-answering-o}), and how such systems are evaluated
+(\cref{sec:ch02-evaluation-with-llm-judges}). It closes by positioning this work against the closest systems
+(\cref{sec:ch02-positioning-of-this-work}).
 
-\section{Knowledge Extraction from Tables and Text}\label{sec:ch02-knowledge-extraction-from-tabl}
-% Sources: schema matching; OpenIE; LLM extraction
+\section{Knowledge Graphs}\label{sec:ch02-knowledge-graphs}
+
+A knowledge graph represents knowledge as a graph whose nodes stand for entities and whose edges stand for
+relations between them~\cite{hogan2021knowledge}. Hogan et al.\ survey the area broadly: the data models and
+query languages of graphs, schema, identity and context, deductive and inductive techniques, and the methods
+used to create, enrich, assess, refine and publish knowledge graphs~\cite{hogan2021knowledge}. Ji et al.\
+organise research on knowledge graphs into representation learning, knowledge acquisition and completion,
+temporal graphs, and knowledge-aware applications~\cite{ji2022survey}. Large public graphs illustrate the
+scale the field has reached: DBpedia extracts structured information from Wikipedia and publishes it as linked
+data~\cite{auer2007dbpedia,lehmann2015dbpedia}, and Wikidata is a collaboratively edited knowledge base that
+serves Wikipedia and other users~\cite{vrandecic2014wikidata}.
+
+\paragraph{Data models.} Two families of graph data models dominate. In the RDF model, every fact is a
+subject--predicate--object triple, and properties of a relation require additional constructs. In the
+\emph{labelled property graph} model, used by graph databases such as Neo4j, nodes carry one or more labels,
+edges carry a type, and both carry key--value properties. Graph database models have a long history of
+data structures, query languages and integrity constraints~\cite{angles2008survey}. Schema support in property
+graph systems remains limited; PG-Schema proposes a formalism for property graph schemas with type
+definitions, inheritance and key constraints~\cite{angles2023pgschema}. This thesis uses the property graph
+model, because provenance and identity decisions are naturally properties of edges: an edge from a mention
+to the record it refers to can carry the reason, the score and the quote behind the decision.
+
+\paragraph{Knowledge graphs and language models.} Pan et al.\ describe three ways of combining large language
+models (LLMs) with knowledge graphs: knowledge graphs that enhance LLMs, LLMs that augment knowledge graphs
+(including their construction), and systems in which both work together~\cite{pan2024unifying}. They argue
+that graphs supply explicit and interpretable knowledge that LLMs lack, while graphs are hard to build and keep
+current --- the motivation for using LLMs to build them. This thesis belongs to both of the latter groups: an
+LLM helps to build the graph, and an LLM agent uses the graph to answer questions.
+
+\section{Knowledge Extraction from Tables and Text}\label{sec:ch02-knowledge-extraction-from-tables-a}
+
+\paragraph{From tables.} Turning tables into a graph requires deciding which columns identify an entity,
+which rows become nodes and which become relations, and how the columns of different tables correspond. The
+last of these is the schema-matching problem, surveyed by Rahm and Bernstein, who classify matchers by whether
+they use the schema or the instances, single elements or structures, and names or constraints~\cite{rahm2001survey}.
+In this thesis these decisions are proposed by an LLM as a declarative plan and validated by code, following
+the pattern of the course that inspired the project, in which agents propose schemas for structured and
+unstructured data and then build and connect both graphs~\cite{kollegger2025agentic}.
+
+\paragraph{From text.} Open Information Extraction introduced the extraction of relational tuples for an
+unbounded set of relations in one pass over a corpus, without hand-written rules or labelled examples for each
+relation~\cite{banko2007open}. Generative LLMs have since become a general tool for information extraction;
+Xu et al.\ survey this work by subtask (entity, relation and event extraction) and by technique~\cite{xu2024large}.
+Zhu et al.\ evaluate LLMs on knowledge-graph construction and reasoning tasks and find GPT-4 better suited as
+an inference assistant than as a few-shot information extractor~\cite{zhu2024llms}. Extract--Define--Canonicalize
+(EDC) separates open extraction, the definition of a schema and the canonicalisation of the extracted
+relations, and can build its own schema when none is given~\cite{zhang2024extract}. The present work shares
+EDC's view that the schema need not be fixed in advance, but it differs in two respects: the schema proposed
+for the text is validated by code and then fixed for the extraction, and every extracted item must carry a
+quote that code finds verbatim in its source.
+
+\paragraph{Frameworks.} Several open-source frameworks build graphs from documents with LLMs. The Neo4j LLM
+Knowledge Graph Builder turns unstructured content into a graph of documents, chunks and extracted entities,
+and supports vector, graph and text-to-Cypher querying; its documentation notes that it is less suited to
+tabular data such as CSV files~\cite{neo4j2026llmgraphbuilder}. The \texttt{neo4j-graphrag} Python package
+offers a knowledge-graph builder pipeline and retrievers over Neo4j vector indexes~\cite{neo4j2026graphrag}.
+LlamaIndex's property graph index extracts a labelled property graph from text chunks with pluggable extractors,
+from free triples to a strict schema, and offers retrievers that include text-to-Cypher~\cite{llamaindex2026propertygraph}.
+These frameworks are built around text; the combination this thesis addresses --- records from several tables
+and documents that talk about those records, built into one graph --- is outside their main use case.
 
 \section{Entity Resolution and Linking}\label{sec:ch02-entity-resolution-and-linking}
-% Sources: blocking, matching, clustering; text-to-record linking
+
+\paragraph{Entity resolution} --- also called record linkage, data matching or duplicate detection --- identifies
+records that refer to the same real-world entity, within one source or across several~\cite{christen2012data}.
+Its probabilistic foundation is the model of Fellegi and Sunter, in which a vector of agreements between two
+records leads to one of three decisions: link, possible link, or non-link, with the error rates of both kinds
+held at chosen levels~\cite{fellegi1969theory}. The middle decision, a possible link sent for review, has a
+direct counterpart in this work: pairs that rules cannot decide are sent to an LLM, whose decision code then
+verifies. Since comparing every pair is quadratic, practical systems first restrict the candidates by
+\emph{blocking}, comparing only pairs likely to match, or by \emph{filtering} on a similarity
+threshold~\cite{papadakis2020blocking}; this work blocks by mutual nearest neighbours in an embedding space.
+
+\paragraph{Entity linking} maps mentions in text to the entities of a knowledge base. Shen et al.\ identify its
+two core difficulties as name variation (one entity under several names) and ambiguity (one name for several
+entities)~\cite{shen2015entity}. Both appear in this thesis's data: one person written as ``Jonathan'', ``Jon''
+and ``J.~Pike''; two people with the same name in different departments. Unlike classical entity linking, the
+``knowledge base'' here is built in the same run from the dataset's own tables, and many mentions refer to
+things no table holds, which must be kept as entities of their own rather than forced onto the nearest record.
+
+\paragraph{Merging versus linking.} A common design merges duplicates into one node. An alternative keeps each
+source item and records identity as a link between them. The second is reversible and keeps the evidence for
+each decision; it is the design this thesis adopts and evaluates (\cref{ch04}).
 
 \section{Provenance and Traceability}\label{sec:ch02-provenance-and-traceability}
-% Sources: W3C PROV; evidence spans
 
-\section{Knowledge Graph Construction Frameworks}\label{sec:ch02-knowledge-graph-construction-f}
-% Sources: Neo4j GraphRAG tooling; LlamaIndex property graphs
+Provenance records how a piece of data came to be. The W3C PROV data model describes it in terms of entities,
+the activities that generate and use them, and the agents responsible, with relations such as
+\emph{wasGeneratedBy}, \emph{used}, \emph{wasDerivedFrom} and \emph{wasAttributedTo}~\cite{moreau2013provdm}.
+For a graph built by a language model, provenance answers a practical question: can a reader check, for any
+node or edge, which source text or record supports it? Lewis et al.\ already named provenance --- the
+difficulty of tracing what a purely parametric model knows to a source --- as a motivation for
+retrieval-augmented generation~\cite{lewis2020retrieval}. This thesis applies the idea at two levels: every
+item the builder derives from text carries a verbatim quote from its chunk, which code checks; and every answer
+of the query engine cites the records and passages its tools returned, which code checks as well. The thesis
+does not implement the PROV vocabulary itself; it records provenance as properties and edges of the property
+graph and of the answer.
 
 \section{Information Retrieval}\label{sec:ch02-information-retrieval}
-% Sources: BM25; dense; hybrid; RRF; cross-encoder and LLM reranking
 
-\section{Retrieval-Augmented Generation and GraphRAG}\label{sec:ch02-retrieval-augmented-generation}
-% Sources: RAG; Microsoft GraphRAG; HippoRAG; lexical + domain graph
+\paragraph{Lexical retrieval.} BM25 ranks documents by a function derived from the Probabilistic Relevance
+Framework, combining term frequency, inverse document frequency and document length~\cite{robertson2009probabilistic}.
+It is fast, needs no training, and matches exact words and identifiers well, but it does not match
+paraphrases. Lucene, the engine behind Neo4j's full-text indexes used in this work, implements BM25 ranking.
+
+\paragraph{Dense retrieval} encodes questions and passages as vectors and ranks by similarity. Karpukhin et
+al.\ showed that a dual encoder trained on questions and passages outperforms a strong BM25 system in top-20
+retrieval accuracy for open-domain question answering~\cite{karpukhin2020dense}. M3-Embedding (BGE-M3) is an
+example of a recent multilingual embedding model supporting dense, multi-vector and sparse retrieval in one
+model~\cite{chen2024m3}. Dense retrieval matches meaning but can miss rare names and exact numbers --- the
+mirror image of BM25's weakness.
+
+\paragraph{Hybrid retrieval and fusion.} Because the two families fail differently, they are often combined.
+Reciprocal Rank Fusion (RRF) scores each item by the sum, over the input rankings, of $1/(k + r)$, where $r$ is
+the item's rank in that ranking and $k$ a constant~\cite{cormack2009reciprocal}:
+\[
+\mathrm{RRF}(d) = \sum_{i} \frac{1}{k + r_i(d)}.
+\]
+Cormack et al.\ found that RRF consistently outperformed the individual systems and Condorcet fusion on TREC
+runs~\cite{cormack2009reciprocal}; it needs no score normalisation and no training. Bruch et al.\ give the main
+counterpoint: in their analysis RRF is sensitive to its parameters, and a convex combination of normalised
+scores performs better and can be tuned with few examples~\cite{bruch2023analysis}. This thesis uses RRF and
+reports the setting of $k$ chosen for each use, together with the experiments that chose it (\cref{ch07}).
+
+\paragraph{Reranking.} A first-stage retriever is often followed by a more expensive reranker applied to its
+top candidates. A cross-encoder reads the question and a passage together; Nogueira and Cho's BERT re-ranker
+set the state of the art on MS~MARCO passage ranking in this way~\cite{nogueira2019passage}. BGE-reranker-v2-m3
+is a multilingual cross-encoder of this kind~\cite{baai2024bgererankerv2m3}. Generative LLMs can also rerank:
+Sun et al.\ showed that suitably instructed LLMs used as zero-shot rerankers match or exceed supervised methods
+on standard benchmarks~\cite{sun2023chatgpt}. \Cref{ch07} compares an LLM reranker with a cross-encoder on this
+thesis's data.
+
+\section{Retrieval-Augmented Generation and GraphRAG}\label{sec:ch02-retrieval-augmented-generation-and}
+
+\paragraph{RAG.} Retrieval-augmented generation pairs a generator with a retriever over an external
+index~\cite{lewis2020retrieval}: the model answers from passages retrieved for the question rather than from its
+parameters alone. Gao et al.\ distinguish naive, advanced and modular forms of RAG~\cite{gao2023retrieval}.
+Two known limits of plain RAG matter here. First, questions that collect or count every match across a corpus
+cannot be answered from a few retrieved passages. Second, even relevant passages may be under-used: Liu et al.\
+show that LLMs use information at the beginning or end of a long context better than information in the
+middle~\cite{liu2024lost}.
+
+\paragraph{GraphRAG.} Graph-based RAG uses a graph to index, retrieve or organise the material given to the
+generator. Peng et al.\ describe its workflow in three stages: graph-based indexing, graph-guided retrieval and
+graph-enhanced generation~\cite{peng2026graph}. Two systems are closest to this work. Microsoft's GraphRAG has
+an LLM build an entity graph from the documents and summarise communities of related entities in advance; it
+targets ``global'' questions about a whole corpus, which it answers by combining partial answers from the
+community summaries~\cite{edge2024local}. HippoRAG has an LLM extract a graph from passages and retrieves
+passages for multi-hop questions with Personalized PageRank over that graph~\cite{gutierrez2024hipporag}.
+In both systems the graph is derived from text only. A further, practical pattern combines a \emph{lexical}
+graph of documents and chunks with a \emph{domain} graph of entities, as in Neo4j's GraphRAG
+tooling~\cite{neo4j2026graphrag,neo4j2026llmgraphbuilder}.
+
+The value of a graph over structured data has also been measured directly: on an enterprise insurance
+database, Sequeda et al.\ report that zero-shot GPT-4 answered 16\,\% of questions correctly when querying
+the SQL schema directly but 54\,\% when querying a knowledge-graph representation of the same
+data~\cite{sequeda2024benchmark}. This thesis studies a different question: not whether a graph helps an LLM
+to write queries, but what the graph should contain when tables and text must be answered together. Its
+central finding (\cref{ch04,ch05}) is that, for this purpose, the graph is more useful as an index of
+identity and evidence than as a store of every extracted fact.
 
 \section{LLM Agents and Tool Use}\label{sec:ch02-llm-agents-and-tool-use}
-% Sources: ReAct; function calling
 
-\section{Text-to-SQL and Question Answering over Tables and Text}\label{sec:ch02-text-to-sql-and-question-answe}
-% Sources: Spider; BIRD; HybridQA; TAT-QA
+An LLM agent is a model that decides, step by step, which actions to take towards a goal. Wang et al.\ survey
+such agents and propose a common framework for their construction~\cite{wang2024survey}. Chain-of-thought
+prompting showed that asking a model to write intermediate reasoning steps improves multi-step
+reasoning~\cite{wei2022chain}. ReAct interleaves such reasoning with actions that query external sources, and
+reduced hallucination and error propagation compared with reasoning alone~\cite{yao2023react}. Toolformer
+trains a model to decide which tool to call, when, with which arguments, and how to use the
+result~\cite{schick2023toolformer}. Modern LLM APIs expose the same capability as \emph{function calling}, and
+frameworks such as Google's Agent Development Kit package it for building agents~\cite{google2026adk}.
+
+\paragraph{Agents over graphs and structured data.} Think-on-Graph treats the LLM as an agent that explores a
+knowledge graph by iterative beam search over entities and relations~\cite{sun2024thinkongraph}. Reasoning on
+Graphs first plans relation paths grounded in the graph, then retrieves and reasons over the matching
+paths~\cite{luo2024reasoning}. StructGPT gives the model specialised interfaces for reading knowledge graphs,
+tables and databases, and alternates reading with reasoning~\cite{jiang2023structgpt}. The query engine of this
+thesis belongs to this family: its agent calls typed, read-only tools over the graph, the passages and the
+tables. It differs in that its graph was built automatically from the same mixed data, and in that code checks
+every tool call, every citation and the form of every answer before an answer is returned.
+
+\section{Text-to-SQL and Question Answering over Tables and Text}\label{sec:ch02-text-to-sql-and-question-answering-o}
+
+\paragraph{Text-to-SQL and text-to-Cypher.} Translating questions into database queries is a long-standing
+task. Spider is a cross-domain text-to-SQL benchmark with disjoint training and test databases, which requires
+generalising to unseen schemas~\cite{yu2018spider}. BIRD stresses database values, dirty contents and external
+knowledge, and reported a large gap between ChatGPT and humans in execution accuracy~\cite{li2023bird}. For graph
+databases, the Text2Cypher dataset collects natural-language questions with Cypher queries and shows that
+fine-tuned models improve on baselines~\cite{ozsoy2025text2cypher}. Free query generation is powerful but must be
+constrained in a system that answers arbitrary users: a generated query may be wrong, expensive, or attempt to
+change the data. This thesis's early query stage used text-to-Cypher with checks; its final engine instead
+gives the agent a typed query language that code compiles to Cypher or SQL, and evaluates free SQL under
+validation as an alternative (\cref{ch06,ch07}).
+
+\paragraph{Tables and text together.} Benchmarks for questions that need both tables and text show the
+difficulty of the combination. In HybridQA, each question needs a Wikipedia table and linked passages; models
+using only the table or only the text scored far below a hybrid model, which in turn scored far below
+humans~\cite{chen2020hybridqa}. TAT-QA, built from financial reports, adds numerical reasoning over tables and
+text~\cite{zhu2021tatqa}. These benchmarks provide the table and its linked passages with each question; the
+setting of this thesis is harder in one respect --- the links between text and records are not given, and the
+builder must find them --- and easier in another, since its corpora are small.
 
 \section{Evaluation with LLM Judges}\label{sec:ch02-evaluation-with-llm-judges}
-% Sources: LLM-as-a-judge; RAGAS
+
+Evaluating free-text answers by string match undercounts correct paraphrases, while human judging is
+expensive. Strong LLMs are therefore used as judges. Zheng et al.\ found that GPT-4's judgements agreed with
+human preferences more than 80\,\% of the time, about as often as humans agree with each other, but also
+identified position, verbosity and self-enhancement biases~\cite{zheng2023judging}. Self-enhancement --- a
+model's tendency to favour its own outputs --- is why this thesis never lets the model that built a graph or
+answered a question judge it. RAGAS evaluates RAG pipelines without reference answers, along dimensions such as
+the relevance of the retrieved context and the faithfulness of the answer to it~\cite{es2024ragas}. This thesis
+uses reference answers instead, and reports a deterministic exact-match score next to every judged score
+(\cref{sec:ch03-scoring-exact-match-and-judgement}).
+
+For comparing two systems on the same questions, Dietterich's analysis of statistical tests for comparing
+learning algorithms recommends McNemar's test, which has a low type~I error, over tests that treat the two
+systems' results as independent~\cite{dietterich1998approximate,mcnemar1947note}. Rates are reported with
+Wilson score intervals~\cite{wilson1927probable}; both are defined in \cref{sec:ch03-statistical-analysis}.
 
 \section{Positioning of This Work}\label{sec:ch02-positioning-of-this-work}
-% Sources: Table T2
+
+\Cref{tab:positioning} compares this work with the closest systems along the dimensions that define it. The
+comparison describes what each system is designed for, as stated by its authors; it is not a measured
+comparison, since the systems target different tasks and data.
+
+\begin{table}[htbp]
+\centering
+\caption{This work and the closest related systems, by design.}
+\label{tab:positioning}
+\scriptsize
+\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright}p{2.1cm}>{\raggedright}X>{\raggedright}X>{\raggedright\arraybackslash}X@{}}
+\toprule
+System & Input and graph & Role of the graph & Querying \\
+\midrule
+GraphRAG~\cite{edge2024local} & text; LLM-extracted entity graph with community summaries & summarise a whole corpus & combine partial answers from community summaries \\
+HippoRAG~\cite{gutierrez2024hipporag} & text; LLM-extracted graph over passages & find passages for multi-hop questions & Personalized PageRank, then read \\
+LLM Graph Builder~\cite{neo4j2026llmgraphbuilder} & mainly unstructured content; chunk graph plus entity graph & store and navigate extracted entities & vector, graph and text-to-Cypher \\
+LlamaIndex property graph~\cite{llamaindex2026propertygraph} & text chunks; extracted property graph & store extracted paths & synonym, vector, text-to-Cypher retrievers \\
+EDC~\cite{zhang2024extract} & text; extracted, then canonicalised triples & the output itself & --- \\
+Think-on-Graph~\cite{sun2024thinkongraph} & an existing knowledge graph & reasoning paths & LLM beam search over the graph \\
+StructGPT~\cite{jiang2023structgpt} & existing graphs, tables, databases & one of several sources & read through interfaces, then reason \\
+\midrule
+\textbf{This work} & \textbf{tables and text together; records from an LLM plan checked by code; mentions linked to records by reversible, evidenced edges} & \textbf{an index of identity and evidence, with a stated navigation contract} & \textbf{agent with typed, read-only graph, text and table tools; code-checked citations and outcomes} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Three points distinguish this work. First, it builds one graph from \emph{both} tables and text in a single
+automated pipeline, and treats the links between them --- which text mentions which record --- as the part that
+must be exact. Second, it measures what the graph should contain: it builds and evaluates a sequence of
+representations, from a graph of extracted facts to an \emph{anchor graph} that indexes identity and evidence,
+and evaluates the graph as an index with criteria fixed in advance rather than only through the answers of a
+question-answering system. Third, its query engine separates what a language model decides from what code
+verifies, at every step from the query to the citation.
+
+The techniques it uses are established: BM25, dense retrieval, RRF, LLM and cross-encoder reranking, the ReAct
+pattern of interleaved reasoning and tool calls, blocking for entity resolution, and the statistical tests
+above. The contribution lies in how they are combined and constrained for mixed tables and text, in the
+evidence gathered on which representation serves this purpose, and in the evaluation method itself
+(\cref{sec:ch01-contributions}).
