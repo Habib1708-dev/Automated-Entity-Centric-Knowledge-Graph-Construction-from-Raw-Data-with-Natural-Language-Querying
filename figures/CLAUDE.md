@@ -47,8 +47,13 @@ figures/
   never commit a figure the build does not make.
 - **Data source:** only committed records (`tests/gold/...`). Never read `out/`, MLflow or a database from
   `figures/scripts/`. Never chart a `smoke` or `dev` run (root `CLAUDE.md`, evaluation rules).
-- **Formats:** SVG (vector, for the thesis) and PNG at 200 dpi (preview). `style.save()` writes both,
-  without dates and with LF line ends, so a rebuild of unchanged data is byte-identical.
+- **Formats:** SVG (vector source), PDF (vector, what the LaTeX thesis includes; since R232) and PNG at 200 dpi
+  (preview). `style.save()` writes all three, without dates and with LF line ends, so a rebuild of unchanged
+  data is byte-identical. Captions link the SVG and PNG; the PDF is their print copy.
+- **Print size:** the thesis's text column is 6.1 in wide, and wide figures go on a landscape page (about
+  9.7 in). Text should print at 8 pt or more: a figure drawn W inches wide needs fonts of at least
+  8 x W / 9.7 pt. The system diagrams of R232 are drawn this way; most earlier figures were drawn for the
+  screen and print at 6-7 pt (a recorded gap, REFACTOR_PLAN R232).
 - **Changes:** a change to a figure is a change to its script, followed by a rebuild. A changed number means
   a changed record, which is a roadmap step's job, not a figure's.
 

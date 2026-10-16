@@ -202,11 +202,15 @@ def test_the_r231_data_functions_return_the_committed_counts():
 def test_every_figure_is_built_captioned_and_indexed(tmp_path):
     built = build(results=tmp_path / "results", diagrams=tmp_path / "diagrams")
     names = sorted(p.name for p in built)
-    assert all(p.stat().st_size > 0 for p in built) and len(names) == 56  # twenty-eight figures, SVG and PNG
-    committed = sorted(p for p in FIGURES.rglob("*") if p.suffix in (".svg", ".png"))
+    # thirty-two figures, each as SVG, PNG and PDF (the PDF since R232, for the LaTeX thesis)
+    assert all(p.stat().st_size > 0 for p in built) and len(names) == 96
+    committed = sorted(p for p in FIGURES.rglob("*") if p.suffix in (".svg", ".png", ".pdf"))
     assert sorted(p.name for p in committed) == names  # nothing committed that the build does not make
     index = (FIGURES / "README.md").read_text(encoding="utf-8")
     for figure in committed:
+        if figure.suffix == ".pdf":  # the print copy of a captioned SVG, which carries the caption link
+            assert figure.with_suffix(".svg").exists()
+            continue
         caption = (figure.parent / "README.md").read_text(encoding="utf-8")
         assert f"]({figure.name})" in caption or f"[.{figure.suffix[1:]}]({figure.name})" in caption
         if figure.suffix == ".png":

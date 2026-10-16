@@ -8,6 +8,8 @@ Must not: read `out/` or MLflow, or call a model or a database.
 from pathlib import Path
 
 from . import (
+    r0_r231_diagrams,
+    r63_r230_diagrams,
     r126_r128_diagrams,
     r128_charts,
     r128_data,
@@ -65,6 +67,8 @@ def build(results: Path | None = None, diagrams: Path | None = None) -> list[Pat
     )
     files += r229_charts.draw_all(r229_data.load_all(), place(r229_charts.OUT, results, "results"))
     files += r231_charts.draw_all(r231_data.measurements(), place(r231_charts.OUT, results, "results"))
+    files += r0_r231_diagrams.draw_all(place(r0_r231_diagrams.OUT, diagrams, "diagrams"))
+    files += r63_r230_diagrams.draw_all(place(r63_r230_diagrams.OUT, diagrams, "diagrams"))
     return files
 
 

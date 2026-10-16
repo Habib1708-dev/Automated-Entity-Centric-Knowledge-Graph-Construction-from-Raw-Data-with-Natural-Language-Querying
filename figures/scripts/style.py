@@ -137,25 +137,35 @@ def apply_style() -> None:
             "savefig.facecolor": SURFACE,
             "svg.fonttype": "path",  # text as outlines: the SVG looks the same on a machine without the font
             "svg.hashsalt": "kgbuilder-figures",  # fixed ids: a rebuild of unchanged data gives the same SVG
+            "pdf.fonttype": 42,  # TrueType embedded: the PDF's text stays sharp and selectable in the thesis
         }
     )
 
 
-def title(fig: plt.Figure, text: str, subtitle: str) -> None:
-    """The figure's title (what it shows) and a subtitle (its data and n), left-aligned above the panels."""
-    fig.text(0.01, 0.995, text, ha="left", va="top", fontsize=12, fontweight="semibold", color=INK)
-    fig.text(0.01, 0.955, subtitle, ha="left", va="top", fontsize=8.5, color=INK_SECONDARY)
+def title(
+    fig: plt.Figure, text: str, subtitle: str, size: float = 12, subsize: float = 8.5, gap: float = 0.04
+) -> None:
+    """The figure's title (what it shows) and a subtitle (its data and n), left-aligned above the panels.
+    `size`, `subsize` and `gap` (the subtitle's drop, as a share of the figure height) are larger for the
+    thesis's system diagrams (R232), which print on a landscape page and must stay legible there."""
+    fig.text(0.01, 0.995, text, ha="left", va="top", fontsize=size, fontweight="semibold", color=INK)
+    fig.text(0.01, 0.995 - gap, subtitle, ha="left", va="top", fontsize=subsize, color=INK_SECONDARY)
 
 
 def save(fig: plt.Figure, folder: Path, name: str) -> list[Path]:
-    """Write `name`.svg (vector, for the thesis) and `name`.png (200 dpi preview) into `folder`; close it."""
+    """Write `name`.svg (vector source), `name`.pdf (vector, what the LaTeX thesis includes; R232) and
+    `name`.png (200 dpi preview) into `folder`; close it."""
     folder.mkdir(parents=True, exist_ok=True)
-    paths = [folder / f"{name}.svg", folder / f"{name}.png"]
+    paths = [folder / f"{name}.svg", folder / f"{name}.png", folder / f"{name}.pdf"]
     # no date or software stamp, and the SVG text written with "\n" (matplotlib would write the platform's
     # line ends): a rebuild of unchanged data gives the same files
     svg = io.StringIO()
     fig.savefig(svg, format="svg", bbox_inches="tight", metadata={"Date": None})
     paths[0].write_text(svg.getvalue(), encoding="utf-8", newline="\n")
     fig.savefig(paths[1], dpi=200, bbox_inches="tight", metadata={"Software": None})
+    # no creation date or producer, so the PDF too is the same file when nothing changed
+    fig.savefig(
+        paths[2], bbox_inches="tight", metadata={"CreationDate": None, "Producer": None, "Creator": None}
+    )
     plt.close(fig)
     return paths

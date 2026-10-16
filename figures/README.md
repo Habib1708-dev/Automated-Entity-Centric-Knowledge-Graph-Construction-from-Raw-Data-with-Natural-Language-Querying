@@ -60,6 +60,22 @@ Rebuild all of them with `uv run python -m figures.scripts.build`. The rules for
 
 ## Diagrams (how methods work)
 
+Every figure is saved as SVG (source), PDF (what the LaTeX thesis includes, R232) and PNG (preview).
+
+### System: [r0_r231](diagrams/system/r0_r231/README.md)
+
+| Diagram | Shows |
+|---|---|
+| [r231_diag1_system_architecture](diagrams/system/r0_r231/r231_diag1_system_architecture.png) | the whole system: sources, the builder's stages, the stores, the query engine, the user's entry |
+
+### Construction: [r63_r230](diagrams/construction/r63_r230/README.md)
+
+| Diagram | Shows |
+|---|---|
+| [r230_diag1_leak_and_witness_rule](diagrams/construction/r63_r230/r230_diag1_leak_and_witness_rule.png) | a fact on a shared node leaks (R63); in the anchor graph a shared node only finds chunks, which are read |
+| [r230_diag2_anchor_graph_layers](diagrams/construction/r63_r230/r230_diag2_anchor_graph_layers.png) | the anchor graph's layers, edges and walks W1-W5; the claim layer kept aside |
+| [r230_diag3_identity_resolution](diagrams/construction/r63_r230/r230_diag3_identity_resolution.png) | identity per class of thing: rules first, a model only for near misses, its quotes checked |
+
 ### Retrieval: [r126_r128](diagrams/retrieval/r126_r128/README.md)
 
 | Diagram | Shows |

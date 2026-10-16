@@ -12265,6 +12265,32 @@ Gate:
 
 **R231 done 2026-10-16.**
 
+### R232. Thesis figures: PDF output and the system and construction diagrams (done 2026-10-16; $0, no run; branch `thesis`)
+
+**Why:** the LaTeX thesis (`thesis/`, Stage 5 of the thesis plan) includes vector figures, and Chapters 3-4 need
+diagrams of the final system that no step had drawn.
+
+**What changed:**
+- `style.save()` also writes a PDF (TrueType fonts, no dates: byte-identical rebuilds, checked); `style.title()`
+  takes optional sizes (defaults unchanged); `boxes.py` gains `code_box`, `llm_box`, `store`, `frame` with fixed
+  meanings (square = code decides, orange rounded = a model proposes, cylinder = a store).
+- New `figures/scripts/r0_r231_diagrams.py` (the system architecture, thesis Figure 3.1) and
+  `r63_r230_diagrams.py` (the leak and the witness rule, the anchor graph's layers and walks, identity resolution;
+  thesis Figures 4.1-4.3), drawn from the code at R230/R231, with caption READMEs and index lines. They hold no
+  measured number. Fonts are sized to print at about 8 pt on a landscape page.
+- `tests/test_figures.py`: 32 figures x 3 files; a PDF must have its captioned SVG.
+- Every earlier SVG and PNG rebuilt byte-identical; 28 PDFs added.
+
+**Found along the way (open):** most earlier figures (charts and diagrams, 9-14 in wide, 8-9 pt) print at
+6-7 pt even on a landscape page; a print pass (fonts per the new rule in `figures/CLAUDE.md`) is the author's
+decision.
+
+**Gate:** `uv run pytest -m "not neo4j and not postgres"`: 1653 passed in the `thesis` worktree. The main
+checkout collects 1798 (R231 reported 1795 passed); the difference of 145 is all in `test_profiler_and_plan.py`,
+whose cases are generated from git-ignored data present only in the main checkout. `uv run ruff check .`: clean.
+
+**R232 done 2026-10-16.**
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
