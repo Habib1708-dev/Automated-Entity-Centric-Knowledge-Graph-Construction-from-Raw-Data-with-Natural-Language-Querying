@@ -78,12 +78,14 @@ and the model is used only for what is left.
 
 \Cref{fig:system-overview} shows the system as a whole. It has two subsystems that share three stores.
 
-\begin{figure}[htbp]
+\begin{sidewaysfigure}
 \centering
-\figplaceholder{F1}{End-to-end architecture: the builder's stages, the three stores (Neo4j graph with its vector and full-text indexes; DuckDB tables; MLflow), the query engine with its screen, agent and tools, and the web interface.}
-\caption{Overall architecture. Rounded boxes call a language model; square boxes are deterministic code; cylinders are stores.}
+\includegraphics[width=\linewidth]{diagrams/system/r0_r231/r231_diag1_system_architecture.pdf}
+\caption{Overall architecture of the final system. Orange rounded boxes are steps where a language model
+proposes; square boxes are deterministic code (blue: the query agent's tools); cylinders are stores. Stage names
+are the commands of the \texttt{kg} tool.}
 \label{fig:system-overview}
-\end{figure}
+\end{sidewaysfigure}
 
 \paragraph{The builder} (\cref{ch04}) reads a folder of mixed sources. A language model proposes a plan that
 maps each table to node labels, keys and relations; code validates the plan and imports the rows into a Neo4j

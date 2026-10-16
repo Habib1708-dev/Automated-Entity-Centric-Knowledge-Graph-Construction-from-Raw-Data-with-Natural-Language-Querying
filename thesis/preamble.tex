@@ -20,6 +20,9 @@
 
 \usepackage{amsmath,amssymb}
 \usepackage{graphicx}
+% Landscape figure pages: the figures are drawn wide (figures/), and on a portrait text width their labels would
+% print below 8 pt; rotated, they use the full text height.
+\usepackage{rotating}
 \usepackage{booktabs}
 \usepackage{tabularx}
 \usepackage{multirow}
@@ -29,6 +32,7 @@
 \usepackage{subcaption}
 \usepackage{enumitem}
 \usepackage{listings}
+\usepackage{algorithm}  % the floating "Algorithm n" environment for step lists
 
 \usepackage[style=ieee,backend=biber]{biblatex}
 \addbibresource{refs.bib}
@@ -41,7 +45,7 @@
 \usepackage[nameinlink,capitalise]{cleveref}
 
 % Figures are drawn by figures/scripts/ (repository root); the thesis only includes them.
-\graphicspath{{../figures/results/}{../figures/diagrams/}}
+\graphicspath{{../figures/}}
 
 % A framed box standing in for a figure that is drawn in a later stage, so the text compiles before it exists;
 % \figplaceholder{plan id}{what the figure will show}. None may remain in the submitted thesis (Stage 8 check).

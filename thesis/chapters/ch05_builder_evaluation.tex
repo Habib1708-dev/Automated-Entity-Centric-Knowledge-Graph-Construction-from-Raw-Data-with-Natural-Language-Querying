@@ -1,36 +1,417 @@
-% Knowledge Graph Constructor: Evaluation: about 14 pages of the main body.
-% Skeleton only: headings and the sources each section draws on. Prose is written in its approved stage.
+% Knowledge Graph Constructor: Evaluation (about 14 pages). Written in Stage 5.
+% Every number has a row in evidence_registry.csv; sources are tests/gold/r62..r228 and REFACTOR_PLAN.md.
+% Judged numbers: Claude Opus 5.5 (R66: Fable 5.1); rates are k/n with 95 % Wilson intervals where given.
 \chapter{Knowledge Graph Constructor: Evaluation}\label{ch05}
 
+This chapter evaluates the builder of \cref{ch04}. It answers two questions: whether the anchor graph is
+\emph{correct as an index} --- its identity, links and provenance --- on four datasets (RQ1), and what the
+measurements of the four representations say about storing facts against anchoring evidence (RQ2). The method is
+stated first (\cref{sec:ch05-method}); the results follow by criterion, then by representation.
+
 \section{Evaluation Questions and Method}\label{sec:ch05-method}
-% Sources: C0-C9, Table T4
 
-\section{Extraction Quality}\label{sec:ch05-extraction-quality}
-% Sources: R110, R111, R226; Figures F10, F11, F13
+\paragraph{The graph is judged as an index.} The anchor graph's goal (\cref{sec:ch04-evolution}) is to locate
+the things a need is about and lead from them to the evidence that concerns them. It is therefore not judged
+by the answers of a question-answering system, which would mix the graph's quality with that of the reader, but
+by ten criteria fixed in the design document before the first measurement (\cref{tab:criteria}). Navigation in
+the measurements uses only the fixed walks W1--W5 over an offline snapshot of each build; no model takes part.
+Where meaning must be judged --- whether a link is right, whether two merged names are one thing, whether a chunk
+concerns its start --- the judge of \cref{sec:ch03-scoring-exact-match-and-judgement} decides, and code computes
+the rates.
 
-\section{The Mention Index}\label{sec:ch05-the-mention-index}
-% Sources: R103, R109, R226; Figure F12
+\begin{table}[htbp]
+\centering
+\caption{The builder's audit criteria. Hard criteria are gates: a failure is a defect. Comparative criteria are
+reported and compared between designs.}
+\label{tab:criteria}
+\scriptsize
+\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\linewidth}{@{}l>{\raggedright}p{2.2cm}>{\raggedright}X>{\raggedright\arraybackslash}p{3.4cm}@{}}
+\toprule
+& Criterion & Question & Rule \\
+\midrule
+C0 & Fidelity & Is the measured snapshot really the build? & \textbf{hard}: every logged count equal \\
+C1 & Provenance & Does every item made from text have a chunk and quotation that show it? & \textbf{hard}: 1.0 \\
+C2 & Findability & Does a target's name lead to its node (W1)? & comparative: hit@1, hit@5 \\
+C3 & Identity & Are distinct things kept apart and one thing kept as one node? & \textbf{hard}: no wrong merge of records or individuals; concepts and splits comparative \\
+C4 & Record linking & Does a text mention link to the right record? & \textbf{hard}: judged precision $\geq 0.95$, no confirmed link into another thing's scope \\
+C5 & Evidence reach & From the right start, are the gold evidence chunks reached within $k$ chunks? & comparative: against vector retrieval at the same $k$ \\
+C6 & Purity & Of the chunks reached from a record or individual, how many concern it? & \textbf{hard}: $\geq 0.95$; concept starts comparative \\
+C7 & Selectivity & How much of the corpus does one start lead to? & reported: median and 90th percentile; a start reaching $>20\,\%$ is a hub \\
+C8 & Connectivity & Are things the data connects reachable, with every hop witnessed? & \textbf{hard}: no hop without a record relation or a chunk \\
+C9 & Generality, cost & Same code and settings everywhere; at what cost and size? & \textbf{hard}: no per-dataset code or setting \\
+\bottomrule
+\end{tabularx}
+\end{table}
 
-\section{Identity and Record Linking}\label{sec:ch05-identity-and-record-linking}
-% Sources: R75, R93 to R108, R228; Figures F14, F15
+\paragraph{Builds.} The final graphs are those the query engine is evaluated on: furniture and generality as
+rebuilt in step R108, NHTSA in R109 (a fix to derived claims that left every identity and link item unchanged),
+and NTSB as built once, without any tuning, in R155b. The three earlier datasets were built with two extraction
+passes, NTSB with one (\cref{sec:ch04-extraction}).
 
-\section{Provenance, Purity, Connectivity and Findability}\label{sec:ch05-provenance-purity-connectivity}
-% Sources: C1, C6, C8, C2, C7
+\paragraph{Gold.} The audit uses four reference sets, all written by Claude before the measurement:
+\begin{itemize}[nosep]
+\item for C2, C5 and C8, per question of the development sets, the names it starts from, the records it should reach
+and its evidence chunks;
+\item for C3, pairs of names that do or do not denote one thing;
+\item for extraction, the claims a careful reader lists in 40 randomly chosen sentences per dataset;
+\item for mentions, the mentions a reader marks in the same sentences.
+\end{itemize}
+The C3, C4 and C6 items are judged one by one: every merge, every mention-to-record link, and every pair of a start
+and a chunk it reaches. The targets of C2, C5 and C8 were written after earlier builds had been inspected, so they
+are not blind; this is stated wherever they are used.
 
-\section{Evidence Reach against Vector Retrieval}\label{sec:ch05-evidence-reach-against-vector-}
-% Sources: C5
+\section{Extraction Quality}\label{sec:ch05-extraction}
 
-\section{Comparison of Graph Representations}\label{sec:ch05-comparison-of-graph-representa}
-% Sources: R62, R63, R68, R73; Table T5
+The claims are no longer the graph's backbone, but they are still extracted and stored, and their quality is the
+evidence for the design decision. Two measures are reported: \emph{precision} --- of the claims stored, how many
+are right --- and \emph{recall} --- of the claims a reader finds in random sentences, how many are stored.
+
+\paragraph{Precision is high.} \Cref{fig:claim-precision} shows that the content of a stored claim (its subject,
+relation and object) is right in 96--99\,\% of cases on all four datasets: 289/293 on NTSB, 518/530 on furniture,
+520/530 on NHTSA and 208/216 on generality. Strict precision, which also requires every assertion field to be
+right (truth, modality, condition, time), is lower: 285/293, 498/530, 480/530 and 202/216. On the NHTSA data, 38
+of the 59 recorded field faults are in the modality field --- a recall notice that a part \emph{may} fail stored as
+a failure that happened.
+
+\begin{sidewaysfigure}
+\centering
+\includegraphics[width=\linewidth]{results/construction/r229_build_accuracy/r229_fig1_claim_precision_by_dataset.pdf}
+\caption{Precision of the stored extracted claims, judged against their chunks: strict (every field) and content
+(the triple), with 95\,\% Wilson intervals. $n$ is every extracted claim of the build.}
+\label{fig:claim-precision}
+\end{sidewaysfigure}
+
+\paragraph{Recall is low, mostly by design of the schema.} \Cref{fig:claim-recall} shows the other side. Of the
+claims a reader lists in 40 random sentences, the builds store 42/72 on furniture (58\,\%), 19/67 on NHTSA, 12/66 on
+generality and 13/74 on NTSB (18--28\,\%). The judge also recorded why each claim was missed. On NHTSA and
+generality most misses had \emph{no fact type} that could hold them (32 of 48 and 39 of 54 misses): the schema the
+model proposed for the goal did not cover statements the text makes about repairs, schedules or people. On NTSB
+the schema could hold most of what was missed, and the model simply did not extract it (45 of 61 misses) --- the
+build that used one extraction pass instead of two.
+
+\begin{sidewaysfigure}
+\centering
+\includegraphics[width=\linewidth]{results/construction/r229_build_accuracy/r229_fig2_claim_recall_by_dataset.pdf}
+\caption{A reader's claims in 40 random sentences per dataset: stored, missed although a fact type could hold
+them, and missed for lack of a fact type.}
+\label{fig:claim-recall}
+\end{sidewaysfigure}
+
+\paragraph{What this means for the design.} A graph whose stored facts are almost always right but cover only a
+fifth to a half of what the text states cannot answer a question that counts or collects over the text: the
+answer would be precise and incomplete, with nothing to signal the incompleteness. This is the quantitative core
+of the decision in \cref{sec:ch04-evolution}, measured again on the final builds: a builder that must work on
+any domain with a proposed schema should not make the stored facts the basis of exact answers.
+
+\section{The Mention Index}\label{sec:ch05-mentions}
+
+The mention index replaces the claims as the way into the text: every thing a question might start from should be
+a mention. \Cref{tab:mentions} gives its recall against a reader's mentions in the same 40 sentences, and the
+precision of a random sample of the mentions the pass found.
+
+\begin{table}[htbp]
+\centering
+\caption{The mention index. Recall: by exact name (code) and with near names the judge maps (judge). Precision: a
+seeded sample of the mentions the pass stored, judged.}
+\label{tab:mentions}
+\small
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+& NTSB & Furniture & NHTSA & Generality \\
+\midrule
+Recall, exact name & \kn{133}{184} & \kn{53}{75} & \kn{100}{125} & \kn{88}{109} \\
+Recall, judged & \kn{153}{184} & \kn{68}{75} & \kn{116}{125} & \kn{103}{109} \\
+Pass precision, judged & \kn{51}{57} & \kn{54}{59} & \kn{52}{59} & \kn{49}{60} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Judged recall is 83--95\,\%, against 36--52\,\% for the names in the claims of the earlier build: the pass finds
+the starting points the claims missed. Its precision, between 82 and 92\,\%, misses the bound of 0.90 set when the
+pass was introduced on generality (49/60, interval 0.70--0.89) and, on a second sample, on NHTSA (52/59, interval
+0.78--0.94; the first sample of the same build gave 55/59). The extra mentions are mostly generic words and
+fragments (``night shift'', the identifier of a web page); since a mention only leads to chunks, an extra mention
+costs reading, not a wrong fact.
+
+\section{Identity and Record Linking}\label{sec:ch05-identity}
+
+\paragraph{Final results.} On all four datasets every hard identity criterion passes (\cref{fig:audit}):
+\begin{itemize}[nosep]
+\item C4, links from mentions to records: 36/36 on NTSB, 63/63 on furniture, 77/77 on NHTSA and 48/48 on
+generality, each above the 0.95 bound (lower Wilson bounds 0.90--0.95);
+\item C3: no wrong merge of two records or two individuals on any dataset;
+\item concept merges judged one thing: 79/80, 123/124, 66/68 and 52/53. Together with the individual merges,
+this gives the C3 rates of the figure (80/81, 150/151, 93/95, 85/86). The NTSB rate leaves out two merges the
+judge found ambiguous; counting them as wrong gives 80/83.
+\end{itemize}
+
+\begin{sidewaysfigure}
+\centering
+\includegraphics[width=\linewidth]{results/construction/r229_build_accuracy/r229_fig5_audit_by_dataset.pdf}
+\caption{The judged audit criteria C3 (merges judged one thing), C4 (mention-to-record links right) and C6 (chunks
+reached from a record or individual that concern it), with the 95\,\% bound of C4 and C6.}
+\label{fig:audit}
+\end{sidewaysfigure}
+
+\paragraph{How the gates were reached.} These results were not the builder's first. \Cref{tab:trajectory} traces
+the identity criteria from the first judged audit to the final builds. The first audit failed C4 on furniture: 7
+of 49 links went to another product's part --- the desk's ``drawer'' linked to the nightstand's drawer assembly ---
+and 7 records had been merged wrongly. Each step removed one cause, under a rule fixed beforehand: keep record
+links inside the scope of the document's subject (R94); let code link only exact names (R95a); hand near misses to a
+model whose choice code verifies (R95b, R96); judge individual identity on evidence (R100); turn stated kinds that
+match no record into concepts (R107); and send a key made of plain words to the chooser rather than let it decide
+alone (R108). The last step cost four correct NHTSA links (\cref{sec:ch05-limitations}): precision was chosen over
+recall.
+
+\begin{table}[htbp]
+\centering
+\caption{The identity criteria from the first judged audit to the final builds. C4: judged right / links made.
+``Wrong merges'': records merged wrongly (furniture / NHTSA / generality). ``='': unchanged.}
+\label{tab:trajectory}
+\scriptsize
+\begin{tabularx}{\linewidth}{@{}l>{\raggedright}Xcccc@{}}
+\toprule
+Step & Change & C4 furniture & C4 NHTSA & C4 generality & Wrong merges \\
+\midrule
+R93 & first judged audit & \kn{42}{49} (fails) & \kn{75}{76} & \kn{40}{40} & 7 / 1 / 0 \\
+R94 & record links stay in the document's scope & \kn{42}{45} (fails) & = & = & 3 / 1 / 0 \\
+R95a & code links only exact names & \kn{38}{38} & = & = & 0 / 1 / 0 \\
+R95b & a model chooses among near misses, code verifies & \kn{49}{49} & = & = & 0 / 1 / 0 \\
+R99 & candidates outside a scope & \kn{50}{50} & \kn{76}{77} & \kn{43}{43} & 0 / 1 / 0 \\
+R102 & rebuild with the mention pass & \kn{64}{64} & \kn{76}{77} & \kn{47}{47} & 0 / 1 / 0 \\
+R103 & rebuild with re-extracted claims & \kn{63}{63} & \kn{81}{83} & \kn{50}{50} & 0 / 2 / 0 \\
+R107 & unmatched stated kinds become concepts & \kn{63}{63} & \kn{81}{83} & \kn{48}{48} & 0 / 2 / 0 \\
+R108 & a plain-word key goes to the chooser & \kn{63}{63} & \kn{77}{77} & \kn{48}{48} & 0 / 0 / 0 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The trajectory is development on these datasets, and the final C3 and C4 values of furniture, NHTSA and
+generality are measured on the same data the fixes were made for. NTSB is the exception: it was built once with the
+frozen code, and passed C4 (36/36) and C3 without any change.
+
+\paragraph{Identity pairs.} Against the reference pairs of names that do or do not denote one thing, the resolver
+joined no two things that the reference keeps apart on NHTSA and generality (NTSB had no scorable pair of
+different things), and one pair on furniture: it
+merged ``dimmer'' with ``dimmer switch'' and ``dimmer function'', which the reference keeps apart but the blind judge
+accepted. Recall --- pairs that should be joined and were --- is lower: 11/14 on furniture, 4/7 on NHTSA, 13/13 on
+generality. The resolver errs towards keeping things apart.
+
+\section{Provenance, Purity, Connectivity and Findability}\label{sec:ch05-provenance}
+
+\Cref{tab:audit-final} gives the remaining criteria on the final builds.
+
+\begin{table}[htbp]
+\centering
+\caption{The remaining criteria on the final builds (arm A, the anchor graph).}
+\label{tab:audit-final}
+\small
+\begin{tabularx}{\linewidth}{@{}Xcccc@{}}
+\toprule
+& NTSB & Furniture & NHTSA & Generality \\
+\midrule
+C0 fidelity & pass & pass & pass & pass \\
+C1 provenance & 1.0 & 1.0 & 1.0 & 1.0 \\
+C6 purity, record and individual starts & \kn{58}{60} & \kn{109}{109} & \kn{86}{86} & \kn{100}{100} \\
+C6 purity, concept starts & \kn{58}{58} & \kn{51}{51} & \kn{69}{69} & \kn{31}{31} \\
+C8 gold connections reached & \kn{7}{7} & \kn{14}{14} & \kn{16}{16} & \kn{12}{12} \\
+C8 unwitnessed hops & 0 & 0 & 0 & 0 \\
+C2 targets found at rank 1 & \kn{62}{66} & \kn{72}{86} & \kn{53}{65} & \kn{45}{62} \\
+C2 targets found in the first 5 & \kn{64}{66} & \kn{80}{86} & \kn{60}{65} & \kn{54}{62} \\
+C7 median share of corpus per start & 2.9\,\% & 1.4\,\% & 1.2\,\% & 3.1\,\% \\
+C7 hubs ($> 20\,\%$ of chunks) & 3 concepts & none & none & 4 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{Provenance and purity.} Every item made from text has its chunk and quotation (C1 = 1.0), and the chunks
+reached from a record or an individual concern it in every case on three datasets. On NTSB, two of the 60 chunks
+reached from one start do not: the mention ``flight instructor'' covers three different accidents of one document,
+because a mention is defined per document (\cref{sec:ch05-limitations}). At 58/60 (lower Wilson bound 0.89) the
+criterion still passes its 0.95 point estimate, but the case shows a limit of the identity model on documents that
+describe several events.
+
+\paragraph{Connectivity.} Every connection that the multi-hop questions require is reachable, and no hop is
+unwitnessed: every step between two things is a record relation or a chunk that names both.
+
+\paragraph{Findability and selectivity.} The name lookup W1 finds 73--94\,\% of the targets at rank 1 and 87--97\,\%
+in the first five; the misses are mostly names written differently from any node (``J.~Pike'' for a staff
+member recorded as Jonathan Pike). A typical start leads to 1--3\,\% of its corpus. The hubs are starts that
+legitimately concern much of a small corpus --- on generality, a pumping station that 11 of 32 documents discuss,
+and one staff member and two pumps; on NTSB, the concepts ``engine'', ``right wing'' and ``runway''.
+
+\section{Evidence Reach against Vector Retrieval}\label{sec:ch05-reach}
+
+Criterion C5 asks whether the graph, walking from the right start, reaches a question's gold evidence chunks
+within a fixed budget of $k$ chunks, compared with plain vector retrieval of the $k$ chunks most similar to the
+question. It is measured in two ways: from the gold start nodes (the graph alone) and end to end, from the
+question's names through W1. \Cref{tab:reach} gives the questions whose evidence is complete.
+
+\begin{table}[htbp]
+\centering
+\caption{C5: questions whose gold evidence chunks are all reached within $k$ chunks, anchor graph against vector
+retrieval; McNemar ``only graph / only vector'', exact $p$.}
+\label{tab:reach}
+\small
+\begin{tabular}{@{}lccc@{}}
+\toprule
+& Furniture ($n=31$) & NHTSA ($n=28$) & Generality ($n=38$) \\
+\midrule
+gold start, $k=5$ & 20 vs 21 (2/3, 1.0) & 24 vs 26 (2/4, 0.69) & 31 vs 34 (1/4, 0.38) \\
+gold start, $k=10$ & 29 vs 26 (5/2, 0.45) & 26 vs 26 (2/2, 1.0) & 36 vs 37 (1/2, 1.0) \\
+end to end, $k=5$ & 17 vs 21 (2/6, 0.29) & 22 vs 26 (2/6, 0.29) & 27 vs 34 (1/8, \textbf{0.039}) \\
+end to end, $k=10$ & 23 vs 26 (4/7, 0.55) & 24 vs 26 (2/4, 0.69) & 34 vs 37 (1/4, 0.38) \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The result is negative for the graph as a \emph{ranker}. From the right start it reaches the evidence about as
+often as vector retrieval does; end to end, at the tight budget of five chunks, it trails, and significantly so on
+generality, where the start is often a name written differently from any node. Without a budget the graph reaches
+nearly everything (61/61, 36/36 and 51/51 gold chunks from the gold starts), but a walk that reaches everything is
+not a ranking. The value of the graph shown by this chapter is therefore not that it finds evidence faster than
+vector search, but that what it links is right: identity, record links and purity, which vector search does not
+provide at all. The query engine (\cref{ch06}) draws the consequence: it uses the graph to find and verify the
+things a question is about, and ranked text search to find passages.
+
+\section{Comparison of Graph Representations}\label{sec:ch05-representations}
+
+\Cref{tab:representations} collects the measurements behind the design evolution of \cref{sec:ch04-evolution}.
+
+\begin{table}[htbp]
+\centering
+\caption{The four representations, as measured. Judged by meaning unless stated. QA: questions answered right.}
+\label{tab:representations}
+\scriptsize
+\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright}p{2.6cm}>{\raggedright}Xccc@{}}
+\toprule
+Representation (step) & Measure & Furniture & NHTSA & Generality \\
+\midrule
+Claims as edges (R62) & claim precision & \kn{170}{170} & \kn{135}{146} & --- \\
+& claim recall, reference triples & \kn{89}{96} & \kn{56}{68} & --- \\
+& path truth (R63) & \kn{64}{100} & \kn{42}{56} & --- \\
+\midrule
+Claims as nodes (R64--R68) & path truth & \kn{89}{89} & \kn{107}{107} & --- \\
+& coverage of a reader's claims (R68) & \kn{35}{72} & \kn{21}{67} & --- \\
+\midrule
+Layered model (R73) & QA: graph / records + vector / vector & 34 / 34 / 13 of 68 & 60 / 50 / 25 of 68 & 17 / 25 / 27 of 41 \\
+& graph vs records + vector (McNemar) & 8/8, $p=1.0$ & 13/3, $p=0.021$ & 0/8, $p=0.008$ \\
+\midrule
+Anchor graph (R108--R109) & C4 record links & \kn{63}{63} & \kn{77}{77} & \kn{48}{48} \\
+& C6 purity (records, individuals) & \kn{109}{109} & \kn{86}{86} & \kn{100}{100} \\
+& claim precision, content (R110) & \kn{518}{530} & \kn{520}{530} & \kn{208}{216} \\
+& claim recall, random sentences (R111) & \kn{42}{72} & \kn{19}{67} & \kn{12}{66} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Three caveats apply. The steps used different builds, and the R68 furniture graph was built with DeepSeek rather
+than Gemini. The QA comparison of R73 used the reading and query stage of its time, not the agent of \cref{ch06}.
+And the reference triples of R62 are a different measure from the random-sentence recall of R111: the first counts
+facts of the schema's types in fully labelled documents, the second every claim a reader finds, which is why the
+same builder scores 0.93 on the first and 0.58 on the second on furniture.
+
+\paragraph{Navigating with or without claims.} The anchor design kept the claim layer in the build so that the
+decision could be tested. Arm A navigates the final builds by the walks only; arm B also walks through the claims
+(from a thing to its claims, and from a claim to its chunk and to the things at its ends). On the final builds the
+two arms reach the gold evidence on exactly the same questions: no discordant question on furniture, NHTSA or
+generality, and on NTSB a single discordant question in each of two modes, one favouring each arm. But arm B pays for this with exactly the hops the witness rule forbids:
+132 of its 1{,}894 hops on furniture, 2{,}080 of 24{,}091 on NHTSA and 117 of 3{,}360 on NTSB are unwitnessed, so arm
+B fails the C8 hard criterion on three of four datasets, and it creates the only hub of the NHTSA graph (a vehicle
+make reaching 28\,\% of the chunks). It is also larger: 85.7 against 38.8 edges per chunk on furniture, 91.7 against
+30.4 on NHTSA. On this data, navigating through claims adds no evidence and adds wrong connections.
 
 \section{Generalisation}\label{sec:ch05-generalisation}
-% Sources: NTSB unseen
 
-\section{Cost and Size}\label{sec:ch05-cost-and-size}
-% Sources: C9
+The criterion C9 requires that the same code and settings build every dataset; it holds by construction (no
+dataset-specific code or setting exists) and is enforced by the domain-word tests of \cref{sec:ch04-engineering}.
+Whether the results generalise is a different question. Three of the four datasets were used during development,
+so their final scores are partly the result of fixes made for them. The NTSB dataset was not: it was chosen,
+downloaded and given its question set after the builder's code was frozen, and built once. One general
+capability was added just before its build because its tables needed it: keys made of several columns (step
+R155a), which changes nothing for data with single-column keys. No prompt, threshold or rule was tuned on it. It passed every hard gate
+(C1, C3, C4, C6, C8), with content precision 289/293 and judged mention recall 153/184. Its weaknesses are
+informative: the lowest claim recall (13/74), from the single extraction pass, and the one identity failure caused
+by documents that describe several accidents. The fifth dataset, which failed C4 (\cref{sec:ch03-datasets}), shows
+the same kind of limit from another side: a generic word linked to the wrong one of several lighthouses named in
+one article.
 
-\section{Failure Analysis and Limitations}\label{sec:ch05-failure-analysis-and-limitatio}
-% Sources: REFACTOR_PLAN Known limitations; Found along the way
+The four datasets share a form: short documents, each mostly about one or a few things, with names written in
+full. Generalisation to other forms --- long narratives, scientific reports, large tables --- is untested.
+
+\section{Cost and Size}\label{sec:ch05-cost}
+
+\Cref{tab:build-cost} gives the model cost of the final builds at list prices; embedding calls are not priced
+(\cref{sec:ch03-reproducibility}).
+
+\begin{table}[htbp]
+\centering
+\caption{Model cost of the final builds (USD) and the anchor graph's size per chunk. The plan and text schema of
+furniture, NHTSA and generality were fixed from an earlier build and are not included.}
+\label{tab:build-cost}
+\small
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+& NTSB & Furniture & NHTSA & Generality \\
+\midrule
+Extraction & 0.210 & 0.425 & 0.607 & 0.223 \\
+Mention pass & 0.104 & 0.115 & 0.154 & 0.060 \\
+Resolution & 0.150 & 0.156 & 0.656 & 0.081 \\
+Plan and text schema & 0.176 & --- & --- & --- \\
+\textbf{Total} & \textbf{0.640} & \textbf{0.696} & \textbf{1.417} & \textbf{0.365} \\
+\midrule
+Nodes / edges per chunk & 47.3 / 60.9 & 26.2 / 38.8 & 22.0 / 30.4 & 28.8 / 33.9 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+A build costs well under two dollars. The largest single item, NHTSA's resolution, is a known inefficiency: about
+668 pairs of recall numbers that look alike in spelling were each put to the model and always answered ``different'',
+at about \$1.1 in the first rebuild (\cref{sec:ch05-limitations}).
+
+\section{Failure Analysis and Limitations}\label{sec:ch05-limitations}
+
+\paragraph{Recorded limitations of the final builder.} When the refinement of the builder was closed, four
+limitations were recorded rather than fixed:
+\begin{enumerate}[nosep]
+\item four correct NHTSA record links were lost by the last fix (R108): the chooser now refuses ``Civic Type R''
+(twice) and two model-year ranges of the Civic, apparently reading the record's model year against the range ---
+a loss of link recall, not precision;
+\item two correct generality links (``the pump had run dry'') became concepts under the kind rule of R107;
+\item identifiers are nominated as identity pairs by spelling --- a cost, not an error;
+\item the ``dimmer'' ambiguity of \cref{sec:ch05-identity}.
+\end{enumerate}
+
+\paragraph{Open issues found later.} Mention identity is per document. In the NTSB reports, each of which
+describes five accidents, ``the pilot'' or ``flight instructor'' of different accidents becomes one mention; this
+causes the two C6 failures and makes 24 of the 27 NTSB reference pairs unscorable. A fix --- per-section identity for
+documents that describe several events --- was designed but not built, as the builder was frozen. Other open items
+are minor: generic words among the pass's mentions, and near-duplicate mentions (``may not engage'', ``not engage'').
+
+\paragraph{Limitations of the evaluation.} The reference sets and the judge come from one model family, with no
+agreement figure against a human judge. The targets of C2, C5 and C8 are not blind to earlier builds. Three of four
+datasets were used for development. Each corpus is small. These limits are discussed with those of the query
+engine in \cref{sec:ch08-threats-to-validity}.
 
 \section{Discussion}\label{sec:ch05-discussion}
-% Sources: answers RQ1, RQ2
+
+\paragraph{RQ1: can the pipeline build a correct, provenance-aware, entity-centric graph without domain-specific
+code?} On the four datasets measured, yes, within stated limits. The same code built all four graphs. Every item
+made from text has its verified quotation; no two records or individuals were merged wrongly; every judged link from
+a mention to a record was right; and walks from a record or an individual reached only chunks that concern it, with
+one exception on documents describing several events. These gates were reached through development on three of
+the datasets and held without changes on the fourth, unseen one. The fifth dataset that failed C4 shows that they
+are not guaranteed.
+
+\paragraph{RQ2: what are the trade-offs between storing facts and anchoring evidence?} The measurements point one
+way. Stored facts are precise (96--99\,\% content precision) but incomplete (18--58\,\% recall against a reader),
+mostly because a proposed schema cannot anticipate what a corpus says; facts stored on shared nodes leaked across
+entities (36 of 100 paths false); and a rich layered model of facts did not improve answers over records plus
+vector retrieval. The anchor graph gives up exact answers from stored facts --- which the recall figures show were
+not available anyway --- and in exchange makes identity, record links and provenance exact and checkable.
+Navigating through claims added no evidence and added unwitnessed connections. The graph is not a better ranker of
+evidence than vector search (C5); its contribution is to say \emph{what} a passage is about and \emph{which} record
+a name refers to, correctly. How a reader can use that index to answer questions is the subject of
+\cref{ch06,ch07}.

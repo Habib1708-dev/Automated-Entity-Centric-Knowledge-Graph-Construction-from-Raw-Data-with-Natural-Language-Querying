@@ -1,38 +1,459 @@
-% Knowledge Graph Constructor: Design and Implementation: about 17 pages of the main body.
-% Skeleton only: headings and the sources each section draws on. Prose is written in its approved stage.
+% Knowledge Graph Constructor: Design and Implementation (about 17 pages). Written in Stage 5.
+% Facts about the code cite the final code at R230 (src/kgbuilder/...); numbers have rows in evidence_registry.csv.
 \chapter{Knowledge Graph Constructor: Design and Implementation}\label{ch04}
 
-\section{Objectives and Design Principles}\label{sec:ch04-objectives-and-design-principl}
-% Sources: LLM proposes, code decides; MERGE; parameterised Cypher
+This chapter describes the builder: the part of the system that turns a folder of tables and documents into a
+graph. It first states the design principles (\cref{sec:ch04-principles}) and the stages
+(\cref{sec:ch04-architecture}), then follows the data through the structured and text paths
+(\cref{sec:ch04-structured,sec:ch04-text,sec:ch04-extraction}). \Cref{sec:ch04-evolution} explains, with the
+measurements that motivated it, why the final graph is an \emph{anchor graph} --- an index of identity and
+evidence --- rather than a graph of extracted facts. The remaining sections describe that graph: its schema,
+how mentions receive their identity, how text is linked to records, how provenance is kept, and how the graph
+is navigated. \Cref{ch05} evaluates it.
 
-\section{Architecture Overview}\label{sec:ch04-architecture-overview}
-% Sources: Figure F2
+\section{Objectives and Design Principles}\label{sec:ch04-principles}
 
-\section{Structured Ingestion}\label{sec:ch04-structured-ingestion}
-% Sources: structured/profiler.py, proposer.py, importer.py, postgres.py
+The builder has one objective: from mixed tables and text, and a goal stated in one sentence, build a graph in
+which the things the data talks about can be found and from which the evidence about each of them can be
+reached --- correctly, and without code written for the dataset at hand. Five principles follow from the
+requirements of \cref{sec:ch03-requirements}.
 
-\section{Text Ingestion}\label{sec:ch04-text-ingestion}
-% Sources: text/documents.py, chunking.py, lexical.py
+\begin{enumerate}[nosep]
+\item \textbf{The language model proposes; code decides.} A model is used where something must be proposed
+that rules cannot compute: the mapping of tables to a graph, the kinds of facts in the text, the facts and the
+mentions themselves, and the identity of near misses. Every proposal is parsed into a typed model and checked by
+code before it is used.
+\item \textbf{Evidence before storage.} Every item made from text carries a quotation that code finds in its
+source chunk; an item whose quotation is not found is rejected, not repaired.
+\item \textbf{Records are exact.} A row of a table becomes a node identified by its source key. Text may link
+to a record; it never changes or merges one.
+\item \textbf{Identity is an edge.} The decision that a mention refers to a record, to a person or to a concept
+is stored as an edge carrying its reason, not as a merged node, so it can be inspected and undone.
+\item \textbf{Domain neutrality.} Nothing in the code or the prompts names a domain. The examples in the
+prompts are invented and checked by tests against the evaluation corpora (\cref{sec:ch04-engineering}).
+\end{enumerate}
 
-\section{Text Schema Proposal and Claim Extraction}\label{sec:ch04-text-schema-proposal-and-claim}
-% Sources: text/schema.py, extraction.py
+\section{Architecture Overview}\label{sec:ch04-architecture}
+
+The builder is a pipeline of stages, each a command of the \texttt{kg} command-line tool and each recorded as
+one MLflow run. \Cref{tab:builder-stages} lists them in their order; \cref{fig:system-overview} shows where
+they sit in the whole system.
+
+\begin{table}[htbp]
+\centering
+\caption{The builder's stages, in order. ``LLM'' names what a language model proposes; everything else is
+deterministic code.}
+\label{tab:builder-stages}
+\small
+\begin{tabularx}{\linewidth}{@{}lXX@{}}
+\toprule
+Stage & What it does & LLM role and check \\
+\midrule
+\texttt{profile} & stages the tables and profiles every column in DuckDB & --- \\
+\texttt{plan} & maps tables to node labels, keys and relationships & proposes the plan; code validates it, then a critic reviews it \\
+\texttt{build} & imports the rows as nodes and relationships & --- (re-validates the plan) \\
+\texttt{ingest-text} & reads documents, cuts chunks, embeds them & embeddings only \\
+\texttt{text-schema} & names the kinds of things and facts in the text & proposes the schema; code validates, a critic reviews \\
+\texttt{extract} & extracts claims with their quotations & proposes claims; code verifies each quotation and argument \\
+\texttt{link} & links documents and sections to records; derives implied claims & --- \\
+\texttt{mention-pass} & finds every mention of a thing in every chunk & proposes mentions; code filters them \\
+\texttt{resolve} & decides what each mention refers to & only for near-miss records and uncertain pairs; code verifies quotations \\
+\texttt{attach} & attaches claims and unattached documents to records & --- \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\paragraph{Ports and the composition root.} The language model, the embedder and the experiment tracker are
+reached through small interfaces (Python \texttt{Protocol} classes), and the concrete objects --- the Gemini
+client, the Neo4j driver, the MLflow tracker and the settings --- are built in one place, the command-line entry
+point, and passed down. This lets every stage run in tests against fakes, without a network or a paid model.
+The Neo4j driver is the one dependency injected directly rather than behind an interface of its own.
+
+\paragraph{Models.} All final builds use Gemini~3.8~Flash for every proposing role, with medium thinking for the
+plan and the text schema and low thinking for extraction, the mention pass and identity decisions; embeddings
+come from \texttt{gemini-embedding-001}. Two other models were tried and rejected. A local 7-billion-parameter
+model could not produce a valid plan, and about 80\,\% of its facts failed the quotation check. DeepSeek~V4.1
+Flash built three graphs in one arm of the project, but its text schema on the NHTSA data had no relation from a
+part to a vehicle, and claim recall fell from 56/68 with Gemini to 42/68.
+
+\section{Structured Ingestion}\label{sec:ch04-structured}
+
+\paragraph{Staging and profiling.} CSV files are copied as they are; JSON, JSON-lines and NDJSON files are
+flattened to CSV; tables of a PostgreSQL database are exported through the same interface, with the keys the
+database declares. DuckDB then profiles every column: its type, its number of empty and distinct values, five
+sample values, whether it is unique, and --- for text columns --- whether it holds prose (on average at least
+120 characters and at least half of its values with more than one sentence). Foreign-key candidates are found
+by inclusion: a column whose distinct values are at least 95\,\% contained in a unique column of the same type
+in another file. The model never sees the rows themselves, only this profile.
+
+\paragraph{The plan.} The model proposes a \emph{construction plan}: a list of node rules (a source file, a
+label, the key column or columns, the properties, an optional name column) and relationship rules (a source file,
+a type, and the columns that join a source label to a target label). The plan is a declarative description of
+the graph, not code: it is validated, stored as a file a person may review or edit, and executed by a generic
+importer. Code checks, among other things, that:
+\begin{itemize}[nosep]
+\item every column named exists and every key is unique in its file;
+\item a composite key (several columns that together identify a row, added for datasets whose rows have no
+single key) is complete and unique over all staged rows, and no part of it is unique alone;
+\item every relationship joins defined labels through existing columns;
+\item a name column is not a code-like identifier;
+\item files that the foreign-key analysis joins end up in one connected part of the plan.
+\end{itemize}
+
+\paragraph{The refinement loop.} The plan --- and later the text schema --- is produced by a three-round loop
+(\cref{alg:refine}). The critic is asked only when code has found nothing wrong, and is told what code already
+guarantees, so that it judges the modelling rather than repeating the checks.
+
+\begin{algorithm}[htbp]
+\caption{Propose, validate, critique (\texttt{llm/refine.py}).}\label{alg:refine}
+\small
+\begin{enumerate}[nosep,label=\arabic*.]
+\item feedback $\gets$ none
+\item \textbf{for} round $= 1, 2, 3$:
+\item \quad proposal $\gets$ model(profile, goal, feedback)
+\item \quad issues $\gets$ validate(proposal) \hfill \emph{code}
+\item \quad \textbf{if} no issues: issues $\gets$ critic(proposal) \hfill \emph{model, asked to say ``valid'' or ``retry''}
+\item \quad \textbf{if} no issues: \textbf{return} proposal (accepted)
+\item \quad feedback $\gets$ the proposal and its issues
+\item \textbf{return} the last proposal, rejected (written for review; the stage fails)
+\end{enumerate}
+\end{algorithm}
+
+\paragraph{Import.} For each node rule the importer creates a uniqueness constraint on the key and writes the
+rows in batches of 1{,}000 with \texttt{MERGE}, so that re-running the import never duplicates a node. Values are
+typed by DuckDB; empty cells are left out rather than written as nulls. Relationships are matched by their key
+columns and also written with \texttt{MERGE}. Prose columns are turned into \emph{record documents}: one document
+per record, with one section per prose cell, which then follow the text path and are linked to their record by
+its key.
+
+\section{Text Ingestion}\label{sec:ch04-text}
+
+Documents in Markdown, plain text and PDF are read and cut into chunks. A chunk boundary is first placed at every
+section break; a section longer than 1{,}500 characters is cut at paragraph boundaries, then at whitespace; pieces
+shorter than 200 characters are joined to the next one. Chunks do not overlap. Each chunk keeps its document's
+first heading as \emph{context}, which later checks may use to resolve a name the chunk itself leaves implicit.
+Chunks are written to Neo4j as \texttt{:Chunk} nodes linked to their \texttt{:Document} by \texttt{PART\_OF} and
+to each other in reading order by \texttt{NEXT\_CHUNK}, and their embeddings are stored in a Neo4j vector index
+(cosine similarity). Full-text indexes over chunks and claims are added by a separate indexing stage, used by
+the query engine.
+
+\section{Text Schema and Claim Extraction}\label{sec:ch04-extraction}
+
+\paragraph{The text schema.} From the chunks (all of them up to 200{,}000 characters, else an even sample), the
+plan's labels and the goal, the model proposes the \emph{entity types} and \emph{fact types} of the text. Each fact
+type has a predicate, a subject type and an object type; each entity type has an \emph{identity class}:
+\emph{keyed} (it is a record of the plan, named by its labels and key attributes), \emph{individual} (one
+particular thing named only in text) or \emph{concept} (a kind, a part, a state). A built-in \texttt{Value} type
+holds numbers. Code checks the names, that every referenced type exists and is used, that a keyed type points to
+real plan labels and columns, and that a type named like a plan label is keyed; the critic then looks for
+overlapping types, claims no fact type could hold, and types the goal does not need. The prompt asks for at most
+12 entity types and 20 fact types.
+
+\paragraph{Extraction.} For each chunk the model returns claims: a subject, a predicate, an object, their types,
+a verbatim quotation, and assertion fields --- polarity, truth (affirmed or negated) with the negation words,
+modality (actual, possible or conditional) with the hedge or condition words, and a time if one is written. Code
+then verifies every claim and rejects it, with a recorded reason, if
+\begin{itemize}[nosep]
+\item its predicate is not an extractable fact type of the schema;
+\item its quotation, after normalisation (case, accents, Markdown marks and spacing), is not a substring of the
+chunk;
+\item a subject or object is empty, a pronoun, the same as the other, or not written in the chunk or its context;
+\item a value is not a number found in the quotation, or a time is not in it;
+\item a negation, hedge or condition word is not a whole word of the quotation.
+\end{itemize}
+An optional second pass per chunk (\emph{gleaning}) sees the claims already accepted and asks for those that
+were missed, under the same checks. The final builds of the furniture, NHTSA and generality datasets used two
+passes; the NTSB build used the default single pass. Each accepted claim is stored as an
+\texttt{:Observation} node linked to the mentions of its subject and object and, by \texttt{FROM}, to its chunk.
 
 \section{Design Evolution: From Exhaustive Facts to an Anchor Graph}\label{sec:ch04-evolution}
-% Sources: Figures F3, F5; E2-E5; docs/direction/*
 
-\section{The Anchor Graph Schema}\label{sec:ch04-the-anchor-graph-schema}
-% Sources: Figure F4
+The graph described in the rest of this chapter is the fourth of four representations built during the project.
+Each change was prompted by a measured failure of the previous one. This section presents that sequence as the
+argument for the final design; \cref{sec:ch05-representations} gives the full measurements.
 
-\section{Mentions and Identity}\label{sec:ch04-mentions-and-identity}
-% Sources: text/mention_pass.py; resolution/*; Figure F6
+\paragraph{Representation 1: claims as edges.} The first graph stored every extracted claim as an edge between
+nodes shared by the whole corpus --- for example, \emph{drawer rails} $\xrightarrow{\textsc{has\_defect}}$
+\emph{rough, uneven surfaces}. Extraction itself was precise: on the furniture reviews, 170 of 170 stored claims
+were judged right, and 89 of the 96 reference claims were found; on the NHTSA complaints, 135 of 146 and 56 of 68
+(\cref{tab:representations}). But a path through such a graph is read as a fact, and paths crossed from one
+thing's evidence into another's. An audit of the paths a question would follow found 36 of 100 false on the
+furniture data and 14 of 56 on the NHTSA data. \Cref{fig:leak}~(A) shows the typical case: the defect stated in
+one product's review, stored on the shared part node, is reached from a different product whose own review
+praises the part. Moreover, on the NHTSA data the text did not reach the records at all: no extracted entity was
+linked to a vehicle or a recall.
 
-\section{Record Linking and Attachment}\label{sec:ch04-record-linking-and-attachment}
-% Sources: resolution/records.py, record_choice.py, attachment.py; Figure F7
+\begin{sidewaysfigure}
+\centering
+\includegraphics[width=\linewidth]{diagrams/construction/r63_r230/r230_diag1_leak_and_witness_rule.pdf}
+\caption{The leak of a claim stored on a shared node (A) and the witness rule of the anchor graph (B), on the
+furniture data. The words are those of the reviews.}
+\label{fig:leak}
+\end{sidewaysfigure}
 
-\section{Provenance Model}\label{sec:ch04-provenance-model}
+\paragraph{Representation 2: claims as nodes.} Making each claim a node of its own, attached to the thing it is
+about, removed the leak: every audited path was true (89 of 89 and 107 of 107). It exposed a second limit
+instead. Measured against what a careful reader finds in 40 random sentences, the stored claims covered only
+21 of 67 statements on the NHTSA data and 35 of 72 on the furniture data. Most misses had no fact type in the
+schema that could hold them --- a repair, an inspection finding --- so they could not be extracted at all.
 
-\section{The Navigation Contract}\label{sec:ch04-the-navigation-contract}
-% Sources: W1-W5; Figure F8
+\paragraph{Representation 3: a layered model.} The third arm kept claims as nodes and added layers: mentions
+linked to canonical entities, attachment of claims to records, assertion fields (truth, modality, condition), and
+a query layer of fixed primitives over them. Each layer was measured, and each worked by its own measure: for
+example, negated claims were stored exactly in 13 of 15 cases on the furniture data, up from 10 of 15. But the
+answers to questions barely moved. A change to the reading of claims changed no answer at all. Compared, on the
+same questions, with a system that queries only the records and retrieves passages by vector similarity, the claim
+graph won on the NHTSA data (60 against 50 of 68 questions, McNemar 13/3, $p = 0.021$), tied on the furniture
+data (34 against 34 of 68), and lost on the generality corpus (17 against 25 of 41, 0/8, $p = 0.008$), where plain
+vector retrieval did best (27 of 41). An analysis of the 69 wrong answers of the layered system attributed 10 to
+facts no schema type could hold and 41 to the query layer, not to the graph.
+
+\paragraph{What the measurements said.} Four conclusions were drawn on 6~October~2026:
+\begin{enumerate}[nosep]
+\item \emph{The records do the exact work.} Where the graph won, it won through record questions; no question
+type separated it from records plus vector retrieval on any dataset.
+\item \emph{A claim schema limits generality.} Every new kind of statement needs a fact type, and a corpus of
+another domain brings statements no proposed schema anticipates.
+\item \emph{Claims cannot be counted exactly anyway.} With a third to a half of the text's statements stored, an
+answer that counts over text must read the text itself.
+\item \emph{What was worth keeping is identity, linking and provenance:} mentions linked to entities by a
+reversible edge, text linked to records, and a verbatim quotation for every item made from text --- which held
+in every audit.
+\end{enumerate}
+
+\paragraph{Representation 4: the anchor graph.} The fourth design therefore changed the graph's job. Its goal, as
+fixed in the design document, is that \emph{the graph lets a reader find the entities, concepts and records a need
+is about, and leads from each of them to every chunk, document and record that concerns it, and to nothing that
+does not.} The graph stores who and what is mentioned where, the records, and the links between them; it does
+not rely on what the text claims. Understanding what a chunk says is left to the reader of the chunk --- in the
+final system, the query agent of \cref{ch06}. One rule makes the change concrete:
+
+\begin{quote}
+\emph{A shared node helps to find chunks; it never proves a fact.} Two things are connected only by a record
+relation or by a chunk that mentions both.
+\end{quote}
+
+In \cref{fig:leak}~(B), the question about defective drawer rails starts at the shared concept, which leads to the
+chunks that mention it; each chunk leads to the product it is about; and the bed's chunk is rejected by reading
+it. A wrong merge of two concepts now costs one extra chunk to read, not a false fact.
+
+\paragraph{Kept, frozen and dropped.} The anchor graph reused what the earlier arms had built and measured:
+chunking and embeddings, the plan and the record graph, the linking of text to records, mentions with
+\texttt{REFERS\_TO} identity edges, document attachment and the provenance checks. The claim layer was
+\emph{frozen}: it is still extracted, stored and evaluated (\cref{sec:ch05-extraction}), but it is not used to
+navigate, and an ablation compares navigation with and without it (\cref{sec:ch05-representations}). Building
+more claim meaning into the graph --- events, roles, speakers, open predicates --- was dropped.
+
+\paragraph{The evaluation changed with the goal.} Since the graph is now an index, it is judged as an index: can a
+target be found, does it lead to the right evidence and only to that, are connected things connected, and is every
+link from text to records right. These are the criteria C0--C9 of \cref{sec:ch05-method}, fixed in the same
+document before they were measured.
+
+\section{The Anchor Graph Schema}\label{sec:ch04-schema}
+
+\Cref{fig:anchor-layers} shows the final graph. It has four layers and one attachment.
+
+\begin{sidewaysfigure}
+\centering
+\includegraphics[width=\linewidth]{diagrams/construction/r63_r230/r230_diag2_anchor_graph_layers.pdf}
+\caption{The anchor graph's node labels, edges and walks. Records come from the tables under the proposed plan;
+every other node is made from text.}
+\label{fig:anchor-layers}
+\end{sidewaysfigure}
+
+\begin{description}[nosep]
+\item[Lexical layer.] \texttt{(:Document)<-[:PART\_OF]-(:Chunk)-[:NEXT\_CHUNK]->(:Chunk)}.
+\item[Mention layer.] \texttt{(:Chunk)-[:MENTIONS]->(:Mention)}. A mention is one name of one type in one
+document, with the class the text states for it (a particular thing or a kind).
+\item[Identity layer.] \texttt{(:Mention)-[:REFERS\_TO]->(\emph{record} | :Individual | :Concept)}, each edge with
+its reason, score, evidence and the deciding party (code or a model).
+\item[Record layer.] Records under the labels of the plan, joined by the plan's typed relationships.
+\item[Attachment.] \texttt{(:Document | :Chunk)-[:ABOUT]->(\emph{record})}: a document or a section is about one
+record.
+\end{description}
+
+Three kinds of thing are told apart, because their identity works differently (\cref{tab:identity-classes}).
+
+\begin{table}[htbp]
+\centering
+\caption{The three classes of thing and their identity.}
+\label{tab:identity-classes}
+\small
+\begin{tabularx}{\linewidth}{@{}lXX@{}}
+\toprule
+Class & Identity & Who may join it with another \\
+\midrule
+Record & its source key & nobody; text only links to it \\
+Individual & its type, name and document & the resolver, across documents, only with evidence \\
+Concept & its type and normalised name & the resolver, under guards against wrong merges \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{Mentions and Identity}\label{sec:ch04-identity}
+
+\paragraph{The mention pass.} The claims of \cref{sec:ch04-extraction} name only the things that take part in a
+claim of a known type. The anchor graph needs every thing a question might start from, so a separate pass asks
+the model, per chunk, for ``the entries an index of the text would have'': named things, kinds the text says
+something about, faults written as verbs, and things the text says are absent --- but not describing words alone,
+generic words, everyday acts, the document or its writer. For each it gives the name, whether it is a particular
+thing or a kind, and a type of the schema. Code then refuses a finding whose name is not written as whole words in
+the chunk, is a quantity, a date, a pronoun or a function word, has more than six words, contains clause
+punctuation, or repeats one already listed; and it files the mention under a type only if that type's identity
+class can hold the stated class, otherwise under a fallback type for particulars or kinds.
+
+\paragraph{Resolution.} The \texttt{resolve} stage then decides, for every mention, what it refers to
+(\cref{fig:identity}). The governing rule is that code decides wherever a rule can, a model is asked only where
+rules cannot decide, and a model's answer counts only if code can verify the quotations it gives.
+
+\begin{sidewaysfigure}
+\centering
+\includegraphics[width=\linewidth]{diagrams/construction/r63_r230/r230_diag3_identity_resolution.pdf}
+\caption{Identity resolution per class of thing. Thresholds are the code's settings; spelling scores are
+token-sort similarity ratios from 0 to 100.}
+\label{fig:identity}
+\end{sidewaysfigure}
+
+\paragraph{Mentions to records.} A mention of a keyed type is linked to a record by the first of these tiers that
+gives exactly one record:
+\begin{enumerate}[nosep]
+\item \emph{key}: the record's key is written in the name, and the key may decide alone --- always if it contains
+a digit, otherwise only if every other word of the name is a number or one of the record's own attribute values;
+\item \emph{name}: the name matches the record's name within the \emph{scope} of the document --- the records
+within two relationship hops of what the document is about --- with the same words in any order, or a similarity of
+at least 90 and the same words up to their endings;
+\item \emph{key in sentence}: exactly one key is written right next to the name in a sentence;
+\item \emph{attribute}: among tied records, exactly one has a key attribute value written in a sentence naming
+the mention;
+\item \emph{variant attribute}: the same, among records whose names are variants of the mention (initials, titles,
+short forms).
+\end{enumerate}
+Mentions no tier settles but for which near misses exist --- names sharing a word stem, similar spellings, a key
+in the name that may not decide alone --- go to a \emph{chooser}: the model sees up to five sentences naming the
+mention and each candidate's fields and relations, and returns a record and a quotation. Code links only if the
+record was among those listed, the quotation is found in one of the mention's chunks and contains the mention's
+name, and no other candidate has the same name. A mention the text states as a kind, with no record found, becomes
+a concept.
+
+\paragraph{Individuals.} Mentions of individual types are first grouped by the record they link to, if any.
+Pairs of the remaining groups are nominated by name variants, by spelling (similarity at least 80), or by
+meaning (mutual nearest neighbours of their name embeddings). The model reads up to four sentences naming each
+side, with their neighbours, and answers \emph{same}, \emph{different} or \emph{unsure}, quoting one sentence for
+each side. Code joins a pair only if both quotations are found on their own side; two different records are never
+joined.
+
+\paragraph{Concepts.} Mentions of concept types form one concept per type and normalised name. Two concepts of
+the same type are candidates if their spelling similarity is at least 80, or if they are mutual nearest neighbours
+($k = 2$) by embedding. Four guards then block a merge: the two have claims of opposite polarity; one sentence
+names both as different things; a part-of claim joins them; or one name is the other plus one final word.
+Candidates scoring at least 92 are merged by code, the rest are put to the model. Concept merges, unlike the other
+two classes, carry no quotation check; the anchor graph tolerates their errors better, since a wrong concept
+merge only adds chunks to read (\cref{sec:ch04-evolution}).
+
+\paragraph{Reversibility.} Every outcome is written as a \texttt{REFERS\_TO} edge whose reason names the tier or
+the decision (\texttt{key}, \texttt{name}, \texttt{chosen}, \texttt{adjudicated}, \dots) and whose \texttt{by}
+property names code or the model. The whole identity layer can be removed by one command, leaving the mentions,
+claims and records untouched.
+
+\section{Record Linking and Attachment}\label{sec:ch04-linking}
+
+Identity links \emph{mentions} to records. Two further steps link \emph{documents and chunks} to records, which
+define the scopes used above and give the walks of \cref{sec:ch04-navigation} their starting points.
+
+\paragraph{Document and section links.} A document is \texttt{ABOUT} a record when the record's name, of at least
+four characters, is written in the document's title; the longest match wins. A record document is about the record
+it was made from. A chunk is \texttt{ABOUT} a record when the record's key appears as a whole word in a heading of
+the chunk. For a document left without a subject, the attach stage adds a link to a \emph{dominant} record: one
+named in at least two sentences and at least twice as often as any other.
+
+\paragraph{Derived claims.} Some fact types are \emph{derived}: their claims are implied by the text's position
+rather than written in it (a review's defect belongs to the product the review is about). For these, code writes a
+claim from a mention in a chunk to the record its document is about, with the first sentence that names the
+subject as its quotation, and only when the record's label fits the fact type's object type.
+
+\paragraph{Claim attachment.} Finally each claim is attached to the records and individuals it concerns, by the
+most specific of four routes: a name of the thing written in the claim's quotation sentence; a part-of claim
+with the same subject in the same document; the chunk's section; or the document. Of the routes that find
+something of one kind, only the most specific is kept. Concepts never hold claims.
+
+\section{Provenance Model}\label{sec:ch04-provenance}
+
+Every element made from text records where it came from (\cref{tab:provenance}). A separate check re-verifies the
+finished graph: every claim's quotation is in its chunk, and every link with evidence carries it. In the terms of
+the W3C PROV model~\cite{moreau2013provdm}, each claim, mention and link is an entity generated by a recorded
+activity (a stage run, logged in MLflow), derived from a chunk or a record, and attributed to code or a named
+model.
+
+\begin{table}[htbp]
+\centering
+\caption{Provenance stored with each element made from text.}
+\label{tab:provenance}
+\small
+\begin{tabularx}{\linewidth}{@{}lX@{}}
+\toprule
+Element & Provenance \\
+\midrule
+Claim (\texttt{:Observation}) & its chunk (\texttt{FROM} edge and id), the verbatim quotation, the subject and object names as written, the extractor (model id, or \emph{derived}) \\
+Mention & its document; the chunks that mention it (\texttt{MENTIONS}); its stated class \\
+\texttt{REFERS\_TO} & reason, score, evidence, and who decided (code or the model id) \\
+\texttt{ABOUT} & the matched name; for text-made links also the route and evidence \\
+Claim attachment & the route and its evidence (a name, a claim's quotation, a chunk or a document id) \\
+Record document & the label, key property and key of its record \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\section{The Navigation Contract}\label{sec:ch04-navigation}
+
+The anchor graph promises five walks, the interface between the graph and whatever reads it
+(\cref{tab:walks}). A question that needs several hops is a composition of them --- for example, from a complaint's
+component to its chunks (W1, W2), from a chunk to its vehicle (W3), and from the vehicle to its recalls (W4) ---
+and every hop is a record relation or a chunk, as the witness rule requires.
+
+\begin{table}[htbp]
+\centering
+\caption{The walks of the navigation contract (\texttt{anchor/navigation.py}).}
+\label{tab:walks}
+\small
+\begin{tabularx}{\linewidth}{@{}llX@{}}
+\toprule
+Walk & From $\rightarrow$ to & Through \\
+\midrule
+W1 find & a name or alias $\rightarrow$ its node & exact and normalised names of records, individuals and concepts, then shared words; no model \\
+W2 chunks of a node & a node $\rightarrow$ the chunks that concern it & \texttt{REFERS\_TO} and \texttt{MENTIONS} back to chunks; for records and individuals also \texttt{ABOUT} \\
+W3 about / names & a chunk $\rightarrow$ the records and individuals it is about or names & \texttt{ABOUT}, else its document's; and its mentions' \texttt{REFERS\_TO}, never to a concept \\
+W4 related & a record $\rightarrow$ related records & the plan's typed relationships \\
+W5 context & a chunk $\rightarrow$ its neighbours and document & \texttt{NEXT\_CHUNK}, \texttt{PART\_OF} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+W3 never follows a concept: a kind is shared by every chunk that names it, so following it from a chunk would join
+unrelated chunks through the kind --- exactly the leak of \cref{fig:leak}. A concept remains a valid start (W1, W2).
+The walks are implemented once, over an offline snapshot of the graph rebuilt from the build's own records, so
+that the evaluation of \cref{ch05} needs neither a database nor a model.
 
 \section{Engineering}\label{sec:ch04-engineering}
-% Sources: Neo4j indexes; MLflow; cache; tests
+
+\paragraph{Idempotence and safe Cypher.} Every write is a \texttt{MERGE}; derived layers (attachment, identity,
+\texttt{ABOUT}) are deleted and recomputed on each run, so a stage can be repeated without leaving stale state.
+All values travel as query parameters; labels, relationship types and property names, which cannot be parameters,
+pass through a single escaping function.
+
+\paragraph{Caching and retries.} Every model call is cached on a hash of the model, temperature, prompt, response
+schema and thinking level. A repeated build is therefore free and gives the same graph, which is how every graph
+in this thesis was reloaded for each question set. Failed calls are retried up to three times with growing pauses.
+
+\paragraph{Tracking.} Each stage is an MLflow run nested under a pipeline run, logging its parameters --- including
+a hash of each prompt template, so a changed prompt is visible --- its counts, tokens and cost, and its output files.
+Tracking failures fall back to a null tracker and never stop a build.
+
+\paragraph{Prompts.} The builder sends nine prompts and two prompt fragments to the model: plan and plan critic,
+text schema and schema critic, extraction and its gleaning suffix, the mention pass, the record chooser, the
+individual adjudicator and the concept adjudicator. Their examples use invented domains, and tests reject any
+prompt that contains a four-word sequence from the evaluation corpora or a domain word of the datasets
+(\cref{app:prompt-templates}).
+
+\paragraph{Tests.} The builder's stages, checks and walks are covered by the project's automated tests, which run
+against fakes of the model, the embedder and the tracker; tests that need Neo4j run against a separate test
+database.
