@@ -9,6 +9,8 @@ stream`, one JSON event per `data:` line): the asker runs in a worker thread and
 response drains, so the page shows each step as it happens. One question at a time: the graph, the LLM cache
 and the agent's tables are shared, and the reload of R222b will need the graph alone. R223: the built page
 (frontend/dist) is served from the same app at `/`, mounted after the API so a route always wins over a file.
+R222b: a load (load.py) streams the same way and holds the same lock: a question during a reload would be
+asked of a half-built graph.
 Must not: open Neo4j, read settings, or build any concrete adapter (cli.py does); answer anything itself.
 """
 
@@ -25,8 +27,9 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 
 from .datasets import Dataset
-from .events import Emit, ErrorEvent, StreamEvent
+from .events import Emit, ErrorEvent
 from .knowledge import ChunkView, KnowledgeGraph, SchemaView, SourceRef, Subgraph, Thing, ThingDetail
+from .load import LoadedEvent, LoadEvent
 
 log = logging.getLogger(__name__)
 
@@ -42,6 +45,12 @@ class Asker(Protocol):
     def loaded_digest(self, any_dataset: Dataset) -> str | None: ...
 
     def ask(self, dataset: Dataset, question: str, variant: str, emit: Emit) -> None: ...
+
+
+class Loader(Protocol):
+    """What the load route needs of the graph loader (load.py's `GraphLoader`)."""
+
+    def load(self, dataset: Dataset, emit: Callable[[LoadEvent], None]) -> None: ...
 
 
 class DatasetInfo(BaseModel):
@@ -67,16 +76,40 @@ class AskRequest(BaseModel):
 
 def create_app(
     datasets: list[Dataset], graphs: Callable[[Dataset], KnowledgeGraph], asker: Asker, variants: list[str],
-    page: Path | None = None,
+    page: Path | None = None, loader: Loader | None = None,
 ) -> FastAPI:  # fmt: skip
     """The API over `datasets`; `graphs` gives a dataset's graph (called once per dataset), `asker` answers,
     `variants` are the agent variants offered, the default first; `page` is the built page's folder, served
-    at `/` (None: the API alone, as in development, where Vite serves the page)."""
+    at `/` (None: the API alone, as in development, where Vite serves the page); `loader` loads a dataset's
+    graph into Neo4j (None: the route refuses, 501)."""
     app = FastAPI(title="kgbuilder")
     by_id = {d.id: d for d in datasets}
     built: dict[str, KnowledgeGraph] = {}
     building = threading.Lock()  # two first requests for one tab must not rebuild it twice
-    asking = threading.Lock()
+    busy = threading.Lock()  # one question or one load at a time (see the module docstring)
+
+    def stream(
+        work: Callable[[Callable[[BaseModel], None]], None], what: str, failed: Callable[[str], BaseModel]
+    ) -> StreamingResponse:
+        """Run `work` in a worker thread under the lock, streaming what it emits; 409 while busy."""
+        if not busy.acquire(blocking=False):
+            raise HTTPException(409, "a question or a load is running; try again when it is done")
+        events: queue.Queue[BaseModel | None] = queue.Queue()
+
+        def run() -> None:
+            try:
+                work(events.put)
+            # The workers emit expected failures themselves; anything else is a bug, but the page must still
+            # hear that the work ended, or its stream would wait forever. Logged with its traceback.
+            except Exception as e:
+                log.exception("%s failed", what)
+                events.put(failed(f"unexpected error: {e}"))
+            finally:
+                events.put(None)
+                busy.release()
+
+        threading.Thread(target=run, daemon=True).start()
+        return StreamingResponse(_drain(events), media_type="text/event-stream")
 
     def dataset(dataset_id: str) -> Dataset:
         found = by_id.get(dataset_id)
@@ -144,31 +177,30 @@ def create_app(
         chosen = dataset(dataset_id)
         if request.variant not in variants:
             raise HTTPException(422, f"variant must be one of {', '.join(variants)}")
-        if not asking.acquire(blocking=False):
-            raise HTTPException(409, "another question is being answered; ask again when it is done")
-        events: queue.Queue[StreamEvent | None] = queue.Queue()
+        return stream(
+            lambda emit: asker.ask(chosen, request.question, request.variant, emit),
+            f"asking {request.question!r}",
+            lambda message: ErrorEvent(message=message),
+        )
 
-        def work() -> None:
-            try:
-                asker.ask(chosen, request.question, request.variant, events.put)
-            # The asker emits expected failures itself; anything else is a bug, but the page must still hear
-            # that the question ended, or its stream would wait forever. Logged with its traceback.
-            except Exception as e:
-                log.exception("asking %r failed", request.question)
-                events.put(ErrorEvent(message=f"unexpected error: {e}"))
-            finally:
-                events.put(None)
-                asking.release()
-
-        threading.Thread(target=work, daemon=True).start()
-        return StreamingResponse(_drain(events), media_type="text/event-stream")
+    @app.post("/api/datasets/{dataset_id}/load")
+    def load(dataset_id: str) -> StreamingResponse:
+        """Load the dataset's graph into Neo4j (R222b), streaming each recipe step; replaces what it holds."""
+        chosen = dataset(dataset_id)
+        if loader is None:
+            raise HTTPException(501, "this server cannot load graphs")
+        return stream(
+            lambda emit: loader.load(chosen, emit),
+            f"loading {chosen.id}",
+            lambda text: LoadedEvent(ok=False, digest=None, expected=chosen.digest, seconds=0, message=text),
+        )
 
     if page is not None:
         app.mount("/", StaticFiles(directory=page, html=True), name="page")
     return app
 
 
-def _drain(events: "queue.Queue[StreamEvent | None]") -> Iterator[str]:
+def _drain(events: "queue.Queue[BaseModel | None]") -> Iterator[str]:
     """Each event as one server-sent event, until the worker's end mark."""
     while (event := events.get()) is not None:
         yield f"data: {event.model_dump_json()}\n\n"

@@ -72,6 +72,26 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/datasets/{dataset_id}/load": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        /**
+         * Load
+         * @description Load the dataset's graph into Neo4j (R222b), streaming each recipe step; replaces what it holds.
+         */
+        post: operations["load_api_datasets__dataset_id__load_post"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/datasets/{dataset_id}/locate": {
         parameters: {
             query?: never;
@@ -704,6 +724,28 @@ export interface components {
             /** Node Id */
             node_id: string;
         };
+        LoadEvent: components["schemas"]["StepEvent"] | components["schemas"]["LoadedEvent"];
+        /**
+         * LoadedEvent
+         * @description The load ended: whether every step ran and the graph's digest is the dataset's.
+         */
+        LoadedEvent: {
+            /** Digest */
+            digest: string | null;
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            event: "loaded";
+            /** Expected */
+            expected: string;
+            /** Message */
+            message: string;
+            /** Ok */
+            ok: boolean;
+            /** Seconds */
+            seconds: number;
+        };
         /**
          * ModelEvent
          * @description The model replied during `turn` after `ms` milliseconds.
@@ -1124,6 +1166,38 @@ export interface components {
             sources: string[];
         };
         /**
+         * StepEvent
+         * @description A recipe step started, finished, or failed (`output`: the end of its output).
+         */
+        StepEvent: {
+            /**
+             * @description discriminator enum property added by openapi-typescript
+             * @enum {string}
+             */
+            event: "step";
+            /** Index */
+            index: number;
+            /** Name */
+            name: string;
+            /**
+             * Output
+             * @default
+             */
+            output: string;
+            /**
+             * Seconds
+             * @default 0
+             */
+            seconds: number;
+            /**
+             * Status
+             * @enum {string}
+             */
+            status: "running" | "done" | "failed";
+            /** Total */
+            total: number;
+        };
+        /**
          * StepTrace
          * @description What one plan step did: how many items of each kind it produced, and a note (direction, checks).
          */
@@ -1431,6 +1505,37 @@ export interface operations {
                 };
                 content: {
                     "application/json": components["schemas"]["Subgraph"];
+                };
+            };
+            /** @description Validation Error */
+            422: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["HTTPValidationError"];
+                };
+            };
+        };
+    };
+    load_api_datasets__dataset_id__load_post: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                dataset_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description Successful Response */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": unknown;
                 };
             };
             /** @description Validation Error */

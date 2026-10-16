@@ -11846,6 +11846,41 @@ The user agreed to build R223 before R222b (the load job), so the page could be 
 
 **R223 done 2026-10-16.** Next: R222b, the load job, then R224.
 
+### R222b. Loading a graph from the page (done 2026-10-16; one $0 reload)
+
+**Scope:**
+- `src/kgbuilder/web/load.py` (new): `GraphLoader` runs the cached reload recipe of tests/gold/r178/runs.json as the real `kg` commands, under the dataset's preset, into its working folder `out/web/<id>` (the folder ask.py asks from). Each step is its own process, with its own MLflow run and exit code.
+  - First it copies `plan.json`, `text_schema.json`, `profile.json` and `staging/` from the build.
+  - The steps: `reset`; `build DATA`, then the pinned profile is copied back; `ingest-text DATA`; `extract --from-build BUILD`; `link`; `mention-pass`; `resolve`; `attach`; `index --cards template`.
+  - The mention pass runs with both Gemini keys set invalid. The recipe set only `GEMINI_API_KEY`; the free key is added so a free-key preset cannot pay either.
+  - It emits a running and a done or failed event per step, with its time and, on failure, the end of its output. A failed step stops the load, and the end event says the graph is partial.
+  - Then it reads the loaded graph's digest against the dataset's.
+- `app.py`:
+  - `POST /api/datasets/{id}/load` streams the events.
+  - It shares the one lock with questions, so no question goes to a half-built graph.
+  - A server without a loader answers 501.
+- `cli.py`: `kg serve` wires the loader (`_run_kg` runs `kg` from the interpreter's own folder) and the preset's data folder.
+- `openapi.py` adds the `LoadEvent` union, and the page's types are regenerated.
+- The page:
+  - The header shows "Load into Neo4j" on a tab whose graph is not loaded.
+  - `LoadDialog` asks first, naming the graph it clears for everyone, then shows the nine steps live, with their times and a failed step's output.
+  - Once the load ends, the tabs' loaded state is read again.
+
+**Found along the way:** the recipe is recorded as "$0", but embeddings are not cached. `ingest-text`, `resolve` and `index` send live embedding requests, which Gemini reports without token usage, so `cost_usd` cannot count them. The dialog says so: no generation call is paid, and the embeddings cost a fraction of a cent.
+
+**Verified:**
+- Tests:
+  - `tests/test_web.py`, 3 new tests: the recipe in order under the preset and folder, with invalid keys only for the mention pass; a failed step stopping the load; a wrong digest not ok; the route streaming, and answering 501 without a loader.
+  - The page: 10 vitest tests, the new one being the dialog naming the graph it clears, with Cancel loading nothing.
+  - `uv run pytest -m "not neo4j and not postgres"` green; `ruff`, `tsc`, oxlint and the build are clean.
+- **One real reload ($0 in generation):** through `kg serve`, `POST /api/datasets/lighthouses/load` reloaded Lighthouses, the graph 7687 already held. The other session was told first and did not need 7687.
+  - All 9 steps passed in 153 s; resolve (60 s) and index (58 s) were the long ones.
+  - The digest after the load is 62573881a3c6, equal to the dataset's.
+  - MLflow: 515 generation calls, all cache hits (mention_pass 33, resolve 482), `cost_usd` 0. There were 17 live embedding batches (ingest_text 1, resolve 7, index 9).
+  - Working Neo4j = Lighthouses (`out/web/lighthouses`).
+
+**R222b done 2026-10-16.** Next: R224.
+
 ### Plan R225-R228: build accuracy of the lighthouses and NTSB builds, and its figures (accepted 2026-10-16)
 
 **The ask.** Three datasets were added after the build was measured: generality, lighthouses and NTSB. Of these, generality already has the full set of build records:

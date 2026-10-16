@@ -1,0 +1,142 @@
+/* The load dialog: one centred panel over a dimmed page, the steps as a ruled list. */
+.load {
+  width: min(560px, calc(100% - 32px));
+  padding: 0;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--bg);
+  color: var(--text);
+  box-shadow: var(--shadow);
+}
+
+.load::backdrop {
+  background: rgb(15 23 42 / 0.4);
+}
+
+.load-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-4) var(--space-5);
+  border-bottom: 1px solid var(--border);
+}
+
+.load-head h2 {
+  font-size: var(--text-lead);
+  font-weight: 600;
+}
+
+.load-close {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: var(--radius);
+  background: none;
+  color: var(--text-2);
+  cursor: pointer;
+}
+
+.load-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  padding: var(--space-5);
+}
+
+.load-note {
+  font-size: var(--text-label);
+  color: var(--text-2);
+}
+
+.load-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+
+.load-primary,
+.load-secondary {
+  height: 40px;
+  padding: 0 var(--space-4);
+  border-radius: var(--radius);
+  font-size: var(--text-label);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.load-primary {
+  border: 0;
+  background: var(--accent);
+  color: var(--accent-text);
+}
+
+.load-secondary {
+  border: 1px solid var(--border-strong);
+  background: var(--bg);
+}
+
+.load-steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.load-step {
+  display: grid;
+  grid-template-columns: 24px 1fr auto;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) 0;
+  border-bottom: 1px solid var(--border);
+  font-size: var(--text-label);
+}
+
+.load-done {
+  color: var(--text);
+}
+
+.load-done svg {
+  color: var(--ok);
+}
+
+.load-running {
+  color: var(--text-2);
+}
+
+.load-failed,
+.load-error {
+  color: var(--bad);
+}
+
+.load-time {
+  color: var(--text-2);
+}
+
+.load-spin {
+  animation: load-spin 1s linear infinite;
+}
+
+@keyframes load-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.load-output {
+  margin: 0;
+  max-height: 220px;
+  overflow: auto;
+  padding: var(--space-3);
+  border-radius: 6px;
+  background: var(--bg-muted);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.load-ok {
+  color: var(--ok);
+  font-weight: 600;
+}

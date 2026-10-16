@@ -1004,6 +1004,70 @@
         "title": "LinkedNode",
         "type": "object"
       },
+      "LoadEvent": {
+        "discriminator": {
+          "mapping": {
+            "loaded": "#/components/schemas/LoadedEvent",
+            "step": "#/components/schemas/StepEvent"
+          },
+          "propertyName": "event"
+        },
+        "oneOf": [
+          {
+            "$ref": "#/components/schemas/StepEvent"
+          },
+          {
+            "$ref": "#/components/schemas/LoadedEvent"
+          }
+        ]
+      },
+      "LoadedEvent": {
+        "description": "The load ended: whether every step ran and the graph's digest is the dataset's.",
+        "properties": {
+          "digest": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Digest"
+          },
+          "event": {
+            "const": "loaded",
+            "default": "loaded",
+            "title": "Event",
+            "type": "string"
+          },
+          "expected": {
+            "title": "Expected",
+            "type": "string"
+          },
+          "message": {
+            "title": "Message",
+            "type": "string"
+          },
+          "ok": {
+            "title": "Ok",
+            "type": "boolean"
+          },
+          "seconds": {
+            "title": "Seconds",
+            "type": "number"
+          }
+        },
+        "required": [
+          "ok",
+          "digest",
+          "expected",
+          "seconds",
+          "message"
+        ],
+        "title": "LoadedEvent",
+        "type": "object"
+      },
       "ModelEvent": {
         "description": "The model replied during `turn` after `ms` milliseconds.",
         "properties": {
@@ -1840,6 +1904,56 @@
         "title": "SourceRef",
         "type": "object"
       },
+      "StepEvent": {
+        "description": "A recipe step started, finished, or failed (`output`: the end of its output).",
+        "properties": {
+          "event": {
+            "const": "step",
+            "default": "step",
+            "title": "Event",
+            "type": "string"
+          },
+          "index": {
+            "title": "Index",
+            "type": "integer"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "output": {
+            "default": "",
+            "title": "Output",
+            "type": "string"
+          },
+          "seconds": {
+            "default": 0.0,
+            "title": "Seconds",
+            "type": "number"
+          },
+          "status": {
+            "enum": [
+              "running",
+              "done",
+              "failed"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "index",
+          "total",
+          "name",
+          "status"
+        ],
+        "title": "StepEvent",
+        "type": "object"
+      },
       "StepTrace": {
         "description": "What one plan step did: how many items of each kind it produced, and a note (direction, checks).",
         "properties": {
@@ -2476,6 +2590,44 @@
           }
         },
         "summary": "Overview"
+      }
+    },
+    "/api/datasets/{dataset_id}/load": {
+      "post": {
+        "description": "Load the dataset's graph into Neo4j (R222b), streaming each recipe step; replaces what it holds.",
+        "operationId": "load_api_datasets__dataset_id__load_post",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "dataset_id",
+            "required": true,
+            "schema": {
+              "title": "Dataset Id",
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Load"
       }
     },
     "/api/datasets/{dataset_id}/locate": {

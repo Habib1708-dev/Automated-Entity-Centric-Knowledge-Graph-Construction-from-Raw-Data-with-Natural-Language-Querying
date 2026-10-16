@@ -1,5 +1,6 @@
 // The header (R223): the system's name, one tab per dataset, and what the active tab's graph holds and
-// whether Neo4j has it loaded (questions go only to the loaded one). Holds no state of its own.
+// whether Neo4j has it loaded (questions go only to the loaded one), with the button that loads it (R222b).
+// Holds no state of its own.
 import { Database } from 'lucide-react'
 import type { DatasetsView, SchemaView } from '../api/types'
 import './Header.css'
@@ -8,10 +9,12 @@ interface Props {
   view: DatasetsView | null
   active: string | null
   schema: SchemaView | null
+  busy: boolean // a question or a load is running: no load can start
   onSelect: (id: string) => void
+  onLoad: () => void
 }
 
-export function Header({ view, active, schema, onSelect }: Props) {
+export function Header({ view, active, schema, busy, onSelect, onLoad }: Props) {
   const current = view?.datasets.find((d) => d.id === active)
   const things = schema?.things.reduce((sum, t) => sum + t.count, 0)
   return (
@@ -38,6 +41,11 @@ export function Header({ view, active, schema, onSelect }: Props) {
             <Database size={16} aria-hidden />
             {current.loaded ? 'Loaded in Neo4j' : 'Not loaded'}
           </span>
+        )}
+        {current && view?.neo4j && !current.loaded && (
+          <button className="header-load" onClick={onLoad} disabled={busy}>
+            Load into Neo4j
+          </button>
         )}
         {schema && things !== undefined && (
           <span>

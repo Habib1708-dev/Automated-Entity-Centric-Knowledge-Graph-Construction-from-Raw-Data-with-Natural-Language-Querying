@@ -10,7 +10,9 @@
 - the routes: which tab is loaded, unknown ids, a streamed question, a refused variant, one question at a
   time, an unexpected error that still ends the stream;
 - `qa_parts` carrying the observer to the systems;
-- the committed OpenAPI file equal to the API's schema, and the built page served beside the API (R223)."""
+- the committed OpenAPI file equal to the API's schema, and the built page served beside the API (R223);
+- the load job (R222b): the cached recipe in order under the preset, a failed step stopping it, a wrong
+  digest not ok, and the route streaming under the one lock."""
 
 import json
 import threading
@@ -411,3 +413,71 @@ def test_an_answers_sources_are_placed_on_the_graph():
     assert graph.locate(SourceRef(kind="claim", id="c1")) == []
     body = client().post("/api/datasets/kettles/locate", json=[{"kind": "chunk", "id": "d.md#0"}]).json()
     assert body == {"d.md#0": ["Product:P1", "i1", "m3"]}
+
+
+# --- loading a graph (R222b) ------------------------------------------------------------------------------
+
+
+class FakeRun:
+    """A `kg` runner keeping every command; the step named in `fails` exits 1."""
+
+    def __init__(self, fails: str = ""):
+        self.calls: list[tuple[list[str], dict[str, str]]] = []
+        self.fails = fails
+
+    def __call__(self, args, env):
+        self.calls.append((args, env))
+        return (1, "Traceback: boom") if args[2] == self.fails else (0, "ok")
+
+
+def loader(tmp_path, run, digest="abc"):
+    from kgbuilder.web.load import GraphLoader
+
+    return GraphLoader(run, lambda d: Path("data/kettles"), lambda d: digest, tmp_path / "web")
+
+
+def test_a_load_runs_the_cached_recipe_in_order_under_the_datasets_preset(tmp_path):
+    """R222b: the reload recipe of tests/gold/r178/runs.json, every step with the preset and the working
+    folder; only the mention pass gets invalid keys, so a cache miss there fails instead of paying."""
+    dataset = Dataset(id="kettles", name="Kettles", preset="dev", build=a_build(tmp_path), digest="abc")
+    run, events = FakeRun(), []
+    loader(tmp_path, run).load(dataset, events.append)
+    folder = str(tmp_path / "web" / "kettles")
+    assert [a[2] for a, _ in run.calls] == [
+        "reset", "build", "ingest-text", "extract", "link", "mention-pass", "resolve", "attach", "index",
+    ]  # fmt: skip
+    assert all(a[:2] == ["--preset", "dev"] and a[-2:] == ["--out", folder] for a, _ in run.calls)
+    assert run.calls[3][0][3:5] == ["--from-build", str(dataset.build)]
+    assert run.calls[8][0][3:5] == ["--cards", "template"]
+    keys = {a[2]: env for a, env in run.calls}
+    assert keys["mention-pass"] == {"GEMINI_API_KEY": "invalid", "GEMINI_FREE_API_KEY": "invalid"}
+    assert all(env == {} for name, env in keys.items() if name != "mention-pass")
+    assert [(e.name, e.status) for e in events[:2]] == [("reset", "running"), ("reset", "done")]
+    assert (events[-1].ok, events[-1].message) == (True, "Kettles is loaded")
+    assert (tmp_path / "web" / "kettles" / "staging" / "kettles.csv").exists()
+
+
+def test_a_failed_step_stops_the_load_and_a_wrong_digest_is_not_ok(tmp_path):
+    dataset = Dataset(id="kettles", name="Kettles", preset="dev", build=a_build(tmp_path), digest="abc")
+    run, events = FakeRun(fails="resolve"), []
+    loader(tmp_path, run).load(dataset, events.append)
+    assert [a[2] for a, _ in run.calls][-1] == "resolve"
+    failed = events[-2]
+    assert (failed.name, failed.status, failed.output) == ("resolve", "failed", "Traceback: boom")
+    assert not events[-1].ok and "partial graph" in events[-1].message
+    events = []
+    loader(tmp_path, FakeRun(), digest="other").load(dataset, events.append)
+    assert not events[-1].ok and "not Kettles's abc" in events[-1].message
+
+
+def test_the_load_route_streams_and_shares_the_one_lock_with_questions(tmp_path):
+    from kgbuilder.web.load import LoadedEvent
+
+    class FakeLoader:
+        def load(self, dataset, emit):
+            emit(LoadedEvent(ok=True, digest="aaa", expected="aaa", seconds=1.0, message="Kettles is loaded"))
+
+    app = create_app(DATASETS, lambda d: knowledge(), FakeAsker(), ["agent"], None, FakeLoader())
+    response = TestClient(app).post("/api/datasets/kettles/load")
+    assert [e["event"] for e in events_of(response)] == ["loaded"]
+    assert client().post("/api/datasets/kettles/load").status_code == 501  # a server without a loader

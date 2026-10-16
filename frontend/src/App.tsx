@@ -7,6 +7,7 @@ import type { DatasetsView, SchemaView, StreamEvent } from './api/types'
 import { ChatPanel } from './components/ChatPanel'
 import { GraphPanel } from './components/GraphPanel'
 import { Header } from './components/Header'
+import { LoadDialog } from './components/LoadDialog'
 import { type Exchange, withEvent } from './lib/exchange'
 import { sourceRef, sourcesOf, type Source } from './lib/trace'
 import './App.css'
@@ -39,6 +40,7 @@ export default function App() {
   const [chats, setChats] = useState<Record<string, Exchange[]>>({})
   const [source, setSource] = useState<Source | null>(null)
   const [busy, setBusy] = useState(false)
+  const [loading, setLoading] = useState(false) // the load dialog is open (R222b)
   // where each source of the latest answer sits on the graph: source id -> thing ids (POST /locate)
   const [placed, setPlaced] = useState<Record<string, string[]>>({})
 
@@ -59,6 +61,9 @@ export default function App() {
     // without a schema the header and legend show no counts; nothing else depends on it
     api.schema(active).then((s) => setSchemas((all) => ({ ...all, [active]: s })), () => undefined)
   }, [active])
+
+  // after a load the tabs' loaded state is read again; a failure keeps the last view (the dialog says why)
+  const refresh = () => api.datasets().then(setView, () => undefined)
 
   const select = (id: string) => {
     setActive(id)
@@ -108,7 +113,23 @@ export default function App() {
 
   return (
     <div className="app">
-      <Header view={view} active={active} schema={schema} onSelect={select} />
+      <Header
+        view={view}
+        active={active}
+        schema={schema}
+        busy={busy}
+        onSelect={select}
+        onLoad={() => setLoading(true)}
+      />
+      {loading && dataset && view && (
+        <LoadDialog
+          dataset={dataset}
+          holding={view.datasets.find((d) => d.id === view.loaded)?.name ?? null}
+          onClose={() => setLoading(false)}
+          onLoaded={refresh}
+          onBusy={setBusy}
+        />
+      )}
       {error && (
         <p className="app-error">
           The interface cannot reach its API ({error}). Start it with <code>uv run kg serve</code>.

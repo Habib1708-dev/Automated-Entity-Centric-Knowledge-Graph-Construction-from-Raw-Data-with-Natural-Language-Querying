@@ -4,6 +4,7 @@
 import type {
   ChunkView,
   DatasetsView,
+  LoadEvent,
   SchemaView,
   StreamEvent,
   Subgraph,
@@ -62,14 +63,33 @@ export const api = {
 }
 
 /** Split server-sent-event text into its `data:` payloads; returns the events and the unfinished tail. */
-export function parseEvents(buffer: string): { events: StreamEvent[]; rest: string } {
+export function parseEvents<E = StreamEvent>(buffer: string): { events: E[]; rest: string } {
   const blocks = buffer.split('\n\n')
   const rest = blocks.pop() ?? ''
   const events = blocks
     .map((block) => block.split('\n').find((line) => line.startsWith('data: ')))
     .filter((line): line is string => line !== undefined)
-    .map((line) => JSON.parse(line.slice('data: '.length)) as StreamEvent)
+    .map((line) => JSON.parse(line.slice('data: '.length)) as E)
   return { events, rest }
+}
+
+/** POST to `path` and call `onEvent` for each server-sent event until the stream ends. */
+async function stream<E>(path: string, body: unknown, onEvent: (event: E) => void): Promise<void> {
+  const response = await fetch(`/api${path}`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: body === undefined ? undefined : JSON.stringify(body),
+  })
+  if (!response.ok || response.body === null) throw await failure(response)
+  const reader = response.body.pipeThrough(new TextDecoderStream()).getReader()
+  let buffer = ''
+  for (;;) {
+    const { value, done } = await reader.read()
+    if (done) break
+    const parsed = parseEvents<E>(buffer + value)
+    buffer = parsed.rest
+    parsed.events.forEach(onEvent)
+  }
 }
 
 /** Ask `question` of `dataset` with `variant`, calling `onEvent` for each event as it arrives. Resolves when
@@ -80,19 +100,11 @@ export async function ask(
   variant: string,
   onEvent: (event: StreamEvent) => void,
 ): Promise<void> {
-  const response = await fetch(`/api${base(dataset)}/ask`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ question, variant }),
-  })
-  if (!response.ok || response.body === null) throw await failure(response)
-  const reader = response.body.pipeThrough(new TextDecoderStream()).getReader()
-  let buffer = ''
-  for (;;) {
-    const { value, done } = await reader.read()
-    if (done) break
-    const parsed = parseEvents(buffer + value)
-    buffer = parsed.rest
-    parsed.events.forEach(onEvent)
-  }
+  return stream(`${base(dataset)}/ask`, { question, variant }, onEvent)
+}
+
+/** Load `dataset`'s graph into Neo4j (R222b), calling `onEvent` for each recipe step and the end; rejects
+ * with ApiError when the API refuses (a question or another load running: 409). */
+export function load(dataset: string, onEvent: (event: LoadEvent) => void): Promise<void> {
+  return stream(`${base(dataset)}/load`, undefined, onEvent)
 }

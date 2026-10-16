@@ -16,6 +16,7 @@ from pydantic import TypeAdapter
 
 from .app import create_app
 from .events import StreamEvent
+from .load import LoadEvent
 
 
 class _NoAsker:
@@ -29,7 +30,8 @@ class _NoAsker:
 
 
 def schema() -> dict[str, Any]:  # Any: the OpenAPI document is free-form JSON
-    """The API's OpenAPI document, its components holding `StreamEvent` and every event model."""
+    """The API's OpenAPI document, its components holding `StreamEvent`, `LoadEvent` (R222b) and every
+    event model."""
 
     def no_graph(dataset):  # noqa: ANN001, ANN202 - never called
         raise NotImplementedError
@@ -39,6 +41,9 @@ def schema() -> dict[str, Any]:  # Any: the OpenAPI document is free-form JSON
     components = document.setdefault("components", {}).setdefault("schemas", {})
     components.update(events.pop("$defs", {}))
     components["StreamEvent"] = events
+    loads = TypeAdapter(LoadEvent).json_schema(ref_template="#/components/schemas/{model}")
+    components.update(loads.pop("$defs", {}))
+    components["LoadEvent"] = loads
     return document
 
 

@@ -12,7 +12,9 @@ Not here: pipeline logic (pipeline/) and anything that talks to the LLM or Neo4j
 
 import logging
 import os
+import shutil
 import subprocess
+import sys
 from collections.abc import Iterator
 from contextlib import contextmanager
 from importlib.metadata import version
@@ -61,6 +63,7 @@ from .web.app import create_app
 from .web.ask import AskService
 from .web.datasets import Dataset, read_datasets
 from .web.knowledge import KnowledgeGraph, from_build
+from .web.load import GraphLoader
 
 app = typer.Typer(no_args_is_help=True, add_completion=False)
 OUT = Path("out")
@@ -1082,10 +1085,27 @@ def serve(host: str = "127.0.0.1", port: int = 8000):
         return from_build(dataset.build, s.data_dir, chunking)
 
     asker = AskService(contexts, read_prices(PRICES_FILE), WEB_FOLDERS)
+    data_dir = lambda d: Settings(kg_preset=d.preset).data_dir  # noqa: E731 - the preset's dataset folder
+    loader = GraphLoader(_run_kg, data_dir, asker.loaded_digest, WEB_FOLDERS)
     page = WEB_PAGE if WEB_PAGE.exists() else None
     if page is None:
         typer.echo(f"{WEB_PAGE} not built: serving the API only (run `npm run build` in frontend/)")
-    uvicorn.run(create_app(datasets, graphs, asker, list(WEB_VARIANTS), page), host=host, port=port)
+    uvicorn.run(create_app(datasets, graphs, asker, list(WEB_VARIANTS), page, loader), host=host, port=port)
+
+
+# the last lines of a recipe step's output the page shows when the step fails
+_TAIL_LINES = 30
+
+
+def _run_kg(args: list[str], env: dict[str, str]) -> tuple[int, str]:
+    """Run `kg` with `args` as its own process, the environment overridden by `env` (R222b, the load
+    recipe): each step is the real command, with its own context, MLflow run and exit code."""
+    kg = shutil.which("kg", path=str(Path(sys.executable).parent)) or "kg"
+    done = subprocess.run(
+        [kg, *args], env=os.environ | env, capture_output=True, text=True, encoding="utf-8", errors="replace"
+    )
+    output = (done.stdout + done.stderr).splitlines()
+    return done.returncode, "\n".join(output[-_TAIL_LINES:])
 
 
 @app.command()

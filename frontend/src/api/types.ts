@@ -31,3 +31,7 @@ export type SentBackEvent = Schemas['SentBackEvent']
 export type LLMEvent = Schemas['LLMEvent']
 export type AnswerEvent = Schemas['AnswerEvent']
 export type ErrorEvent = Schemas['ErrorEvent']
+
+export type LoadEvent = Schemas['LoadEvent']
+export type StepEvent = Schemas['StepEvent']
+export type LoadedEvent = Schemas['LoadedEvent']
