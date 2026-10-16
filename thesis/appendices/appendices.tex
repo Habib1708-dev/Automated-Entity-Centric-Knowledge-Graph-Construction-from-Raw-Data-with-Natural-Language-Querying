@@ -20,3 +20,44 @@
 
 \chapter{Reproducibility Guide}\label{app:reproducibility-guide}
 % Sources: commands, presets, costs
+
+\chapter{The Excluded Dataset}\label{app:excluded-dataset}
+% Sources: tests/gold/r225-r228/lighthouses; tests/gold/r157, r166, r173, r179 outcomes.json;
+% figures/results/construction/r229_build_accuracy/README.md; REFACTOR_PLAN R153, R155b, R228, R230.
+
+This appendix lists every measurement of the dataset excluded from the results (\cref{sec:ch03-datasets}),
+measured with the same code, rules and judges as the four reported datasets.
+
+\paragraph{The dataset.} Ten encyclopaedia articles (5{,}729 words) about lighthouses, with three tables of
+open structured data about the same lighthouses: 80 lighthouses, 62 events and 4 engineers. It was built on
+12~October~2026 for \$0.689.
+
+\begin{table}[htbp]
+\centering
+\caption{Every measurement of the excluded dataset, beside the corresponding range on the four reported
+datasets. Builder rates are judged by meaning unless marked exact.}
+\label{tab:excluded-dataset}
+\small
+\begin{tabularx}{\linewidth}{@{}Xll@{}}
+\toprule
+Measure & Excluded dataset & Four reported datasets \\
+\midrule
+C4: mention-to-record links right (hard gate $\geq 95\,\%$) & \kn{34}{36}, \textbf{fails} & all pass (\kn{36}{36} to \kn{77}{77}) \\
+C3: no wrong merge of records or individuals (hard gate) & \textbf{fails} (the same two links) & all pass \\
+C6: purity of record and individual starts (hard gate $\geq 95\,\%$) & \kn{77}{79}, passes & all pass \\
+Claim precision, content / strict & \kn{152}{160} / \kn{145}{160} & 96--99\,\% / 91--97\,\% \\
+Claim recall, 40 random sentences & \kn{11}{73} & 18--58\,\% \\
+Mention recall, judged / exact & \kn{138}{167} / \kn{119}{167} & 83--95\,\% / 71--81\,\% \\
+Mention pass precision & \kn{55}{57} & 82--92\,\% \\
+\midrule
+QA benchmark, exact / by meaning & \kn{46}{50} / \kn{48}{50} & \kn{193}{200} / \kn{195}{200} \\
+QA confirmation 1, exact / by meaning & \kn{17}{20} / \kn{17}{20} & \kn{77}{80} / \kn{77}{80} \\
+QA confirmation 2, exact / by meaning & \kn{20}{20} / \kn{20}{20} & \kn{78}{80} / \kn{78}{80} \\
+QA confirmation 3, exact / by meaning & \kn{20}{20} / \kn{20}{20} & \kn{73}{80} / \kn{75}{80} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Pooled over all five datasets, question-answering accuracy by meaning would read \kn{243}{250} on the
+benchmark and \kn{94}{100}, \kn{98}{100} and \kn{95}{100} on the three confirmation sets, against
+97.5\,\%, 96.3\,\%, 97.5\,\% and 93.8\,\% on the four reported datasets.

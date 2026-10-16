@@ -7,8 +7,14 @@
 % Calibri ships with Windows and Office; where it is missing (Overleaf, Linux) Carlito is used, a free font
 % with the same metrics, so line and page breaks stay the same.
 \usepackage{fontspec}
+% English hyphenation patterns; without them XeLaTeX cannot break long words and lines overflow the margin.
+\usepackage[english]{babel}
 \IfFontExistsTF{Calibri}{\setmainfont{Calibri}}{\setmainfont{Carlito}}
 \usepackage{microtype}
+% Allow a little extra inter-word space before a line overflows, for paragraphs with long names and citations.
+\setlength{\emergencystretch}{1.5em}
+% Long DOIs and URLs in the bibliography may break at any character.
+\usepackage{xurl}
 \usepackage{setspace}
 \onehalfspacing
 
@@ -27,8 +33,9 @@
 \usepackage[style=ieee,backend=biber]{biblatex}
 \addbibresource{refs.bib}
 
+% noidx mode: the list is sorted by LaTeX itself, so no external indexing tool is needed.
 \usepackage[acronym,toc]{glossaries}
-\makeglossaries
+\makenoidxglossaries
 
 \usepackage[hidelinks]{hyperref}
 \usepackage[nameinlink,capitalise]{cleveref}
@@ -40,8 +47,9 @@
 % \figplaceholder{plan id}{what the figure will show}. None may remain in the submitted thesis (Stage 8 check).
 \newcommand{\figplaceholder}[2]{\fbox{\parbox{0.9\linewidth}{\centering\vspace{2cm}\textbf{[#1]} #2\vspace{2cm}}}}
 
+% A visible red note for a statement that is still provisional, e.g. an attribution not yet confirmed.
+% None may remain in the submitted thesis (Stage 8 check).
+\newcommand{\checknote}[1]{\textcolor{red}{\,[\textbf{to check:} #1]}}
+
 % A proportion with its denominator, e.g. \kn{195}{200}; every rate in the text is written this way.
 \newcommand{\kn}[2]{#1/#2}
-% The two accuracy scores are always named (evaluation rule of the project).
-\newcommand{\exact}{exact match}
-\newcommand{\meaning}{by meaning}

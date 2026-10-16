@@ -125,8 +125,10 @@ NTSB & 7 tables, 386 rows (models, events, aircraft, crew, injuries, findings, e
 \end{table}
 
 \paragraph{Furniture.} Ten furniture products with their assemblies, components and suppliers, and customer
-reviews that report defects in those parts. The tables and reviews are synthetic and come from the course
-material that inspired the project's first design~\cite{kollegger2025agentic}. The original goal of
+reviews that report defects in those parts. The tables and reviews are synthetic. They were, to the author's knowledge, taken over with the
+course material that inspired the project's first design~\cite{kollegger2025agentic}\checknote{origin of the furniture data to be confirmed}.
+% PROVISIONAL (author, 2026-10-16): the course page does not name the furniture dataset; the attribution rests on
+% the course notes in the author's possession. Confirm the origin before submission (Stage 8 check). The original goal of
 the dataset is root-cause analysis: from a defect a reviewer reports, reach the part and the supplier behind
 it. All development of the builder started here.
 
@@ -150,14 +152,28 @@ event sequences, crew and injuries. Each of the six documents holds the narrativ
 one model. It was added after the query engine was frozen, and its questions were written before its graph
 was built, so it is the one dataset that neither component saw during development.
 
-\paragraph{A fifth dataset.} A fifth dataset, built from encyclopaedia articles and the open structured data
-describing the same subjects, was built and measured with the same rules. Its graph failed one of the
-builder's hard audit gates: of 36 links from text mentions to records, 34 were right, below the 95\,\%
-bound fixed in advance (criterion C4, \cref{sec:ch05-method}). Since a graph that
-fails a hard gate does not meet the builder's own definition of correctness, the dataset is not used in this
-thesis. Its records remain in the project repository. Excluding it does not favour the reported question-answering
-results: on the question sets where it was measured, its accuracy was equal to or higher than the average of
-the other four.
+\paragraph{A fifth dataset, excluded.} A fifth dataset was built and measured with the same code and the same
+rules: encyclopaedia articles about lighthouses with tables of open structured data on the same lighthouses. It
+is excluded from the results of this thesis. The criterion, its timing and the effect of the exclusion are
+stated here so that the reader can judge the decision.
+\begin{itemize}[nosep]
+\item \emph{The criterion.} The builder's audit criterion C4 requires that at least 95\,\% of the links from
+text mentions to records be right (\cref{sec:ch05-method}). This bound was fixed in the builder's design
+document on 6~October~2026, before the fifth dataset existed.
+\item \emph{The measurement.} The dataset was built on 12~October and its graph audited on 16~October 2026:
+34 of 36 links were right (94.4\,\%, Wilson interval 81.9--98.5\,\%), below the bound. In both wrong links the
+generic word ``lighthouse'' was linked to the article's own lighthouse where the sentence meant another one.
+\item \emph{The decision.} The decision to exclude a dataset whose graph fails a hard gate, rather than to
+report it beside the others, was taken after this measurement, on 16~October 2026, when the builder was frozen
+for the thesis. It is therefore a post-hoc decision applying a pre-defined criterion, not a rule fixed in
+advance.
+\item \emph{Its effect.} On the builder's results, the exclusion removes the only dataset that fails an audit
+gate; the four reported datasets pass every gate, and this must not be read as evidence that the builder passes
+on every dataset it was measured on. On question answering the effect is mixed: by meaning, the excluded
+dataset scored below the average of the other four on two question sets and above it on two.
+\end{itemize}
+Every measurement of the excluded dataset is listed in \cref{app:excluded-dataset}, and its records remain in
+the project repository.
 
 \paragraph{Scale.} All four datasets are small: tens of documents and at most a few hundred rows each. This
 was deliberate --- every judged number in the thesis required reading the sources in full --- but it limits
@@ -258,8 +274,8 @@ labels: \emph{valid}; \emph{valid alternative} (right, though not as the gold ha
 \emph{ambiguous} (the text honestly supports both readings); and \emph{unjudgeable}. From them three rates are
 derived:
 \begin{align*}
-\text{strict} &= \frac{\#\text{valid}}{n_{\text{decided}}}, &
-\text{accepted} &= \frac{\#\text{valid} + \#\text{valid alternative}}{n_{\text{decided}}}, &
+\text{strict} &= \frac{\#\text{valid}}{n_{\text{decided}}}, \\
+\text{accepted} &= \frac{\#\text{valid} + \#\text{valid alternative}}{n_{\text{decided}}}, \\
 \text{worst case} &= \frac{\#\text{valid} + \#\text{valid alternative}}{n_{\text{all}}},
 \end{align*}
 where $n_{\text{decided}}$ excludes ambiguous and unjudgeable items and $n_{\text{all}}$ counts them as wrong.

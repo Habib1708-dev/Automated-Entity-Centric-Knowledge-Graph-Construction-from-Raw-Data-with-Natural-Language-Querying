@@ -4,8 +4,10 @@
 
 \begin{document}
 
-\pagenumbering{roman}
+% The title page gets its own numbering, so that its page and the declaration are not both "i".
+\pagenumbering{alph}
 \input{frontmatter/titlepage}
+\pagenumbering{roman}
 \input{frontmatter/declaration}
 \input{frontmatter/acknowledgments}
 \input{frontmatter/abstract}

@@ -30,6 +30,19 @@ latexmk -xelatex main.tex
 The body font is Calibri, so the thesis compiles with XeLaTeX (or LuaLaTeX), not pdfLaTeX. Where Calibri is
 not installed, the preamble falls back to Carlito, which has the same metrics.
 
+**Without a TeX installation** (how the drafts are checked; nothing is installed system-wide): two portable
+programs in any folder, neither added to the system PATH.
+- Tectonic 0.15.0 (`tectonic-0.15.0-x86_64-pc-windows-msvc.zip` from the project's GitHub releases), a
+  XeTeX-based engine that downloads LaTeX packages on first use and reruns TeX and biber as needed.
+- biber **2.17** (`biber-MSWIN64.zip` from SourceForge, `biblatex-biber/2.17`). The version must match
+  Tectonic's biblatex 3.17; biber 2.19 refuses it.
+
+```
+PATH="/path/to/biber217:$PATH" /path/to/tectonic.exe --keep-logs --outdir build main.tex
+```
+
+In Git Bash, write the biber folder as `/c/...`: a `C:` in PATH is read as a separator.
+
 ## Rules
 
 - Every number in the text has a row in `evidence_registry.csv`, names its score (exact match or by
