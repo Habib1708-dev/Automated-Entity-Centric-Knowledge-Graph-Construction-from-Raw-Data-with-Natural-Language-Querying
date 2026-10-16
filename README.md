@@ -345,6 +345,10 @@ src/kgbuilder/
                     qa_graph (R117: the loaded graph checked against the gold) ; retrieval_stages (R117) ;
                     index_stages (R118: kg units, R119: kg index) ; summary_stages (R124b: kg summary-sheet,
                     kg summary-judged)
+  web/              R221-R224: the web interface's API (kg serve): the dataset tabs (datasets.yaml), each
+                    build's graph read offline (knowledge.py), the streamed question (ask.py, events.py),
+                    the graph load (load.py), the routes (app.py), the schema the page's types come from
+frontend/           the page: React + TypeScript (Vite) + Cytoscape.js; PRODUCT.md and DESIGN.md hold its brief
 ```
 
 | Stage (MLflow run) | Module | LLM? |
@@ -608,6 +612,43 @@ DROP INDEX card_template_embeddings IF EXISTS   // and card_template_text, card_
                                                 // card_summary_text, claim_sentence_embeddings,
                                                 // claim_sentence_text, chunk_text
 ```
+
+## Web interface
+
+A page over the benchmarked datasets: one tab per dataset of `datasets.yaml` (furniture, NHTSA recalls,
+generality, lighthouses, NTSB accidents), each with its graph, and a chat that asks the agent and shows how it
+answered.
+
+```
+cd frontend && npm install && npm run build && cd ..   # once, and after any change to frontend/
+uv run kg serve                                        # then open http://127.0.0.1:8000
+```
+
+- **Graph.** Every tab draws its final build's graph, rebuilt offline from the build folder at no cost, so all
+  five can be browsed whatever Neo4j holds.
+  - A table record is a rounded square, a thing named in the text a circle, a concept a diamond.
+  - Search a thing, open its neighbourhood, or click it for its properties (each with the table row it came
+    from) and its facts (each with its sentence and passage, or its table row).
+- **Questions.** They go only to the dataset whose graph Neo4j holds (the green dot on its tab); the other
+  tabs say which one is loaded.
+  - Each question is one paid LLM call chain on the dataset's preset: about $0.02-0.03 with `agent`, more with
+    `agent_best`. It is logged to MLflow as `kg ask` logs it, and passes the same security screen.
+  - The steps appear while the agent works: each tool call with its arguments, result, model time and tool
+    time, and every send-back.
+  - The answer comes with its outcome, time, cost and numbered sources. A source opens the passage with the
+    quoted words marked, the query with its rows, or the record, with the citation checks code ran; the
+    graph rings the things it rests on.
+  - One question at a time.
+- **Loading a graph.** On a tab whose graph is not loaded, *Load into Neo4j* reruns the cached reload recipe
+  (R222b) into `out/web/<id>`: nine `kg` commands, about three minutes.
+  - It **clears the working graph on 7687 for everyone using it**, so the page asks first.
+  - No generation call is paid (all are served from `.cache/llm`). Text and card embeddings are requested again
+    (a fraction of a cent; Gemini reports no usage for them, so `cost_usd` shows 0).
+
+For development, run `uv run kg serve` and `npm run dev` in `frontend/` (the Vite server proxies `/api` to
+port 8000). After changing a model the page reads, regenerate its types with `npm run api`; a test fails
+while `frontend/openapi.json` is stale. The page's own checks are `npm run typecheck`, `npm run lint` and
+`npm test`.
 
 ## Development
 

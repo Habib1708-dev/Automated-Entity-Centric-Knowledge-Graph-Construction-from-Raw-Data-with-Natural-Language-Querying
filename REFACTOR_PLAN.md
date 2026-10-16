@@ -11881,6 +11881,29 @@ The user agreed to build R223 before R222b (the load job), so the page could be 
 
 **R222b done 2026-10-16.** Next: R224.
 
+### R224. README, and one question end to end (done 2026-10-16; one question, $0)
+
+**Scope:**
+- `README.md`: a "Web interface" section (build, start, the graph, questions and their cost, loading a graph and what it clears, development and `npm run api`), and `web/` plus `frontend/` in the code map.
+- `frontend/src/lib/trace.ts`: a cost of exactly 0 (an answer served from the cache) reads "$0", not "$0.0000".
+
+**Verified, the one question (the user's yes of 2026-10-16):**
+- Asked through the real page: playwright-core drove the installed Edge against `kg serve` on 8000. The Lighthouses tab was loaded by R222b's reload.
+- The question was LF09 of `tests/gold/qa/lighthouses_qa_confirm4.json`, with the variant `agent`: "According to the Godrevy Lighthouse article, who had been appointed as the engineer for the project by December 1857?"
+- **The answer:** "James Sutcliffe", outcome answer, the same as R219's `agent` answer.
+  - One call: `search_text`, which returned 10 of 12 candidate passages.
+  - One source: `articles/godrevy_lighthouse.md#1`.
+  - Code's checks: quote found, and "James Sutcliffe" found in the passage.
+  - The graph ringed Godrevy Lighthouse, James Walker, Rev. J.W. Murray and Godrevy Island, the ends of that passage's facts.
+  - 2.3 s.
+- **MLflow run `5a87c8a7` (`ask`, preset lighthouses):** 3 LLM calls, all cache hits, because R219 asked this same question. One live embedding batch. `cost_usd` 0.
+- So the live path (page, API, stage, agent, stream, sources, graph placement) is proven at no cost. A question not asked before costs about $0.02-0.03 with `agent`.
+- `uv run pytest -m "not neo4j and not postgres"`: 1798 passed. `ruff`, `tsc`, oxlint, 10 vitest tests and the build are clean.
+
+**R224 done 2026-10-16. Plan R221-R224 done.**
+- The interface is on branch `web-interface`, not merged to `main` (the user decides).
+- Working Neo4j = Lighthouses (`out/web/lighthouses`).
+
 ### Plan R225-R228: build accuracy of the lighthouses and NTSB builds, and its figures (accepted 2026-10-16)
 
 **The ask.** Three datasets were added after the build was measured: generality, lighthouses and NTSB. Of these, generality already has the full set of build records:

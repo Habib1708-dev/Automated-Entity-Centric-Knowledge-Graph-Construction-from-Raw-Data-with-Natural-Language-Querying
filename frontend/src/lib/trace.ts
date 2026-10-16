@@ -149,4 +149,4 @@ export function answerText(answer: SystemAnswer): string {
 
 export const seconds = (ms: number) => `${(ms / 1000).toFixed(ms < 10_000 ? 1 : 0)} s`
 export const dollars = (usd: number | null | undefined) =>
-  usd === null || usd === undefined ? 'cost unknown' : usd < 0.01 ? `$${usd.toFixed(4)}` : `$${usd.toFixed(3)}`
+  usd === null || usd === undefined ? 'cost unknown' : usd === 0 ? '$0' : usd < 0.01 ? `$${usd.toFixed(4)}` : `$${usd.toFixed(3)}`
