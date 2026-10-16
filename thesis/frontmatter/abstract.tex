@@ -1,5 +1,30 @@
-% Abstract (about 300 words) and keywords; written last, in Stage 7.
+% Abstract (about 300 words) and keywords; written in Stage 7, after the chapters. Every number appears in the
+% chapters with its row in evidence_registry.csv.
 \chapter*{Abstract}
 \addcontentsline{toc}{chapter}{Abstract}
 
-\noindent\textbf{Keywords:} knowledge graphs, entity resolution, provenance, retrieval-augmented generation, LLM agents, question answering
+Structured records and free text often describe the same things but are rarely connected. This thesis builds and
+evaluates a system that turns mixed tables and documents into a knowledge graph and answers natural-language questions
+over it. Throughout, a large language model proposes and deterministic code decides: the model proposes a plan for the
+tables, the kinds of facts in the text, the facts and mentions themselves, and the identity of near misses; code
+validates every proposal, verifies every quotation against its source, and computes everything that can be computed
+exactly.
+
+A measured design history shows what the graph should contain. Facts stored as edges between shared nodes leaked
+from one entity to another, and stored facts, though 96--99\,\% precise, covered only 18--58\,\% of the claims a careful
+reader finds. The final design is therefore an \emph{anchor graph}: an index that links each mention to the record,
+individual or concept it refers to through reversible, evidenced edges and leads from each of them to the passages
+that concern it. Judged as an index by ten criteria fixed before measurement, it passed every hard gate on four
+datasets --- including one never seen during development --- with every judged link from text to a record correct.
+
+Questions are answered by an agent that calls read-only tools one at a time: graph navigation, fused and reranked text
+retrieval, exhaustive word search, and typed queries that code compiles to Cypher or SQL. Code checks every call,
+citation and answer outcome, and a deterministic screen refuses requests to change the data. On 440 unseen questions
+the engine answered 96.6\,\% right by meaning and 95.7\,\% by exact match, far more than retrieval-only baselines, at
+about 1.6 US cents and ten seconds per question. Its remaining errors lie mainly in literal reading of retrieved
+passages. Reference answers and judgements come from a different model family than the system under test, a
+limitation stated with every judged result.
+
+\vspace{1em}
+\noindent\textbf{Keywords:} knowledge graphs, large language models, entity resolution, provenance,
+retrieval-augmented generation, LLM agents, question answering over tables and text

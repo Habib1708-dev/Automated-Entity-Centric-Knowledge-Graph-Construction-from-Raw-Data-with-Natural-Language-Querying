@@ -40,6 +40,8 @@
 % noidx mode: the list is sorted by LaTeX itself, so no external indexing tool is needed.
 \usepackage[acronym,toc]{glossaries}
 \makenoidxglossaries
+\input{frontmatter/acronyms}
+\glsaddall  % every abbreviation is listed, whether or not the text marks it with \gls
 
 \usepackage[hidelinks]{hyperref}
 \usepackage[nameinlink,capitalise]{cleveref}

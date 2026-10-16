@@ -1,21 +1,123 @@
-% Introduction: about 7 pages of the main body.
-% Skeleton only: headings and the sources each section draws on. Prose is written in its approved stage.
+% Introduction (about 7 pages). Written in Stage 7, after the chapters it introduces.
 \chapter{Introduction}\label{ch01}
 
 \section{Background and Motivation}\label{sec:ch01-background-and-motivation}
-% Sources: heterogeneous tables + text; KGs; LLMs
+
+Much of what an organisation knows is split between two kinds of data. Some of it is structured: tables of
+products and their parts, vehicles and their recalls, accidents and their findings, each row identified by a key and
+joined to others. The rest is text: customer reviews, owners' complaints, accident narratives, reports and minutes.
+The two describe the same things --- a review names the product and the part that failed; a complaint names the
+vehicle a recall covers --- but they are rarely connected. A question that needs both, such as \emph{which suppliers
+provide the parts that reviewers report as defective}, requires someone to read the text, recognise what it refers
+to, find the matching records, and follow the records' relations.
+
+Knowledge graphs offer a way to connect the two: entities become nodes, relations become edges, and both tables and
+text can be mapped into one structure that can be navigated and queried~\cite{hogan2021knowledge}. Building such a
+graph has traditionally required a hand-designed schema, extraction rules written for one domain, and careful entity
+resolution. Large language models (LLMs) change this: they can propose a schema for data they have never seen, extract
+facts from text, and judge whether two names refer to the same thing~\cite{pan2024unifying,zhu2024llms}. They can
+also answer questions over retrieved evidence~\cite{lewis2020retrieval} and act as agents that call
+tools~\cite{yao2023react}. But they are fallible in ways that matter for a knowledge graph: an extracted fact may not
+be in the text, a proposed schema may not cover what the text says, and two different things may be merged because
+their names are similar.
+
+This thesis builds and evaluates a system that uses LLMs for what they do well --- proposing --- and code for what it
+does well --- checking and computing exactly. It turns mixed tables and text into a knowledge graph and answers
+natural-language questions over it, and it measures, at each step, whether the result is correct.
 
 \section{Problem Statement}\label{sec:ch01-problem-statement}
 
+Two problems are addressed.
+
+\paragraph{Construction.} Given a folder of tables and documents and a goal stated in one sentence, build
+automatically, without code or settings written for the dataset, a graph in which the things the data talks about can
+be found and from which the evidence about each of them can be reached, with every element traceable to the record or
+passage that supports it. The hard part is not extraction alone but \emph{identity}: deciding which mention in which
+document refers to which record, which mentions denote the same individual, and which must be kept apart.
+
+\paragraph{Querying.} Given such a graph, its text and its tables, answer questions in natural language --- including
+questions that count, filter or join records, follow several hops, or collect every mention in the text --- with
+citations to the evidence, and recognise questions that should not be answered: unclear, out of scope, without
+evidence, or asking to change the data.
+
+Behind both lies a design question that the thesis treats as a research question rather than an assumption:
+\emph{what should the graph contain?} A graph can store every fact extracted from the text, or it can serve as an index
+that links the text to the records and things it mentions and leaves the text to be read when a question is asked.
+
 \section{Objectives}\label{sec:ch01-objectives}
 
+\begin{enumerate}[nosep]
+\item Build a domain-neutral pipeline that constructs a provenance-aware, entity-centric graph from tables and text,
+with every model output validated by code.
+\item Compare, by measurement, graph representations that store extracted facts with one that anchors identity and
+evidence.
+\item Build a query engine that answers natural-language questions over the graph, the text and the tables, with
+citations checked by code and explicit handling of questions that should not be answered.
+\item Evaluate both on several datasets with blind reference sets, two kinds of score and paired statistical tests,
+and report every number with its provenance.
+\end{enumerate}
+
 \section{Research Questions}\label{sec:ch01-research-questions}
-% Sources: RQ1-RQ4 (plan Deliverable C)
+
+\begin{description}[style=nextline]
+\item[RQ1 (construction)] To what extent can an LLM-proposed, code-verified pipeline turn heterogeneous tables and
+text into an entity-centric graph whose identity, record links and provenance are correct, without domain-specific
+code?
+\item[RQ2 (representation)] For locating evidence and supporting question answering, what are the measured trade-offs
+between storing extracted facts as the graph's backbone and using the graph as an entity-centric index over records and
+text?
+\item[RQ3 (query architecture)] How accurately can a tool-using agent that combines graph navigation, text retrieval
+and typed structured queries answer natural-language questions over such data, with verifiable citations, compared
+with retrieval-only baselines?
+\item[RQ4 (design factors)] How do retrieval choices, tool expressiveness and the model's reasoning budget affect
+accuracy, cost and latency?
+\end{description}
+
+RQ1 and RQ2 are answered in \cref{ch05}, RQ3 and RQ4 in \cref{ch07}; \cref{ch09} brings the answers together.
 
 \section{Scope and Non-Goals}\label{sec:ch01-scope-and-non-goals}
-% Sources: mixed data only; small corpora; no images; English
+
+\begin{itemize}[nosep]
+\item \emph{Mixed data only.} Every dataset combines tables and text; text-only and table-only settings are not
+studied.
+\item \emph{Small corpora.} The four datasets have tens of documents and at most a few hundred rows each, so that every
+judged number could be checked against the sources in full. Scale is not studied.
+\item \emph{Short documents in English.} Long narratives, scientific papers, images, figures and other languages are
+out of scope.
+\item \emph{Questions about the data.} The engine answers questions the data can answer; it does not summarise a whole
+corpus, and it never changes the data.
+\item \emph{One model family per role.} The system uses Gemini models; the reference answers and judgements come from
+Claude. Comparing model families is not a goal.
+\end{itemize}
 
 \section{Contributions}\label{sec:ch01-contributions}
-% Sources: own work vs established methods (plan Deliverable C)
+
+The thesis makes six contributions; \cref{sec:ch02-positioning-of-this-work} positions them against related work.
+\begin{enumerate}[nosep]
+\item A domain-neutral construction pipeline for mixed tables and text in which a language model proposes and code
+decides, including identity resolution that asks a model only about near misses and accepts its answer only with
+verified quotations.
+\item The \emph{anchor graph}: a representation that uses the graph as an index of identity and evidence, with identity
+stored as reversible, evidenced edges, a rule that a shared node finds passages but never proves a fact, and a
+navigation contract.
+\item An evaluation of a graph \emph{as an index}, by ten criteria with hard gates fixed before measurement.
+\item A measured design history comparing four graph representations on the same data.
+\item A tool-using query engine with typed structured queries, code-checked citations and answer outcomes, a
+deterministic screen and read-only access, evaluated on blind question sets.
+\item A reproducible, low-cost evaluation practice in which every reported number is traced to its run, its record and
+its commit.
+\end{enumerate}
+The techniques the system combines --- BM25 and dense retrieval, Reciprocal Rank Fusion, reranking, the ReAct pattern,
+blocking for entity resolution, McNemar's test --- are established; the contribution lies in how they are combined and
+constrained for mixed tables and text, in the evidence on which representation serves this purpose, and in the
+evaluation itself.
 
 \section{Thesis Organisation}\label{sec:ch01-thesis-organisation}
+
+\Cref{ch02} reviews the background: knowledge graphs, extraction, entity resolution, provenance, retrieval,
+retrieval-augmented generation, agents and evaluation. \Cref{ch03} states the research method, the datasets, the
+reference sets, the scores, the metrics and the statistics. \Cref{ch04} describes the builder and the evolution from a
+graph of facts to the anchor graph, and \cref{ch05} evaluates it. \Cref{ch06} describes the query engine and
+\cref{ch07} evaluates it. \Cref{ch08} looks at the integrated system, the division of work between its parts, and the
+threats to validity. \Cref{ch09} answers the research questions and outlines future work. The appendices give the
+prompts, protocols, complete results, the excluded dataset's measurements, and a guide to reproducing the results.

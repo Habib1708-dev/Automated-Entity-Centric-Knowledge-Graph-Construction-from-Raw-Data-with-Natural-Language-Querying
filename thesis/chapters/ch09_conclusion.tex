@@ -1,16 +1,116 @@
-% Conclusion and Future Work: about 6 pages of the main body.
-% Skeleton only: headings and the sources each section draws on. Prose is written in its approved stage.
+% Conclusion and Future Work (about 6 pages). Written in Stage 7. No new numbers: every figure repeats one stated
+% in Chapters 5 and 7, with its row in evidence_registry.csv.
 \chapter{Conclusion and Future Work}\label{ch09}
 
-\section{Summary of Findings}\label{sec:ch09-summary-of-findings}
+\section{Summary of Findings}\label{sec:ch09-summary}
 
-\section{Answers to the Research Questions}\label{sec:ch09-answers-to-the-research-questi}
+This thesis built and evaluated a system that turns mixed tables and text into a knowledge graph and answers
+natural-language questions over it. A language model proposes the plan for the tables, the kinds of facts in the
+text, the facts and mentions themselves, and the identity of near misses; code validates every proposal, verifies
+every quotation, and decides wherever a rule can. A tool-using agent answers questions by calling read-only tools one
+at a time, and code checks every call, every citation and every outcome.
 
-\section{Contributions Revisited}\label{sec:ch09-contributions-revisited}
+The central finding concerns what the graph should be. Four representations were built and measured in turn. Storing
+extracted facts as edges between shared nodes leaked facts from one thing to another (36 of 100 audited paths false
+on the furniture data). Storing each fact as a node removed the leak but showed how little of a text the stored facts
+cover, and a richer layered model of facts did not improve answers over records combined with vector retrieval. On
+the final builds, stored facts are almost always right (96--99\,\% content precision) but cover only 18--58\,\% of the
+claims a careful reader finds, mostly because a proposed schema cannot anticipate what a corpus says. The final design
+therefore uses the graph as an \emph{anchor graph}: an index that locates the records, individuals and concepts a
+question is about and leads from them to the passages that concern them, with identity stored as reversible,
+evidenced links and a rule that a shared node finds passages but never proves a fact. Judged as an index, by criteria
+fixed in advance, the anchor graph passed every hard gate on four datasets.
+
+The query engine answered 425 of 440 unseen questions right by meaning (96.6\,\%; 421 by exact match) on those four
+datasets, far more than retrieval-only readers on the same questions, at about 1.6 cents and 10 seconds per question.
+Its remaining errors lie mostly in how the model reads: passages that state a missing answer in other words are found
+and then left out.
+
+\section{Answers to the Research Questions}\label{sec:ch09-answers}
+
+\paragraph{RQ1 --- Can an LLM-proposed, code-verified pipeline build a correct, entity-centric, provenance-aware graph
+from heterogeneous data without domain-specific code?} Yes, on the four datasets measured and within their form. The
+same code built all four graphs; every item made from text carries a verified quotation; no two records or
+individuals were merged wrongly; every judged link from a mention to a record was right (36/36, 63/63, 77/77, 48/48);
+and walks from a record or individual reached only the chunks that concern it, with one exception on documents that
+describe several events. These gates were reached by development on three datasets and held on the fourth, unseen one
+without change; a fifth dataset that failed one gate shows that they are not guaranteed (\cref{ch05}).
+
+\paragraph{RQ2 --- What are the trade-offs between storing extracted facts and anchoring evidence?} Stored facts are
+precise but incomplete, can leak across shared nodes, and depend on a schema that cannot anticipate a new corpus; a
+graph built on them did not answer better than records with vector retrieval. An anchor graph gives up exact answers
+from stored facts --- which the recall measurements show were not available --- and gains identity, links and
+provenance that can be checked. Navigating through the stored facts added no evidence and added unwitnessed
+connections. The anchor graph is not a better ranker of evidence than vector search; its value is in saying correctly
+what a passage is about and which record a name refers to (\cref{ch04,ch05}).
+
+\paragraph{RQ3 --- How accurately can a tool-using agent answer questions over tables and text, with verifiable
+citations?} With 96.6\,\% accuracy by meaning on 440 unseen questions, and far more than retrieval-only readers on paired
+sets (for example 63 against at most 31 of 68 development questions on the NHTSA data), most clearly on questions
+about records, joins and counts. Every answer cites identifiers that tools returned, and code checks them. The
+accuracy belongs to the engine versions measured; the final engine was measured on answers only on small sets, and
+the share of accuracy the graph itself provides was not isolated (\cref{ch07,ch08}).
+
+\paragraph{RQ4 --- How do retrieval, tool design and reasoning budget affect accuracy, cost and latency?} Fused card
+lists find start nodes (203 of 213 targets in the 15 shown) and a model reranker raises passage recall from 0.831 to
+0.922 at a fraction of a cent per question; model-written node summaries and a local cross-encoder were measured and
+rejected. Tool design mattered most on unseen questions, where many fixes extended the typed query language. A higher
+reasoning budget answered six more of fifteen hard questions at three times the cost; free SQL and a separate judge of
+the evidence helped on failures without reaching significance (\cref{ch07}).
+
+\section{Contributions Revisited}\label{sec:ch09-contributions}
+
+\begin{enumerate}[nosep]
+\item \textbf{A domain-neutral construction pipeline for tables and text} in which a language model proposes and code
+decides: a declarative plan for the tables, a text schema, verified extraction, a mention index, and identity
+resolution that asks a model only about near misses and accepts its answer only with verified quotations.
+\item \textbf{The anchor graph}: a representation that uses the graph as an index of identity and evidence, with
+identity as reversible, evidenced edges, a witness rule against leaked facts, and a navigation contract of five walks.
+\item \textbf{An evaluation of a graph as an index}: ten criteria with hard gates fixed before measurement, judged item
+by item and computed offline, with no model in the measurement loop.
+\item \textbf{A measured design history}: four representations compared on the same data, showing why a fact-centric
+graph underperforms for this purpose.
+\item \textbf{A tool-using query engine with typed structured queries}, code-checked citations and outcomes, a
+deterministic screen and a read-only layer, evaluated on blind question sets with both scores and paired tests.
+\item \textbf{A low-cost, reproducible evaluation practice}: pre-registered decision rules, paired exact tests, Wilson
+intervals, and every number traced to its run, its record and its commit.
+\end{enumerate}
 
 \section{Limitations}\label{sec:ch09-limitations}
 
-\section{Future Work}\label{sec:ch09-future-work}
-% Sources: agent_sql; cross-document identity; human agreement study; public benchmarks; scale
+\begin{itemize}[nosep]
+\item The reference answers and the judgements by meaning come from one model family, with no human agreement figure.
+\item The corpora are small and share one form; scale and other forms are untested.
+\item Three of the four datasets were used during development; one dataset was excluded after a measurement, under a
+criterion fixed in advance.
+\item The headline accuracy predates the final engine's last changes, and the final engine was measured on answers
+only on small sets; the outcome labels were measured on one dataset (12 questions).
+\item The graph's contribution to answer accuracy was not isolated by an ablation.
+\item Mention identity is per document, which fails on documents that describe several events.
+\item Stored facts cover a minority of what the text states; they are kept but not relied on.
+\end{itemize}
 
-\section{Closing Remarks}\label{sec:ch09-closing-remarks}
+\section{Future Work}\label{sec:ch09-future}
+
+\paragraph{Measure what is missing.} The most informative experiments are the cheapest: the engine without its graph
+tools on the benchmark questions, to isolate the graph's contribution; the final engine on a fresh blind set; the
+outcome set on all four datasets (48 questions not yet run); and a human check of a random sample of verdicts, to
+give the judge an agreement figure.
+
+\paragraph{Improve the engine where it fails.} The free-SQL tool is the most promising upgrade and needs a measurement
+on fresh questions before adoption. The dominant remaining error, literal reading, responded only to a separate judge
+of the evidence; making that judgement part of the engine, at a measured cost, is the next step for accuracy.
+
+\paragraph{Extend the builder to other forms.} Identity within sections rather than documents, for reports that
+describe several events; a hierarchy of document, section and chunk for long texts; abbreviations defined in the text
+as identity evidence; and large tables kept in a database with one graph node per key. Public benchmarks that combine
+tables and text, such as HybridQA~\cite{chen2020hybridqa} and TAT-QA~\cite{zhu2021tatqa}, would test the system beyond
+corpora written or selected for this thesis.
+
+\section{Closing Remarks}\label{sec:ch09-closing}
+
+Language models make it possible to build a knowledge graph from data no one has modelled in advance, and to ask it
+questions in plain language. This thesis argues, with measurements, that the most reliable use of a model in such a
+system is to let it propose and let code decide; and that the graph itself is most useful not as a store of everything
+the text says, but as an exact index of what the data is about and where the evidence for it lies --- with the text
+read, and the counting done by a database, at the moment a question is asked.

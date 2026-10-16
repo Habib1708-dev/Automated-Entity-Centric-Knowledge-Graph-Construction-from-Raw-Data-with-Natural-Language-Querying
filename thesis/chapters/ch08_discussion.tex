@@ -1,21 +1,204 @@
-% Integrated System and Discussion: about 8 pages of the main body.
-% Skeleton only: headings and the sources each section draws on. Prose is written in its approved stage.
+% Integrated System and Discussion (about 8 pages). Written in Stage 7.
+% Numbers have rows in evidence_registry.csv; the worked example is question FE01 of the final engine's run R207
+% (tests/gold/r207/furniture_outcomes_answers_agent.jsonl, MLflow 07458b51); tool usage is summed from the
+% agent_calls_<tool> metrics of the sixteen unseen-set runs in MLflow.
 \chapter{Integrated System and Discussion}\label{ch08}
 
+\Cref{ch04,ch05,ch06,ch07} described and evaluated the builder and the query engine separately. This chapter
+looks at them together: how the system is operated end to end (\cref{sec:ch08-end-to-end-operation}), one question
+traced through it (\cref{sec:ch08-a-worked-example}), which part of the system does which work
+(\cref{sec:ch08-what-the-graph-does-and-what-s}), the trade-offs the design makes
+(\cref{sec:ch08-trade-offs}), how general it is (\cref{sec:ch08-generality}), and the threats to the validity of the
+results (\cref{sec:ch08-threats-to-validity}).
+
 \section{End-to-End Operation}\label{sec:ch08-end-to-end-operation}
-% Sources: kg serve; frontend; Figure F30
+
+\paragraph{Building.} A graph is built by running the builder's stages over a data folder, with a goal stated in one
+sentence: \texttt{kg run data/ --goal "..."} runs them all, and each stage can also be run and inspected alone
+(\cref{tab:builder-stages}). The plan and the text schema are written as files that a person may review before the
+build continues. A build of one of the thesis datasets costs well under two dollars (\cref{sec:ch05-cost}); a rebuild
+from the response cache costs nothing and reproduces the same graph, which a content digest confirms.
+
+\paragraph{Asking.} Questions are asked from the command line, one at a time or as a set scored against gold
+answers, or through a web interface. The interface (\texttt{kg serve}) is a small web server and a single-page
+application. It shows one tab per dataset, with the graph's records, documents and their links drawn as a network, and
+a question panel. While the agent works, each model reply, tool call and send-back is streamed to the page as it
+happens, with the tool's running time and the model's tokens and cost. The answer shows its outcome, its time and
+cost, and numbered source markers; a marker opens the cited passage with its quotation, or the cited query with its
+statement and rows, and rings the cited records on the graph. The page can also reload a dataset's graph into the
+database from the cache, for no model cost, under the same lock that prevents two questions from running at once.
+
+\paragraph{One graph at a time.} The working database holds one graph. The server asks a question only of the dataset
+whose graph is loaded, which it recognises by the graph's digest; another dataset must be reloaded first.
 
 \section{A Worked Example}\label{sec:ch08-a-worked-example}
-% Sources: Figure F31
+
+\Cref{tab:worked-example} traces one question of the furniture outcome set through the final engine (run R207,
+after every change of \cref{ch06}). The question combines a review with three tables: \emph{``A reviewer who works
+from home says a desk's work surface stays perfectly flat under the weight of their drafting equipment. How many zip
+ties does the cable management sub-assembly of that desk list?''} The gold answer is 5.
+
+\begin{table}[htbp]
+\centering
+\caption{Question FE01 through the final engine: each turn's call and what it returned. 8 turns, 7 calls, 18.2
+seconds (17.0 of them the model's).}
+\label{tab:worked-example}
+\small
+\begin{tabularx}{\linewidth}{@{}c>{\raggedright}p{3.6cm}>{\raggedright\arraybackslash}X@{}}
+\toprule
+Turn & Call & What it returned \\
+\midrule
+0 & screen & passed: a question, not a request to change data \\
+1 & \texttt{search\_text}: ``drafting equipment work surface stays perfectly flat'' & ten passages; first, a Malmö Desk review: ``The work surface maintains perfect flatness under the weight of my drafting equipment.'' \\
+2 & \texttt{search\_text}: ``Malmö Desk cable management zip ties sub-assembly'' & Malmö Desk review passages; none names the parts \\
+3 & \texttt{find\_passages}: ``zip'' & one passage, from another product's reviews \\
+4 & \texttt{schema} & the record labels and the source tables with their columns \\
+5 & \texttt{query\_tables}: products whose name contains ``Malm'' & one row: Malmö Desk, P-1002 \\
+6 & \texttt{query\_tables}: assemblies of P-1002 & six rows, among them Cable Management, A-1064 \\
+7 & \texttt{query\_tables}: components of A-1064 & four rows, among them Zip Ties, quantity 5 \\
+8 & answer: number 5 & cites the review passage (quote verified) and the components query (number found in its rows) \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The trace shows the division of labour the design intends. Ranked text search found the review from a paraphrase of
+it. The model read the passage and identified the desk. The exact work --- following the desk to its assembly and
+its parts --- was done by three typed queries, each compiled by code, run read-only, recorded with its statement and
+rows, and citable. Code then verified both citations: the quotation is in the passage, and the number 5 is in the
+query's rows. The trace also shows an unproductive turn (the word search for ``zip''), and that this question was
+answered without any graph tool: the review led to a product name, and the tables did the rest.
 
 \section{What the Graph Does and What SQL and the Agent Do}\label{sec:ch08-what-the-graph-does-and-what-s}
 
+A system that combines a graph, text search, typed queries and a language model invites attributing its accuracy to
+the graph. The measurements do not support that attribution without qualification.
+
+\paragraph{How the agent uses the tools.} Over the 440 unseen questions of the four datasets, the agent made 1{,}244
+tool calls (\cref{tab:tool-usage}). A third went to graph tools, a third to text search, and a third to the schema and
+typed queries. Two figures stand out. The agent queried the source tables (179 calls) more than twice as often as the
+graph's records (71), although both hold the same rows. And it searched the stored claims once in 440 questions: the
+claim layer that the first representations were built around is, for the agent, almost unused.
+
+\begin{table}[htbp]
+\centering
+\caption{The agent's tool calls on the four unseen sets (440 questions, four datasets), from the runs' logged
+counts.}
+\label{tab:tool-usage}
+\small
+\begin{tabular}{@{}lrlrlr@{}}
+\toprule
+\multicolumn{2}{@{}l}{Graph (416, 33\,\%)} & \multicolumn{2}{l}{Text (380, 31\,\%)} & \multicolumn{2}{l@{}}{Structured (448, 36\,\%)} \\
+\midrule
+\texttt{find\_nodes} & 176 & \texttt{find\_passages} & 155 & \texttt{schema} & 198 \\
+\texttt{get\_node} & 91 & \texttt{search\_text} & 138 & \texttt{query\_tables} & 179 \\
+\texttt{neighbours} & 74 & \texttt{read\_document} & 86 & \texttt{query\_records} & 71 \\
+\texttt{node\_evidence} & 74 & \texttt{search\_claims} & 1 & & \\
+\texttt{rank\_by\_documents} & 1 & & & & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\paragraph{What each part contributes.} Read together with the evaluation chapters, the evidence supports a
+division of labour rather than a single source of accuracy:
+\begin{itemize}[nosep]
+\item \emph{Exact answers} --- counts, filters, joins --- come from the typed queries, executed by DuckDB or by
+Cypher over the record layer. This matches the earlier finding that the records did the exact work
+(\cref{sec:ch04-evolution}), and it is where the agent gains most over retrieval-only readers
+(\cref{sec:ch07-baselines}).
+\item \emph{Finding} what a question is about comes from the node cards (\texttt{find\_nodes}, a seventh of all
+calls) and from ranked text search.
+\item \emph{Evidence} comes from the text: passages found by ranked or exhaustive search, read whole by the model.
+\item \emph{Identity and linking} --- the part of the graph that \cref{ch05} shows to be exact --- reach the agent
+indirectly: through the cards, which are built from the identity layer; through \texttt{node\_evidence} and
+\texttt{neighbours}, which walk it; and through the record fields \texttt{get\_node} shows with their sources.
+\item \emph{Judgement} --- reading, choosing the next step, deciding the outcome --- is the model's, and is where most
+remaining errors lie (\cref{sec:ch07-errors}).
+\end{itemize}
+
+\paragraph{What has not been measured.} The engine was never run without its graph tools on the same questions, so
+the share of its accuracy that the graph provides is not known. The baselines of \cref{sec:ch07-baselines} lack the
+graph \emph{and} the typed queries \emph{and} the agent loop at once. The thesis's claims about the graph therefore
+rest on the builder's audit --- the graph's identity, links and provenance are correct --- and not on a measured
+contribution to answer accuracy. An ablation of the graph tools is the most informative experiment this design still
+lacks (\cref{ch09}).
+
 \section{Trade-offs}\label{sec:ch08-trade-offs}
 
+\paragraph{Precision against recall in the builder.} The builder stores few wrong facts but misses many (96--99\,\%
+precision, 18--58\,\% recall of a reader's claims), and its identity decisions err towards keeping things apart. The
+design accepts the low recall because the query engine does not rely on stored facts: it reads the text.
+
+\paragraph{An index against a fact store.} The anchor graph gives up answering from stored facts in exchange for
+links and identity that can be checked. The price is that every answer about what the text says needs a model to read
+it, which costs time and money at query time instead of build time.
+
+\paragraph{Determinism against flexibility.} Typed queries are validated and compiled by code and cannot write, but
+only express what their language allows; about half of the fixes between the confirmation sets extended that
+language. Free SQL
+is more expressive and answered more of the targeted failures, but moves trust from the compiler to a parser check.
+
+\paragraph{Cost and latency against accuracy.} The agent costs about 1.6 cents and 10 seconds per question, against
+0.1 cent and 2--7 seconds for a retrieval-only reader, and answers far more questions. Medium thinking answers more of
+the hardest questions at about three times the cost and latency.
+
 \section{Generality}\label{sec:ch08-generality}
-% Sources: by topic vs by form
+
+\paragraph{By topic.} No code, setting or prompt names a domain; the four datasets cover furniture, vehicle safety,
+aviation accidents and a mixed corpus of a utility, an institute and local news, and the same code built and queried
+all of them. The one dataset unseen during development passed every hard audit gate and every benchmark question.
+
+\paragraph{By form.} All four datasets share one form: small corpora of short documents, each mostly about one or a
+few things, with names written in full and tables of at most a few hundred rows. The identity model assumes that a
+mention means one thing within a document, which already failed on reports that describe several accidents. Long
+narratives, scientific documents with defined abbreviations, and large tables are untested. The thesis therefore
+claims generality across topics within this form, not across forms.
 
 \section{Threats to Validity}\label{sec:ch08-threats-to-validity}
-% Sources: Table T14
 
-\section{Ethical and Practical Considerations}\label{sec:ch08-ethical-and-practical-consider}
+\Cref{tab:threats} lists the main threats and what was done about each.
+
+\begin{table}[htbp]
+\centering
+\caption{Threats to validity and their mitigations.}
+\label{tab:threats}
+\scriptsize
+\renewcommand{\arraystretch}{1.25}
+\begin{tabularx}{\linewidth}{@{}>{\raggedright}p{3.2cm}>{\raggedright}X>{\raggedright\arraybackslash}X@{}}
+\toprule
+Threat & Why it matters & Mitigation and remaining risk \\
+\midrule
+Gold and judge from one model family & the judge may share the gold writer's blind spots; no human agreement figure exists & gold written before outputs, verbatim evidence, recorded corrections, exact match always reported; remains the largest threat \\
+Small corpora & intervals are wide; scale untested & every rate with $n$ and a Wilson interval; claims limited to small corpora \\
+Development on seen data & three datasets shaped the fixes & blind fresh, benchmark and confirmation sets; one dataset unseen throughout \\
+Engine versions & the headline accuracy predates the final engine's last changes & each result tied to its version (\cref{tab:engine-versions}) \\
+Dataset selection & a fifth dataset was excluded after measurement & pre-defined criterion, timing and all its numbers disclosed (\cref{sec:ch03-datasets}, \cref{app:excluded-dataset}) \\
+Targeted sets & chosen because the engine failed them & rates read only as effects on failures; controls included \\
+Single runs & a model's output can vary between runs & responses cached, so analyses replay exactly; fresh runs not repeated \\
+Judge leniency & by-meaning scores accept answers exact match rejects & both scores reported side by side \\
+Unpriced embeddings, local latency logs & cost and latency slightly incomplete & stated where used \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+The first threat deserves emphasis. The reference answers, the judgements by meaning and much of the failure analysis
+were produced by one model family (Claude), while the system under test uses another (Gemini). This independence
+between judge and system is deliberate and avoids self-preference~\cite{zheng2023judging}; it does not remove the
+possibility that the gold writer and the judge share errors. A sample of verdicts checked by a human would give an
+agreement figure; none was made.
+
+\section{Ethical and Practical Considerations}\label{sec:ch08-ethics}
+
+\paragraph{Data.} The NHTSA and NTSB records are public works of the US government; personal details the NTSB
+export contains (owners' and operators' addresses, crew home towns, private operators' names) were removed before
+use. The furniture and generality data are synthetic.
+
+\paragraph{Safety of querying.} The engine cannot change the data: requests to do so are refused before any model
+call, and every database connection is read-only. A user can still ask questions whose answers expose what the data
+holds; access control to the data itself is outside the system.
+
+\paragraph{Dependence on a model provider.} Building and answering depend on a commercial model service. Costs are
+low and logged, and the cache makes past results reproducible without it, but a new build or question needs the
+service, and model versions change.
+
+\paragraph{Generated reference data.} Because the gold was written by a language model, the thesis states the
+provenance of every judged number and does not present judged scores as ground truth.
