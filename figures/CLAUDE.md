@@ -50,10 +50,13 @@ figures/
 - **Formats:** SVG (vector source), PDF (vector, what the LaTeX thesis includes; since R232) and PNG at 200 dpi
   (preview). `style.save()` writes all three, without dates and with LF line ends, so a rebuild of unchanged
   data is byte-identical. Captions link the SVG and PNG; the PDF is their print copy.
-- **Print size:** the thesis's text column is 6.1 in wide, and wide figures go on a landscape page (about
-  9.7 in). Text should print at 8 pt or more: a figure drawn W inches wide needs fonts of at least
-  8 x W / 9.7 pt. The system diagrams of R232 are drawn this way; most earlier figures were drawn for the
-  screen and print at 6-7 pt (a recorded gap, REFACTOR_PLAN R232).
+- **Print size (R233):** the thesis prints its figures on landscape pages (9.7 x 5.4 in for the figure).
+  Every figure the thesis includes must print its smallest text at 8 pt or more: a chart is drawn at most
+  `style.PRINT_WIDTH` (9.6 in) wide with 8-9 pt text; a diagram drawn W inches wide uses fonts of at least
+  8 x W / 9.7 pt. The PDF leaves out the title and subtitle (`style.save`), which the thesis caption carries.
+  The thesis set, checked in R233: the system and construction diagrams (r0_r231, r63_r230), r229 fig1, fig2
+  and fig5, r231 fig1-fig3, r128 fig1, r131 fig1 and fig2. The five-dataset R157/R173 figures and the other
+  R128 figures stay screen records.
 - **Changes:** a change to a figure is a change to its script, followed by a rebuild. A changed number means
   a changed record, which is a roadmap step's job, not a figure's.
 

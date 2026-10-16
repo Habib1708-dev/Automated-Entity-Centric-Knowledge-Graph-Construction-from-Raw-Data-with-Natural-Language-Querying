@@ -18,8 +18,8 @@ from .boxes import TINT, arrow, box, canvas, code_box, frame, llm_box
 from .style import INK_MUTED, INK_SECONDARY, NODE_ORANGE, TEXT_BLUE, save, title
 
 OUT = Path(__file__).resolve().parents[1] / "diagrams" / "construction" / "r63_r230"
-TEXT = 11.0  # printed on a landscape page at about 0.73 scale: 8 pt
-LABEL = 10.0
+TEXT = 11.5  # printed on a landscape page at about 0.72 scale: 8.3 pt
+LABEL = 11.2  # the smallest text: 8.1 pt printed
 CHUNK = TINT[TEXT_BLUE]
 
 

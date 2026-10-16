@@ -17,8 +17,8 @@ from .boxes import TINT, arrow, canvas, code_box, frame, llm_box, store
 from .style import INK_SECONDARY, TEXT_BLUE, save, title
 
 OUT = Path(__file__).resolve().parents[1] / "diagrams" / "system" / "r0_r231"
-TEXT = 11.0  # printed on a landscape page at about 0.73 scale: 8 pt
-LABEL = 10.0
+TEXT = 11.5  # printed on a landscape page at about 0.72 scale: 8.3 pt
+LABEL = 11.2  # the smallest text: 8.1 pt printed
 
 
 def _title(fig, text: str, subtitle: str) -> None:

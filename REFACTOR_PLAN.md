@@ -12291,6 +12291,25 @@ whose cases are generated from git-ignored data present only in the main checkou
 
 **R232 done 2026-10-16.**
 
+### R233. Print pass: the thesis's figures print at 8 pt or more (done 2026-10-16; $0, no run; branch `thesis`)
+
+**Why:** the author asked for a print pass after R232 found that the screen-sized figures print at 5-7 pt.
+
+**What changed:**
+- `style.save()`: the PDF (the file the thesis includes) leaves out the title and subtitle that `style.title()`
+  draws, since the LaTeX caption carries them; the SVG and PNG keep them. Kept on the figure object, not as an
+  SVG id, so no SVG changes for it.
+- `style.PRINT_WIDTH = 9.6` in: r229 fig5, r231 fig1-fig3, r128 fig1, r131 fig1 and fig2 drawn at or under it
+  (`r173_charts._panels` takes an optional width, default unchanged); r231's panels spaced wider and the type
+  chart's panel titles on two lines; r131 fig1's legend moved below the axis labels; 7.5 pt labels raised to 8 pt
+  (r229, r128).
+- The system and construction diagrams: box text 11.5 pt, labels 11.2 pt.
+- Measured (smallest text, as printed on a landscape page, the PDF's own font sizes): every figure of the thesis
+  set 8.0-8.7 pt. r128 fig3 and fig4 (not in the thesis) changed with the 8 pt labels.
+- `figures/CLAUDE.md`: the print-size rule and the thesis set.
+
+**R233 done 2026-10-16.**
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

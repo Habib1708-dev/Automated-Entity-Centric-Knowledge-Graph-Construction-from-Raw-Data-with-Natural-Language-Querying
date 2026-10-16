@@ -22,7 +22,7 @@ from . import r231_data as data
 from .r157_charts import _accuracy_panel, _cause_bars, _legend
 from .r173_charts import _panels
 from .r229_data import SELECTED
-from .style import EXACT, INK_SECONDARY, MEANING, SURFACE_TINT, save, title
+from .style import EXACT, INK_SECONDARY, MEANING, PRINT_WIDTH, SURFACE_TINT, save, title
 
 OUT = Path(__file__).resolve().parents[1] / "results" / "evaluation" / "r231_qa_four_datasets"
 # y positions: the new dataset, a gap, the three thesis datasets, a gap, pooled
@@ -40,7 +40,7 @@ def draw_all(measurements: list[r173_data.Measurement], out: Path = OUT) -> list
 
 
 def fig1_accuracy_by_dataset(measurements: list[r173_data.Measurement], out: Path) -> list[Path]:
-    fig, axes = _panels(len(measurements), 5.2)
+    fig, axes = _panels(len(measurements), 5.0, width=PRINT_WIDTH - 1.1)
     pooled = []
     for ax, m in zip(axes, measurements, strict=True):
         by_group = {a.group: a for a in data.by_dataset(list(m.outcomes))}
@@ -77,12 +77,12 @@ def fig1_accuracy_by_dataset(measurements: list[r173_data.Measurement], out: Pat
         "right are k/n. The axis starts at 75 %. The question sets differ, so a difference is not "
         "attributed to the fixes.",
     )
-    fig.subplots_adjust(top=0.74, left=0.1, right=0.95, bottom=0.12)
+    fig.subplots_adjust(top=0.74, left=0.12, right=0.93, bottom=0.12, wspace=0.95)
     return save(fig, out, "r231_fig1_accuracy_by_dataset")
 
 
 def fig2_accuracy_by_type(measurements: list[r173_data.Measurement], out: Path) -> list[Path]:
-    fig, axes = _panels(len(measurements), 4.9)
+    fig, axes = _panels(len(measurements), 4.6, width=PRINT_WIDTH - 0.7)
     for ax, m in zip(axes, measurements, strict=True):
         accuracy = base.by_type(list(m.outcomes))
         rows = [(float(i), base.TYPE_LABELS[a.group], a) for i, a in enumerate(accuracy)]
@@ -90,7 +90,7 @@ def fig2_accuracy_by_type(measurements: list[r173_data.Measurement], out: Path) 
         # the confirmation sets have 12-17 questions per type, so intervals reach down to about 55 %
         ax.set_xlim(0.5, 1.005)
         ax.set_ylim(len(rows) - 0.45, -0.55)
-        ax.set_title(f"{m.label.split(',')[0]}, {len(m.outcomes)} questions", loc="left", fontsize=9)
+        ax.set_title(f"{m.label.split(',')[0]},\n{len(m.outcomes)} questions", loc="left", fontsize=9)
         ax.set_xlabel("Right (95 % Wilson interval)")
         if ax is not axes[0]:
             ax.tick_params(labelleft=False)
@@ -106,14 +106,14 @@ def fig2_accuracy_by_type(measurements: list[r173_data.Measurement], out: Path) 
         "by meaning;\nlines are 95 % Wilson intervals; the counts at right are k/n. The axis starts at 50 %; "
         "an interval of 12-17 questions is wide.",
     )
-    fig.subplots_adjust(top=0.76, left=0.11, right=0.95, bottom=0.13)
+    fig.subplots_adjust(top=0.76, left=0.12, right=0.93, bottom=0.13, wspace=0.95)
     return save(fig, out, "r231_fig2_accuracy_by_type")
 
 
 def fig3_failures_by_cause(benchmark: r173_data.Measurement, out: Path) -> list[Path]:
     outcomes = list(benchmark.outcomes)
     causes, failed = base.by_cause(outcomes), base.wrong(outcomes)
-    fig, ax = plt.subplots(figsize=(10.4, 5.8))
+    fig, ax = plt.subplots(figsize=(PRINT_WIDTH, 5.6))
     _cause_bars(ax, causes, len(failed))
     meaning_wrong = sum(not o.meaning for o in failed)
     fig.legend(

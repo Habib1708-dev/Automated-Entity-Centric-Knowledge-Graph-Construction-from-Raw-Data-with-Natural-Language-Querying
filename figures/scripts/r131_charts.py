@@ -24,7 +24,18 @@ from matplotlib.ticker import FixedLocator, NullLocator, PercentFormatter
 from kgbuilder.validation.seed_grid import BUDGETS
 
 from . import r131_data as data
-from .style import AXIS, CONTEXT, INK, INK_MUTED, INK_SECONDARY, NODE_ORANGE, SURFACE, save, title
+from .style import (
+    AXIS,
+    CONTEXT,
+    INK,
+    INK_MUTED,
+    INK_SECONDARY,
+    NODE_ORANGE,
+    PRINT_WIDTH,
+    SURFACE,
+    save,
+    title,
+)
 
 OUT = Path(__file__).resolve().parents[1] / "results" / "retrieval" / "r131_seed_grid"
 RERANK_INK = INK_SECONDARY  # the reranker: dark ink, not a fourth hue
@@ -50,7 +61,7 @@ _FOCUS = (
 
 
 def fig1_recall_by_k(tables, choice, out: Path) -> list[Path]:
-    fig, axes = plt.subplots(2, 2, figsize=(11.5, 8.0), sharex=True)
+    fig, axes = plt.subplots(2, 2, figsize=(PRINT_WIDTH, 5.3), sharex=True)
     for ax, name in zip(axes.flat, ("pooled", *data.DATASETS), strict=True):
         _recall_panel(ax, tables[name], choice.k)
         n = tables[name].score(data.CHOSEN, BUDGETS[0]).seed_recall.n
@@ -61,7 +72,7 @@ def fig1_recall_by_k(tables, choice, out: Path) -> list[Path]:
         ax.set_ylabel("Seed Recall@K (targets among the top K)")
     handles = [_handle(label, colour, fill, width) for _, label, colour, fill, width in _FOCUS]
     handles.append(Line2D([], [], color=CONTEXT, lw=1.2, label="every other setting the rule saw"))
-    fig.legend(handles=handles, loc="lower center", ncol=3, bbox_to_anchor=(0.5, -0.005))
+    fig.legend(handles=handles, loc="lower center", ncol=3, bbox_to_anchor=(0.5, -0.06))
     title(
         fig,
         "Fusing dense and lexical cards finds more start nodes; 15 seeds reach 203 of 213 targets",
@@ -111,7 +122,7 @@ def _handle(label: str, colour: str, fill: str, width: float) -> Line2D:
 
 
 def fig2_paired_decision(against_lexical, against_pool, out: Path) -> list[Path]:
-    fig, (left, right) = plt.subplots(1, 2, figsize=(12.5, 5.4))
+    fig, (left, right) = plt.subplots(1, 2, figsize=(PRINT_WIDTH, 5.0))
     rows = [(data.LABELS[p.dataset].split(" (")[0], p) for p in against_lexical]
     _paired_panel(left, rows, "only the lexical cards alone", "only the chosen fusion", CONTEXT, NODE_ORANGE)
     left.set_title(

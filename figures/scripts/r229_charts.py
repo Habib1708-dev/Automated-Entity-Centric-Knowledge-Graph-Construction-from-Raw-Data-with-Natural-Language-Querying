@@ -32,6 +32,7 @@ from .style import (
     INK,
     INK_SECONDARY,
     NODE_ORANGE,
+    PRINT_WIDTH,
     SURFACE,
     SURFACE_TINT,
     TEXT_BLUE,
@@ -357,7 +358,7 @@ def fig5_audit(builds: list[data.BuildAccuracy], out: Path) -> list[Path]:
         ("C6 purity: chunks about their start", lambda b: (b.c6, b.c6_passed)),
     )
     # no shared y axis: the panels without labels would blank the first panel's dataset names
-    fig, axes = plt.subplots(1, 3, figsize=(11.6, 5.0))
+    fig, axes = plt.subplots(1, 3, figsize=(PRINT_WIDTH - 0.9, 4.6))
     for i, (ax, (name, pick)) in enumerate(zip(axes, panels, strict=True)):
         _rows(ax, builds, labels=i == 0)
         for b in builds:
@@ -366,7 +367,7 @@ def fig5_audit(builds: list[data.BuildAccuracy], out: Path) -> list[Path]:
             verdict = "passes" if passed else "fails"
             _counts(ax, YS[b.dataset], f"{_kn(p)} {verdict}", weight="normal" if passed else "bold")
         ax.axvline(BOUND, color=INK_SECONDARY, lw=0.9, zorder=1)
-        ax.text(BOUND, 3.85, " bound 95 %", fontsize=7.5, color=INK_SECONDARY, va="bottom")
+        ax.text(BOUND, 3.85, " bound 95 %", fontsize=8, color=INK_SECONDARY, va="bottom")
         # every panel starts at 75 %: the lowest interval's low end (lighthouses C4) is 82 %
         ax.set_xlim(0.75, 1.005)
         ax.xaxis.set_major_formatter(PercentFormatter(1.0, decimals=0))

@@ -25,6 +25,11 @@ matplotlib.use("Agg")  # files only: figures are built headless, in tests and on
 import matplotlib.pyplot as plt  # noqa: E402  (after the backend is chosen)
 from matplotlib.colors import LinearSegmentedColormap  # noqa: E402
 
+# the width of a chart the thesis prints (R233): a landscape page holds 9.7 in, so a chart drawn 9.6 in wide
+# prints at full size and its 8-9 pt text stays 8-9 pt (figures/CLAUDE.md, print size); labels outside the
+# axes widen the saved figure, so some charts are drawn narrower
+PRINT_WIDTH = 9.6
+
 # chart chrome and ink (light mode; the figures are for print, so the surface is white)
 SURFACE = "#ffffff"
 INK = "#0b0b0b"
@@ -148,13 +153,18 @@ def title(
     """The figure's title (what it shows) and a subtitle (its data and n), left-aligned above the panels.
     `size`, `subsize` and `gap` (the subtitle's drop, as a share of the figure height) are larger for the
     thesis's system diagrams (R232), which print on a landscape page and must stay legible there."""
-    fig.text(0.01, 0.995, text, ha="left", va="top", fontsize=size, fontweight="semibold", color=INK)
-    fig.text(0.01, 0.995 - gap, subtitle, ha="left", va="top", fontsize=subsize, color=INK_SECONDARY)
+    head = fig.text(0.01, 0.995, text, ha="left", va="top", fontsize=size, fontweight="semibold", color=INK)
+    sub = fig.text(0.01, 0.995 - gap, subtitle, ha="left", va="top", fontsize=subsize, color=INK_SECONDARY)
+    # remembered on the figure (not as an SVG id, which would change the SVG), so `save` can leave them out of
+    # the PDF: in the thesis the LaTeX caption carries them
+    fig.kg_title_texts = (head, sub)
 
 
 def save(fig: plt.Figure, folder: Path, name: str) -> list[Path]:
     """Write `name`.svg (vector source), `name`.pdf (vector, what the LaTeX thesis includes; R232) and
-    `name`.png (200 dpi preview) into `folder`; close it."""
+    `name`.png (200 dpi preview) into `folder`; close it. The PDF leaves out the title and subtitle drawn by
+    `title` (the thesis's caption states them, and without them the figure prints larger, R233); the SVG and
+    PNG keep them, as the captioned record of `figures/`."""
     folder.mkdir(parents=True, exist_ok=True)
     paths = [folder / f"{name}.svg", folder / f"{name}.png", folder / f"{name}.pdf"]
     # no date or software stamp, and the SVG text written with "\n" (matplotlib would write the platform's
@@ -163,7 +173,10 @@ def save(fig: plt.Figure, folder: Path, name: str) -> list[Path]:
     fig.savefig(svg, format="svg", bbox_inches="tight", metadata={"Date": None})
     paths[0].write_text(svg.getvalue(), encoding="utf-8", newline="\n")
     fig.savefig(paths[1], dpi=200, bbox_inches="tight", metadata={"Software": None})
-    # no creation date or producer, so the PDF too is the same file when nothing changed
+    for text in getattr(fig, "kg_title_texts", ()):
+        text.set_visible(False)
+    # no creation date or producer, so the PDF too is the same file when nothing changed; "tight" crops the
+    # space the hidden title leaves
     fig.savefig(
         paths[2], bbox_inches="tight", metadata={"CreationDate": None, "Producer": None, "Creator": None}
     )

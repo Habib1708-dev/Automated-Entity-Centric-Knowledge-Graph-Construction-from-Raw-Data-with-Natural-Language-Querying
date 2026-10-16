@@ -42,10 +42,11 @@ def draw_all(measurements: list[data.Measurement], costs: list[data.RunCost], ou
 # --- fig1 and fig2: both scores, three panels ------------------------------------------------------------
 
 
-def _panels(count: int, height: float) -> tuple[plt.Figure, list]:
+def _panels(count: int, height: float, width: float = 14.0) -> tuple[plt.Figure, list]:
     """A row of `count` panels with the same rows: each sets its own ticks (the R157 panel routine labels
-    them) and the later panels hide their labels; the room at each panel's right holds its k/n."""
-    fig, axes = plt.subplots(1, count, figsize=(14.0, height))
+    them) and the later panels hide their labels; the room at each panel's right holds its k/n. `width` is
+    narrower for the figures the thesis prints (R233)."""
+    fig, axes = plt.subplots(1, count, figsize=(width, height))
     fig.subplots_adjust(wspace=0.55)
     return fig, list(axes)
 

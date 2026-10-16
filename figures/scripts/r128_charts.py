@@ -32,6 +32,7 @@ from .style import (
     INK,
     INK_SECONDARY,
     NODE_ORANGE,
+    PRINT_WIDTH,
     SEQUENTIAL,
     SURFACE,
     TECHNIQUES,
@@ -101,7 +102,7 @@ _DODGE = {"claim_lexical": -0.007, "card_dense_summary": 0.007}
 
 
 def fig1_evidence_vs_start_nodes(table, out: Path) -> list[Path]:
-    fig, axes = plt.subplots(1, 2, figsize=(11.5, 5.6), sharex=True, sharey=True)
+    fig, axes = plt.subplots(1, 2, figsize=(PRINT_WIDTH, 5.2), sharex=True, sharey=True)
     for ax, k in zip(axes, (5, 20), strict=True):
         for t in TECHNIQUES:
             x, y = _tradeoff_point(ax, table, t, k)
@@ -163,7 +164,7 @@ def _tradeoff_label(ax, t: Technique, x: float, y: float) -> None:
         textcoords="data",
         ha=ha,
         va="center",
-        fontsize=7.5,
+        fontsize=8,
         color=INK_SECONDARY,
         arrowprops=arrow if leader else None,
     )
@@ -276,7 +277,7 @@ def _heatmap(
                 str(p.k),
                 ha="center",
                 va="center",
-                fontsize=7.5,
+                fontsize=8,
                 color=SURFACE if dark else INK,
             )
     ax.set_title(f"{data.LABELS[dataset]}\n{name}, of {rows[0][0].n}", loc="left", fontsize=9)
@@ -338,11 +339,11 @@ def _paired_panel(ax, rows, measure: str) -> None:
             str(p.only_text),
             ha="right",
             va="center",
-            fontsize=7.5,
+            fontsize=8,
             color=INK_SECONDARY,
         )
         ax.text(
-            p.only_card + 1.5, y, str(p.only_card), ha="left", va="center", fontsize=7.5, color=INK_SECONDARY
+            p.only_card + 1.5, y, str(p.only_card), ha="left", va="center", fontsize=8, color=INK_SECONDARY
         )
         label = "p < 0.001" if p.p < 0.001 else f"p = {p.p:.3f}"
         ax.text(
@@ -352,7 +353,7 @@ def _paired_panel(ax, rows, measure: str) -> None:
             transform=ax.get_yaxis_transform(),
             ha="left",
             va="center",
-            fontsize=7.5,
+            fontsize=8,
             color=INK,
             fontweight="bold" if p.p < 0.00125 else "normal",
         )
@@ -371,7 +372,7 @@ def _paired_panel(ax, rows, measure: str) -> None:
         "← only the text technique",
         transform=ax.transAxes,
         ha="left",
-        fontsize=7.5,
+        fontsize=8,
         color=INK_SECONDARY,
     )
     ax.text(
@@ -380,7 +381,7 @@ def _paired_panel(ax, rows, measure: str) -> None:
         "only the card technique →",
         transform=ax.transAxes,
         ha="right",
-        fontsize=7.5,
+        fontsize=8,
         color=INK_SECONDARY,
     )
 
