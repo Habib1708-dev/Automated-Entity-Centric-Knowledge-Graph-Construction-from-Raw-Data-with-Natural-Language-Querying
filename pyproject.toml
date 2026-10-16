@@ -15,6 +15,8 @@ dependencies = [
     "mlflow>=2.16",
     "pypdf>=4.0",
     "psycopg[binary]>=3.2",  # PostgreSQL as a source of tables (R114); binary: no local libpq needed
+    "fastapi>=0.115",  # the web interface's API (R222, `kg serve`)
+    "uvicorn>=0.30",  # serves it
 ]
 
 [project.scripts]

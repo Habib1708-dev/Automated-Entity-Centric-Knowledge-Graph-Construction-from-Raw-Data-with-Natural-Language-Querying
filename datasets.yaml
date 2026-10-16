@@ -1,0 +1,31 @@
+# The datasets the web interface shows, one tab each (R222), in tab order.
+# preset: the presets.yaml entry the build was made and is asked with (its models, data_dir and chunking);
+# build:  the final build folder of the benchmark (R157-R219), read offline for the graph view;
+# digest: the graph digest Neo4j gives with that build loaded (graph/digest.py; tests/gold/r178/runs.json),
+#         how the interface tells which dataset is loaded on 7687.
+datasets:
+  - id: furniture
+    name: Furniture
+    preset: quality
+    build: out/r165_furniture_build
+    digest: 392a170ecc10
+  - id: heldout
+    name: NHTSA recalls
+    preset: heldout
+    build: out/r165_heldout_build
+    digest: bc7c5a1efe3d
+  - id: generality
+    name: Generality
+    preset: generality_gemini
+    build: out/r156_generality
+    digest: f79f9411ea81
+  - id: lighthouses
+    name: Lighthouses
+    preset: lighthouses
+    build: out/r165_lighthouses_build
+    digest: 62573881a3c6
+  - id: ntsb
+    name: NTSB accidents
+    preset: ntsb
+    build: out/r165_ntsb_build
+    digest: c7f20fa9c187

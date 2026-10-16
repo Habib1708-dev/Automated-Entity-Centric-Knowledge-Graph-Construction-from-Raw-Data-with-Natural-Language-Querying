@@ -4,7 +4,9 @@ Role in the pipeline: the entry point. It is the only place that reads settings 
 LLM client, cache, MLflow tracker, Neo4j driver and PostgreSQL table source; everything below receives them
 through a `PipelineContext`.
 Design: composition root (Factory). A command only chooses stages, fills `PipelineState` from its
-arguments and prints the result. Expected failures (`KgBuilderError`) become a message and exit code 1.
+arguments and prints the result. `kg serve` (R222) builds the web interface's parts here as well: a context
+per question for the dataset's preset, with the page's listener on every LLM call. Expected failures
+(`KgBuilderError`) become a message and exit code 1.
 Not here: pipeline logic (pipeline/) and anything that talks to the LLM or Neo4j directly.
 """
 
@@ -17,6 +19,7 @@ from importlib.metadata import version
 from pathlib import Path
 
 import typer
+import uvicorn
 from pydantic import ValidationError
 
 from .anchor import Arm
@@ -25,7 +28,7 @@ from .core.errors import ConfigurationError, KgBuilderError
 from .graph.connection import open_driver
 from .hybrid import REPRESENTATIONS
 from .hybrid.cross_rerank import CrossEncoderReranker
-from .llm.base import CallListener, Embedder
+from .llm.base import CallListener, Embedder, LLMCallRecord
 from .llm.cache import CachedLLM
 from .llm.cross_encoder import SentenceTransformersScorer
 from .llm.deepseek import DeepSeekClient
@@ -54,6 +57,10 @@ from .validation.qa import QAReport
 from .validation.report import ValidationReport
 from .validation.retrieval_scores import RetrievalReport
 from .validation.summary_judging import Groundedness
+from .web.app import create_app
+from .web.ask import AskService
+from .web.datasets import Dataset, read_datasets
+from .web.knowledge import KnowledgeGraph, from_build
 
 app = typer.Typer(no_args_is_help=True, add_completion=False)
 OUT = Path("out")
@@ -253,10 +260,14 @@ def build_embedder(
     )
 
 
-def build_context(out: Path) -> PipelineContext:
-    """Wire the concrete adapters. Without a provider the context has no LLM; LLM-free stages still work."""
+def build_context(
+    out: Path, preset: str | None = None, listener: CallListener | None = None
+) -> PipelineContext:
+    """Wire the concrete adapters. Without a provider the context has no LLM; LLM-free stages still work.
+    `preset` names the preset in place of KG_PRESET (the web interface asks each dataset with its own,
+    R222); `listener` also hears every LLM call the tracker hears (the page's live view of a question)."""
     try:
-        settings = Settings()
+        settings = Settings(kg_preset=preset) if preset else Settings()
     except ValidationError as e:  # a bad value in .env, the environment or a preset
         raise ConfigurationError(str(e)) from e
     tracker = create_tracker(
@@ -265,12 +276,20 @@ def build_context(out: Path) -> PipelineContext:
         run_tags(settings.kg_preset),
         read_prices(PRICES_FILE),
     )
+    record = tracker.record_llm_call
+    if listener is not None:
+        extra = listener
+
+        def record(call: LLMCallRecord) -> None:
+            tracker.record_llm_call(call)
+            extra(call)
+
     llm = embedder = None
     # both layers report to the tracker: the provider its live calls (with token usage), the cache its hits
-    provider = build_provider(settings, tracker.record_llm_call)
+    provider = build_provider(settings, record)
     if provider is not None:
-        llm = CachedLLM(provider, settings.cache_dir, tracker.record_llm_call)
-        embedder = build_embedder(settings, tracker.record_llm_call, provider)
+        llm = CachedLLM(provider, settings.cache_dir, record)
+        embedder = build_embedder(settings, record, provider)
     # the driver connects lazily, so commands that never query Neo4j (profile, plan) work without it
     driver = open_driver(settings.neo4j_uri, settings.neo4j_username, settings.neo4j_password)
     # a schema set means the tables come from PostgreSQL (R114); it connects only when profile stages them
@@ -1033,6 +1052,36 @@ def sample(
     except KgBuilderError as e:
         typer.echo(f"error: {e}", err=True)
         raise typer.Exit(1) from e
+
+
+# the agent variants the web interface offers, the default first (plan R217-R220's verdict): `agent` is the
+# benchmarked system, `agent_sql` the recommended upgrade, `agent_best` the measured combination
+WEB_VARIANTS = ("agent", "agent_sql", "agent_best")
+WEB_FOLDERS = OUT / "web"  # each dataset's working folder for questions (web/ask.py)
+
+
+@app.command()
+def serve(host: str = "127.0.0.1", port: int = 8000):
+    """Serve the web interface (R222): the datasets of datasets.yaml as tabs, each build's graph read offline,
+    and questions to the dataset loaded in Neo4j, streamed with every step. Each question is a paid LLM call
+    on the dataset's preset, logged to MLflow as `kg ask` logs it."""
+    datasets = read_datasets()
+
+    @contextmanager
+    def contexts(preset: str, folder: Path, listener: CallListener | None) -> Iterator[PipelineContext]:
+        ctx = build_context(folder, preset, listener)
+        try:
+            yield ctx
+        finally:
+            ctx.driver.close()
+
+    def graphs(dataset: Dataset) -> KnowledgeGraph:
+        s = Settings(kg_preset=dataset.preset)  # the build's data folder and chunking are its preset's
+        chunking = (s.chunk_max_chars, s.chunk_min_chars, s.chunk_overlap_chars)
+        return from_build(dataset.build, s.data_dir, chunking)
+
+    asker = AskService(contexts, read_prices(PRICES_FILE), WEB_FOLDERS)
+    uvicorn.run(create_app(datasets, graphs, asker, list(WEB_VARIANTS)), host=host, port=port)
 
 
 @app.command()

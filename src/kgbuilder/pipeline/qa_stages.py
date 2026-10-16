@@ -14,7 +14,8 @@ question, which `kg qa-compare` compares between two systems or two steps. `kg q
 earlier run's plans (query/frozen.py) and logs which file they came from. Before any call, `kg qa`
 refuses a gold whose evidence chunks the loaded graph lacks and logs the graph's digest (R117). Both `kg ask`
 and `kg qa` log how many requests the security screen refused (R202) and how many ended in each
-outcome (R204).
+outcome (R204). R222: `kg ask`'s stage takes an observer the agent reports its steps to, which the web
+interface streams to the page.
 Not here: how a system is built and what it logs as params (qa_systems.py), retrieval and reading (query/),
 scoring (validation/qa.py), the paired test (validation/paired.py).
 """
@@ -25,6 +26,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
+from ..agent.observer import NO_OBSERVER, AgentObserver
 from ..core.errors import ConfigurationError
 from ..query.answers import SystemAnswer, load_system_answers, shown_texts
 from ..query.frozen import load_frozen
@@ -204,13 +206,15 @@ def _agent_metrics(answers: list[SystemAnswer]) -> dict[str, float | int]:
 
 
 class AskStage(BaseStage):
-    """Answer one question with one system and keep the answer (`kg ask`)."""
+    """Answer one question with one system and keep the answer (`kg ask`); an agent reports its steps to
+    `observer` as they happen (R222)."""
 
     name = "ask"
     ANSWER_FILE = "ask.json"
 
-    def __init__(self, system: str = "graph"):
+    def __init__(self, system: str = "graph", observer: AgentObserver = NO_OBSERVER):
         self.system = check_system(system).name
+        self.observer = observer
 
     def params(self, ctx, state):
         question = state.need("question", "pass a question")
@@ -218,7 +222,7 @@ class AskStage(BaseStage):
 
     def run(self, ctx, state, run):
         log_prompts(run, self.system)
-        answer = build_system(ctx, state, self.system).answer("ask", state.question)
+        answer = build_system(ctx, state, self.system, observer=self.observer).answer("ask", state.question)
         state.answer = answer
         run.metrics(
             retrieved=len(answer.retrieved),

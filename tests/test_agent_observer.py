@@ -1,8 +1,8 @@
 """The agent loop's observer (R221, agent/observer.py) with a scripted model and fake tools, without Neo4j or
 a network: every model reply, settled call (run with its result, or refused) and send-back is reported in
 the order it happens, with the turn it belongs to; the citation retry is reported as a send-back; the agent
-system passes its observer to the loop; and a loop with an observer replies, calls and traces exactly as
-one without."""
+system passes the observer it holds to the loop (R222); and a loop with an observer replies, calls and
+traces exactly as one without."""
 
 from kgbuilder.agent.observer import NO_OBSERVER, SendBack
 from kgbuilder.agent.results import NodesResult, ToolResult
@@ -85,7 +85,10 @@ def test_a_loop_with_an_observer_runs_and_traces_exactly_as_one_without():
 
 
 def test_the_agent_system_passes_its_observer_to_the_loop():
+    """R222: the observer is the system's, so `answer` keeps the one `QASystem` signature."""
     recorder = Recorder()
-    system = AgentSystem(loop(Script(call("find", '{"ref": "k1"}'), answer("k1"))), FakeStore())
-    assert system.answer("Q1", "Which thing?", recorder).agent is not None
+    system = AgentSystem(
+        loop(Script(call("find", '{"ref": "k1"}'), answer("k1"))), FakeStore(), observer=recorder
+    )
+    assert system.answer("Q1", "Which thing?").agent is not None
     assert [e[0] for e in recorder.events] == ["model", "call", "model"]

@@ -1455,6 +1455,7 @@ version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "duckdb" },
+    { name = "fastapi" },
     { name = "google-genai" },
     { name = "httpx" },
     { name = "mlflow" },
@@ -1465,6 +1466,7 @@ dependencies = [
     { name = "pypdf" },
     { name = "rapidfuzz" },
     { name = "typer" },
+    { name = "uvicorn" },
 ]
 
 [package.dev-dependencies]
@@ -1481,6 +1483,7 @@ rerank = [
 [package.metadata]
 requires-dist = [
     { name = "duckdb", specifier = ">=1.1" },
+    { name = "fastapi", specifier = ">=0.115" },
     { name = "google-genai", specifier = ">=1.0" },
     { name = "httpx", specifier = ">=0.27" },
     { name = "mlflow", specifier = ">=2.16" },
@@ -1491,6 +1494,7 @@ requires-dist = [
     { name = "pypdf", specifier = ">=4.0" },
     { name = "rapidfuzz", specifier = ">=3.9" },
     { name = "typer", specifier = ">=0.12" },
+    { name = "uvicorn", specifier = ">=0.30" },
 ]
 
 [package.metadata.requires-dev]

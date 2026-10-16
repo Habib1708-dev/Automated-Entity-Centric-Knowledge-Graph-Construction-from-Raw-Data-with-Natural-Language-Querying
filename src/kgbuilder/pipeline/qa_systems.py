@@ -29,6 +29,7 @@ from ..agent import prompt as agent_prompt
 from ..agent.evidence import EvidenceLedger
 from ..agent.loop import AgentLimits, AgentLoop
 from ..agent.node_reader import Neo4jNodeReader, NodeReader
+from ..agent.observer import NO_OBSERVER, AgentObserver
 from ..agent.outcome import OutcomeCheck
 from ..agent.recheck import SingleSearchRecheck
 from ..agent.semantic_filter import FilterOptions, FilterPassages, PassageJudge
@@ -100,6 +101,7 @@ class QAParts(SourceParts):
     llm: LLMClient  # the QA model at the settings' thinking level: the reader, planner and checks call it
     reader: Reader
     frozen: Mapping[str, FrozenQuery] | None = None  # R80: an earlier run's plans, replayed by a plan system
+    observer: AgentObserver = NO_OBSERVER  # R222: told of the agent's steps as they happen; others ignore it
 
 
 # a reading system's chunk source, built from the source parts and asked to rank at least `depth` chunks:
@@ -542,7 +544,7 @@ def _agent(variant: AgentVariant, parts: QAParts) -> QASystem:
     loop = AgentLoop(variant.tools(tools, parts), llm, s.qa_model, s.llm_temperature, limits,
                      recheck=recheck, evidence=variant.evidence(parts), outcome=OutcomeCheck(),
                      workset=variant.workset(parts))  # fmt: skip
-    return AgentSystem(loop, parts.store, variant.name)
+    return AgentSystem(loop, parts.store, variant.name, parts.observer)
 
 
 def agent_spec(variant: AgentVariant) -> SystemSpec:
@@ -735,10 +737,14 @@ def source_parts(ctx: PipelineContext, state: PipelineState) -> SourceParts:
 
 
 def qa_parts(
-    ctx: PipelineContext, state: PipelineState, frozen: Mapping[str, FrozenQuery] | None = None
+    ctx: PipelineContext,
+    state: PipelineState,
+    frozen: Mapping[str, FrozenQuery] | None = None,
+    observer: AgentObserver = NO_OBSERVER,
 ) -> QAParts:
-    """The shared parts over the current graph, with the settings' model, thinking level, reader and k.
-    Raises `LLMUnavailableError` without a model or an embedder."""
+    """The shared parts over the current graph, with the settings' model, thinking level, reader and k, and
+    the observer the agent reports its steps to (R222). Raises `LLMUnavailableError` without a model or an
+    embedder."""
     s = ctx.settings
     llm = with_thinking(ctx.require_llm(), s.qa_thinking)
     src = source_parts(ctx, state)
@@ -748,12 +754,18 @@ def qa_parts(
         llm=llm,
         reader=Reader(llm, s.qa_model, s.llm_temperature),
         frozen=frozen,
+        observer=observer,
     )
 
 
 def build_system(
-    ctx: PipelineContext, state: PipelineState, name: str, frozen: Mapping[str, FrozenQuery] | None = None
+    ctx: PipelineContext,
+    state: PipelineState,
+    name: str,
+    frozen: Mapping[str, FrozenQuery] | None = None,
+    observer: AgentObserver = NO_OBSERVER,
 ) -> QASystem:
     """The system `name` over the current graph, behind the security screen (R202): a request to change the
-    data is refused before the system sees it. A plan system replays `frozen` (R80) when given."""
-    return ScreenedSystem(check_system(name).build(qa_parts(ctx, state, frozen)))
+    data is refused before the system sees it. A plan system replays `frozen` (R80) when given; the agent
+    reports its steps to `observer` (R222)."""
+    return ScreenedSystem(check_system(name).build(qa_parts(ctx, state, frozen, observer)))

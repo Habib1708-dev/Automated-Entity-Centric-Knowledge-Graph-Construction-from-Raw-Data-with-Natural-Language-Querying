@@ -11698,11 +11698,10 @@ upgrade."
 
 **Steps:**
 - **R221** An observer hook in the agent loop (Observer + Null Object). Behaviour-preserving, code only.
-- **R222** The FastAPI backend, `src/kgbuilder/web/` (a second composition root):
-  - datasets, schema, a graph neighbourhood from the snapshot, the cached $0 reload;
-  - `ask` over SSE (server-sent events: the server pushes each step to the page);
-  - provenance.
-  - Per-question cost comes from the existing `CallListener` + `UsageMeter` (llm/base.py, tracking/base.py), attached at the web's composition root.
+- **R222** The FastAPI backend, `src/kgbuilder/web/` (a second composition root, `kg serve`):
+  - datasets, schema, the graph, search, a thing's detail and passages, all read offline from each final build;
+  - `ask` over SSE (server-sent events: the server pushes each step to the page), with per-question cost from the existing `CallListener` + `UsageMeter` (llm/base.py, tracking/base.py).
+- **R222b** (split from R222 on 2026-10-16, a second concern) The "load this graph" job: the cached $0 reload recipe (tests/gold/r219/runs.json) run from the page, with progress.
 - **R223** The React frontend, `frontend/`, served by FastAPI (`kg serve`). Design tokens are set once, with the `impeccable` skill. Design check: screenshots in both themes; no text under 14px; one accent colour.
 - **R224** README and one end-to-end question (~$0.03), asked first.
 
@@ -11733,6 +11732,58 @@ upgrade."
 - **No run ($0).**
 
 **R221 done 2026-10-16.** Next: R222.
+
+### R222. The web API (done 2026-10-16; code, no run)
+
+**Scope:**
+- `src/kgbuilder/web/` (new):
+  - `datasets.py` + `datasets.yaml`: the five tabs. Each has a preset, a final build (`out/r165_*_build`, `out/r156_generality`) and the graph digest that build gives in Neo4j (tests/gold/r178/runs.json).
+  - `knowledge.py`: a build's graph, rebuilt offline from `build_snapshot` (audit/snapshot.py), as *things* and *facts*.
+    - Things are records, or the individuals and concepts mentions refer to; a mention no assignment covers stands for itself.
+    - Facts are table relationships (with their source rows) and text claims (with evidence sentence and chunk).
+    - Views:
+      - the schema by type;
+      - the busiest part (an overview);
+      - a neighbourhood;
+      - search;
+      - a thing's detail, with properties and their rows;
+      - a passage.
+  - `events.py`: the stream's events.
+    - `StreamObserver` (R221's observer): model time per turn, tool calls with their cut result, send-backs.
+    - `StreamListener` on every LLM call: tokens, cache hit, and cost priced by `UsageMeter`, as the MLflow runs price it.
+  - `ask.py`: runs `AskStage` (the same stage as `kg ask`: MLflow run, security screen) for one question.
+    - It refuses a dataset whose digest is not the loaded graph's.
+    - Each dataset works in `out/web/<id>`, laid out as the reload recipe lays it out, never in the build folder.
+  - `app.py`: the routes. One question at a time; an unexpected error still ends the stream.
+- `cli.py`:
+  - `kg serve` (the composition root);
+  - `build_context(out, preset, listener)`, so each dataset is asked with its own preset and the page hears every LLM call.
+- `pipeline/qa_stages.py`, `pipeline/qa_systems.py`, `agent/system.py`: the observer goes `AskStage` -> `build_system` -> `QAParts` -> `AgentSystem`.
+  - It is now held by `AgentSystem` (constructor) rather than passed to `answer`, so the `QASystem` signature and the screen stay as they were.
+  - `kg qa` and `kg ask` pass none.
+- `pyproject.toml`: `fastapi` and `uvicorn` as main dependencies, so the tests run in the default install.
+  - Found along the way: a plain `uv sync` removes the `rerank` group (torch); it was restored with `uv sync --group rerank`.
+
+**Verified:**
+- `tests/test_web.py`, 19 tests:
+  - the datasets file;
+  - the graph views on a hand-made snapshot (rows, claims, an unresolved mention, schema, overview, neighbourhood, search, detail, passage);
+  - events (cut result, cost per request and in sum, a cache hit free);
+  - the ask service (wrong dataset loaded, Neo4j down, the working folder);
+  - routes (loaded tab, 404s, streamed order, refused variant, 409 while busy, unexpected error);
+  - `qa_parts` carrying the observer.
+- `tests/test_agent_observer.py`: the system passes the observer it holds.
+- `uv run pytest -m "not neo4j and not postgres"`: 1765 passed (R221: 1746). `uv run ruff check .` is clean.
+- Offline on the five final builds ($0, no Neo4j, no model): each graph builds in under a second.
+  - furniture: 552 things, 70 chunks;
+  - held-out: 411 things;
+  - generality: 156 things;
+  - lighthouses: 285 things;
+  - NTSB: 551 things.
+- `kg serve` against the working Neo4j (read only): `/api/datasets` named lighthouses as loaded (digest 62573881a3c6), and `search?q=godrevy` found `Lighthouse:Q15221791` "Godrevy Lighthouse" (23 facts).
+- **No run ($0).** No question was asked: the streamed answer is proven with a fake asker. The end-to-end question is R224's, asked first.
+
+**R222 done 2026-10-16.** Next: R222b.
 
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
