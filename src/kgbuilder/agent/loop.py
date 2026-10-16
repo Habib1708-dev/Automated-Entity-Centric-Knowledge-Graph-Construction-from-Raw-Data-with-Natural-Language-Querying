@@ -31,7 +31,9 @@ the variant `agent_workset` only), the answer it is about to finish with, after 
 given back to the model with every item it read shown whole; the model gives a verdict per item and answers
 again, the tools closed, sent back once when code finds a verdict missing or a quote not in its item. The
 trace times the
-model's calls and the whole loop with `timer`, kept apart from the timeout's `clock` (R142).
+model's calls and the whole loop with `timer`, kept apart from the timeout's `clock` (R142). R221: `run`
+takes an observer (observer.py) told of every model reply, settled call and send-back as it happens; it
+only watches, so the loop is the same without one.
 Not here: the prompt text (prompt.py), the tools (graph_tools.py, text_tools.py, structured_tools.py),
 the answer's shape for `kg qa` (system.py).
 """
@@ -48,6 +50,7 @@ from ..llm.base import LLMClient
 from ..query.answers import AgentCall, AgentStop, AgentTrace
 from .citations import CheckedCitations, Ledger
 from .evidence import EvidenceLedger, EvidenceReview
+from .observer import NO_OBSERVER, AgentObserver
 from .outcome import OutcomeCheck, settle
 from .prompt import (
     CITATION_RETRY,
@@ -93,6 +96,7 @@ class _State:
     """What one question's loop has done so far."""
 
     started: float
+    observer: AgentObserver = NO_OBSERVER  # told of each reply, call and send-back (R221)
     ledger: Ledger = field(default_factory=Ledger)
     calls: list[AgentCall] = field(default_factory=list)
     turns: list[str] = field(default_factory=list)  # each earlier turn as the prompt writes it
@@ -141,10 +145,10 @@ class AgentLoop:
         self._outcome = outcome
         self._workset = workset
 
-    def run(self, question: str) -> AgentRun:
-        """The answer to `question`. Raises `LLMResponseError` when the model fails; a tool's database error
-        propagates as for every system."""
-        state = _State(started=self._clock(), timed=self._timer())
+    def run(self, question: str, observer: AgentObserver = NO_OBSERVER) -> AgentRun:
+        """The answer to `question`, each step reported to `observer` as it happens (R221). Raises
+        `LLMResponseError` when the model fails; a tool's database error propagates as for every system."""
+        state = _State(started=self._clock(), observer=observer, timed=self._timer())
         while state.turn < self._limits.turns:
             prompt = PROMPT.format(question=question, tools=self._tool_text, turns=_turns(state),
                                    left=self._limits.calls - state.calls_run())  # fmt: skip
@@ -156,6 +160,7 @@ class AgentLoop:
             if step.action == "answer" and step.is_empty() and not state.emptied:
                 state.emptied = True
                 state.turns.append(sent_back_text(state.turn, EMPTY_ANSWER))
+                state.observer.sent_back(state.turn, "empty")
                 continue
             # R204, after R138's check (an empty reply is sent back as empty) and before R147's (which asks
             # only a reply claiming an answer for its form); once, and only while a turn is left, for the
@@ -163,6 +168,7 @@ class AgentLoop:
             if message := self._outcome_problem(step, state):
                 state.outcome_sent = True
                 state.turns.append(sent_back_text(state.turn, message))
+                state.observer.sent_back(state.turn, "outcome")
                 continue
             # R147, after R138's check: an empty answer is sent back as empty, never also for its form; and
             # only while a turn is left, so the reply comes with the tools open (an answer on the last turn
@@ -172,6 +178,7 @@ class AgentLoop:
             if claims and not step.is_empty() and step.misses_form() and resend:
                 state.reformed = True
                 state.turns.append(sent_back_text(state.turn, form_answer(step)))
+                state.observer.sent_back(state.turn, "form")
                 continue
             # R176: after the form check, so a reformed answer is still rechecked; once, and only while a
             # turn is left, for the reasons R147's send-back has
@@ -180,6 +187,7 @@ class AgentLoop:
             if search is not None and rule is not None:
                 state.rechecked = True
                 state.turns.append(sent_back_text(state.turn, rule.message(search)))
+                state.observer.sent_back(state.turn, "recheck")
                 continue
             if step.action == "answer":
                 return self._finish(question, state, step, "answer")
@@ -217,10 +225,10 @@ class AgentLoop:
         if not refused and key in state.seen:
             refused = f"identical to the call of turn {state.seen[key]}; its result is above"
         if refused or tool is None or arguments is None:
-            state.calls.append(
-                AgentCall(turn=state.turn, tool=step.tool, arguments=step.arguments, refused=refused)
-            )
+            refusal = AgentCall(turn=state.turn, tool=step.tool, arguments=step.arguments, refused=refused)
+            state.calls.append(refusal)
             state.turns.append(turn_text(state.turn, step.tool, step.arguments, f"refused: {refused}"))
+            state.observer.call_done(refusal, None)
             return
         started = time.perf_counter()
         result = tool.run(arguments)
@@ -231,6 +239,7 @@ class AgentLoop:
                          returned=result.cites(), latency_ms=round(latency, 1))  # fmt: skip
         state.calls.append(call)
         state.turns.append(turn_text(state.turn, tool.name, step.arguments, result.model_dump_json()))
+        state.observer.call_done(call, result)
 
     def _close(self, question: str, state: _State, stop: AgentStop) -> AgentRun:
         """A cap is reached: ask once more with the tools closed, and finish with that reply as the answer."""
@@ -245,6 +254,7 @@ class AgentLoop:
         checked = state.ledger.check(step.citations)
         retried = bool(checked.unknown)
         if retried:
+            state.observer.sent_back(state.turn, "citations")
             step = self._closing_reply(question, state, CITATION_RETRY.format(ids=", ".join(checked.unknown)))
             checked = state.ledger.check(step.citations)
         step = settle(step)  # R204: after every send-back, so the outcome scored is the final reply's
@@ -274,6 +284,7 @@ class AgentLoop:
         state.evidence = rule.review(question, step, read, names)
         if not state.evidence.left_out:
             return step
+        state.observer.sent_back(state.turn, "evidence")
         return self._closing_reply(question, state, rule.message(state.evidence))
 
     def _worked(self, question: str, state: _State, step: AgentStep) -> AgentStep:
@@ -316,7 +327,9 @@ class AgentLoop:
         """One reply of the model as `schema`, its time added to the loop's model time."""
         started = self._timer()
         reply = self._llm.generate(prompt, schema, model=self._model, temperature=self._temperature)
-        state.llm_s += self._timer() - started
+        took = self._timer() - started
+        state.llm_s += took
+        state.observer.model_replied(state.turn, round(took * 1000, 1))
         return reply
 
 

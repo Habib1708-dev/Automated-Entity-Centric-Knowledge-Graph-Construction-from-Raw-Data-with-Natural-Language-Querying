@@ -11679,6 +11679,61 @@ upgrade."
 - `agent_evidence`, `agent_best` and medium thinking stay registered as measured experiments, not recommended:
   their gains were shown only on failure sets, and `agent_best` cost 36% more for no gain on fresh questions.
 
+### Plan R221-R224: a web interface (accepted 2026-10-16)
+
+**The ask.** The user wants a site with:
+- one tab per benchmarked dataset (furniture, held-out NHTSA, generality, lighthouses, NTSB), each showing its graph;
+- a chat;
+- under every reply, the agent's tools and steps, how long each took, and the provenance.
+
+**The user's decisions:**
+- **One Neo4j (7687), swapped per tab.** Graph pictures come from each build's offline `snapshot.json`. Questions only go to the loaded dataset. A load is confirmed first, because 7687 is shared with other sessions.
+- **FastAPI + React** (Vite, TypeScript, Cytoscape.js).
+- **Live step-by-step trace.**
+- **Design:** minimal and modern.
+  - Neutral palette with one muted accent, no neon or glow.
+  - Three regions with clear separation (header with tabs | graph | chat), thin dividers, no boxes in boxes.
+  - Large type: body 17-18px, nothing under 14px.
+  - Trace and sources collapsed inside each answer.
+
+**Steps:**
+- **R221** An observer hook in the agent loop (Observer + Null Object). Behaviour-preserving, code only.
+- **R222** The FastAPI backend, `src/kgbuilder/web/` (a second composition root):
+  - datasets, schema, a graph neighbourhood from the snapshot, the cached $0 reload;
+  - `ask` over SSE (server-sent events: the server pushes each step to the page);
+  - provenance.
+  - Per-question cost comes from the existing `CallListener` + `UsageMeter` (llm/base.py, tracking/base.py), attached at the web's composition root.
+- **R223** The React frontend, `frontend/`, served by FastAPI (`kg serve`). Design tokens are set once, with the `impeccable` skill. Design check: screenshots in both themes; no text under 14px; one accent colour.
+- **R224** README and one end-to-end question (~$0.03), asked first.
+
+### R221. The agent loop's observer (done 2026-10-16; code, no run)
+
+**Scope:**
+- New `agent/observer.py`:
+  - the `AgentObserver` Protocol, with three events:
+    - `model_replied(turn, ms)`: each model reply, so every turn has its own model time (the trace keeps only the sum, `llm_ms`);
+    - `call_done(AgentCall, result | None)`: a run call with the tool's result (the trace keeps only its ids), or a refused call;
+    - `sent_back(turn, reason)`: the reasons are empty, outcome, form, recheck, evidence and citations;
+  - `NoObserver` / `NO_OBSERVER` (Null Object).
+- `agent/loop.py`: `run(question, observer=NO_OBSERVER)`. The observer lives on the loop's state and is called at the existing points. No rule, prompt or trace field changed.
+- `agent/system.py`: `AgentSystem.answer(..., observer=NO_OBSERVER)` passes it on. The `QASystem` protocol, `kg qa` and `kg ask` are unchanged.
+- **Left out on purpose:**
+  - The planned `CountingLLM` decorator: the LLM port already reports every call to a `CallListener`, and `UsageMeter` prices it. R222 attaches those instead.
+  - A `finished` event: the caller gets the answer itself.
+  - A working-set event: `agent_workset` is a closed experiment.
+
+**Verified:**
+- `tests/test_agent_observer.py`, 5 tests:
+  - every reply, call (run or refused) and send-back is reported in order with its turn, and the reported times add up to `llm_ms`;
+  - a run call carries the tool's result;
+  - the citation retry is reported as a send-back;
+  - the prompts, answer and trace are equal with and without an observer (a call's wall-clock `latency_ms` aside);
+  - `AgentSystem` passes the observer on.
+- `uv run pytest -m "not neo4j and not postgres"`: 1746 passed (baseline 1741). Neo4j tests were not run, because nothing here touches Neo4j. `uv run ruff check .` is clean.
+- **No run ($0).**
+
+**R221 done 2026-10-16.** Next: R222.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

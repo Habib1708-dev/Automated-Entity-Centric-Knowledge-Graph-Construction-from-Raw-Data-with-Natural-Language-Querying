@@ -14,7 +14,8 @@ injected stores: the composition root (pipeline/qa_systems.py) opens the adapter
 building them (R146). R150 adds `rank_by_documents` after `find_passages`, reading the node reader with
 the `rows` and `names` caps. R183: the system takes its name, so a variant of the agent with other tools
 (pipeline/qa_systems.py's `AgentVariant`) writes its own answers file and MLflow run. R204: the answer
-carries the outcome the loop settled on.
+carries the outcome the loop settled on. R221: `answer` passes an observer to the loop, so a caller can show
+each step as it happens; `kg qa` passes none.
 Not here: the loop (loop.py), the tools, opening any database.
 """
 
@@ -32,6 +33,7 @@ from ..structured.plan import ConstructionPlan
 from .graph_tools import FindNodes, GetNode, Neighbours, NodeEvidence, RankByDocuments
 from .loop import AgentLoop
 from .node_reader import NodeReader
+from .observer import NO_OBSERVER, AgentObserver
 from .structured_tools import QueryRecords, QueryTables, Schema
 from .tables import TableStore
 from .text_reader import TextReader
@@ -100,8 +102,9 @@ class AgentSystem:
         self._loop = loop
         self._store = store
 
-    def answer(self, question_id: str, question: str) -> SystemAnswer:
-        run = self._loop.run(question)
+    def answer(self, question_id: str, question: str, observer: AgentObserver = NO_OBSERVER) -> SystemAnswer:
+        """The answer to `question`, the loop's steps reported to `observer` as they happen (R221)."""
+        run = self._loop.run(question, observer)
         cited_chunks = [i for i in run.citations.kept if run.ledger.is_chunk(i)]
         # R209: every cited chunk's whole stored text, read once: a cited chunk read only as a cut view is
         # recorded whole with that view beside it, and one never read is recorded for the judge
