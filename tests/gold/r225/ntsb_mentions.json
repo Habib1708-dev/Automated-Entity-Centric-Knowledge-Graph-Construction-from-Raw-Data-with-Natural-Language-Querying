@@ -1,0 +1,1065 @@
+{
+  "dataset": "ntsb",
+  "written_by": "claude-opus-5-5, one blind subagent (tests/gold/r101/rules.md and the blind sample file only; no build output opened)",
+  "date": "2026-10-16",
+  "rules": "tests/gold/r101/rules.md",
+  "sample": "tests/gold/r225/ntsb_sample.json",
+  "sentences": [
+    {
+      "id": "c95b318dee33",
+      "doc_id": "documents/air_tractor_at_502b_accidents.md",
+      "text": "The pilot tried to advance the power forward with no change and the airspeed and altitude decreased.",
+      "mentions": [
+        {
+          "name": "pilot",
+          "kind": "kind"
+        },
+        {
+          "name": "power",
+          "kind": "kind"
+        },
+        {
+          "name": "airspeed",
+          "kind": "kind"
+        },
+        {
+          "name": "altitude",
+          "kind": "kind"
+        },
+        {
+          "name": "decreased",
+          "kind": "kind"
+        }
+      ],
+      "note": "'decreased' kept as the fault of airspeed and altitude written as a verb (In 3); 'advance' is ordinary use (Out 8)."
+    },
+    {
+      "id": "d2ad6ed09e72",
+      "doc_id": "documents/air_tractor_at_502b_accidents.md",
+      "text": "The property owner of the bean field reported that he helped the pilot add about 9 gallons of red die automotive diesel fuel to the left fuel tank and about 5 gallons of the fuel to the right fuel tank after the accident.",
+      "mentions": [
+        {
+          "name": "property owner",
+          "kind": "kind"
+        },
+        {
+          "name": "bean field",
+          "kind": "kind"
+        },
+        {
+          "name": "pilot",
+          "kind": "kind"
+        },
+        {
+          "name": "red die automotive diesel fuel",
+          "kind": "kind"
+        },
+        {
+          "name": "left fuel tank",
+          "kind": "kind"
+        },
+        {
+          "name": "right fuel tank",
+          "kind": "kind"
+        },
+        {
+          "name": "accident",
+          "kind": "kind"
+        }
+      ],
+      "note": "Adding fuel is ordinary use (Out 8); 'the fuel' later is the same diesel fuel, one entry."
+    },
+    {
+      "id": "454c8111983e",
+      "doc_id": "documents/air_tractor_at_502b_accidents.md",
+      "text": "The right-wing started to rise, but before it leveled off, he heard it contact the corn.",
+      "mentions": [
+        {
+          "name": "right-wing",
+          "kind": "kind"
+        },
+        {
+          "name": "contact",
+          "kind": "kind"
+        },
+        {
+          "name": "corn",
+          "kind": "kind"
+        }
+      ],
+      "note": "'contact' is the incident written as a verb (In 3); 'rise' and 'leveled off' are not faults."
+    },
+    {
+      "id": "6d29c356b94f",
+      "doc_id": "documents/air_tractor_at_502b_accidents.md",
+      "text": "## CEN22LA312 (2022-07-11, Decatur, IL)",
+      "mentions": [
+        {
+          "name": "CEN22LA312",
+          "kind": "particular"
+        },
+        {
+          "name": "Decatur",
+          "kind": "particular"
+        },
+        {
+          "name": "IL",
+          "kind": "particular"
+        }
+      ],
+      "note": "Date out (Out 4)."
+    },
+    {
+      "id": "12691f7df5c0",
+      "doc_id": "documents/air_tractor_at_502b_accidents.md",
+      "text": "During departure climbout for spray operations, the pilot heard a “pop” and observed white smoke trailing the airplane.",
+      "mentions": [
+        {
+          "name": "departure climbout",
+          "kind": "kind"
+        },
+        {
+          "name": "spray operations",
+          "kind": "kind"
+        },
+        {
+          "name": "pilot",
+          "kind": "kind"
+        },
+        {
+          "name": "pop",
+          "kind": "kind"
+        },
+        {
+          "name": "white smoke",
+          "kind": "kind"
+        },
+        {
+          "name": "airplane",
+          "kind": "kind"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "ccc9d3df4908",
+      "doc_id": "documents/air_tractor_at_502b_accidents.md",
+      "text": "Examination revealed that all compressor turbine (CT) rotor blades were fractured at varying spanwise locations.",
+      "mentions": [
+        {
+          "name": "Examination",
+          "kind": "kind"
+        },
+        {
+          "name": "compressor turbine (CT) rotor blades",
+          "kind": "kind"
+        },
+        {
+          "name": "fractured",
+          "kind": "kind"
+        }
+      ],
+      "note": "Two names of one thing in one span; kept the verbatim span with the abbreviation inside."
+    },
+    {
+      "id": "663ddf4e21bc",
+      "doc_id": "documents/air_tractor_at_502b_accidents.md",
+      "text": "The pilot was departing from a 2,100-ft-long airstrip used for agricultural operations.",
+      "mentions": [
+        {
+          "name": "pilot",
+          "kind": "kind"
+        },
+        {
+          "name": "airstrip",
+          "kind": "kind"
+        },
+        {
+          "name": "agricultural operations",
+          "kind": "kind"
+        }
+      ],
+      "note": "Length is a quantity (Out 4); 'departing' is ordinary use."
+    },
+    {
+      "id": "471eb5bb0e37",
+      "doc_id": "documents/air_tractor_at_502b_accidents.md",
+      "text": "Damage to the propeller blades was consistent with high impact forces while the propeller was rotating at low power at a low blade pitch angle.",
+      "mentions": [
+        {
+          "name": "Damage",
+          "kind": "kind"
+        },
+        {
+          "name": "propeller blades",
+          "kind": "kind"
+        },
+        {
+          "name": "impact forces",
+          "kind": "kind"
+        },
+        {
+          "name": "propeller",
+          "kind": "kind"
+        },
+        {
+          "name": "power",
+          "kind": "kind"
+        },
+        {
+          "name": "blade pitch angle",
+          "kind": "kind"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "21942b5b9d41",
+      "doc_id": "documents/beech_a36_accidents.md",
+      "text": "According to the pilot, during the approach to land on a plowed- snow-covered runway, he selected a touchdown point near, what he had identified as, the runway threshold.",
+      "mentions": [
+        {
+          "name": "pilot",
+          "kind": "kind"
+        },
+        {
+          "name": "approach",
+          "kind": "kind"
+        },
+        {
+          "name": "runway",
+          "kind": "kind"
+        },
+        {
+          "name": "touchdown point",
+          "kind": "kind"
+        },
+        {
+          "name": "runway threshold",
+          "kind": "kind"
+        }
+      ],
+      "note": "'plowed- snow-covered' are describing words left out of 'runway'."
+    },
+    {
+      "id": "2e6c8a6f93e2",
+      "doc_id": "documents/beech_a36_accidents.md",
+      "text": "Subsequently, the airplane touchdown in an area of unplowed snow, impacted a snow berm, and the nosewheel collapsed.",
+      "mentions": [
+        {
+          "name": "airplane",
+          "kind": "kind"
+        },
+        {
+          "name": "unplowed snow",
+          "kind": "kind"
+        },
+        {
+          "name": "impacted",
+          "kind": "kind"
+        },
+        {
+          "name": "snow berm",
+          "kind": "kind"
+        },
+        {
+          "name": "nosewheel",
+          "kind": "kind"
+        },
+        {
+          "name": "collapsed",
+          "kind": "kind"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "fda8688d99e4",
+      "doc_id": "documents/beech_a36_accidents.md",
+      "text": "While at an altitude of 8,000 ft mean sea level, the pilot noticed the engine oil pressure began to fluctuate.",
+      "mentions": [
+        {
+          "name": "pilot",
+          "kind": "kind"
+        },
+        {
+          "name": "engine oil pressure",
+          "kind": "kind"
+        },
+        {
+          "name": "fluctuate",
+          "kind": "kind"
+        }
+      ],
+      "note": "Altitude value is a quantity (Out 4)."
+    },
+    {
+      "id": "2c56065e5dec",
+      "doc_id": "documents/beech_a36_accidents.md",
+      "text": "It is likely the engine failure was the result of oil starvation to the connecting rod bearings, however, the reason for the oil starvation could not be determined based on the available evidence.",
+      "mentions": [
+        {
+          "name": "engine failure",
+          "kind": "kind"
+        },
+        {
+          "name": "oil starvation",
+          "kind": "kind"
+        },
+        {
+          "name": "connecting rod bearings",
+          "kind": "kind"
+        }
+      ],
+      "note": "'evidence' is generic (Out 7)."
+    },
+    {
+      "id": "beaa10cfaef8",
+      "doc_id": "documents/beech_a36_accidents.md",
+      "text": "An initial inspection of the airplane noted damage to the airplane’s wings and fuselage.",
+      "mentions": [
+        {
+          "name": "inspection",
+          "kind": "kind"
+        },
+        {
+          "name": "airplane",
+          "kind": "kind"
+        },
+        {
+          "name": "damage",
+          "kind": "kind"
+        },
+        {
+          "name": "wings",
+          "kind": "kind"
+        },
+        {
+          "name": "fuselage",
+          "kind": "kind"
+        }
+      ],
+      "note": "'initial' dropped as a describing word."
+    },
+    {
+      "id": "1fac0fbdcab6",
+      "doc_id": "documents/beech_a36_accidents.md",
+      "text": "The data did not illustrate any abnormalities with either the cylinder head temperature or exhaust gas temperatures that were recorded; the total loss of power was evident.",
+      "mentions": [
+        {
+          "name": "abnormalities",
+          "kind": "kind"
+        },
+        {
+          "name": "cylinder head temperature",
+          "kind": "kind"
+        },
+        {
+          "name": "exhaust gas temperatures",
+          "kind": "kind"
+        },
+        {
+          "name": "loss of power",
+          "kind": "kind"
+        }
+      ],
+      "note": "'data' treated as generic (Out 7); abnormalities kept although absent (In 4)."
+    },
+    {
+      "id": "cc4b1bbaf5da",
+      "doc_id": "documents/beech_a36_accidents.md",
+      "text": "He noted that he was not in the process of changing or manipulating any controls when the power loss occurred.",
+      "mentions": [
+        {
+          "name": "controls",
+          "kind": "kind"
+        },
+        {
+          "name": "power loss",
+          "kind": "kind"
+        }
+      ],
+      "note": "Changing or manipulating controls is ordinary use (Out 8)."
+    },
+    {
+      "id": "ee151067872b",
+      "doc_id": "documents/beech_a36_accidents.md",
+      "text": "The airplane exited the highway and came to rest nose down in a ditch which resulted in substantial damage to the fuselage.",
+      "mentions": [
+        {
+          "name": "airplane",
+          "kind": "kind"
+        },
+        {
+          "name": "exited",
+          "kind": "kind"
+        },
+        {
+          "name": "highway",
+          "kind": "kind"
+        },
+        {
+          "name": "ditch",
+          "kind": "kind"
+        },
+        {
+          "name": "damage",
+          "kind": "kind"
+        },
+        {
+          "name": "fuselage",
+          "kind": "kind"
+        }
+      ],
+      "note": "'exited' kept as the excursion incident written as a verb (In 3)."
+    },
+    {
+      "id": "90c119f6c262",
+      "doc_id": "documents/beech_a36_accidents.md",
+      "text": "Based on the available information, the airplane’s engine lost power due to a fuel flow interruption for reasons that could not be determined.",
+      "mentions": [
+        {
+          "name": "engine",
+          "kind": "kind"
+        },
+        {
+          "name": "lost power",
+          "kind": "kind"
+        },
+        {
+          "name": "fuel flow interruption",
+          "kind": "kind"
+        }
+      ],
+      "note": "Fault written as a verb phrase; 'lost power' kept rather than bare 'lost'."
+    },
+    {
+      "id": "8bfd17e2bbff",
+      "doc_id": "documents/beech_a36_accidents.md",
+      "text": "The pilot attempted to restore engine power by switching to the right fuel tank and activating the starter but was unsuccessful.",
+      "mentions": [
+        {
+          "name": "pilot",
+          "kind": "kind"
+        },
+        {
+          "name": "engine power",
+          "kind": "kind"
+        },
+        {
+          "name": "right fuel tank",
+          "kind": "kind"
+        },
+        {
+          "name": "starter",
+          "kind": "kind"
+        }
+      ],
+      "note": "Switching tanks and activating the starter are ordinary use (Out 8)."
+    },
+    {
+      "id": "54a8e3393257",
+      "doc_id": "documents/cessna_172s_accidents.md",
+      "text": "Examination of the engine and fuel system revealed a loose “B” nut fitting on the fuel line between the fuel injector and fuel manifold.",
+      "mentions": [
+        {
+          "name": "Examination",
+          "kind": "kind"
+        },
+        {
+          "name": "engine",
+          "kind": "kind"
+        },
+        {
+          "name": "fuel system",
+          "kind": "kind"
+        },
+        {
+          "name": "“B” nut fitting",
+          "kind": "kind"
+        },
+        {
+          "name": "fuel line",
+          "kind": "kind"
+        },
+        {
+          "name": "fuel injector",
+          "kind": "kind"
+        },
+        {
+          "name": "fuel manifold",
+          "kind": "kind"
+        }
+      ],
+      "note": "'loose' is an adjective (Out 1), left out of the name."
+    },
+    {
+      "id": "5864f7c5bdf2",
+      "doc_id": "documents/cessna_172s_accidents.md",
+      "text": "Given this evidence, the “B” nut on the fuel line was likely not properly tightened during engine installation, which allowed the nut to loosen with normal engine vibration and allowed air to enter the system which resulted in total loss of engine power.",
+      "mentions": [
+        {
+          "name": "“B” nut",
+          "kind": "kind"
+        },
+        {
+          "name": "fuel line",
+          "kind": "kind"
+        },
+        {
+          "name": "tightened",
+          "kind": "kind"
+        },
+        {
+          "name": "engine installation",
+          "kind": "kind"
+        },
+        {
+          "name": "loosen",
+          "kind": "kind"
+        },
+        {
+          "name": "engine vibration",
+          "kind": "kind"
+        },
+        {
+          "name": "air",
+          "kind": "kind"
+        },
+        {
+          "name": "loss of engine power",
+          "kind": "kind"
+        }
+      ],
+      "note": "'tightened' kept though negated (In 3, In 4); 'the nut' is the same B nut; 'the system' and 'evidence' treated as generic."
+    },
+    {
+      "id": "f6e598ad5857",
+      "doc_id": "documents/cessna_172s_accidents.md",
+      "text": "## CEN22LA244 (2022-06-09, Salina, KS)",
+      "mentions": [
+        {
+          "name": "CEN22LA244",
+          "kind": "particular"
+        },
+        {
+          "name": "Salina",
+          "kind": "particular"
+        },
+        {
+          "name": "KS",
+          "kind": "particular"
+        }
+      ],
+      "note": "Date out (Out 4)."
+    },
+    {
+      "id": "6c6be396d659",
+      "doc_id": "documents/cessna_172s_accidents.md",
+      "text": "During the takeoff roll, a louder noise occurred and shortly after the airplane lifted off the ground, the pilot elected to abort the takeoff and pitched nose down.",
+      "mentions": [
+        {
+          "name": "takeoff roll",
+          "kind": "kind"
+        },
+        {
+          "name": "noise",
+          "kind": "kind"
+        },
+        {
+          "name": "airplane",
+          "kind": "kind"
+        },
+        {
+          "name": "pilot",
+          "kind": "kind"
+        },
+        {
+          "name": "abort",
+          "kind": "kind"
+        },
+        {
+          "name": "takeoff",
+          "kind": "kind"
+        }
+      ],
+      "note": "'abort' kept as the rejected takeoff written as a verb; 'ground' and 'nose' in manoeuvre phrases left out."
+    },
+    {
+      "id": "c9da241ae5d1",
+      "doc_id": "documents/cirrus_sr22_accidents.md",
+      "text": "# Cirrus SR22 accidents investigated by the NTSB",
+      "mentions": [
+        {
+          "name": "Cirrus SR22",
+          "kind": "particular"
+        },
+        {
+          "name": "accidents",
+          "kind": "kind"
+        },
+        {
+          "name": "NTSB",
+          "kind": "particular"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "df604f73864f",
+      "doc_id": "documents/cirrus_sr22_accidents.md",
+      "text": "The pilot flew a visual approach to the airport, where several witnesses observed the airplane bounce on the runway then heard an increase in engine power, consistent with the pilot’s attempt to initiate a go-around.",
+      "mentions": [
+        {
+          "name": "pilot",
+          "kind": "kind"
+        },
+        {
+          "name": "visual approach",
+          "kind": "kind"
+        },
+        {
+          "name": "airport",
+          "kind": "kind"
+        },
+        {
+          "name": "witnesses",
+          "kind": "kind"
+        },
+        {
+          "name": "airplane",
+          "kind": "kind"
+        },
+        {
+          "name": "bounce",
+          "kind": "kind"
+        },
+        {
+          "name": "runway",
+          "kind": "kind"
+        },
+        {
+          "name": "engine power",
+          "kind": "kind"
+        },
+        {
+          "name": "go-around",
+          "kind": "kind"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "b3fb9cee89e4",
+      "doc_id": "documents/cirrus_sr22_accidents.md",
+      "text": "Probable cause: An inflight instrument malfunction for reasons that could not be determined based on available information, which led to the pilot’s decision to activate the airframe parachute system.",
+      "mentions": [
+        {
+          "name": "instrument malfunction",
+          "kind": "kind"
+        },
+        {
+          "name": "pilot",
+          "kind": "kind"
+        },
+        {
+          "name": "airframe parachute system",
+          "kind": "kind"
+        }
+      ],
+      "note": "'inflight' dropped as a describing word; the decision is an everyday act (Out 8)."
+    },
+    {
+      "id": "94f7c28c257a",
+      "doc_id": "documents/cirrus_sr22_accidents.md",
+      "text": "The airplane bounced onto the runway, so the pilot elected to do a go-around.",
+      "mentions": [
+        {
+          "name": "airplane",
+          "kind": "kind"
+        },
+        {
+          "name": "bounced",
+          "kind": "kind"
+        },
+        {
+          "name": "runway",
+          "kind": "kind"
+        },
+        {
+          "name": "pilot",
+          "kind": "kind"
+        },
+        {
+          "name": "go-around",
+          "kind": "kind"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "f1d4b51e1ae4",
+      "doc_id": "documents/cirrus_sr22_accidents.md",
+      "text": "About the time of the accident, the automated weather reporting station located 23 miles northwest of the accident site reported, wind from 290° at 10 kts gusting to 21 kts.",
+      "mentions": [
+        {
+          "name": "accident",
+          "kind": "kind"
+        },
+        {
+          "name": "automated weather reporting station",
+          "kind": "kind"
+        },
+        {
+          "name": "accident site",
+          "kind": "kind"
+        },
+        {
+          "name": "wind",
+          "kind": "kind"
+        },
+        {
+          "name": "gusting",
+          "kind": "kind"
+        }
+      ],
+      "note": "Distances, directions and speeds are quantities (Out 4)."
+    },
+    {
+      "id": "b94e94325e16",
+      "doc_id": "documents/cirrus_sr22_accidents.md",
+      "text": "The pilot reported that he landed on a runway that was wet due to recent rain showers.",
+      "mentions": [
+        {
+          "name": "pilot",
+          "kind": "kind"
+        },
+        {
+          "name": "runway",
+          "kind": "kind"
+        },
+        {
+          "name": "rain showers",
+          "kind": "kind"
+        }
+      ],
+      "note": "'wet' is a predicate adjective (Out 1), left out though it describes the runway state."
+    },
+    {
+      "id": "01090ca16316",
+      "doc_id": "documents/cirrus_sr22_accidents.md",
+      "text": "As he applied the brakes, the airplane began to hydroplane, so he released braking pressure to regain directional control.",
+      "mentions": [
+        {
+          "name": "brakes",
+          "kind": "kind"
+        },
+        {
+          "name": "airplane",
+          "kind": "kind"
+        },
+        {
+          "name": "hydroplane",
+          "kind": "kind"
+        },
+        {
+          "name": "braking pressure",
+          "kind": "kind"
+        },
+        {
+          "name": "directional control",
+          "kind": "kind"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "728e74752005",
+      "doc_id": "documents/cirrus_sr22_accidents.md",
+      "text": "The pilot then reapplied the brakes but was unable to stop the airplane on the remaining runway.",
+      "mentions": [
+        {
+          "name": "pilot",
+          "kind": "kind"
+        },
+        {
+          "name": "brakes",
+          "kind": "kind"
+        },
+        {
+          "name": "airplane",
+          "kind": "kind"
+        },
+        {
+          "name": "runway",
+          "kind": "kind"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "22da797e5cbb",
+      "doc_id": "documents/cirrus_sr22_accidents.md",
+      "text": "He initiated a go-around; however, the engine made a “coughing” sound and lost power.",
+      "mentions": [
+        {
+          "name": "go-around",
+          "kind": "kind"
+        },
+        {
+          "name": "engine",
+          "kind": "kind"
+        },
+        {
+          "name": "“coughing” sound",
+          "kind": "kind"
+        },
+        {
+          "name": "lost power",
+          "kind": "kind"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "0d7b79de4be3",
+      "doc_id": "documents/cirrus_sr22_accidents.md",
+      "text": "Flight control continuity was established from each control surface to the corresponding cockpit controls.",
+      "mentions": [
+        {
+          "name": "Flight control continuity",
+          "kind": "kind"
+        },
+        {
+          "name": "control surface",
+          "kind": "kind"
+        },
+        {
+          "name": "cockpit controls",
+          "kind": "kind"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "d666120a8cca",
+      "doc_id": "documents/cirrus_sr22_accidents.md",
+      "text": "The pilot’s operating handbook (POH) noted that the maximum allowable crosswind velocity depends on pilot capability and airplane limitations.",
+      "mentions": [
+        {
+          "name": "pilot’s operating handbook",
+          "kind": "kind"
+        },
+        {
+          "name": "maximum allowable crosswind velocity",
+          "kind": "kind"
+        },
+        {
+          "name": "pilot capability",
+          "kind": "kind"
+        },
+        {
+          "name": "airplane limitations",
+          "kind": "kind"
+        }
+      ],
+      "note": "Handbook given two names; the first kept; a common noun, so kind."
+    },
+    {
+      "id": "eb08fe2e915e",
+      "doc_id": "documents/piper_pa_28_181_accidents.md",
+      "text": "The pilot could not maintain directional control following the firm landing and the airplane exited the runway striking a windsock with its right wing.",
+      "mentions": [
+        {
+          "name": "pilot",
+          "kind": "kind"
+        },
+        {
+          "name": "directional control",
+          "kind": "kind"
+        },
+        {
+          "name": "firm landing",
+          "kind": "kind"
+        },
+        {
+          "name": "airplane",
+          "kind": "kind"
+        },
+        {
+          "name": "exited",
+          "kind": "kind"
+        },
+        {
+          "name": "runway",
+          "kind": "kind"
+        },
+        {
+          "name": "striking",
+          "kind": "kind"
+        },
+        {
+          "name": "windsock",
+          "kind": "kind"
+        },
+        {
+          "name": "right wing",
+          "kind": "kind"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "97b3198348ce",
+      "doc_id": "documents/piper_pa_28_181_accidents.md",
+      "text": "of landing gear attachment hardware on various models, including the accident airplane model.",
+      "mentions": [
+        {
+          "name": "landing gear attachment hardware",
+          "kind": "kind"
+        },
+        {
+          "name": "models",
+          "kind": "kind"
+        },
+        {
+          "name": "accident airplane model",
+          "kind": "kind"
+        }
+      ],
+      "note": "Sentence fragment from a chunk split; labelled as written."
+    },
+    {
+      "id": "5205eca5045b",
+      "doc_id": "documents/piper_pa_28_181_accidents.md",
+      "text": "Probable cause: A loss of directional control due to failure of the landing gear attachment hardware for reasons that could not be determined based on the available information.",
+      "mentions": [
+        {
+          "name": "loss of directional control",
+          "kind": "kind"
+        },
+        {
+          "name": "failure",
+          "kind": "kind"
+        },
+        {
+          "name": "landing gear attachment hardware",
+          "kind": "kind"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "51f4b6583dcb",
+      "doc_id": "documents/piper_pa_28_181_accidents.md",
+      "text": "## CEN22LA249 (2022-06-14, Eaton Rapids, MI)",
+      "mentions": [
+        {
+          "name": "CEN22LA249",
+          "kind": "particular"
+        },
+        {
+          "name": "Eaton Rapids",
+          "kind": "particular"
+        },
+        {
+          "name": "MI",
+          "kind": "particular"
+        }
+      ],
+      "note": "Date out (Out 4)."
+    },
+    {
+      "id": "88379924b003",
+      "doc_id": "documents/piper_pa_28_181_accidents.md",
+      "text": "A National Transportation Safety Board Pilot/Operator Aircraft Accident/Incident Report was not received from the right seat pilot.",
+      "mentions": [
+        {
+          "name": "National Transportation Safety Board Pilot/Operator Aircraft Accident/Incident Report",
+          "kind": "particular"
+        },
+        {
+          "name": "right seat pilot",
+          "kind": "kind"
+        }
+      ],
+      "note": "The named report form is one named work; the agency inside its name is not listed separately."
+    },
+    {
+      "id": "42d805e43c78",
+      "doc_id": "documents/robinson_r44_ii_accidents.md",
+      "text": "The pilot stated that he was forced to land immediately, during which the helicopter impacted a tree then terrain, resulting in substantial damage.",
+      "mentions": [
+        {
+          "name": "pilot",
+          "kind": "kind"
+        },
+        {
+          "name": "helicopter",
+          "kind": "kind"
+        },
+        {
+          "name": "impacted",
+          "kind": "kind"
+        },
+        {
+          "name": "tree",
+          "kind": "kind"
+        },
+        {
+          "name": "terrain",
+          "kind": "kind"
+        },
+        {
+          "name": "damage",
+          "kind": "kind"
+        }
+      ],
+      "note": "'forced to land' treated as the pilot's act, not a fault."
+    },
+    {
+      "id": "2f16690e14ca",
+      "doc_id": "documents/robinson_r44_ii_accidents.md",
+      "text": "Probable cause: The pilot’s insufficient monitoring of the helicopter’s power while flying at low altitude and at low airspeed,  which resulted in the loss of rotor rpm and impact with a tree and terrain.",
+      "mentions": [
+        {
+          "name": "pilot",
+          "kind": "kind"
+        },
+        {
+          "name": "helicopter",
+          "kind": "kind"
+        },
+        {
+          "name": "power",
+          "kind": "kind"
+        },
+        {
+          "name": "altitude",
+          "kind": "kind"
+        },
+        {
+          "name": "airspeed",
+          "kind": "kind"
+        },
+        {
+          "name": "loss of rotor rpm",
+          "kind": "kind"
+        },
+        {
+          "name": "impact",
+          "kind": "kind"
+        },
+        {
+          "name": "tree",
+          "kind": "kind"
+        },
+        {
+          "name": "terrain",
+          "kind": "kind"
+        }
+      ],
+      "note": "'monitoring' is an everyday act (Out 8) even when insufficient."
+    }
+  ]
+}

@@ -1,0 +1,995 @@
+{
+  "dataset": "lighthouses",
+  "written_by": "claude-opus-5-5, one blind subagent (tests/gold/r101/rules.md and the blind sample file only; no build output opened)",
+  "date": "2026-10-16",
+  "rules": "tests/gold/r101/rules.md",
+  "sample": "tests/gold/r225/lighthouses_sample.json",
+  "sentences": [
+    {
+      "id": "d4f92541b93b",
+      "doc_id": "articles/anvil_point_lighthouse.md",
+      "text": "An explosive fog signal was established at the lighthouse in February 1894, which in foggy weather sounded once every ten minutes (later altered to every five minutes).",
+      "mentions": [
+        {
+          "name": "explosive fog signal",
+          "kind": "kind"
+        },
+        {
+          "name": "established",
+          "kind": "kind"
+        },
+        {
+          "name": "lighthouse",
+          "kind": "kind"
+        },
+        {
+          "name": "foggy weather",
+          "kind": "kind"
+        }
+      ],
+      "note": "'sounded' is the ordinary use of the signal (Out 8); 'altered' changes the interval, not a work on a thing, left out."
+    },
+    {
+      "id": "097fd2cb08fd",
+      "doc_id": "articles/anvil_point_lighthouse.md",
+      "text": "## External links",
+      "mentions": [],
+      "note": "Heading naming no thing."
+    },
+    {
+      "id": "4ef688227455",
+      "doc_id": "articles/anvil_point_lighthouse.md",
+      "text": "1993 video tour of the lighthouse by P.",
+      "mentions": [
+        {
+          "name": "video tour",
+          "kind": "kind"
+        },
+        {
+          "name": "lighthouse",
+          "kind": "kind"
+        },
+        {
+          "name": "P.",
+          "kind": "particular"
+        }
+      ],
+      "note": "'P.' is the person's name as this truncated sentence writes it."
+    },
+    {
+      "id": "ca4c63540be7",
+      "doc_id": "articles/berry_head_lighthouse.md",
+      "text": "Berry Head Lighthouse is an active lighthouse, located at the end of Berry Head near Brixham in Devon, which has been in operation since 4 May 1906.",
+      "mentions": [
+        {
+          "name": "Berry Head Lighthouse",
+          "kind": "particular"
+        },
+        {
+          "name": "Berry Head",
+          "kind": "particular"
+        },
+        {
+          "name": "Brixham",
+          "kind": "particular"
+        },
+        {
+          "name": "Devon",
+          "kind": "particular"
+        }
+      ],
+      "note": "'active lighthouse' names Berry Head Lighthouse itself (Out 9); 'operation' is ordinary use."
+    },
+    {
+      "id": "5aa04c7883a3",
+      "doc_id": "articles/berry_head_lighthouse.md",
+      "text": "In addition, the clockwork mechanism  which turned the optic required regular winding.",
+      "mentions": [
+        {
+          "name": "clockwork mechanism",
+          "kind": "kind"
+        },
+        {
+          "name": "optic",
+          "kind": "kind"
+        },
+        {
+          "name": "winding",
+          "kind": "kind"
+        }
+      ],
+      "note": "Winding is upkeep work done to the mechanism; 'turned' is its ordinary function."
+    },
+    {
+      "id": "ce69f1af9125",
+      "doc_id": "articles/berry_head_lighthouse.md",
+      "text": "Since 1994 the lighthouse has run on mains electricity.",
+      "mentions": [
+        {
+          "name": "lighthouse",
+          "kind": "kind"
+        },
+        {
+          "name": "mains electricity",
+          "kind": "kind"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "136e5093b747",
+      "doc_id": "articles/berry_head_lighthouse.md",
+      "text": "In 2019 the optic and lamp were removed and replaced with a pair of self-contained LED lanterns (one serving as the main light, the other as a standby); the old characteristic was retained.",
+      "mentions": [
+        {
+          "name": "optic",
+          "kind": "kind"
+        },
+        {
+          "name": "lamp",
+          "kind": "kind"
+        },
+        {
+          "name": "removed",
+          "kind": "kind"
+        },
+        {
+          "name": "replaced",
+          "kind": "kind"
+        },
+        {
+          "name": "LED lanterns",
+          "kind": "kind"
+        },
+        {
+          "name": "main light",
+          "kind": "kind"
+        },
+        {
+          "name": "standby",
+          "kind": "kind"
+        },
+        {
+          "name": "characteristic",
+          "kind": "kind"
+        }
+      ],
+      "note": "'retained' is not a work done to a thing; characteristic kept as a property the text says something about."
+    },
+    {
+      "id": "eda8fc1946fd",
+      "doc_id": "articles/berry_head_lighthouse.md",
+      "text": "Trinity House",
+      "mentions": [
+        {
+          "name": "Trinity House",
+          "kind": "particular"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "142954d59ef2",
+      "doc_id": "articles/farne_lighthouse.md",
+      "text": "Farne Lighthouse is a lighthouse on the southern tip of Inner Farne (one of a group of islands off the coast of North Northumberland).",
+      "mentions": [
+        {
+          "name": "Farne Lighthouse",
+          "kind": "particular"
+        },
+        {
+          "name": "Inner Farne",
+          "kind": "particular"
+        },
+        {
+          "name": "islands",
+          "kind": "kind"
+        },
+        {
+          "name": "North Northumberland",
+          "kind": "particular"
+        }
+      ],
+      "note": "'a lighthouse' names Farne Lighthouse itself (Out 9); 'southern tip' and 'coast' left out as location words."
+    },
+    {
+      "id": "b016907bf747",
+      "doc_id": "articles/farne_lighthouse.md",
+      "text": "It was initially provided with a revolving array of seven Argand lamps and reflectors, which displayed a single white flash every 30 seconds.",
+      "mentions": [
+        {
+          "name": "provided",
+          "kind": "kind"
+        },
+        {
+          "name": "revolving array",
+          "kind": "kind"
+        },
+        {
+          "name": "Argand lamps",
+          "kind": "kind"
+        },
+        {
+          "name": "reflectors",
+          "kind": "kind"
+        },
+        {
+          "name": "white flash",
+          "kind": "kind"
+        }
+      ],
+      "note": "'Argand lamps' kept as one kind (an eponymous lamp type, not a named model plus a noun); 'provided with' read as fitting work."
+    },
+    {
+      "id": "7eb117932a0c",
+      "doc_id": "articles/farne_lighthouse.md",
+      "text": "The other lighthouse on the island (Farne Low Lighthouse) was an octagonal tower, 8 m (26 ft) tall, placed 150 m (490 ft) away from the first, close to the north-west tip of the island.",
+      "mentions": [
+        {
+          "name": "Farne Low Lighthouse",
+          "kind": "particular"
+        },
+        {
+          "name": "island",
+          "kind": "kind"
+        }
+      ],
+      "note": "'other lighthouse' and 'octagonal tower' name Farne Low Lighthouse itself (Out 9); 'the first' is a pronoun-like reference; 'north-west tip' left out as a location word."
+    },
+    {
+      "id": "c63ba8e9b0e8",
+      "doc_id": "articles/farne_lighthouse.md",
+      "text": "After the High Light had been modified and automated in 1910, use of the Low Light was discontinued; before long it was demolished along with most of the keepers' accommodation (which was now no longer needed).",
+      "mentions": [
+        {
+          "name": "High Light",
+          "kind": "particular"
+        },
+        {
+          "name": "modified",
+          "kind": "kind"
+        },
+        {
+          "name": "automated",
+          "kind": "kind"
+        },
+        {
+          "name": "Low Light",
+          "kind": "particular"
+        },
+        {
+          "name": "discontinued",
+          "kind": "kind"
+        },
+        {
+          "name": "demolished",
+          "kind": "kind"
+        },
+        {
+          "name": "keepers' accommodation",
+          "kind": "kind"
+        }
+      ],
+      "note": "'High Light'/'Low Light' are capitalised names used as particulars."
+    },
+    {
+      "id": "c665afe2a6f0",
+      "doc_id": "articles/farne_lighthouse.md",
+      "text": "This light was also designed by Daniel Alexander and was similar to the other two in appearance and layout but taller; it too was equipped with a revolving set of lamps and reflectors.",
+      "mentions": [
+        {
+          "name": "light",
+          "kind": "kind"
+        },
+        {
+          "name": "Daniel Alexander",
+          "kind": "particular"
+        },
+        {
+          "name": "equipped",
+          "kind": "kind"
+        },
+        {
+          "name": "lamps",
+          "kind": "kind"
+        },
+        {
+          "name": "reflectors",
+          "kind": "kind"
+        }
+      ],
+      "note": "'designed' left out (an act of a person, not a work on the thing); 'appearance'/'layout' left out as generic."
+    },
+    {
+      "id": "0f07845d9c89",
+      "doc_id": "articles/farne_lighthouse.md",
+      "text": "It likewise replaced an earlier light built by Captain Blackett in 1778 (on nearby Staple Island, but subsequently relocated to Brownsman).",
+      "mentions": [
+        {
+          "name": "light",
+          "kind": "kind"
+        },
+        {
+          "name": "built",
+          "kind": "kind"
+        },
+        {
+          "name": "Blackett",
+          "kind": "particular"
+        },
+        {
+          "name": "Staple Island",
+          "kind": "particular"
+        },
+        {
+          "name": "relocated",
+          "kind": "kind"
+        },
+        {
+          "name": "Brownsman",
+          "kind": "particular"
+        }
+      ],
+      "note": "'Captain' is a title next to the name (Out 9), so the entry is 'Blackett'."
+    },
+    {
+      "id": "f578e5f66e14",
+      "doc_id": "articles/farne_lighthouse.md",
+      "text": "In 2022 permission was given for the lamp to be replaced with an LED light source, designed to function within the original lens; this upgrade was completed in March 2022.",
+      "mentions": [
+        {
+          "name": "lamp",
+          "kind": "kind"
+        },
+        {
+          "name": "replaced",
+          "kind": "kind"
+        },
+        {
+          "name": "LED light source",
+          "kind": "kind"
+        },
+        {
+          "name": "original lens",
+          "kind": "kind"
+        },
+        {
+          "name": "upgrade",
+          "kind": "kind"
+        }
+      ],
+      "note": "'permission' and 'completed' are acts, not things."
+    },
+    {
+      "id": "92c8e667fbfe",
+      "doc_id": "articles/godrevy_lighthouse.md",
+      "text": "Richard Short, a St Ives master mariner, wrote to the Shipping and Mercantile Gazette the day after the news of the sinking broke to note: \"[H]ad there been a light on Godrevy Island, which the inhabitants of this town have often applied for, it would no doubt have been the means of warning the ill-fated ship of the dangerous rocks she was approaching.",
+      "mentions": [
+        {
+          "name": "Richard Short",
+          "kind": "particular"
+        },
+        {
+          "name": "St Ives",
+          "kind": "particular"
+        },
+        {
+          "name": "Shipping and Mercantile Gazette",
+          "kind": "particular"
+        },
+        {
+          "name": "sinking",
+          "kind": "kind"
+        },
+        {
+          "name": "light",
+          "kind": "kind"
+        },
+        {
+          "name": "Godrevy Island",
+          "kind": "particular"
+        },
+        {
+          "name": "inhabitants",
+          "kind": "kind"
+        },
+        {
+          "name": "town",
+          "kind": "kind"
+        },
+        {
+          "name": "ship",
+          "kind": "kind"
+        },
+        {
+          "name": "rocks",
+          "kind": "kind"
+        }
+      ],
+      "note": "'master mariner' is a role in apposition with Richard Short (Out 9); 'this town' is St Ives but written as a common noun, so a separate kind entry."
+    },
+    {
+      "id": "0e60fb0da1d1",
+      "doc_id": "articles/godrevy_lighthouse.md",
+      "text": "By 1939 the keepers had been withdrawn and their cottages were subsequently demolished.",
+      "mentions": [
+        {
+          "name": "keepers",
+          "kind": "kind"
+        },
+        {
+          "name": "withdrawn",
+          "kind": "kind"
+        },
+        {
+          "name": "cottages",
+          "kind": "kind"
+        },
+        {
+          "name": "demolished",
+          "kind": "kind"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "2957e56ac7e8",
+      "doc_id": "articles/godrevy_lighthouse.md",
+      "text": "Godrevy Light by Charles Thomas and Jessica Mann describes the history of this lighthouse and shows the many works of art it inspired.",
+      "mentions": [
+        {
+          "name": "Godrevy Light",
+          "kind": "particular"
+        },
+        {
+          "name": "Charles Thomas",
+          "kind": "particular"
+        },
+        {
+          "name": "Jessica Mann",
+          "kind": "particular"
+        },
+        {
+          "name": "lighthouse",
+          "kind": "kind"
+        },
+        {
+          "name": "works of art",
+          "kind": "kind"
+        }
+      ],
+      "note": "'Godrevy Light' here is the book (a named work)."
+    },
+    {
+      "id": "cdc3db4b5073",
+      "doc_id": "articles/godrevy_lighthouse.md",
+      "text": "## See also",
+      "mentions": [],
+      "note": "Heading naming no thing."
+    },
+    {
+      "id": "66d1a582c9a4",
+      "doc_id": "articles/old_higher_lighthouse.md",
+      "text": "George I granted the patent in 1716.",
+      "mentions": [
+        {
+          "name": "George I",
+          "kind": "particular"
+        },
+        {
+          "name": "patent",
+          "kind": "kind"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "e4d777284358",
+      "doc_id": "articles/old_higher_lighthouse.md",
+      "text": "That year, it was announced that Trinity House had 'caus'd to be erected two round Light-Houses of Stone upon Portland, in the County of Dorset, distant about two Thirds of a Mile from the Bill of Portland'.",
+      "mentions": [
+        {
+          "name": "Trinity House",
+          "kind": "particular"
+        },
+        {
+          "name": "erected",
+          "kind": "kind"
+        },
+        {
+          "name": "Light-Houses",
+          "kind": "kind"
+        },
+        {
+          "name": "Portland",
+          "kind": "particular"
+        },
+        {
+          "name": "County of Dorset",
+          "kind": "particular"
+        },
+        {
+          "name": "Bill of Portland",
+          "kind": "particular"
+        }
+      ],
+      "note": "'announced' is a reporting verb; 'Stone' left out as material."
+    },
+    {
+      "id": "6592fe2f47ed",
+      "doc_id": "articles/old_higher_lighthouse.md",
+      "text": "The lighthouse and its cottages were refurbished in 1981.",
+      "mentions": [
+        {
+          "name": "lighthouse",
+          "kind": "kind"
+        },
+        {
+          "name": "cottages",
+          "kind": "kind"
+        },
+        {
+          "name": "refurbished",
+          "kind": "kind"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "23d92b67d9f1",
+      "doc_id": "articles/st_agnes_lighthouse.md",
+      "text": "The speed of rotation was increased, to give a flash every thirty seconds (rather than, as previously, every minute).",
+      "mentions": [
+        {
+          "name": "speed of rotation",
+          "kind": "kind"
+        },
+        {
+          "name": "flash",
+          "kind": "kind"
+        }
+      ],
+      "note": "'increased' changes a setting, not read as a work done to a thing (same as 'altered', 'reduced')."
+    },
+    {
+      "id": "9645e852102f",
+      "doc_id": "articles/st_agnes_lighthouse.md",
+      "text": "The old lighthouse tower continues to be maintained as a daymark for shipping.",
+      "mentions": [
+        {
+          "name": "lighthouse tower",
+          "kind": "kind"
+        },
+        {
+          "name": "maintained",
+          "kind": "kind"
+        },
+        {
+          "name": "daymark",
+          "kind": "kind"
+        },
+        {
+          "name": "shipping",
+          "kind": "kind"
+        }
+      ],
+      "note": "'daymark' kept as a kind: the role the tower is kept for, which a question could start from."
+    },
+    {
+      "id": "99cc77e8ed0c",
+      "doc_id": "articles/st_anthony_s_lighthouse.md",
+      "text": "Electric light was introduced (in the form of a 24kW filament lamp) when electricity was connected to the lighthouse in 1954.",
+      "mentions": [
+        {
+          "name": "Electric light",
+          "kind": "kind"
+        },
+        {
+          "name": "introduced",
+          "kind": "kind"
+        },
+        {
+          "name": "filament lamp",
+          "kind": "kind"
+        },
+        {
+          "name": "electricity",
+          "kind": "kind"
+        },
+        {
+          "name": "connected",
+          "kind": "kind"
+        },
+        {
+          "name": "lighthouse",
+          "kind": "kind"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "526a4a11f6d4",
+      "doc_id": "articles/st_anthony_s_lighthouse.md",
+      "text": "The fog bell, which hung from the gallery at the front of the tower, was therefore decommissioned; it was donated to the nearby Penwerris church, but after many years of sitting on the church front lawn, was taken away to be melted down.",
+      "mentions": [
+        {
+          "name": "fog bell",
+          "kind": "kind"
+        },
+        {
+          "name": "gallery",
+          "kind": "kind"
+        },
+        {
+          "name": "tower",
+          "kind": "kind"
+        },
+        {
+          "name": "decommissioned",
+          "kind": "kind"
+        },
+        {
+          "name": "Penwerris church",
+          "kind": "particular"
+        },
+        {
+          "name": "church front lawn",
+          "kind": "kind"
+        },
+        {
+          "name": "melted down",
+          "kind": "kind"
+        }
+      ],
+      "note": "'donated' is an everyday act (Out 8); Penwerris church listed once, 'church front lawn' is a separate thing."
+    },
+    {
+      "id": "56de87a41de4",
+      "doc_id": "articles/st_anthony_s_lighthouse.md",
+      "text": "In 2022 the range of the light was reduced from 22 nautical miles to 12 (and the red sector light from 20 nmi to 9); the optic remains in use but the light source is now LED.",
+      "mentions": [
+        {
+          "name": "range",
+          "kind": "kind"
+        },
+        {
+          "name": "light",
+          "kind": "kind"
+        },
+        {
+          "name": "red sector light",
+          "kind": "kind"
+        },
+        {
+          "name": "optic",
+          "kind": "kind"
+        },
+        {
+          "name": "light source",
+          "kind": "kind"
+        },
+        {
+          "name": "LED",
+          "kind": "kind"
+        }
+      ],
+      "note": "'reduced' not read as a work on a thing (see 23d92b67d9f1)."
+    },
+    {
+      "id": "a3294835cb20",
+      "doc_id": "articles/st_anthony_s_lighthouse.md",
+      "text": "## The lighthouse in popular culture",
+      "mentions": [
+        {
+          "name": "lighthouse",
+          "kind": "kind"
+        }
+      ],
+      "note": "Heading; 'popular culture' left out as generic."
+    },
+    {
+      "id": "d89312f41410",
+      "doc_id": "articles/st_mary_s_lighthouse.md",
+      "text": "This lighthouse was demolished when the new lighthouse and adjacent keepers' cottages were built in 1898 on St Mary's Island by the John Miller company of Tynemouth, using 645 blocks of stone and 750,000 bricks.",
+      "mentions": [
+        {
+          "name": "lighthouse",
+          "kind": "kind"
+        },
+        {
+          "name": "demolished",
+          "kind": "kind"
+        },
+        {
+          "name": "new lighthouse",
+          "kind": "kind"
+        },
+        {
+          "name": "keepers' cottages",
+          "kind": "kind"
+        },
+        {
+          "name": "built",
+          "kind": "kind"
+        },
+        {
+          "name": "St Mary's Island",
+          "kind": "particular"
+        },
+        {
+          "name": "John Miller company",
+          "kind": "particular"
+        },
+        {
+          "name": "Tynemouth",
+          "kind": "particular"
+        },
+        {
+          "name": "stone",
+          "kind": "kind"
+        },
+        {
+          "name": "bricks",
+          "kind": "kind"
+        }
+      ],
+      "note": "Two different lighthouses: the old one ('lighthouse') and 'new lighthouse'; quantities dropped from stone and bricks."
+    },
+    {
+      "id": "35825583c5a8",
+      "doc_id": "articles/st_mary_s_lighthouse.md",
+      "text": "## The lighthouse today",
+      "mentions": [
+        {
+          "name": "lighthouse",
+          "kind": "kind"
+        }
+      ],
+      "note": "Heading."
+    },
+    {
+      "id": "79abd0261623",
+      "doc_id": "articles/st_mary_s_lighthouse.md",
+      "text": "Another Victorian lighthouse may be found a few miles to the south of the River Tyne: Souter Lighthouse is also now decommissioned, and open to visitors (it can be seen with the naked eye from the top of St Mary's Lighthouse).",
+      "mentions": [
+        {
+          "name": "River Tyne",
+          "kind": "particular"
+        },
+        {
+          "name": "Souter Lighthouse",
+          "kind": "particular"
+        },
+        {
+          "name": "decommissioned",
+          "kind": "kind"
+        },
+        {
+          "name": "visitors",
+          "kind": "kind"
+        },
+        {
+          "name": "St Mary's Lighthouse",
+          "kind": "particular"
+        }
+      ],
+      "note": "'Victorian lighthouse' is resolved by the colon to Souter Lighthouse itself (Out 9)."
+    },
+    {
+      "id": "a098c8ef2133",
+      "doc_id": "articles/st_mary_s_lighthouse.md",
+      "text": "Pierhead lighthouses at Tynemouth and South Shields mark the entrance to the River Tyne.",
+      "mentions": [
+        {
+          "name": "Pierhead lighthouses",
+          "kind": "kind"
+        },
+        {
+          "name": "Tynemouth",
+          "kind": "particular"
+        },
+        {
+          "name": "South Shields",
+          "kind": "particular"
+        },
+        {
+          "name": "River Tyne",
+          "kind": "particular"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "aa398f32a7d0",
+      "doc_id": "articles/st_mary_s_lighthouse.md",
+      "text": "To the north, Trinity House maintains two operational lighthouses on the Farne Islands.",
+      "mentions": [
+        {
+          "name": "Trinity House",
+          "kind": "particular"
+        },
+        {
+          "name": "maintains",
+          "kind": "kind"
+        },
+        {
+          "name": "lighthouses",
+          "kind": "kind"
+        },
+        {
+          "name": "Farne Islands",
+          "kind": "particular"
+        }
+      ],
+      "note": ""
+    },
+    {
+      "id": "457b010c92e7",
+      "doc_id": "articles/tater_du_lighthouse.md",
+      "text": "In May 2022, as part of Trinity House's lighthouse modernisation programme, the revolving optic was replaced with static LED lanterns.",
+      "mentions": [
+        {
+          "name": "Trinity House",
+          "kind": "particular"
+        },
+        {
+          "name": "lighthouse modernisation programme",
+          "kind": "kind"
+        },
+        {
+          "name": "revolving optic",
+          "kind": "kind"
+        },
+        {
+          "name": "replaced",
+          "kind": "kind"
+        },
+        {
+          "name": "LED lanterns",
+          "kind": "kind"
+        }
+      ],
+      "note": "Date 'May 2022' is Out 4."
+    },
+    {
+      "id": "a8cca857f9a7",
+      "doc_id": "articles/tater_du_lighthouse.md",
+      "text": "it provides unique evidence of the geological history of SW England during the Variscan orogeny, in particular because of the occurrence of pillow lavas.″ The cliffs are also a Geological Conservation Review site.",
+      "mentions": [
+        {
+          "name": "SW England",
+          "kind": "particular"
+        },
+        {
+          "name": "Variscan orogeny",
+          "kind": "particular"
+        },
+        {
+          "name": "pillow lavas",
+          "kind": "kind"
+        },
+        {
+          "name": "cliffs",
+          "kind": "kind"
+        },
+        {
+          "name": "Geological Conservation Review",
+          "kind": "particular"
+        }
+      ],
+      "note": "'geological history' left out as generic; the designation name kept as particular."
+    },
+    {
+      "id": "f91acf3833e5",
+      "doc_id": "articles/tater_du_lighthouse.md",
+      "text": "The nearby rocks (Inner and Outer Bucks) form a popular sub-aqua dive site.",
+      "mentions": [
+        {
+          "name": "Inner and Outer Bucks",
+          "kind": "particular"
+        },
+        {
+          "name": "dive site",
+          "kind": "kind"
+        }
+      ],
+      "note": "'rocks' is the common noun in apposition with the names (Out 9); 'Inner and Outer Bucks' kept as one entry since 'Inner' alone is not a whole name."
+    },
+    {
+      "id": "c6eafda0ea8d",
+      "doc_id": "articles/tater_du_lighthouse.md",
+      "text": "Media related to Tater Du Lighthouse at Wikimedia Commons",
+      "mentions": [
+        {
+          "name": "Tater Du Lighthouse",
+          "kind": "particular"
+        },
+        {
+          "name": "Wikimedia Commons",
+          "kind": "particular"
+        }
+      ],
+      "note": "'Media' left out as generic."
+    },
+    {
+      "id": "23f498acab06",
+      "doc_id": "articles/whitby_lighthouse.md",
+      "text": "It is on Ling Hill, on the coast to the southeast of Whitby, beyond Saltwick Bay.",
+      "mentions": [
+        {
+          "name": "Ling Hill",
+          "kind": "particular"
+        },
+        {
+          "name": "Whitby",
+          "kind": "particular"
+        },
+        {
+          "name": "Saltwick Bay",
+          "kind": "particular"
+        }
+      ],
+      "note": "'coast' left out as a location word."
+    },
+    {
+      "id": "a3ba44b41c28",
+      "doc_id": "articles/whitby_lighthouse.md",
+      "text": "The North Light was of a similar octagonal design to the surviving South Light, but taller at 20.5 m (67 ft) (so that, although the North tower was on lower ground, the two lights were on the same focal plane).",
+      "mentions": [
+        {
+          "name": "North Light",
+          "kind": "particular"
+        },
+        {
+          "name": "octagonal design",
+          "kind": "kind"
+        },
+        {
+          "name": "South Light",
+          "kind": "particular"
+        },
+        {
+          "name": "focal plane",
+          "kind": "kind"
+        }
+      ],
+      "note": "'North tower' is North Light again (one entry per thing)."
+    },
+    {
+      "id": "4409a05cc25c",
+      "doc_id": "articles/whitby_lighthouse.md",
+      "text": "Catherine's Lighthouse in 1901) Trinity House decided to use sirens at Whitby, sounded through a pair of 'Rayleigh trumpets' (named after the scientific adviser at the trials).",
+      "mentions": [
+        {
+          "name": "Catherine's Lighthouse",
+          "kind": "particular"
+        },
+        {
+          "name": "Trinity House",
+          "kind": "particular"
+        },
+        {
+          "name": "sirens",
+          "kind": "kind"
+        },
+        {
+          "name": "Whitby",
+          "kind": "particular"
+        },
+        {
+          "name": "Rayleigh trumpets",
+          "kind": "kind"
+        },
+        {
+          "name": "scientific adviser",
+          "kind": "kind"
+        },
+        {
+          "name": "trials",
+          "kind": "kind"
+        }
+      ],
+      "note": "Sentence truncated at 'St.'; 'Catherine's Lighthouse' is the name as this sentence writes it. 'Rayleigh trumpets' kept as one eponymous kind."
+    }
+  ]
+}

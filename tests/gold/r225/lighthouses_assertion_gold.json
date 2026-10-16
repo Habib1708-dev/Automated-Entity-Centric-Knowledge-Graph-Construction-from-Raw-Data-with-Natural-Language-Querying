@@ -1,0 +1,1269 @@
+{
+  "labeller": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-16",
+    "pass": 1,
+    "input": "lighthouses_assertion_blind.json"
+  },
+  "sentences": [
+    {
+      "id": "5adf774fb43e",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "the lighthouse is built of local stone",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the lighthouse was completed in 1881",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "57694ec2437b",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "the lighthouse was opened by Joseph Chamberlain",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "Joseph Chamberlain was the President of the Board of Trade",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "2afa9c53fc8f",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "the light is positioned to give a waypoint for vessels passing along the English Channel coast",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "d4f92541b93b",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "an explosive fog signal was established at the lighthouse in February 1894",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the fog signal sounded once every ten minutes in foggy weather",
+          "truth": "affirmed",
+          "modality": "conditional",
+          "condition": "in foggy weather",
+          "note": "'in foggy weather' means whenever it is foggy: a standing condition, not a date"
+        },
+        {
+          "claim": "the fog signal interval was later altered to every five minutes",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "63dab09ccad8",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "Anvil Point Lighthouse was fully automated on 31 May 1991",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "Anvil Point Lighthouse is now monitored and controlled from the Trinity House Operations Control Centre at Harwich",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "957543ca3632",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "the old lens is in use",
+          "truth": "negated",
+          "modality": "actual",
+          "condition": null,
+          "note": "'no longer in use' denies present use"
+        },
+        {
+          "claim": "the old lens remains in place in the tower",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "106e15a23df7",
+      "stratum": "natural",
+      "claims": []
+    },
+    {
+      "id": "ca4c63540be7",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "Berry Head Lighthouse is an active lighthouse",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "Berry Head Lighthouse is located at the end of Berry Head near Brixham in Devon",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "Berry Head Lighthouse has been in operation since 4 May 1906",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "136e5093b747",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "in 2019 the optic and lamp were removed",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the optic and lamp were replaced with a pair of self-contained LED lanterns",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "one LED lantern serves as the main light, the other as a standby",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the old characteristic was retained",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "5650fc9752c0",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "a new fixed third order Fresnel lens was installed in the lantern",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "a red sector was added to the main light",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the red sector indicates lines of approach that were hazardous for shipping",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "07fccc17614f",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "this arrangement largely remains in place",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "in 1996 the light was converted from acetylene to solar powered electric operation",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "37ed07d5cd76",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "the High Light revolved",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the Low Light showed a fixed beam from a single Argand lamp and reflector",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the Low Light was monitored by the keeper at the High Lighthouse",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the Low Light was made visible through a small aperture in the rear of the Low Lighthouse",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "c63ba8e9b0e8",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "the High Light was modified and automated in 1910",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "use of the Low Light was discontinued after the High Light was automated",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the Low Light was demolished",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "most of the keepers' accommodation was demolished",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the keepers' accommodation was still needed",
+          "truth": "negated",
+          "modality": "actual",
+          "condition": null,
+          "note": "'no longer needed' denies the need"
+        }
+      ]
+    },
+    {
+      "id": "f578e5f66e14",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "in 2022 permission was given for the lamp to be replaced with an LED light source",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the LED light source is designed to function within the original lens",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the upgrade was completed in March 2022",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "17674caa6ad0",
+      "stratum": "natural",
+      "claims": []
+    },
+    {
+      "id": "a9b025f35a53",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "Godrevy Lighthouse stands approximately 300 metres off Godrevy Head",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "Godrevy Lighthouse marks the Stones reef",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the Stones reef has been a hazard to shipping for centuries",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "8c5e130119c2",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "the Stones claimed many ships",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the shipwrecks prompted calls for a lighthouse to be built",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "something came of the plans before the wreck of SS Nile",
+          "truth": "negated",
+          "modality": "actual",
+          "condition": null,
+          "note": "'nothing came of plans until' denies any result before the wreck"
+        },
+        {
+          "claim": "the iron screw steamer SS Nile was wrecked during a storm on 30 November 1854",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "5cd8c9a2ec33",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "many applications were made concerning the erection of a light to warn mariners against the reef",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": "quoted letter of Richard Short; the speaker is kept by the quotation"
+        },
+        {
+          "claim": "the applications have been attended to",
+          "truth": "negated",
+          "modality": "actual",
+          "condition": null,
+          "note": "'it has never been attended to'"
+        },
+        {
+          "claim": "the destruction of hundreds of lives and a mass of property may be attributed to the lack of a light",
+          "truth": "affirmed",
+          "modality": "possible",
+          "condition": null,
+          "note": "'may be attributed' hedges the causal claim"
+        }
+      ]
+    },
+    {
+      "id": "ad17c8cfa896",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "scarcely a month passes in the winter season without some vessel striking on these rocks",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": "double negation read as an affirmed near-monthly striking; quoted letter"
+        },
+        {
+          "claim": "hundreds of men have perished on these rocks in dark dreary nights",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "one was left to tell the tale",
+          "truth": "negated",
+          "modality": "actual",
+          "condition": null,
+          "note": "'without one being left to tell the tale'"
+        }
+      ]
+    },
+    {
+      "id": "841a2020f812",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "its construction took around a year",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "its construction cost £7,082 15s 12d",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the light began operating on 1 March 1859",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "c9367b77b07e",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "there was a fixed red light below the main light",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the red light could be seen over a 45-degree arc of danger from the reef",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": "'could be seen' states the light's visibility (a capacity), not uncertainty: actual"
+        }
+      ]
+    },
+    {
+      "id": "0e60fb0da1d1",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "by 1939 the keepers had been withdrawn",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the keepers' cottages were subsequently demolished",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "a40f02593270",
+      "stratum": "natural",
+      "claims": []
+    },
+    {
+      "id": "fcf4fb5edf2e",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "the Old Higher Lighthouse was built at Branscombe Hill",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the Old Lower Lighthouse was built on lower land",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "aaf9cd6c8d54",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "the lighthouse was owned by Marie Stopes",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": "picture caption; the ownership is stated in passing"
+        }
+      ]
+    },
+    {
+      "id": "6056fa13da10",
+      "stratum": "natural",
+      "claims": []
+    },
+    {
+      "id": "9a15c8ad5f1a",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "on 24 May 1680 Trinity House was given permission to erect and maintain one or more lighthouses on the islands",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": "'that year' resolved from the chunk (1680)"
+        }
+      ]
+    },
+    {
+      "id": "49bfb5e255ca",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "there were two protests against the building of the St Agnes light",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "officials from the Isle of Wight complained that they would lose revenue from harbour dues and victualling as shipping would prefer the Isles of Scilly",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": "the complaint is actual; the feared loss stays inside the speaker's claim"
+        },
+        {
+          "claim": "the Governor of Scilly objected on the grounds that he would lose money from wrecks",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "ac2926c29ca4",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "the lighthouse was coal fired until 1790",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "in 1790 the lighthouse was converted to oil",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": "'when' dates a past event: actual"
+        },
+        {
+          "claim": "the oil light used twenty-one Argand lamps with reflectors",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the lamps were mounted on a three-sided revolving array",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "331e287b6fe7",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "the harbour is also known as Carrick Roads",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the harbour is one of the largest natural harbours in the world",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "886b7a47da3b",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "in 1912-13 work was underway for the improvement of the high and abolition of the low light",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "by 1920 the light source had been changed to pressure vapour",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "by 1920 a large first-order fixed Fresnel optic had been introduced",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "a clockwork occulting mechanism had been introduced",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the occulting mechanism eclipsed the light for three seconds in every twenty",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "99cc77e8ed0c",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "electric light was introduced in the form of a 24kW filament lamp",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "electricity was connected to the lighthouse in 1954",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": "'when' dates a past event: actual"
+        }
+      ]
+    },
+    {
+      "id": "4c6778092081",
+      "stratum": "natural",
+      "claims": []
+    },
+    {
+      "id": "4584350abc60",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "the fog horn blasts once every 30 seconds",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "a3294835cb20",
+      "stratum": "natural",
+      "claims": []
+    },
+    {
+      "id": "e4cc565e51c4",
+      "stratum": "natural",
+      "claims": []
+    },
+    {
+      "id": "a4994fb9542a",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "the small rocky tidal island is linked to the mainland by a short concrete causeway",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the causeway is submerged at high tide",
+          "truth": "affirmed",
+          "modality": "conditional",
+          "condition": "at high tide",
+          "note": "'at high tide' means whenever the tide is high"
+        }
+      ]
+    },
+    {
+      "id": "d89312f41410",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "the old lighthouse was demolished when the new lighthouse was built in 1898",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": "'when' dates a past event: actual"
+        },
+        {
+          "claim": "the new lighthouse and adjacent keepers' cottages were built in 1898 on St Mary's Island",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "they were built by the John Miller company of Tynemouth",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "they were built using 645 blocks of stone and 750,000 bricks",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "f7d41d5f5bf9",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "the lamp was powered by paraffin",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the lamp was electrified before 1977",
+          "truth": "negated",
+          "modality": "actual",
+          "condition": null,
+          "note": "'not electrified until 1977' denies earlier electrification"
+        },
+        {
+          "claim": "the lamp was electrified in 1977",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "St Mary's was by then the last Trinity House lighthouse lit by oil",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "35825583c5a8",
+      "stratum": "natural",
+      "claims": []
+    },
+    {
+      "id": "700773ab5407",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "it functions as a working lighthouse",
+          "truth": "negated",
+          "modality": "actual",
+          "condition": null,
+          "note": "'no longer functions'"
+        },
+        {
+          "claim": "it is easily accessible when the tide is out",
+          "truth": "affirmed",
+          "modality": "conditional",
+          "condition": "when the tide is out",
+          "note": null
+        },
+        {
+          "claim": "it is regularly open to visitors",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "there is a small museum, a visitor's centre and a café at the site",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "77fcea63c577",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "in 2017 a renovation plan for the site was rejected by the local planning authority",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the plan was rejected due to environmental concerns",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the plan included roof-top viewing platforms and various glass-covered extensions",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "79abd0261623",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "another Victorian lighthouse, Souter Lighthouse, is a few miles to the south of the River Tyne",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": "'may be found' is an idiom for location, not uncertainty: actual"
+        },
+        {
+          "claim": "Souter Lighthouse is now decommissioned",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "Souter Lighthouse is open to visitors",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "Souter Lighthouse can be seen with the naked eye from the top of St Mary's Lighthouse",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": "'can be seen' is a capacity: actual"
+        }
+      ]
+    },
+    {
+      "id": "b77116d22a07",
+      "stratum": "natural",
+      "claims": []
+    },
+    {
+      "id": "300ebfa50448",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "the Newlyn and Mousehole Fishermen's Association put pressure on Trinity House for a lighthouse to be built after the tragedy",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "similar tragedies could happen again",
+          "truth": "affirmed",
+          "modality": "possible",
+          "condition": null,
+          "note": "stated by the Association; 'could' marks a risk"
+        }
+      ]
+    },
+    {
+      "id": "973a07be098e",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "there is a separate red fixed light that shows in the line over the Runnelstone Rock",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the red light is shone from a lower window in the tower",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "457b010c92e7",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "in May 2022 the revolving optic was replaced with static LED lanterns",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the replacement was part of Trinity House's lighthouse modernisation programme",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "6ca9b57d7823",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "the fog signal was decommissioned in 2012",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "019bc36b8bc8",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "the coastal slope and cliffs around the lighthouse are designated the Tater-du SSSI",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the SSSI was notified in 1992",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": "the reason is cut off after 'because'"
+        }
+      ]
+    },
+    {
+      "id": "02da6911222b",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "the nearest point for launching a dive-boat is Penzance",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "Lamorna Cove allows launching",
+          "truth": "negated",
+          "modality": "actual",
+          "condition": null,
+          "note": "'does not allow launching from there'"
+        },
+        {
+          "claim": "Lamorna Cove is just around the corner from The Bucks",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "6af80ab8ec76",
+      "stratum": "natural",
+      "claims": []
+    },
+    {
+      "id": "66d1e9795ab6",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "the lighthouse is a white octagonal brick tower",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the lighthouse was designed by James Walker",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "James Walker was of the civil engineers Messrs. Walker, Burgess & Cooper",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": "the firm name is split by the sentence splitter; its rest is the next sentence"
+        }
+      ]
+    },
+    {
+      "id": "dc810189a2a2",
+      "stratum": "natural",
+      "claims": []
+    },
+    {
+      "id": "df3310267d1b",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "Henry Norris of James Walker's firm supervised the construction",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "Henry Norris was engaged as Superintendent of the Works on behalf of Trinity House",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "60febfc50afc",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "the light is a 1st Order assembly",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the light was manufactured by Chance Brothers of Smethwick",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the light was first lit on 1 October 1858",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the costs of construction ran to about £8,000",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "7714a96f6743",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "a pair of single-storey keepers' cottages was attached to each tower",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "bd6b7cfc2168",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "a mechanism was also installed",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": "fragment: the sentence starts mid-phrase"
+        },
+        {
+          "claim": "the mechanism eclipsed the light once every thirty seconds",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "a red sector was added marking Whitby Rock",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "0c7f493b8fbe",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "the North Lighthouse was then demolished",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the North Lighthouse's lantern and optic were re-used at a new lighthouse at Withernsea",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "a new lighthouse was then being built at Withernsea",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "5b9786a32610",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "trials of different types of signal were conducted",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": "fragment cut at 'St.'; the place is lost"
+        }
+      ]
+    },
+    {
+      "id": "e41232074477",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "Whitby High lighthouse was electrified in 1976",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "after electrification the 'Hood' paraffin vapour burner was donated to the Whitby Museum",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the 'Hood' paraffin vapour burner had been the active light source up until 1976",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    }
+  ]
+}

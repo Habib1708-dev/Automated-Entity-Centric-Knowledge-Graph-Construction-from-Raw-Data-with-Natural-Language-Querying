@@ -1,0 +1,1112 @@
+{
+  "labeller": {
+    "model": "claude-opus-5-5",
+    "date": "2026-10-16",
+    "pass": 1,
+    "input": "ntsb_assertion_blind.json"
+  },
+  "sentences": [
+    {
+      "id": "8303b1cd9057",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "pilot reported no preaccident mechanical failures or malfunctions with the airplane that would have precluded normal operations",
+          "truth": "negated",
+          "modality": "actual",
+          "condition": null,
+          "note": "'would have precluded' restricts which failures are denied; not a condition on the claim"
+        }
+      ]
+    },
+    {
+      "id": "a5724641c81b",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "CEN21LA362 occurred on 2021-08-06",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": "heading states the case id, date and place, which a question could need"
+        },
+        {
+          "claim": "CEN21LA362 occurred in Topeka, KS",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "4534e6ff9865",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "he maneuvered the airplane out of the field",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the engine steadily lost power",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "a5f807bedb80",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "the pilot performed a forced landing to a bean field",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "c0ff2f985b15",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "the airplane sustained substantial damage to the fuselage and the right wing",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "877b6d6f102e",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "operator reported no preimpact mechanical malfunctions or failures with the airframe and engine that would have precluded normal operation",
+          "truth": "negated",
+          "modality": "actual",
+          "condition": null,
+          "note": "'would have precluded' restricts which failures are denied; not a condition on the claim"
+        }
+      ]
+    },
+    {
+      "id": "454c8111983e",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "the right wing started to rise",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the right wing contacted the corn before it leveled off",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": "'before it leveled off' dates the event; time, not a condition"
+        }
+      ]
+    },
+    {
+      "id": "ec7bf13b07f4",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "the airplane's gross weight and center-of-gravity limits could be definitively determined",
+          "truth": "negated",
+          "modality": "actual",
+          "condition": null,
+          "note": "'could not' states an inability that happened; negated, actual"
+        }
+      ]
+    },
+    {
+      "id": "a3270c9a58db",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "probable cause: a reported loss of thrust",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the reasons for the loss of thrust could be determined",
+          "truth": "negated",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "3f54e64b71f6",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "Beech A36 accidents were investigated by the NTSB",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": "document title; states the scope of the collection"
+        }
+      ]
+    },
+    {
+      "id": "9b37bf98339a",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "the pilot assumed this was to cushion the landing",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": "the pilot's assumption, speaker kept; actual"
+        },
+        {
+          "claim": "the pilot realized he was landing short of the runway's plowed surface",
+          "truth": "negated",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "he was landing short of the runway's plowed surface",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "ce38e98112cd",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "pilot reported no preaccident mechanical failures or malfunctions that would have precluded normal operations",
+          "truth": "negated",
+          "modality": "actual",
+          "condition": null,
+          "note": "'would have precluded' restricts which failures are denied; not a condition on the claim"
+        }
+      ]
+    },
+    {
+      "id": "a83f33f97fcc",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "during the landing, the airplane's nose wheel landing gear impacted a ditch",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "2c56065e5dec",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "the engine failure was the result of oil starvation to the connecting rod bearings",
+          "truth": "affirmed",
+          "modality": "possible",
+          "condition": null,
+          "note": "'it is likely' marks uncertainty, so possible"
+        },
+        {
+          "claim": "the reason for the oil starvation could be determined based on the available evidence",
+          "truth": "negated",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "111cddace4c6",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "the pilot selected a nearby field for a forced landing",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "beaa10cfaef8",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "an initial inspection noted damage to the airplane's wings and fuselage",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "b5adbb8e72c2",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "a visual inspection of the engine revealed pre-impact abnormalities",
+          "truth": "negated",
+          "modality": "actual",
+          "condition": null,
+          "note": "'after the airplane was recovered' dates the inspection; time, not a condition"
+        }
+      ]
+    },
+    {
+      "id": "1aa6f8f05791",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "an examination of the fuel system revealed anomalies",
+          "truth": "negated",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "1fac0fbdcab6",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "the data illustrated abnormalities with the cylinder head temperature or exhaust gas temperatures",
+          "truth": "negated",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the total loss of power was evident",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "76956c490ca6",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "abnormalities were noted during the engine test run",
+          "truth": "negated",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the engine appeared to make rated power",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": "'appeared' reports an observation, not a stated possibility; actual"
+        }
+      ]
+    },
+    {
+      "id": "0320a0453f63",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "a reason for the loss of engine power could be determined with the available information",
+          "truth": "negated",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "3da8a0817dcc",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "the fuel flow to the engine dropped (pilot reported)",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the engine lost power",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the fuel flow drop and power loss are supported by engine monitor data",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "ee151067872b",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "the airplane exited the highway",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the airplane came to rest nose down in a ditch",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "coming to rest in the ditch resulted in substantial damage to the fuselage",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "90c119f6c262",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "the engine lost power due to a fuel flow interruption",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the reasons for the fuel flow interruption could be determined",
+          "truth": "negated",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "7fd484f37d65",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "the engine lost power while in cruise flight over a cloud layer, as if it were out of fuel",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": "'while in cruise flight' dates one past event (actual); 'as if it were out of fuel' describes the manner, it does not claim fuel exhaustion"
+        }
+      ]
+    },
+    {
+      "id": "ac6f28fc4b51",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "the airplane descended below the cloud layer",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the pilot maneuvered the airplane for a forced landing to a road",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "8542c8953bcf",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "during the forced landing, the airplane impacted terrain",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the impact resulted in substantial damage to the left wing and fuselage",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "f04e17a38168",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "he expected to perform a touch-and-go landing at the accident airport",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": "a plan/expectation is actual"
+        }
+      ]
+    },
+    {
+      "id": "d6de54ba8163",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "upon landing the airplane veered to the left",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the student pilot believed the veer was due to the unresponsiveness of the controls and the ice",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": "belief of a named speaker; kept as actual with the speaker"
+        }
+      ]
+    },
+    {
+      "id": "60dbc73ebc3f",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "the flight was a low-level pipeline patrol flight",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "a very loud pop noise emitted from behind the instrument panel after about one hour into the flight",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the pop was followed by an unidentified high-pressure air/gas release into the cabin",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "20010a8d3080",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "the flight instructor took control of the airplane",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the flight instructor attempted to restart the engine",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the engine restarted",
+          "truth": "negated",
+          "modality": "actual",
+          "condition": null,
+          "note": "'with no success' denies the restart"
+        }
+      ]
+    },
+    {
+      "id": "1e72c4540b27",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "the pilot receiving instruction was on a visual approach to the runway during an instructional flight",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the engine lost total power during the approach",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "68b1df088d99",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "the turn coordinator and GPS were displaying opposite information",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the heading bug was moving erratically",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "he felt as if he was flying in circles",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": "reports his feeling; actual"
+        }
+      ]
+    },
+    {
+      "id": "fbc3c15a39fd",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "he could rely on the information from the flight instruments",
+          "truth": "negated",
+          "modality": "actual",
+          "condition": null,
+          "note": "'could not rely' is a determination that happened, not a possibility"
+        },
+        {
+          "claim": "he elected to activate the Cirrus airframe parachute system",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "2d290b0f0ba6",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "postaccident testing of the electronic horizontal situation indicator, directional gyro and horizon reference indicator revealed anomalies (other than the directional gyro counterclockwise heading stability)",
+          "truth": "negated",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the directional gyro counterclockwise heading stability exceeded the testing limits by about 3 degrees",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "ee019eabfcbb",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "the reason for the flight instrument disagreement/malfunction could be determined based on the available information",
+          "truth": "negated",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "e60a774b6939",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "the airplane was hit with a gust of wind when it was about 30 to 50 ft agl",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": "'when he was about 30 to 50 ft agl' dates one past event; actual"
+        }
+      ]
+    },
+    {
+      "id": "b332646c0333",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "CEN22LA235 occurred on 2022-06-06",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": "heading states the case id, date and place, which a question could need"
+        },
+        {
+          "claim": "CEN22LA235 occurred in Nashville, AR",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "b98b1da4dffd",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "following the accident, the pilot recognized he should have diverted to another airport",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": "the pilot's own judgement, stated as fact; actual, affirmed"
+        }
+      ]
+    },
+    {
+      "id": "22da797e5cbb",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "he initiated a go-around",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the engine made a coughing sound",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the engine lost power",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "149a214f4c5f",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "postaccident airplane examination revealed anomalies consistent with an inability of the engine to produce rated power",
+          "truth": "negated",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "40d23f9a5aed",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "the airplane lifted off",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the pilot noticed a gain in airspeed and altitude as he began to climb out",
+          "truth": "negated",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "eb08fe2e915e",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "the pilot could maintain directional control following the firm landing",
+          "truth": "negated",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the airplane exited the runway",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the airplane struck a windsock with its right wing",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "a38565037367",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "the airplane sustained substantial damage to the outboard right wing",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "f50553bac0ad",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "at the time of the accident, the pilot was taking off on runway 29",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "there was a left quartering crosswind of 10 knots",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the crosswind shifted to a tailwind",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "10cfd6f70412",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "while performing takeoff and landing practice, the airplane touched down normally",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the airplane then began drifting to the right",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "both the flight instructor and the student pilot attempted to correct",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the correction succeeded",
+          "truth": "negated",
+          "modality": "actual",
+          "condition": null,
+          "note": "'without success' denies it"
+        }
+      ]
+    },
+    {
+      "id": "a50ee4f8fe8f",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "they were taking off from a turf runway",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "they were taking off with a quartering tailwind",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "5afa46cd94a1",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "left seat pilot reported no preaccident mechanical malfunctions or failures with the airplane that would have precluded normal operation",
+          "truth": "negated",
+          "modality": "actual",
+          "condition": null,
+          "note": "'would have precluded' restricts which failures are denied; not a condition on the claim"
+        }
+      ]
+    },
+    {
+      "id": "88379924b003",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "an NTSB Pilot/Operator Aircraft Accident/Incident Report was received from the right seat pilot",
+          "truth": "negated",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "f547e35feca4",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "at the time of the accident, the airplane was taking off on runway 08",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "winds were 140 degrees at 10 kts",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the density altitude was 2,805 ft",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "83ee3f559a18",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "student pilot reported no preaccident mechanical failures or malfunctions with the airplane that would have precluded normal operation",
+          "truth": "negated",
+          "modality": "actual",
+          "condition": null,
+          "note": "'would have precluded' restricts which failures are denied; not a condition on the claim"
+        }
+      ]
+    },
+    {
+      "id": "6a89e9f82e72",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "the pilot was conducting helicopter external sling load operations to a remote mountain top",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "5292f9c64db7",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "pilot reported no preaccident mechanical malfunctions or anomalies that would have precluded normal operation",
+          "truth": "negated",
+          "modality": "actual",
+          "condition": null,
+          "note": "'would have precluded' restricts which failures are denied; not a condition on the claim"
+        }
+      ]
+    },
+    {
+      "id": "dff8d760daf2",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "probable cause: the pilot's failure to maintain adequate altitude/clearance from terrain while maneuvering in adverse weather conditions",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": "'failure to maintain' is affirmed: a failure happened; 'while maneuvering' is time, not a condition"
+        },
+        {
+          "claim": "the failure resulted in a dynamic rollover",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "c5e1d1237cd9",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "the pilot was maneuvering low and slow with three passengers onboard",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "he noticed insufficient power",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "shortly thereafter, the low rotor rpm warning annunciated",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "779077ee076f",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "the pilot started the helicopter at the refueling pad",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "the helicopter hover-taxied to the taxiway and then onto the runway",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    },
+    {
+      "id": "50f1833b247a",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "examination of the helicopter and engine revealed evidence of preimpact failure of the engine that would have precluded normal operation",
+          "truth": "negated",
+          "modality": "actual",
+          "condition": null,
+          "note": "'would have precluded' restricts which failures are denied; not a condition on the claim"
+        }
+      ]
+    },
+    {
+      "id": "b0eb7e12c361",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "the pilot was performing an aerial application pass",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "he felt a big tug on the helicopter",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": "'when he felt' dates one past event; actual"
+        }
+      ]
+    },
+    {
+      "id": "e07f78e025e5",
+      "stratum": "cue",
+      "claims": [
+        {
+          "claim": "pilot reported no preaccident mechanical failures or malfunctions with the helicopter that would have precluded normal operations",
+          "truth": "negated",
+          "modality": "actual",
+          "condition": null,
+          "note": "'would have precluded' restricts which failures are denied; not a condition on the claim"
+        }
+      ]
+    },
+    {
+      "id": "7d7e77d0a352",
+      "stratum": "natural",
+      "claims": [
+        {
+          "claim": "prior to the aerial application pass, he circled the field",
+          "truth": "affirmed",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        },
+        {
+          "claim": "he observed obstructions",
+          "truth": "negated",
+          "modality": "actual",
+          "condition": null,
+          "note": null
+        }
+      ]
+    }
+  ]
+}

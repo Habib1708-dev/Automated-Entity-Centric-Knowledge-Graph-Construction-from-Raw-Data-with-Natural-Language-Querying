@@ -11785,6 +11785,99 @@ upgrade."
 
 **R222 done 2026-10-16.** Next: R222b.
 
+### Plan R225-R228: build accuracy of the lighthouses and NTSB builds, and its figures (accepted 2026-10-16)
+
+**The ask.** Three datasets were added after the build was measured: generality, lighthouses and NTSB. Of these, generality already has the full set of build records:
+- R105: mention recall;
+- R108: C3/C4/C6;
+- R110: claim precision;
+- R111: claim recall.
+
+Lighthouses and NTSB have question-answering gold only. Their builds were never scored. These are `out/r155b_lighthouses` and `out/r155b_ntsb`, user-approved at R155, with run ids in `tests/gold/r155/runs.json`.
+
+The user wants:
+- the full suite on these two builds (claims, mentions, audit);
+- report figures of build accuracy across all five datasets.
+
+**The user's decisions (2026-10-16):**
+- Lighthouses and NTSB only. Generality's existing records are reused, not judged again.
+- Full suite:
+  - claim precision (R110);
+  - claim recall (R77 gold, R111 scoring);
+  - mention recall (R101 gold, R105 scoring);
+  - C3/C4/C6 (R93/R108).
+- Figures show build accuracy only.
+
+**Cost: $0 throughout.** Every command rebuilds the graph offline, with no graph database and no model. The judges are Claude subagents in the session, not the model that built the graph. No pipeline run.
+
+**Steps:**
+- **R225 Inputs and blind gold for claims and mentions.** Written from the source text before any sheet or build output is opened.
+  - The logged counts.
+  - The fidelity check.
+  - Two samples:
+    - mentions: 40 sentences, seed 101, as R101;
+    - claims: 40 random sentences plus 20 with a cue word, seed 77, as R77.
+  - The R101 mention gold and the R77 reader-claim gold.
+- **R226 Claims and mentions judged.** `kg claim-eval`, `kg claim-recall` and `kg mention-eval` give the sheets. Blind Opus 5.5 subagents judge them. The lead reviews every INCORRECT verdict and a seeded 10% of the rest. The reports are committed.
+- **R227 The audit: C3 (identity), C4 (record linking), C6 (purity).**
+  - The R75 identity pairs. C3 scores them by code.
+  - The R89 target gold, if `kg anchor-eval` needs it for the sheets. It is tied to the QA gold of `tests/gold/qa/`. It will be split into its own step if it is large.
+  - `kg anchor-eval`, then `kg anchor-sheets`, then blind judging, then `kg anchor-judged`.
+- **R228 Figures.** `figures/results/build/r228_build_accuracy/`, five datasets, Wilson intervals, from committed records only:
+  - claim precision, strict and content;
+  - claim recall;
+  - mention recall, exact and judged;
+  - precision against recall;
+  - C3/C4/C6 pass rates.
+
+**Stated limitations, carried into every report:**
+- The builds come from different pipeline versions: furniture and generality are r108, held-out is r109, lighthouses and NTSB are r155b.
+- Gold and verdicts come from one model family.
+- Earlier sessions read answers on these two datasets, but never their claim or mention files.
+
+### R225. Inputs and blind gold for the lighthouses and NTSB builds (done 2026-10-16; $0, no run)
+
+**Scope.** New files in `tests/gold/r225/` and a test file. No code change.
+
+**Logged counts:** `<ds>_logged.json`.
+- The counts and usage were copied from the R155b stage runs in MLflow. These are ingest_text, extract, link, mention_pass, resolve and attach, all at `2ee7fd3`.
+- Lighthouses: `545a0fe5`, `f0a4817c`, `22e17802`, `4c40d8ee`, `4e1f0046`, `9e18a471`.
+- NTSB: `b9a60059`, `54a0a7c6`, `7cebfdaa`, `bc3f0c32`, `8a863c2a`, `fca9b429`.
+
+**Fidelity.** `kg audit-snapshot out/r155b_<ds> --data heldout/<ds>/data --logged ...` rebuilds both graphs offline. All 27 logged counts are equal and the mention ids are equal, so later sheets can be trusted. The snapshots are in `out/r225_<ds>`.
+
+**Samples:**
+- **Mentions** (`<ds>_sample.json`): `kg coverage-sample --build --size 40 --seed 101`, as R101. Populations: 310 sentences for lighthouses and 315 for NTSB.
+- **Claims** (`<ds>_assertion_sample.json`), as R77:
+  - stratum `natural`: the 40 sentences of `kg coverage-sample --seed 77`;
+  - stratum `cue`: 20 sentences, the lowest seed-77 ranks among the remaining sentences that contain a cue word as a whole word:
+    - negation: no, not, n't, never, none, nothing, nor, neither, without, cannot;
+    - modal: may, might, could, would, should, possibly, probably, likely, perhaps, maybe, apparently, reportedly, suspected, believed;
+    - condition: if, unless, when, whenever, until, once.
+  - Cue candidates: 30 for lighthouses, 72 for NTSB.
+  - The draw used a one-off script. It is described here so the sample can be redrawn, and `tests/test_r225_gold.py` checks that the strata hold.
+- **Blind inputs** (`<ds>_{assertion,mentions}_blind.json`): each sentence with its chunk text and context, taken from the corpus re-chunked offline. Source text only.
+
+**Gold**, written by four blind Opus 5.5 subagents. Each opened only the rules file and its own blind file, with no build output. The lead review in the session changed nothing.
+
+| | Mention gold (R101 rules) | Claim gold (R77 rules) | Negated | Possible | Conditional |
+|---|---|---|---|---|---|
+| lighthouses | 167 mentions (55 particular / 112 kind) | 130 claims, 60 sentences | 8 | 2 | 3 |
+| NTSB | 184 mentions (12 / 172) | 106 claims, 60 sentences | 28 | 1 | 0 |
+
+Things to know about the gold:
+- **The claim labellers did not open `tests/gold/r68/judge_rules.md`** ("What a claim is"), which the R77 rules point to. They followed its summary in `assertion_rules.md`. The lead checked both golds against it.
+- **One borderline item kept:** the NTSB document title "# Beech A36 accidents investigated by the NTSB" was given a claim, "investigated by the NTSB".
+- **NTSB has no conditional claim**, so the condition field has nothing to score there. Every "when" in its sample dates a past event.
+
+**Tests.** `tests/test_r225_gold.py`, 6 tests: each gold answers its sample, the claim strata are 40/20 with a cue word in every cue sentence, and the logged files name every count the earlier builds' files did.
+- `uv run pytest -m "not neo4j and not postgres"`: 1771 passed. The baseline was 1746; the other session added tests in the meantime.
+- `uv run ruff check .`: clean.
+
+**Runs.** No model call. The offline `kg audit-snapshot` and `kg coverage-sample` commands logged their own MLflow runs.
+
+**R225 done 2026-10-16.** Next: R226.
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
