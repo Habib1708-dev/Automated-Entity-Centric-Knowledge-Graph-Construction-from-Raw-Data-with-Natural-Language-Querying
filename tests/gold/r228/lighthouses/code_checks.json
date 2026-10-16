@@ -1,0 +1,436 @@
+{
+  "provenance": {
+    "extracted.chunk_exists": {
+      "k": 161,
+      "n": 161,
+      "rate": 1.0,
+      "low": 0.9766952031526023,
+      "high": 1.0
+    },
+    "extracted.doc_consistent": {
+      "k": 161,
+      "n": 161,
+      "rate": 1.0,
+      "low": 0.9766952031526023,
+      "high": 1.0
+    },
+    "extracted.evidence_in_chunk": {
+      "k": 161,
+      "n": 161,
+      "rate": 1.0,
+      "low": 0.9766952031526023,
+      "high": 1.0
+    },
+    "extracted.ends_grounded": {
+      "k": 161,
+      "n": 161,
+      "rate": 1.0,
+      "low": 0.9766952031526023,
+      "high": 1.0
+    },
+    "pass.mention_in_chunk": {
+      "k": 555,
+      "n": 555,
+      "rate": 1.0,
+      "low": 0.9931257801852976,
+      "high": 1.0
+    },
+    "extracted.mention_in_chunk": {
+      "k": 172,
+      "n": 172,
+      "rate": 1.0,
+      "low": 0.9781530650312552,
+      "high": 0.9999999999999999
+    }
+  },
+  "provenance_misses": {
+    "extracted.chunk_exists": [],
+    "extracted.doc_consistent": [],
+    "extracted.evidence_in_chunk": [],
+    "extracted.ends_grounded": [],
+    "pass.mention_in_chunk": [],
+    "extracted.mention_in_chunk": []
+  },
+  "flags": [
+    {
+      "kind": "cross_scope_link",
+      "item": "b23f8b02094f5d3a",
+      "graph": "(Mention \"lighthouse at St Agnes, Isles of Scilly\" @articles/st_anthony_s_lighthouse.md)-[:REFERS_TO {adjudicated, None}]->(Lighthouse:Q3739817 \"St Agnes Lighthouse\")",
+      "text": "document anchors: Lighthouse:Q2686634"
+    },
+    {
+      "kind": "cross_scope_link",
+      "item": "b3aadb0a5be8e72e",
+      "graph": "(Mention \"James Walker\" @articles/st_anthony_s_lighthouse.md)-[:REFERS_TO {adjudicated, None}]->(Engineer:James Walker \"James Walker\")",
+      "text": "document anchors: Lighthouse:Q2686634"
+    },
+    {
+      "kind": "compound_name",
+      "item": "a622489bc08f -> 76be38e806843f76",
+      "graph": "(76be38e806843f76 \"Trinity House\")-[:HAS_OBSERVATION {key_in_sentence}]->(Anvil Point Lighthouse OPERATED_BY Trinity House)",
+      "text": "Anvil Point Lighthouse was fully automated on 31 May 1991 and is now monitored and controlled from the Trinity House Operations Control Centre at Harwich."
+    },
+    {
+      "kind": "compound_name",
+      "item": "c7ddc4c84983 -> 7aed786f94ee1e6e",
+      "graph": "(7aed786f94ee1e6e \"Berry Head\")-[:HAS_OBSERVATION {key_in_sentence}]->(Berry Head Lighthouse LOCATED_AT Berry Head)",
+      "text": "Berry Head Lighthouse is an active lighthouse, located at the end of Berry Head near Brixham in Devon"
+    },
+    {
+      "kind": "compound_name",
+      "item": "1d8ce1677db4 -> 7aed786f94ee1e6e",
+      "graph": "(7aed786f94ee1e6e \"Berry Head\")-[:HAS_OBSERVATION {key_in_sentence}]->(Berry Head Lighthouse LOCATED_AT Brixham)",
+      "text": "Berry Head Lighthouse is an active lighthouse, located at the end of Berry Head near Brixham in Devon"
+    },
+    {
+      "kind": "compound_name",
+      "item": "70e845b1bcc0 -> 7aed786f94ee1e6e",
+      "graph": "(7aed786f94ee1e6e \"Berry Head\")-[:HAS_OBSERVATION {key_in_sentence}]->(Berry Head Lighthouse LOCATED_AT Devon)",
+      "text": "Berry Head Lighthouse is an active lighthouse, located at the end of Berry Head near Brixham in Devon"
+    },
+    {
+      "kind": "compound_name",
+      "item": "a90e6c76a31c -> 76be38e806843f76",
+      "graph": "(76be38e806843f76 \"Trinity House\")-[:HAS_OBSERVATION {key_in_sentence}]->(Farne Lighthouse LOCATED_AT Inner Farne)",
+      "text": "Farne Lighthouse was one of a pair built on Inner Farne by the Corporation of Trinity House in 1811"
+    },
+    {
+      "kind": "compound_name",
+      "item": "7fdf46c1269d -> 76be38e806843f76",
+      "graph": "(76be38e806843f76 \"Trinity House\")-[:HAS_OBSERVATION {key_in_sentence}]->(Farne Lighthouse CONSTRUCTED_BY Corporation of Trinity House)",
+      "text": "Farne Lighthouse was one of a pair built on Inner Farne by the Corporation of Trinity House in 1811"
+    },
+    {
+      "kind": "compound_name",
+      "item": "610a8fbf4666 -> Lighthouse:Q15217395",
+      "graph": "(Lighthouse:Q15217395 \"Farne Lighthouse\")-[:HAS_OBSERVATION {key_in_sentence}]->(Farne Low Lighthouse HAS_HEIGHT 8 m)",
+      "text": "Farne Low Lighthouse) was an octagonal tower, 8 m (26 ft) tall"
+    },
+    {
+      "kind": "compound_name",
+      "item": "b187350eb764 -> Lighthouse:Q15217395",
+      "graph": "(Lighthouse:Q15217395 \"Farne Lighthouse\")-[:HAS_OBSERVATION {key_in_sentence}]->(Farne Low Lighthouse HAS_HEIGHT 26 ft)",
+      "text": "Farne Low Lighthouse) was an octagonal tower, 8 m (26 ft) tall"
+    },
+    {
+      "kind": "compound_name",
+      "item": "26a0948a8802 -> Lighthouse:Q15217395",
+      "graph": "(Lighthouse:Q15217395 \"Farne Lighthouse\")-[:HAS_OBSERVATION {key_in_sentence}]->(Longstone Lighthouse LOCATED_AT Longstone Island)",
+      "text": "The 1811 installation on Brownsman Island was itself later moved to a more effective position on Longstone Island, further out to sea; named Longstone Lighthouse, it too remains active as an aid to navigation for Trinity House."
+    },
+    {
+      "kind": "compound_name",
+      "item": "c433bebe1d5a -> Lighthouse:Q15217395",
+      "graph": "(Lighthouse:Q15217395 \"Farne Lighthouse\")-[:HAS_OBSERVATION {key_in_sentence}]->(Longstone Lighthouse OPERATED_BY Trinity House)",
+      "text": "named Longstone Lighthouse, it too remains active as an aid to navigation for Trinity House."
+    },
+    {
+      "kind": "compound_name",
+      "item": "6db44c7f3376 -> 331f597d36ceeabc",
+      "graph": "(331f597d36ceeabc \"Godrevy\")-[:HAS_OBSERVATION {key_in_sentence}]->(Godrevy Lighthouse LOCATED_AT Godrevy Island)",
+      "text": "Godrevy Lighthouse (Cornish: Golowji Godrevi) was built in 1858–1859 on Godrevy Island in St Ives Bay, Cornwall."
+    },
+    {
+      "kind": "compound_name",
+      "item": "6db44c7f3376 -> 8152803ffc2112df",
+      "graph": "(8152803ffc2112df \"St Ives\")-[:HAS_OBSERVATION {key_in_sentence}]->(Godrevy Lighthouse LOCATED_AT Godrevy Island)",
+      "text": "Godrevy Lighthouse (Cornish: Golowji Godrevi) was built in 1858–1859 on Godrevy Island in St Ives Bay, Cornwall."
+    },
+    {
+      "kind": "compound_name",
+      "item": "a118c50e4c50 -> 331f597d36ceeabc",
+      "graph": "(331f597d36ceeabc \"Godrevy\")-[:HAS_OBSERVATION {key_in_sentence}]->(Godrevy Lighthouse LOCATED_AT St Ives Bay)",
+      "text": "Godrevy Lighthouse (Cornish: Golowji Godrevi) was built in 1858–1859 on Godrevy Island in St Ives Bay, Cornwall."
+    },
+    {
+      "kind": "compound_name",
+      "item": "a118c50e4c50 -> 8152803ffc2112df",
+      "graph": "(8152803ffc2112df \"St Ives\")-[:HAS_OBSERVATION {key_in_sentence}]->(Godrevy Lighthouse LOCATED_AT St Ives Bay)",
+      "text": "Godrevy Lighthouse (Cornish: Golowji Godrevi) was built in 1858–1859 on Godrevy Island in St Ives Bay, Cornwall."
+    },
+    {
+      "kind": "compound_name",
+      "item": "863f24de1373 -> 331f597d36ceeabc",
+      "graph": "(331f597d36ceeabc \"Godrevy\")-[:HAS_OBSERVATION {key_in_sentence}]->(Godrevy Lighthouse LOCATED_AT Cornwall)",
+      "text": "Godrevy Lighthouse (Cornish: Golowji Godrevi) was built in 1858–1859 on Godrevy Island in St Ives Bay, Cornwall."
+    },
+    {
+      "kind": "compound_name",
+      "item": "863f24de1373 -> 8152803ffc2112df",
+      "graph": "(8152803ffc2112df \"St Ives\")-[:HAS_OBSERVATION {key_in_sentence}]->(Godrevy Lighthouse LOCATED_AT Cornwall)",
+      "text": "Godrevy Lighthouse (Cornish: Golowji Godrevi) was built in 1858–1859 on Godrevy Island in St Ives Bay, Cornwall."
+    },
+    {
+      "kind": "compound_name",
+      "item": "cbc9aa3c0930 -> 331f597d36ceeabc",
+      "graph": "(331f597d36ceeabc \"Godrevy\")-[:HAS_OBSERVATION {key_in_sentence}]->(Godrevy Lighthouse WARNS_OF Stones reef)",
+      "text": "Standing approximately 300 metres (980 ft) off Godrevy Head, it marks the Stones reef, which has been a hazard to shipping for centuries."
+    },
+    {
+      "kind": "compound_name",
+      "item": "08c45578eb45 -> dda1f6cdf52701dc",
+      "graph": "(dda1f6cdf52701dc \"Portland\")-[:HAS_OBSERVATION {key_in_sentence}]->(Old Higher Lighthouse LOCATED_AT Isle of Portland)",
+      "text": "The Old Higher Lighthouse is a disused 19th century lighthouse on the Isle of Portland, Dorset, southern England."
+    },
+    {
+      "kind": "compound_name",
+      "item": "4e0a6d3e0958 -> dda1f6cdf52701dc",
+      "graph": "(dda1f6cdf52701dc \"Portland\")-[:HAS_OBSERVATION {key_in_sentence}]->(Old Higher Lighthouse LOCATED_AT Dorset)",
+      "text": "The Old Higher Lighthouse is a disused 19th century lighthouse on the Isle of Portland, Dorset, southern England."
+    },
+    {
+      "kind": "compound_name",
+      "item": "58f439651953 -> dda1f6cdf52701dc",
+      "graph": "(dda1f6cdf52701dc \"Portland\")-[:HAS_OBSERVATION {key_in_sentence}]->(Old Higher Lighthouse LOCATED_AT Branscombe Hill)",
+      "text": "It is located at Branscombe Hill on the west side of Portland, overlooking Portland Bill."
+    },
+    {
+      "kind": "compound_name",
+      "item": "137cb74065ad -> dda1f6cdf52701dc",
+      "graph": "(dda1f6cdf52701dc \"Portland\")-[:HAS_OBSERVATION {key_in_sentence}]->(Old Higher Lighthouse LOCATED_AT Portland Bill)",
+      "text": "It is located at Branscombe Hill on the west side of Portland, overlooking Portland Bill."
+    },
+    {
+      "kind": "compound_name",
+      "item": "b642e515ed2f -> dda1f6cdf52701dc",
+      "graph": "(dda1f6cdf52701dc \"Portland\")-[:HAS_OBSERVATION {key_in_sentence}]->(Old Higher Lighthouse LOCATED_AT Portland Bill)",
+      "text": "Trinity House, the organisation agreed for a lighthouse to be built at Portland Bill."
+    },
+    {
+      "kind": "compound_name",
+      "item": "fa78eff3934d -> dda1f6cdf52701dc",
+      "graph": "(dda1f6cdf52701dc \"Portland\")-[:HAS_OBSERVATION {key_in_sentence}]->(Old Higher Lighthouse WARNS_OF Portland Race)",
+      "text": "Designed as leading lights to guide ships between Portland Race and the Shambles sandbank"
+    },
+    {
+      "kind": "compound_name",
+      "item": "eba9db843c9d -> dda1f6cdf52701dc",
+      "graph": "(dda1f6cdf52701dc \"Portland\")-[:HAS_OBSERVATION {key_in_sentence}]->(Old Higher Lighthouse WARNS_OF Shambles sandbank)",
+      "text": "Designed as leading lights to guide ships between Portland Race and the Shambles sandbank"
+    },
+    {
+      "kind": "compound_name",
+      "item": "0d1597589746 -> dda1f6cdf52701dc",
+      "graph": "(dda1f6cdf52701dc \"Portland\")-[:HAS_OBSERVATION {key_in_sentence}]->(three-sided revolving apparatus COMPONENT_OF Old Higher Lighthouse)",
+      "text": "In 1824 Portland High Light was improved by Trinity House: a three-sided revolving apparatus was installed (with Argand lamps and reflectors)"
+    },
+    {
+      "kind": "compound_name",
+      "item": "8e46aa0c4495 -> dda1f6cdf52701dc",
+      "graph": "(dda1f6cdf52701dc \"Portland\")-[:HAS_OBSERVATION {key_in_sentence}]->(rebuilt in 1869 OCCURRED_AT Portland High)",
+      "text": "Both Portland lighthouses were rebuilt in 1869"
+    },
+    {
+      "kind": "compound_name",
+      "item": "2f1a7e349236 -> dda1f6cdf52701dc",
+      "graph": "(dda1f6cdf52701dc \"Portland\")-[:HAS_OBSERVATION {key_in_sentence}]->(Marie Stopes ASSOCIATED_WITH Old Higher Lighthouse)",
+      "text": "In 1923 the lighthouse was purchased by the palaeobotanist, campaigner for eugenics, pioneer of birth control and Portland Museum founder Marie Stopes as a summer residence."
+    },
+    {
+      "kind": "compound_name",
+      "item": "1cc5f6eb600d -> 6db85e77b0d09e92",
+      "graph": "(6db85e77b0d09e92 \"St Agnes, Isles of Scilly\")-[:HAS_OBSERVATION {key_in_sentence}]->(St Agnes lighthouse LOCATED_AT St Agnes)",
+      "text": "St Agnes lighthouse is a 17th-century lighthouse situated on St Agnes on the Isles of Scilly."
+    },
+    {
+      "kind": "compound_name",
+      "item": "0f42b956e4d2 -> 6db85e77b0d09e92",
+      "graph": "(6db85e77b0d09e92 \"St Agnes, Isles of Scilly\")-[:HAS_OBSERVATION {key_in_sentence}]->(St Agnes lighthouse LOCATED_AT Isles of Scilly)",
+      "text": "St Agnes lighthouse is a 17th-century lighthouse situated on St Agnes on the Isles of Scilly."
+    },
+    {
+      "kind": "compound_name",
+      "item": "0faa06742b01 -> 6db85e77b0d09e92",
+      "graph": "(6db85e77b0d09e92 \"St Agnes, Isles of Scilly\")-[:HAS_OBSERVATION {key_in_sentence}]->(Peninnis Lighthouse REPLACED St Agnes lighthouse)",
+      "text": "In 1911 the St Agnes lighthouse was decommissioned, having been superseded by Peninnis Lighthouse"
+    },
+    {
+      "kind": "compound_name",
+      "item": "d511a5128dbd -> Lighthouse:Q3739817",
+      "graph": "(Lighthouse:Q3739817 \"St Agnes Lighthouse\")-[:HAS_OBSERVATION {key_in_sentence}]->(Peninnis Lighthouse HAS_HEIGHT 17-metre)",
+      "text": "Peninnis Lighthouse (a 17-metre-tall black and white steel lattice tower"
+    },
+    {
+      "kind": "compound_name",
+      "item": "ab0281ed338d -> Lighthouse:Q3739817",
+      "graph": "(Lighthouse:Q3739817 \"St Agnes Lighthouse\")-[:HAS_OBSERVATION {key_in_sentence}]->(Peninnis Lighthouse LOCATED_AT St. Mary's island)",
+      "text": "Peninnis Lighthouse (a 17-metre-tall black and white steel lattice tower situated on the southern extremity of St. Mary's island)"
+    },
+    {
+      "kind": "cross_scope_attachment",
+      "item": "4a27341f5806 -> Engineer:James Walker",
+      "graph": "(Engineer:James Walker \"James Walker\")-[:HAS_OBSERVATION {key_in_sentence}]->(St Anthony's Lighthouse ENGINEERED_BY James Walker)",
+      "text": "The lighthouse was designed by James Walker"
+    },
+    {
+      "kind": "compound_name",
+      "item": "27547ce120b4 -> 89746a613b67eb8b",
+      "graph": "(89746a613b67eb8b \"optic\")-[:HAS_OBSERVATION {key_in_sentence}]->(rotating optic COMPONENT_OF St Anthony's Lighthouse)",
+      "text": "A set of weights, descending a 38-foot (12 m) shaft, drove the rotating optic"
+    },
+    {
+      "kind": "compound_name",
+      "item": "88612712351b -> 6db85e77b0d09e92",
+      "graph": "(6db85e77b0d09e92 \"St Agnes, Isles of Scilly\")-[:HAS_OBSERVATION {key_in_sentence}]->(lighthouse at St Agnes, Isles of Scilly LOCATED_AT St Agnes, Isles of Scilly)",
+      "text": "After the closure of the lighthouse at St Agnes, Isles of Scilly in 1911"
+    },
+    {
+      "kind": "cross_scope_attachment",
+      "item": "88612712351b -> Lighthouse:Q3739817",
+      "graph": "(Lighthouse:Q3739817 \"St Agnes Lighthouse\")-[:HAS_OBSERVATION {key_in_sentence}]->(lighthouse at St Agnes, Isles of Scilly LOCATED_AT St Agnes, Isles of Scilly)",
+      "text": "After the closure of the lighthouse at St Agnes, Isles of Scilly in 1911"
+    },
+    {
+      "kind": "compound_name",
+      "item": "88612712351b -> Lighthouse:Q2686634",
+      "graph": "(Lighthouse:Q2686634 \"St Anthony's Lighthouse\")-[:HAS_OBSERVATION {key_in_sentence}]->(lighthouse at St Agnes, Isles of Scilly LOCATED_AT St Agnes, Isles of Scilly)",
+      "text": "After the closure of the lighthouse at St Agnes, Isles of Scilly in 1911"
+    },
+    {
+      "kind": "compound_name",
+      "item": "b2e51dbb4a9d -> 89746a613b67eb8b",
+      "graph": "(89746a613b67eb8b \"optic\")-[:HAS_OBSERVATION {key_in_sentence}]->(fixed Fresnel optic COMPONENT_OF St Anthony's Lighthouse)",
+      "text": "and by 1920, the light source had been changed to pressure vapour and a large (first-order) fixed Fresnel optic had been introduced"
+    },
+    {
+      "kind": "compound_name",
+      "item": "94b52c7f0e0b -> d8713e192e6429ea",
+      "graph": "(d8713e192e6429ea \"England\")-[:HAS_OBSERVATION {key_in_sentence}]->(St Mary's Lighthouse LOCATED_AT St Mary's (or Bait) Island)",
+      "text": "St Mary's Lighthouse is on the tiny St Mary's (or Bait) Island, just north of Whitley Bay on the coast of North East England."
+    },
+    {
+      "kind": "compound_name",
+      "item": "08e46b12a2f3 -> d8713e192e6429ea",
+      "graph": "(d8713e192e6429ea \"England\")-[:HAS_OBSERVATION {key_in_sentence}]->(St Mary's Lighthouse LOCATED_AT Whitley Bay)",
+      "text": "St Mary's Lighthouse is on the tiny St Mary's (or Bait) Island, just north of Whitley Bay on the coast of North East England."
+    },
+    {
+      "kind": "compound_name",
+      "item": "9be5189251f4 -> d8713e192e6429ea",
+      "graph": "(d8713e192e6429ea \"England\")-[:HAS_OBSERVATION {key_in_sentence}]->(St Mary's Lighthouse LOCATED_AT North East England)",
+      "text": "St Mary's Lighthouse is on the tiny St Mary's (or Bait) Island, just north of Whitley Bay on the coast of North East England."
+    },
+    {
+      "kind": "compound_name",
+      "item": "b00af29ad683 -> Lighthouse:Q7590348",
+      "graph": "(Lighthouse:Q7590348 \"St. Mary's Lighthouse\")-[:HAS_OBSERVATION {key_in_sentence}]->(first-order 'bi-valve' rotating optic COMPONENT_OF St Mary's Lighthouse)",
+      "text": "A first-order 'bi-valve' rotating optic was installed by Barbier & Bénard of Paris, very similar to the one they had provided the previous year for Lundy North Lighthouse"
+    },
+    {
+      "kind": "compound_name",
+      "item": "45b26fb97215 -> Lighthouse:Q7590348",
+      "graph": "(Lighthouse:Q7590348 \"St. Mary's Lighthouse\")-[:HAS_OBSERVATION {key_in_sentence}]->(first-order fresnel lens TRANSFERRED_TO National Lighthouse Museum)",
+      "text": "it was later put on display in their National Lighthouse Museum in Penzance"
+    },
+    {
+      "kind": "compound_name",
+      "item": "86714a24af09 -> Lighthouse:Q7590348",
+      "graph": "(Lighthouse:Q7590348 \"St. Mary's Lighthouse\")-[:HAS_OBSERVATION {key_in_sentence}]->(original lens COMPONENT_OF St Mary's)",
+      "text": "Following closure of the Penzance lighthouse museum, the original lens was returned to St Mary's in 2011 to be put on display."
+    },
+    {
+      "kind": "compound_name",
+      "item": "86714a24af09 -> 3f7696157f00c57a",
+      "graph": "(3f7696157f00c57a \"Penzance\")-[:HAS_OBSERVATION {key_in_sentence}]->(original lens COMPONENT_OF St Mary's)",
+      "text": "Following closure of the Penzance lighthouse museum, the original lens was returned to St Mary's in 2011 to be put on display."
+    },
+    {
+      "kind": "compound_name",
+      "item": "e1746b3326f5 -> Lighthouse:Q7590348",
+      "graph": "(Lighthouse:Q7590348 \"St. Mary's Lighthouse\")-[:HAS_OBSERVATION {key_in_sentence}]->(Souter Lighthouse LOCATED_AT River Tyne)",
+      "text": "Another Victorian lighthouse may be found a few miles to the south of the River Tyne: Souter Lighthouse is also now decommissioned"
+    },
+    {
+      "kind": "compound_name",
+      "item": "76c610af6076 -> 76be38e806843f76",
+      "graph": "(76be38e806843f76 \"Trinity House\")-[:HAS_OBSERVATION {key_in_sentence}]->(Tater Du Lighthouse ENGINEERED_BY Michael H. Crisp)",
+      "text": "Designed by Michael H. Crisp, the lighthouse was constructed with a completely automatic installation which was remotely controlled from the Trinity House depot in Penzance."
+    },
+    {
+      "kind": "compound_name",
+      "item": "d22acf5b85cb -> 76be38e806843f76",
+      "graph": "(76be38e806843f76 \"Trinity House\")-[:HAS_OBSERVATION {key_in_sentence}]->(Tater Du Lighthouse OPERATED_BY Trinity House)",
+      "text": "In 1997 the lighthouse was modernised and it is now monitored from the Trinity House Planning Centre at Harwich."
+    },
+    {
+      "kind": "compound_name",
+      "item": "2b430db1cad5 -> Lighthouse:Q2686922",
+      "graph": "(Lighthouse:Q2686922 \"Tater Du Lighthouse\")-[:HAS_OBSERVATION {key_in_sentence}]->(revolving optic COMPONENT_OF Tater Du Lighthouse)",
+      "text": "In May 2022, as part of Trinity House's lighthouse modernisation programme, the revolving optic was replaced with static LED lanterns."
+    },
+    {
+      "kind": "compound_name",
+      "item": "53614995ba13 -> Lighthouse:Q2686922",
+      "graph": "(Lighthouse:Q2686922 \"Tater Du Lighthouse\")-[:HAS_OBSERVATION {key_in_sentence}]->(static LED lanterns COMPONENT_OF Tater Du Lighthouse)",
+      "text": "In May 2022, as part of Trinity House's lighthouse modernisation programme, the revolving optic was replaced with static LED lanterns."
+    },
+    {
+      "kind": "compound_name",
+      "item": "8cf55a37fba5 -> Lighthouse:Q2686922",
+      "graph": "(Lighthouse:Q2686922 \"Tater Du Lighthouse\")-[:HAS_OBSERVATION {key_in_sentence}]->(Tannoy units COMPONENT_OF Tater Du Lighthouse)",
+      "text": "The fog signal was originally a series (72 in total) of Tannoy units built into the lighthouse tower"
+    },
+    {
+      "kind": "compound_name",
+      "item": "9ce2241631b7 -> 5ea7f711a02e9181",
+      "graph": "(5ea7f711a02e9181 \"Whitby\")-[:HAS_OBSERVATION {key_in_sentence}]->(Whitby Lighthouse OPERATED_BY Trinity House)",
+      "text": "Whitby Lighthouse is a lighthouse operated by Trinity House."
+    },
+    {
+      "kind": "compound_name",
+      "item": "6552e7fc6cb6 -> 5ea7f711a02e9181",
+      "graph": "(5ea7f711a02e9181 \"Whitby\")-[:HAS_OBSERVATION {key_in_sentence}]->(Whitby Lighthouse WARNS_OF Whitby Rock)",
+      "text": "Their purpose was to show a fixed pair of lights which, when in transit, lined up with Whitby Rock (an offshore hazard to shipping)."
+    },
+    {
+      "kind": "compound_name",
+      "item": "36245c1d14d0 -> 5ea7f711a02e9181",
+      "graph": "(5ea7f711a02e9181 \"Whitby\")-[:HAS_OBSERVATION {key_in_sentence}]->(Whitby North WARNS_OF Whitby Rock)",
+      "text": "Their purpose was to show a fixed pair of lights which, when in transit, lined up with Whitby Rock (an offshore hazard to shipping)."
+    },
+    {
+      "kind": "compound_name",
+      "item": "95afaab772e5 -> 5ea7f711a02e9181",
+      "graph": "(5ea7f711a02e9181 \"Whitby\")-[:HAS_OBSERVATION {key_in_sentence}]->(Whitby Lighthouse WARNS_OF Whitby Rock)",
+      "text": "a red sector was added marking Whitby Rock"
+    },
+    {
+      "kind": "compound_name",
+      "item": "92d96cd36152 -> 5ea7f711a02e9181",
+      "graph": "(5ea7f711a02e9181 \"Whitby\")-[:HAS_OBSERVATION {key_in_sentence}]->('Hood' paraffin vapour burner COMPONENT_OF Whitby High lighthouse)",
+      "text": "Whitby High lighthouse was electrified in 1976 (after which the 'Hood' paraffin vapour burner, which had been the active light source up until that point, was donated to the Whitby Museum)."
+    }
+  ],
+  "flag_counts": {
+    "cross_scope_link": 2,
+    "label_mismatch": 0,
+    "fuzzy_name": 0,
+    "cross_scope_attachment": 2,
+    "compound_name": 54
+  },
+  "record_links": 36,
+  "record_links_without_scope": 1,
+  "non_end_attachments": 174,
+  "key_in_sentence_attachments": 380,
+  "splits": [
+    {
+      "type": "Apparatus",
+      "name": "fog bell",
+      "canonicals": 2,
+      "documents": [
+        "articles/godrevy_lighthouse.md",
+        "articles/st_anthony_s_lighthouse.md"
+      ]
+    },
+    {
+      "type": "Lighthouse",
+      "name": "low light",
+      "canonicals": 2,
+      "documents": [
+        "articles/farne_lighthouse.md",
+        "articles/old_higher_lighthouse.md"
+      ]
+    }
+  ],
+  "reach": null
+}

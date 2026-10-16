@@ -1,0 +1,308 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-16",
+  "snapshot_hash": "6661bcc8f003",
+  "sheet": "tests/gold/r228/ntsb/c4_sheet.json",
+  "sheet_hash": "b306d53de7a9",
+  "sheets_git_sha": "committed with the verdicts in step R228 (built from out/r155b at cb55aa0)"
+ },
+ "criterion": "C4",
+ "verdicts": [
+  {
+   "id": "l:2cd7632bd1364e5b:AircraftModel:AT-502B",
+   "label": "VALID",
+   "reason": "document title names the model 'Air Tractor AT-502B', exactly this AircraftModel record's name; no other record of that name",
+   "evidence": "Air Tractor AT-502B accidents investigated by the NTSB",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:47fa3f44995a2d02:Accident:CEN21LA362",
+   "label": "VALID",
+   "reason": "heading names accident CEN21LA362 with date 2021-08-06 and city Topeka, matching this record's key, date and city cells",
+   "evidence": "CEN21LA362 (2021-08-06, Topeka, KS)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:5c338c9413f44cfa:Accident:CEN23LA223",
+   "label": "VALID",
+   "reason": "heading names accident CEN23LA223 with date 2023-06-03 and city Lake Village, matching this record's key, date and city cells",
+   "evidence": "CEN23LA223 (2023-06-03, Lake Village, AR)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:5e784859296e8460:Accident:CEN21LA283",
+   "label": "VALID",
+   "reason": "heading names accident CEN21LA283 with date 2021-06-20 and city Edwardsburg, matching this record's key, date and city cells",
+   "evidence": "CEN21LA283 (2021-06-20, Edwardsburg, MI)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:92517a4e5efa5b4e:Accident:CEN22LA310",
+   "label": "VALID",
+   "reason": "heading names accident CEN22LA310 with date 2022-07-10 and city Wyoming, matching this record's key, date and city cells",
+   "evidence": "CEN22LA310 (2022-07-10, Wyoming, IL)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:ca688bbfdac05fd0:Accident:CEN22LA312",
+   "label": "VALID",
+   "reason": "heading names accident CEN22LA312 with date 2022-07-11 and city Decatur, matching this record's key, date and city cells",
+   "evidence": "CEN22LA312 (2022-07-11, Decatur, IL)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:4cd4d3375313b52a:Accident:ANC21LA027",
+   "label": "VALID",
+   "reason": "heading names accident ANC21LA027 with date 2021-03-20 and city Port Alsworth, matching this record's key, date and city cells",
+   "evidence": "ANC21LA027 (2021-03-20, Port Alsworth, AK)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:510589f17579fd74:Accident:CEN21LA382",
+   "label": "VALID",
+   "reason": "heading names accident CEN21LA382 with date 2021-08-24 and city Granbury, matching this record's key, date and city cells",
+   "evidence": "CEN21LA382 (2021-08-24, Granbury, TX)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:7a45d6352f6530b3:AircraftModel:A36",
+   "label": "VALID",
+   "reason": "document title names the model 'Beech A36', exactly this AircraftModel record's name; no other record of that name",
+   "evidence": "Beech A36 accidents investigated by the NTSB",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:7c987866b8bd20c3:Accident:CEN21LA221",
+   "label": "VALID",
+   "reason": "heading names accident CEN21LA221 with date 2021-05-14 and city Pinckneyville, matching this record's key, date and city cells",
+   "evidence": "CEN21LA221 (2021-05-14, Pinckneyville, IL)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:c530249418a1cb7b:Accident:CEN22LA059",
+   "label": "VALID",
+   "reason": "heading names accident CEN22LA059 with date 2021-12-02 and city Cleveland, matching this record's key, date and city cells",
+   "evidence": "CEN22LA059 (2021-12-02, Cleveland, TX)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:fd5fcdc9146a92a5:Accident:CEN23LA344",
+   "label": "VALID",
+   "reason": "heading names accident CEN23LA344 with date 2023-07-20 and city Oberlin, matching this record's key, date and city cells",
+   "evidence": "CEN23LA344 (2023-07-20, Oberlin, KS)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:066a94d595e34777:Accident:CEN21LA268",
+   "label": "VALID",
+   "reason": "heading names accident CEN21LA268 with date 2021-06-10 and city Saint James, matching this record's key, date and city cells",
+   "evidence": "CEN21LA268 (2021-06-10, Saint James, LA)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:098728b279c63d84:Accident:CEN22LA194",
+   "label": "VALID",
+   "reason": "heading names accident CEN22LA194 with date 2022-05-10 and city Traverse City, matching this record's key, date and city cells",
+   "evidence": "CEN22LA194 (2022-05-10, Traverse City, MI)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:2f458376155ad98f:AircraftModel:172S",
+   "label": "VALID",
+   "reason": "document title names the model 'Cessna 172S', exactly this AircraftModel record's name; no other record of that name",
+   "evidence": "Cessna 172S accidents investigated by the NTSB",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:93c1e0f02b8459ba:Accident:CEN22LA244",
+   "label": "VALID",
+   "reason": "heading names accident CEN22LA244 with date 2022-06-09 and city Salina, matching this record's key, date and city cells",
+   "evidence": "CEN22LA244 (2022-06-09, Salina, KS)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:ad46a399afdd2847:Accident:CEN21LA414",
+   "label": "VALID",
+   "reason": "heading names accident CEN21LA414 with date 2021-09-10 and city LaSalle, matching this record's key, date and city cells",
+   "evidence": "CEN21LA414 (2021-09-10, LaSalle, CO)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:f7830fd39fb3e443:Accident:CEN21LA126",
+   "label": "VALID",
+   "reason": "heading names accident CEN21LA126 with date 2021-02-07 and city Urbana, matching this record's key, date and city cells",
+   "evidence": "CEN21LA126 (2021-02-07, Urbana, OH)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:04a971b9aae053d7:AircraftModel:SR22",
+   "label": "VALID",
+   "reason": "document title names the model 'Cirrus SR22', exactly this AircraftModel record's name; no other record of that name",
+   "evidence": "Cirrus SR22 accidents investigated by the NTSB",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:2564f412ad8c8081:Accident:CEN22LA235",
+   "label": "VALID",
+   "reason": "heading names accident CEN22LA235 with date 2022-06-06 and city Nashville, matching this record's key, date and city cells",
+   "evidence": "CEN22LA235 (2022-06-06, Nashville, AR)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:3e2dd96ec01a8904:Accident:CEN21FA299",
+   "label": "VALID",
+   "reason": "heading names accident CEN21FA299 with date 2021-07-01 and city Lamoni, matching this record's key, date and city cells",
+   "evidence": "CEN21FA299 (2021-07-01, Lamoni, IA)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:bce2b9b7d2ca0ca3:Accident:CEN21LA280",
+   "label": "VALID",
+   "reason": "heading names accident CEN21LA280 with date 2021-06-18 and city Hayward, matching this record's key, date and city cells",
+   "evidence": "CEN21LA280 (2021-06-18, Hayward, WI)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:cafffbac62fccd5b:Accident:CEN23LA017",
+   "label": "VALID",
+   "reason": "heading names accident CEN23LA017 with date 2022-10-23 and city Loveland, matching this record's key, date and city cells",
+   "evidence": "CEN23LA017 (2022-10-23, Loveland, CO)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:e8320c4e0b0da21d:Accident:CEN21LA232",
+   "label": "VALID",
+   "reason": "heading names accident CEN21LA232 with date 2021-05-16 and city Whitewater, matching this record's key, date and city cells",
+   "evidence": "CEN21LA232 (2021-05-16, Whitewater, WI)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:2a7555fcdfc11b87:Accident:CEN21LA383",
+   "label": "VALID",
+   "reason": "heading names accident CEN21LA383 with date 2021-08-24 and city Gypsum, matching this record's key, date and city cells",
+   "evidence": "CEN21LA383 (2021-08-24, Gypsum, CO)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:2d13f8b23537c8ad:Accident:CEN22LA249",
+   "label": "VALID",
+   "reason": "heading names accident CEN22LA249 with date 2022-06-14 and city Eaton Rapids, matching this record's key, date and city cells",
+   "evidence": "CEN22LA249 (2022-06-14, Eaton Rapids, MI)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:4b6982f1b5a4544d:Accident:CEN21LA353",
+   "label": "VALID",
+   "reason": "heading names accident CEN21LA353 with date 2021-08-03 and city Jeffersonville, matching this record's key, date and city cells",
+   "evidence": "CEN21LA353 (2021-08-03, Jeffersonville, IN)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:82fe2fdbdcf49821:Accident:CEN21LA185",
+   "label": "VALID",
+   "reason": "heading names accident CEN21LA185 with date 2021-04-07 and city Schaumburg, matching this record's key, date and city cells",
+   "evidence": "CEN21LA185 (2021-04-07, Schaumburg, IL)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:85d83fe26f72f92c:Accident:CEN23LA026",
+   "label": "VALID",
+   "reason": "heading names accident CEN23LA026 with date 2022-11-05 and city Mesquite, matching this record's key, date and city cells",
+   "evidence": "CEN23LA026 (2022-11-05, Mesquite, TX)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:f0da12d45bebc0dd:AircraftModel:PA-28-181",
+   "label": "VALID",
+   "reason": "document title names the model 'Piper PA-28-181', exactly this AircraftModel record's name; no other record of that name",
+   "evidence": "Piper PA-28-181 accidents investigated by the NTSB",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:52be4145b8fd3027:Accident:CEN21LA284",
+   "label": "VALID",
+   "reason": "heading names accident CEN21LA284 with date 2021-06-10 and city Reserve, matching this record's key, date and city cells",
+   "evidence": "CEN21LA284 (2021-06-10, Reserve, LA)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:6f860a79b229e148:Accident:ANC23LA032",
+   "label": "VALID",
+   "reason": "heading names accident ANC23LA032 with date 2023-05-09 and city Skwentna, matching this record's key, date and city cells",
+   "evidence": "ANC23LA032 (2023-05-09, Skwentna, AK)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:7c58d135e437efad:Accident:CEN21LA339",
+   "label": "VALID",
+   "reason": "heading names accident CEN21LA339 with date 2021-07-20 and city West Liberty, matching this record's key, date and city cells",
+   "evidence": "CEN21LA339 (2021-07-20, West Liberty, IA)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:8337c5df48f5b2b9:AircraftModel:R44 II",
+   "label": "VALID",
+   "reason": "document title names the model 'Robinson R44 II', exactly this AircraftModel record's name; no other record of that name",
+   "evidence": "Robinson R44 II accidents investigated by the NTSB",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:aba00acd61a50799:Accident:ANC21LA079",
+   "label": "VALID",
+   "reason": "heading names accident ANC21LA079 with date 2021-08-30 and city Pelican, matching this record's key, date and city cells",
+   "evidence": "ANC21LA079 (2021-08-30, Pelican, AK)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:fd6b4360e9cf6bbd:Accident:CEN21LA173",
+   "label": "VALID",
+   "reason": "heading names accident CEN21LA173 with date 2021-03-26 and city Dustin, matching this record's key, date and city cells",
+   "evidence": "CEN21LA173 (2021-03-26, Dustin, OK)",
+   "outliers": [],
+   "together": []
+  }
+ ],
+ "reviewed": [
+  "l:2cd7632bd1364e5b:AircraftModel:AT-502B",
+  "l:2f458376155ad98f:AircraftModel:172S",
+  "l:85d83fe26f72f92c:Accident:CEN23LA026",
+  "l:e8320c4e0b0da21d:Accident:CEN21LA232"
+ ],
+ "changes": []
+}

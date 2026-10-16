@@ -1,0 +1,772 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-16",
+  "snapshot_hash": "fe62f97dcabc",
+  "sheet": "tests/gold/r228/lighthouses/c3_sheet.json",
+  "sheet_hash": "1c87ad250cc9",
+  "sheets_git_sha": "committed with the verdicts in step R228 (built from out/r155b at cb55aa0)"
+ },
+ "criterion": "C3",
+ "verdicts": [
+  {
+   "id": "m:064a91baf9b319b0",
+   "label": "VALID",
+   "reason": "All mentions name the same kind of apparatus, a fog signal, singular, plural, heading or 'fog signalling apparatus'.",
+   "evidence": "the five-minute explosive fog signal was replaced",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:1174961ca8164e69",
+   "label": "VALID",
+   "reason": "Every mention is a driving weight descending a shaft to turn the optic.",
+   "evidence": "driven by a large weight that descended down a cavity in the wall of the tower",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:128b22aac14ed451",
+   "label": "VALID",
+   "reason": "Same kind of sound emitter in both articles.",
+   "evidence": "sounding from 35 Tannoy emitters",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:17cfee7d62a54ea4",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Both mentions are the one St Mary's array; the shorter name is a short form of the full one.",
+   "evidence": "Its place in the tower was taken by a four-tier revolving sealed beam lamp array",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:1c26459ad5b7557b",
+   "label": "VALID",
+   "reason": "'fixed red light' and 'red fixed light' are the same kind of subsidiary light.",
+   "evidence": "There is a separate red fixed light that shows in the line over the Runnelstone Rock",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:25a594345652b5b1",
+   "label": "VALID",
+   "reason": "Same kind of automatic light control device.",
+   "evidence": "controlled by a sun valve",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:28603979d3e61a21",
+   "label": "VALID",
+   "reason": "Both are the same kind of event, an institution or light being closed.",
+   "evidence": "Following closure of the Penzance lighthouse museum",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:29cab0aa29866fe4",
+   "label": "VALID",
+   "reason": "The same list title in each article's see-also section.",
+   "evidence": "List of lighthouses in England",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:2bb0de790df85b55",
+   "label": "VALID",
+   "reason": "All mentions are the same kind of event, equipment being replaced.",
+   "evidence": "the revolving optic was replaced with static LED lanterns",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:2cd785447091bde4",
+   "label": "VALID",
+   "reason": "Solar power and solar powered operation are the same kind of power source.",
+   "evidence": "converted to solar powered operation",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:33f9799e8ae41107",
+   "label": "VALID",
+   "reason": "A refurbishment proposal and a renovation plan for the site are the same kind of thing.",
+   "evidence": "In 2017 a renovation plan for the site",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:37efc2749b320b95",
+   "label": "VALID",
+   "reason": "Both name a lighting installation, the equipment set-up of a lighthouse.",
+   "evidence": "constructed with a completely automatic installation",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:381f18311f18ceb9",
+   "label": "VALID",
+   "reason": "All mentions are the same kind, a coast.",
+   "evidence": "on the coast to the southeast of Whitby",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:38a412d7d67d3705",
+   "label": "VALID",
+   "reason": "Wreck, wrecks and shipwrecked all name the same kind of event, a shipwreck.",
+   "evidence": "the wreck of the iron screw steamer SS Nile",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:3cc904036ab35f98",
+   "label": "VALID",
+   "reason": "The museum in Penzance named two ways; the text places the National Lighthouse Museum in Penzance.",
+   "evidence": "it was later put on display in their National Lighthouse Museum in Penzance",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:3f7696157f00c57a",
+   "label": "VALID",
+   "reason": "Both name the town of Penzance.",
+   "evidence": "remotely controlled from the Trinity House depot in Penzance",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:4383713c944635ae",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Both mentions use the place name for the one lighthouse at Withernsea.",
+   "evidence": "their decommissioned lighthouse at Withernsea",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:47c95686091dd262",
+   "label": "VALID",
+   "reason": "A fixed beam and a fixed light are the same kind of light character.",
+   "evidence": "showed a fixed beam from a single Argand lamp and reflector",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:47f62f0034a83b5e",
+   "label": "VALID",
+   "reason": "Same kind, keepers' cottages.",
+   "evidence": "The lighthouse and its cottages were refurbished in 1981.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:495cbac6059a77f7",
+   "label": "VALID",
+   "reason": "Bill of Portland and Portland Bill are the same headland.",
+   "evidence": "overlooking Portland Bill",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:4cee3ce2b3abbc15",
+   "label": "VALID",
+   "reason": "All name the county of Cornwall.",
+   "evidence": "Tater Du Lighthouse is Cornwall's most recently built lighthouse.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:50d6fa1f389aa194",
+   "label": "VALID",
+   "reason": "Same kind of event, electrification of a lighthouse.",
+   "evidence": "Whitby High lighthouse was electrified in 1976",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:54d2f3eb0503019a",
+   "label": "VALID",
+   "reason": "Ship, ships, vessel and vessels all name the same kind, a ship.",
+   "evidence": "The Stones claimed many ships",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:5943272dbce532c3",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "'Captain Blackett' is a short form of Captain John Blackett in the same article about the earlier Farne light.",
+   "evidence": "It likewise replaced an earlier light built by Captain Blackett in 1778",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:5f424a90a8a3102d",
+   "label": "VALID",
+   "reason": "Same kind of event, a lighthouse converted to another power source.",
+   "evidence": "In 1921 the lighthouse was converted by the AGA company to run on acetylene.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:6207684cb37feb7c",
+   "label": "VALID",
+   "reason": "Upgrade, upgraded and improved all name the same kind of event, an upgrade.",
+   "evidence": "A further upgrade took place in 1891",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:677aa4fdfd12c4a3",
+   "label": "VALID",
+   "reason": "Both name Harwich, the Trinity House control centre town.",
+   "evidence": "monitored from the Trinity House Planning Centre at Harwich",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:69818373f69d64ad",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "'Bucks' is a short form of the Inner and Outer Bucks rocks, pinned by the same article.",
+   "evidence": "The nearby rocks (Inner and Outer Bucks) form a popular sub-aqua dive site.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:6a1c873411b1c0d3",
+   "label": "VALID",
+   "reason": "Same kind of event, demolition.",
+   "evidence": "their cottages were subsequently demolished",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:6a64cfb288036237",
+   "label": "VALID",
+   "reason": "Same kind of light source, electric light.",
+   "evidence": "Electric light was introduced",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:6c49aea043989563",
+   "label": "VALID",
+   "reason": "Same kind of event, a light first lit.",
+   "evidence": "was first lit in July 1965",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:6c4ef5096c614b07",
+   "label": "VALID",
+   "reason": "High-water mark and mean high water are the same height datum for the light.",
+   "evidence": "138' above mean high water",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:6db85e77b0d09e92",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "The heading uses 'St Agnes' inside the lighthouse name, which the text allows as the island place name.",
+   "evidence": "After the closure of the lighthouse at St Agnes, Isles of Scilly in 1911",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:6f028786e604d17b",
+   "label": "VALID",
+   "reason": "The same value, 8 nautical miles.",
+   "evidence": "The range of the light is around 8 nautical miles",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:75d9d94806bad103",
+   "label": "VALID",
+   "reason": "Clockwork mechanism and clockwork motor are the same kind of drive turning the optic.",
+   "evidence": "the clockwork mechanism  which turned the optic required regular winding",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:76be38e806843f76",
+   "label": "VALID",
+   "reason": "Every mention names the one organisation Trinity House.",
+   "evidence": "Whitby Lighthouse is a lighthouse operated by Trinity House.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:7da86ebbb21b027d",
+   "label": "VALID",
+   "reason": "Reflective and reflecting prisms are the same optical component kind.",
+   "evidence": "multiple rows of reflecting prisms above and below",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:84b84b4d675b4bc5",
+   "label": "VALID",
+   "reason": "Rebuilt and rebuilding name the same kind of event.",
+   "evidence": "the lantern structure at the top of the tower was rebuilt",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:867f77bb2ee23dce",
+   "label": "VALID",
+   "reason": "Same kind of optical component, a reflector.",
+   "evidence": "an additional lamp and reflector were installed",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:8932a6ccedf443e6",
+   "label": "AMBIGUOUS",
+   "reason": "Most mentions are a lighthouse's emitted light, but some use 'a light' for a light station to be built; nautical usage supports both readings.",
+   "evidence": "The disaster prompted fresh calls for a light to be built.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:8b1a72d3a3d4176d",
+   "label": "VALID",
+   "reason": "Same fuel, acetylene.",
+   "evidence": "converted to run automatically on acetylene",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:8b9ad52e4db46b6a",
+   "label": "VALID",
+   "reason": "Same kind, a red sector in a light.",
+   "evidence": "a red sector was added marking Whitby Rock",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:8fb67ccd7a822ee6",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "'Portland High' is a short form of Portland High Light in the same article.",
+   "evidence": "In 1824 Portland High Light was improved by Trinity House",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:9402be9f12d66430",
+   "label": "VALID",
+   "reason": "Both name the same island.",
+   "evidence": "St Mary's Lighthouse is on the tiny St Mary's (or Bait) Island",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:97cc6c633ce2d492",
+   "label": "VALID",
+   "reason": "Same kind of event, construction of a lighthouse.",
+   "evidence": "built in 1835 by Olver of Falmouth",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:9a6336cd329579ee",
+   "label": "VALID",
+   "reason": "The same value, 20 nautical miles.",
+   "evidence": "It had a range of 20 nautical miles",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:9f688c01b3ca7718",
+   "label": "VALID",
+   "reason": "Same kind of event, equipment installed.",
+   "evidence": "In 1981 new automatic equipment was installed",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:a24d67f443acf9d4",
+   "label": "VALID",
+   "reason": "All mentions are the same kind of component, a lighthouse optic.",
+   "evidence": "It was the first example of a significant new design of lighthouse optic",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:a3d47c309b94892a",
+   "label": "VALID",
+   "reason": "Same kind of event, a range reduced.",
+   "evidence": "the light's visible range was reduced",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:ad6cfc8c1de3a4a5",
+   "label": "VALID",
+   "reason": "Same kind of event, construction of a lighthouse.",
+   "evidence": "Its construction took around a year",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:b207fc127b722bd4",
+   "label": "VALID",
+   "reason": "Same kind of power store, batteries.",
+   "evidence": "powered from batteries which are charged from mains electricity",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:b4568bf9f319bf24",
+   "label": "VALID",
+   "reason": "Same kind, petitions for a lighthouse.",
+   "evidence": "After years of local petitions to Trinity House",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:b4d3fa3a4cb6d19a",
+   "label": "VALID",
+   "reason": "All name the same kind of building, a keeper's cottage.",
+   "evidence": "A pair of single-storey keepers' cottages was attached to each tower.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:b5e78bf99e68222e",
+   "label": "AMBIGUOUS",
+   "reason": "One mention is the Lowestoft lighthouse station of 1609, the other the 1676 Lowestoft lighthouse; the text does not say whether these are one lighthouse or a station and a later tower.",
+   "evidence": "builders of the 1676 Lowestoft lighthouse",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:bb32c91955e17f44",
+   "label": "VALID",
+   "reason": "Dorset and County of Dorset are the same county.",
+   "evidence": "upon Portland, in the County of Dorset",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:bc1474bcac820159",
+   "label": "VALID",
+   "reason": "Discontinued, deactivated, decommissioned and the Decommissioning heading all name taking something out of service.",
+   "evidence": "The lighthouse was decommissioned in 1984",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:bc6257a756c9437d",
+   "label": "VALID",
+   "reason": "Same kind, shipping.",
+   "evidence": "lines of approach that were hazardous for shipping",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:bf7dfdee05999828",
+   "label": "VALID",
+   "reason": "Same kind, rocks as a sea hazard.",
+   "evidence": "to warn passing ships of the danger of the rocks",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:bfad4a8bba8178a6",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "'Low Lighthouse' is a short form of Farne Low Lighthouse in the same sentence.",
+   "evidence": "The other lighthouse on the island (Farne Low Lighthouse) was an octagonal tower",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:c038596966ec0403",
+   "label": "VALID",
+   "reason": "North Light and North Lighthouse are the same Whitby tower.",
+   "evidence": "The North Lighthouse was then demolished",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:c4b11500f112509e",
+   "label": "VALID",
+   "reason": "Same kind of event, modernisation.",
+   "evidence": "In 1997 the lighthouse was modernised",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:c66049c339b0cd5e",
+   "label": "VALID",
+   "reason": "Same kind, lighthouses.",
+   "evidence": "permission to erect and maintain one or more lighthouses on the islands",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:c670e77d601a9be6",
+   "label": "VALID",
+   "reason": "Brownsman and Brownsman Island are the same island.",
+   "evidence": "one of the outer Farne Islands: Brownsman Island",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:c6803b1be16211e2",
+   "label": "VALID",
+   "reason": "Opened and official opening name the same kind of event.",
+   "evidence": "It was opened by Joseph Chamberlain",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:cac9cfbcf0dd53c8",
+   "label": "VALID",
+   "reason": "Chance Brothers & Co and Chance Brothers are the same manufacturer.",
+   "evidence": "a 1st Order assembly manufactured by Chance Brothers of Smethwick",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:cff85046166e6177",
+   "label": "VALID",
+   "reason": "Same kind, a daymark.",
+   "evidence": "maintained as a daymark for shipping",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:d09e5b537876bca9",
+   "label": "VALID",
+   "reason": "Same kind, a lighthouse lamp.",
+   "evidence": "The lamp was powered by paraffin",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:d33d37ddb9d24f0c",
+   "label": "VALID",
+   "reason": "Same kind, an island.",
+   "evidence": "It is situated almost in the centre of the island",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:d36ea1d25ca3e75f",
+   "label": "VALID",
+   "reason": "Range and visible range are the same property of a light.",
+   "evidence": "In 2022 the range of the light was reduced from 22 nautical miles to 12",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:d6df351da2a385cf",
+   "label": "VALID",
+   "reason": "Same kind of event, equipment removed.",
+   "evidence": "the optic and lamp were removed",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:d8713e192e6429ea",
+   "label": "VALID",
+   "reason": "Every mention names England.",
+   "evidence": "The Old Higher Lighthouse is a disused 19th century lighthouse on the Isle of Portland, Dorset, southern England.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:dcd43bd3a381ee91",
+   "label": "VALID",
+   "reason": "Same kind, oil as lamp fuel.",
+   "evidence": "the last Trinity House lighthouse lit by oil",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:e35955d5c23eda73",
+   "label": "VALID",
+   "reason": "Same kind, a lighthouse lens.",
+   "evidence": "The size of the lens meant that the height of the lantern had to be increased.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:e364bc063d67cc1b",
+   "label": "VALID",
+   "reason": "Both use 'lights' for a pair of navigation lights.",
+   "evidence": "Designed as leading lights to guide ships",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:e36bb13aec939448",
+   "label": "VALID",
+   "reason": "Same kind, a keeper's cottage.",
+   "evidence": "the assistant lived in the cottage",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:e47e8f41fdf31fed",
+   "label": "VALID",
+   "reason": "Fresnel lens and Fresnel lenses are the same kind.",
+   "evidence": "still using reflectors rather than Fresnel lenses",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:e699071bdce86c50",
+   "label": "VALID",
+   "reason": "Same kind, a sector light.",
+   "evidence": "with a sector light that worked in conjunction with the Inner Farne light",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:e7dcba70f69320e8",
+   "label": "VALID",
+   "reason": "Same kind, islands.",
+   "evidence": "one of a group of islands off the coast of North Northumberland",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:ea44dd35474a4101",
+   "label": "VALID",
+   "reason": "Same power source, mains electricity.",
+   "evidence": "Since 1994 the lighthouse has run on mains electricity.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:ea58b04fab379bda",
+   "label": "VALID",
+   "reason": "Same kind, a tower.",
+   "evidence": "During World War II, the Royal Observer Corps used the tower as a lookout.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:eb01126fcc2be6b1",
+   "label": "VALID",
+   "reason": "Automated and conversion to automatic operation name the same kind of event.",
+   "evidence": "two years after its conversion to automatic operation",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:ed881ea85a42d4a6",
+   "label": "VALID",
+   "reason": "Main light and main lamp name the same kind, a lighthouse's principal light.",
+   "evidence": "being replaced by the addition of a red sector to the main lamp",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:ee68d612b26bc10a",
+   "label": "VALID",
+   "reason": "Same kind, a weight shaft.",
+   "evidence": "A set of weights, descending a 38-foot (12 m) shaft",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:f3cac911ecdde5f5",
+   "label": "VALID",
+   "reason": "Keeper and keepers name the same kind, a lighthouse keeper.",
+   "evidence": "originally provided with cottages for the keepers",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:f63d26651ab2ef0a",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "'Stones' and 'reef' are short or generic forms of the Stones reef that the Godrevy article pins down.",
+   "evidence": "it marks the Stones reef, which has been a hazard to shipping for centuries",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:f8634fd9bbe1cfc5",
+   "label": "VALID",
+   "reason": "Same kind, a building on the Whitby site.",
+   "evidence": "The building, which retains the twin roof-mounted 20-ft trumpets",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:f9f3ec894b018f15",
+   "label": "VALID",
+   "reason": "Same kind, lamps.",
+   "evidence": "the same arrangement of eight lamps",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:fa98e9b45d3a6d81",
+   "label": "VALID",
+   "reason": "Same kind, an oil lamp.",
+   "evidence": "a paraffin vapour burner (PVB) replaced the oil lamp",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:fdacbc7b95167c9b",
+   "label": "AMBIGUOUS",
+   "reason": "Three mentions are a lighthouse lantern room, but the monks' 'lantern on the tower' may be a lamp rather than a lantern enclosure.",
+   "evidence": "whose monks maintained a lantern on the tower",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "m:fdf552a823920898",
+   "label": "VALID",
+   "reason": "Both name the same kind, a mechanical mechanism driving the light.",
+   "evidence": "the same mechanism then also activated the bell",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Apparatus:fog bell",
+   "label": "VALID",
+   "reason": "Two different fog bells at two lighthouses: St Anthony's and Godrevy.",
+   "evidence": "it was donated to the nearby Penwerris church",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "s:Lighthouse:low light",
+   "label": "VALID",
+   "reason": "Farne's Low Light and Portland's Low Light are different lighthouses.",
+   "evidence": "matching the Low Light, which had remained fixed throughout",
+   "outliers": [],
+   "together": []
+  }
+ ],
+ "reviewed": [
+  "m:17cfee7d62a54ea4",
+  "m:381f18311f18ceb9",
+  "m:3f7696157f00c57a",
+  "m:4383713c944635ae",
+  "m:4cee3ce2b3abbc15",
+  "m:5943272dbce532c3",
+  "m:6207684cb37feb7c",
+  "m:69818373f69d64ad",
+  "m:6db85e77b0d09e92",
+  "m:8932a6ccedf443e6",
+  "m:8fb67ccd7a822ee6",
+  "m:b4d3fa3a4cb6d19a",
+  "m:b5e78bf99e68222e",
+  "m:bfad4a8bba8178a6",
+  "m:c038596966ec0403",
+  "m:e35955d5c23eda73",
+  "m:ed881ea85a42d4a6",
+  "m:f63d26651ab2ef0a",
+  "m:fdacbc7b95167c9b",
+  "m:fdf552a823920898"
+ ],
+ "changes": []
+}

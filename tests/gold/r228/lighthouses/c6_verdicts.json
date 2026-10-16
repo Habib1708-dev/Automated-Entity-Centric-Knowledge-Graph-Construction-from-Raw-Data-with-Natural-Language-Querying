@@ -1,0 +1,886 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-16",
+  "snapshot_hash": "fe62f97dcabc",
+  "sheet": "tests/gold/r228/lighthouses/c6_sheet.json",
+  "sheet_hash": "b0fd4ce19394",
+  "sheets_git_sha": "committed with the verdicts in step R228 (built from out/r155b at cb55aa0)"
+ },
+ "criterion": "C6",
+ "verdicts": [
+  {
+   "id": "p:064a91baf9b319b0|articles/anvil_point_lighthouse.md#2",
+   "label": "VALID",
+   "reason": "Chunk describes this lighthouse's fog signal and its replacement.",
+   "evidence": "the five-minute explosive fog signal was replaced by a triple-frequency electric signal",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:064a91baf9b319b0|articles/st_anthony_s_lighthouse.md#2",
+   "label": "VALID",
+   "reason": "Chunk speaks of fog signals of this type.",
+   "evidence": "Trinity House installed fog signals of this type",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:064a91baf9b319b0|articles/tater_du_lighthouse.md#1",
+   "label": "VALID",
+   "reason": "Chunk has a fog signal section describing one.",
+   "evidence": "The fog signal was decommissioned in 2012.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:064a91baf9b319b0|articles/whitby_lighthouse.md#2",
+   "label": "VALID",
+   "reason": "Chunk describes the Whitby fog signal apparatus.",
+   "evidence": "Whitby Fog Signal (known locally as the 'Hawsker Bull') was operational from 1903",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:128b22aac14ed451|articles/anvil_point_lighthouse.md#2",
+   "label": "VALID",
+   "reason": "Chunk speaks of tannoy emitters sounding a fog signal.",
+   "evidence": "sounded from a stack of thirty tannoy emitters",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:128b22aac14ed451|articles/st_anthony_s_lighthouse.md#2",
+   "label": "VALID",
+   "reason": "Chunk speaks of Tannoy emitters.",
+   "evidence": "sounding from 35 Tannoy emitters",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:2cd785447091bde4|articles/godrevy_lighthouse.md#3",
+   "label": "VALID",
+   "reason": "Chunk says the lighthouse was converted to solar power.",
+   "evidence": "converted to solar powered operation",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:2cd785447091bde4|articles/st_mary_s_lighthouse.md#2",
+   "label": "VALID",
+   "reason": "Chunk speaks of running a lighthouse on solar power.",
+   "evidence": "the first major lighthouse to be run using solar power",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:331f597d36ceeabc|articles/godrevy_lighthouse.md#0",
+   "label": "VALID",
+   "reason": "Chunk speaks of the Godrevy site (island and head).",
+   "evidence": "on Godrevy Island in St Ives Bay, Cornwall",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:331f597d36ceeabc|articles/godrevy_lighthouse.md#2",
+   "label": "VALID",
+   "reason": "Chunk contains the mention of landing at Godrevy.",
+   "evidence": "landing keepers by boat was always a perilous activity at Godrevy",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:331f597d36ceeabc|articles/godrevy_lighthouse.md#3",
+   "label": "VALID",
+   "reason": "Chunk speaks of the light installation at Godrevy and its rocks.",
+   "evidence": "Godrevy is still listed by Trinity House as a lighthouse",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:33f9799e8ae41107|articles/st_mary_s_lighthouse.md#3",
+   "label": "VALID",
+   "reason": "Chunk speaks of the renovation plan.",
+   "evidence": "In 2017 a renovation plan for the site",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:42f6220d7bf77589|articles/old_higher_lighthouse.md#0",
+   "label": "VALID",
+   "reason": "Chunk is the opening of the Old Higher Lighthouse article.",
+   "evidence": "The Old Higher Lighthouse is a disused 19th century lighthouse on the Isle of Portland",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:42f6220d7bf77589|articles/old_higher_lighthouse.md#1",
+   "label": "VALID",
+   "reason": "Chunk tells this lighthouse's history at Branscombe Hill.",
+   "evidence": "This one was built at Branscombe Hill",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:42f6220d7bf77589|articles/old_higher_lighthouse.md#2",
+   "label": "VALID",
+   "reason": "Chunk continues this lighthouse's history.",
+   "evidence": "In 1923 the lighthouse was purchased by the palaeobotanist",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:4cdb9cb707627c33|articles/farne_lighthouse.md#3",
+   "label": "VALID",
+   "reason": "Chunk says the lighthouse was sold to the National Trust.",
+   "evidence": "sold on 6 June 2005 to the National Trust",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:527616ab3331a5a1|articles/whitby_lighthouse.md#1",
+   "label": "VALID",
+   "reason": "Chunk speaks of Whitby South Light.",
+   "evidence": "The North Light was of a similar octagonal design to the surviving South Light",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:56e7eb480376ffc5|articles/farne_lighthouse.md#0",
+   "label": "VALID",
+   "reason": "Chunk locates the lighthouse on Inner Farne.",
+   "evidence": "on the southern tip of Inner Farne",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:56e7eb480376ffc5|articles/farne_lighthouse.md#1",
+   "label": "VALID",
+   "reason": "Chunk speaks of the lighthouses built on Inner Farne.",
+   "evidence": "Farne Lighthouse was one of a pair built on Inner Farne",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:56e7eb480376ffc5|articles/farne_lighthouse.md#3",
+   "label": "VALID",
+   "reason": "Chunk names Inner Farne while saying lighthouses were built there.",
+   "evidence": "building the two lighthouses on Inner Farne",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:6db85e77b0d09e92|articles/st_agnes_lighthouse.md#0",
+   "label": "VALID",
+   "reason": "Chunk speaks of St Agnes island and why it was chosen.",
+   "evidence": "St Agnes was chosen as it is the most westerly of the habitable islands",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:6db85e77b0d09e92|articles/st_agnes_lighthouse.md#2",
+   "label": "VALID",
+   "reason": "Chunk speaks of the lighthouse on St Agnes.",
+   "evidence": "In 1911 the St Agnes lighthouse was decommissioned",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:6db85e77b0d09e92|articles/st_anthony_s_lighthouse.md#1",
+   "label": "VALID",
+   "reason": "Chunk names St Agnes, Isles of Scilly in passing while saying its lighthouse closed.",
+   "evidence": "After the closure of the lighthouse at St Agnes, Isles of Scilly in 1911",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:76be38e806843f76|articles/anvil_point_lighthouse.md#0",
+   "label": "VALID",
+   "reason": "Chunk names Trinity House and says something about it.",
+   "evidence": "It is owned by Trinity House.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:76be38e806843f76|articles/anvil_point_lighthouse.md#2",
+   "label": "VALID",
+   "reason": "Chunk names Trinity House and says something about it.",
+   "evidence": "monitored and controlled from the Trinity House Operations Control Centre at Harwich",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:76be38e806843f76|articles/berry_head_lighthouse.md#1",
+   "label": "VALID",
+   "reason": "Chunk names Trinity House and says something about it.",
+   "evidence": "The lighthouse was designed and built for Trinity House by its chief engineer Thomas Matthews.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:76be38e806843f76|articles/berry_head_lighthouse.md#2",
+   "label": "INCORRECT",
+   "reason": "Chunk is a further-reading list about Berry Head; Trinity House appears only as an external link label, nothing is said about it.",
+   "evidence": "Pike, John. \"Berry Head; Forts, Lighthouse and House\".",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:76be38e806843f76|articles/farne_lighthouse.md#0",
+   "label": "VALID",
+   "reason": "Chunk names Trinity House and says something about it.",
+   "evidence": "managed by Trinity House (England's general lighthouse authority)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:76be38e806843f76|articles/farne_lighthouse.md#1",
+   "label": "VALID",
+   "reason": "Chunk names Trinity House and says something about it.",
+   "evidence": "built on Inner Farne by the Corporation of Trinity House in 1811",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:76be38e806843f76|articles/farne_lighthouse.md#3",
+   "label": "VALID",
+   "reason": "Chunk names Trinity House and says something about it.",
+   "evidence": "Trinity House also built a new lighthouse on one of the outer Farne Islands",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:76be38e806843f76|articles/godrevy_lighthouse.md#1",
+   "label": "VALID",
+   "reason": "Chunk names Trinity House and says something about it.",
+   "evidence": "Trinity House had agreed to build the Godrevy Lighthouse",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:76be38e806843f76|articles/godrevy_lighthouse.md#3",
+   "label": "VALID",
+   "reason": "Chunk names Trinity House and says something about it.",
+   "evidence": "In 2012 Trinity House discontinued use of the light within the tower",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:76be38e806843f76|articles/old_higher_lighthouse.md#1",
+   "label": "VALID",
+   "reason": "Chunk names Trinity House and says something about it.",
+   "evidence": "Trinity House took over responsibility for the lights",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:76be38e806843f76|articles/old_higher_lighthouse.md#2",
+   "label": "VALID",
+   "reason": "Chunk names Trinity House and says something about it.",
+   "evidence": "Trinity House made plans to build a new lighthouse at Bill Point",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:76be38e806843f76|articles/st_agnes_lighthouse.md#0",
+   "label": "VALID",
+   "reason": "Chunk names Trinity House and says something about it.",
+   "evidence": "only the second lighthouse station to be established by Trinity House",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:76be38e806843f76|articles/st_agnes_lighthouse.md#1",
+   "label": "VALID",
+   "reason": "Chunk names Trinity House and says something about it.",
+   "evidence": "the chief engineer of Trinity House, Sir James Douglass",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:76be38e806843f76|articles/st_anthony_s_lighthouse.md#0",
+   "label": "VALID",
+   "reason": "Chunk names Trinity House and says something about it.",
+   "evidence": "built in 1835 by Olver of Falmouth, for Trinity House",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:76be38e806843f76|articles/st_anthony_s_lighthouse.md#1",
+   "label": "VALID",
+   "reason": "Chunk names Trinity House and says something about it.",
+   "evidence": "one of the only major Trinity House lights still using reflectors",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:76be38e806843f76|articles/st_anthony_s_lighthouse.md#2",
+   "label": "VALID",
+   "reason": "Chunk names Trinity House and says something about it.",
+   "evidence": "Trinity House installed fog signals of this type",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:76be38e806843f76|articles/st_mary_s_lighthouse.md#1",
+   "label": "VALID",
+   "reason": "Chunk names Trinity House and says something about it.",
+   "evidence": "St Mary's was by then the last Trinity House lighthouse lit by oil",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:76be38e806843f76|articles/st_mary_s_lighthouse.md#2",
+   "label": "VALID",
+   "reason": "Chunk names Trinity House and says something about it.",
+   "evidence": "Trinity House offered a smaller one from their decommissioned lighthouse at Withernsea",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:76be38e806843f76|articles/st_mary_s_lighthouse.md#3",
+   "label": "VALID",
+   "reason": "Chunk names Trinity House and says something about it.",
+   "evidence": "Trinity House maintains two operational lighthouses on the Farne Islands",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:76be38e806843f76|articles/tater_du_lighthouse.md#0",
+   "label": "VALID",
+   "reason": "Chunk names Trinity House and says something about it.",
+   "evidence": "put pressure on Trinity House for a lighthouse to be built",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:76be38e806843f76|articles/tater_du_lighthouse.md#1",
+   "label": "VALID",
+   "reason": "Chunk names Trinity House and says something about it.",
+   "evidence": "remotely controlled from the Trinity House depot in Penzance",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:76be38e806843f76|articles/tater_du_lighthouse.md#2",
+   "label": "INCORRECT",
+   "reason": "Chunk is about the area around Tater Du; Trinity House appears only as an external link label, nothing is said about it.",
+   "evidence": "The nearby rocks (Inner and Outer Bucks) form a popular sub-aqua dive site.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:76be38e806843f76|articles/whitby_lighthouse.md#0",
+   "label": "VALID",
+   "reason": "Chunk names Trinity House and says something about it.",
+   "evidence": "Whitby Lighthouse is a lighthouse operated by Trinity House.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:76be38e806843f76|articles/whitby_lighthouse.md#1",
+   "label": "VALID",
+   "reason": "Chunk names Trinity House and says something about it.",
+   "evidence": "Superintendent of the Works on behalf of Trinity House",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:76be38e806843f76|articles/whitby_lighthouse.md#2",
+   "label": "VALID",
+   "reason": "Chunk names Trinity House and says something about it.",
+   "evidence": "Trinity House decided to use sirens at Whitby",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:7aed786f94ee1e6e|articles/berry_head_lighthouse.md#0",
+   "label": "VALID",
+   "reason": "Chunk locates the lighthouse at the end of Berry Head.",
+   "evidence": "located at the end of Berry Head near Brixham in Devon",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:7aed786f94ee1e6e|articles/berry_head_lighthouse.md#1",
+   "label": "VALID",
+   "reason": "Chunk speaks of the light at Berry Head.",
+   "evidence": "Berry Head was classed as an unwatched light",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:7aed786f94ee1e6e|articles/berry_head_lighthouse.md#2",
+   "label": "VALID",
+   "reason": "Chunk cites a work about Berry Head (forts, lighthouse, house).",
+   "evidence": "\"Berry Head; Forts, Lighthouse and House\"",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:8fb67ccd7a822ee6|articles/old_higher_lighthouse.md#1",
+   "label": "VALID",
+   "reason": "Chunk speaks of Portland High Light.",
+   "evidence": "In 1824 Portland High Light was improved by Trinity House",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:8fb67ccd7a822ee6|articles/old_higher_lighthouse.md#2",
+   "label": "VALID",
+   "reason": "Chunk continues Portland High's history.",
+   "evidence": "Portland High was again made a fixed light",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Lighthouse:Q10581063|articles/berry_head_lighthouse.md#0",
+   "label": "VALID",
+   "reason": "Chunk opens the article on this lighthouse; matches 1906 and 5 m.",
+   "evidence": "in operation since 4 May 1906",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Lighthouse:Q10581063|articles/berry_head_lighthouse.md#1",
+   "label": "VALID",
+   "reason": "Chunk describes this lighthouse's design and lamp.",
+   "evidence": "The lighthouse was designed and built for Trinity House by its chief engineer Thomas Matthews.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Lighthouse:Q10581063|articles/berry_head_lighthouse.md#2",
+   "label": "VALID",
+   "reason": "Chunk is further reading on Berry Head lighthouse from its own article.",
+   "evidence": "\"Berry Head; Forts, Lighthouse and House\"",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Lighthouse:Q15182446|articles/anvil_point_lighthouse.md#0",
+   "label": "VALID",
+   "reason": "Chunk opens the Anvil Point Lighthouse article.",
+   "evidence": "The Anvil Point Lighthouse is a fully automated lighthouse located at Durlston Country Park near Swanage",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Lighthouse:Q15182446|articles/anvil_point_lighthouse.md#1",
+   "label": "VALID",
+   "reason": "Chunk gives this lighthouse's construction and optic; matches 1881, stone, 12 m.",
+   "evidence": "The lighthouse is built of local stone and was completed in 1881.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Lighthouse:Q15182446|articles/anvil_point_lighthouse.md#2",
+   "label": "VALID",
+   "reason": "Chunk describes this lighthouse's modernisation and range (9 nmi).",
+   "evidence": "Anvil Point Lighthouse was fully automated on 31 May 1991",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Lighthouse:Q15217395|articles/farne_lighthouse.md#0",
+   "label": "VALID",
+   "reason": "Chunk opens the Farne Lighthouse article.",
+   "evidence": "Farne Lighthouse is a lighthouse on the southern tip of Inner Farne",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Lighthouse:Q15217395|articles/farne_lighthouse.md#1",
+   "label": "VALID",
+   "reason": "Chunk describes this tower (13 m, 1811).",
+   "evidence": "Farne Lighthouse (originally named Farne High Lighthouse) is a cylindrical white tower, 13 m (43 ft) tall",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Lighthouse:Q15217395|articles/farne_lighthouse.md#2",
+   "label": "VALID",
+   "reason": "Chunk is mainly about the Low Light but names the High Light (the start) while saying it was automated and its keeper watched the Low Light.",
+   "evidence": "After the High Light had been modified and automated in 1910",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Lighthouse:Q15217395|articles/farne_lighthouse.md#3",
+   "label": "VALID",
+   "reason": "Chunk's present-day section describes this tower.",
+   "evidence": "Farne Island Lighthouse was sold on 6 June 2005 to the National Trust",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Lighthouse:Q15221791|articles/godrevy_lighthouse.md#0",
+   "label": "VALID",
+   "reason": "Chunk opens the Godrevy Lighthouse article.",
+   "evidence": "on Godrevy Island in St Ives Bay, Cornwall",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Lighthouse:Q15221791|articles/godrevy_lighthouse.md#1",
+   "label": "VALID",
+   "reason": "Chunk tells how this lighthouse came to be built.",
+   "evidence": "Trinity House had agreed to build the Godrevy Lighthouse",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Lighthouse:Q15221791|articles/godrevy_lighthouse.md#2",
+   "label": "VALID",
+   "reason": "Chunk describes this lighthouse's tower and light.",
+   "evidence": "The lighthouse is a white octagonal tower, 86 feet (26 m) high",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Lighthouse:Q15221791|articles/godrevy_lighthouse.md#3",
+   "label": "VALID",
+   "reason": "Chunk describes this lighthouse's later history.",
+   "evidence": "Godrevy is still listed by Trinity House as a lighthouse",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Lighthouse:Q2686634|articles/st_anthony_s_lighthouse.md#0",
+   "label": "VALID",
+   "reason": "Chunk opens the St Anthony's Lighthouse article.",
+   "evidence": "St Anthony's Lighthouse is the lighthouse at St Anthony Head",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Lighthouse:Q2686634|articles/st_anthony_s_lighthouse.md#1",
+   "label": "VALID",
+   "reason": "Chunk describes this lighthouse's fog bell and optic.",
+   "evidence": "St Anthony's was (along with Cromer) one of the only major Trinity House lights",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Lighthouse:Q2686634|articles/st_anthony_s_lighthouse.md#2",
+   "label": "VALID",
+   "reason": "Chunk describes this lighthouse today.",
+   "evidence": "St. Anthony's lighthouse was featured in the intro of the UK version",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Lighthouse:Q2686922|articles/tater_du_lighthouse.md#0",
+   "label": "VALID",
+   "reason": "Chunk opens the Tater Du article; matches 1965, concrete.",
+   "evidence": "Tater Du Lighthouse is Cornwall's most recently built lighthouse.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Lighthouse:Q2686922|articles/tater_du_lighthouse.md#1",
+   "label": "VALID",
+   "reason": "Chunk tells this lighthouse's history and fog signal.",
+   "evidence": "Designed by Michael H. Crisp, the lighthouse was constructed",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Lighthouse:Q2686922|articles/tater_du_lighthouse.md#2",
+   "label": "VALID",
+   "reason": "Chunk describes the area around this lighthouse.",
+   "evidence": "The coastal slope and cliffs around the lighthouse are designated the Tater",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Lighthouse:Q3739817|articles/st_agnes_lighthouse.md#0",
+   "label": "VALID",
+   "reason": "Chunk opens the St Agnes lighthouse article.",
+   "evidence": "St Agnes lighthouse is a 17th-century lighthouse situated on St Agnes on the Isles of Scilly.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Lighthouse:Q3739817|articles/st_agnes_lighthouse.md#1",
+   "label": "VALID",
+   "reason": "Chunk describes this lighthouse's light and upgrades.",
+   "evidence": "The light was first lit on 30 October 1680",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Lighthouse:Q3739817|articles/st_agnes_lighthouse.md#2",
+   "label": "VALID",
+   "reason": "Chunk says this lighthouse was decommissioned in 1911 (matches record).",
+   "evidence": "In 1911 the St Agnes lighthouse was decommissioned",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Lighthouse:Q3739817|articles/st_anthony_s_lighthouse.md#1",
+   "label": "VALID",
+   "reason": "Chunk names the St Agnes lighthouse in passing while saying it closed in 1911.",
+   "evidence": "After the closure of the lighthouse at St Agnes, Isles of Scilly in 1911",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Lighthouse:Q7590348|articles/st_mary_s_lighthouse.md#0",
+   "label": "VALID",
+   "reason": "Chunk opens the St Mary's Lighthouse article (Whitley Bay, North Tyneside).",
+   "evidence": "St Mary's Lighthouse is on the tiny St Mary's (or Bait) Island, just north of Whitley Bay",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Lighthouse:Q7590348|articles/st_mary_s_lighthouse.md#1",
+   "label": "VALID",
+   "reason": "Chunk tells how this lighthouse was built in 1898.",
+   "evidence": "were built in 1898 on St Mary's Island",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Lighthouse:Q7590348|articles/st_mary_s_lighthouse.md#2",
+   "label": "VALID",
+   "reason": "Chunk says this lighthouse was decommissioned in 1984.",
+   "evidence": "The lighthouse was decommissioned in 1984",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Lighthouse:Q7590348|articles/st_mary_s_lighthouse.md#3",
+   "label": "VALID",
+   "reason": "Chunk describes this lighthouse today.",
+   "evidence": "Since 2012 St Mary's lighthouse has been grade II listed.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Lighthouse:Q7994169|articles/whitby_lighthouse.md#0",
+   "label": "VALID",
+   "reason": "Chunk opens the Whitby Lighthouse article.",
+   "evidence": "Whitby Lighthouse is a lighthouse operated by Trinity House.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Lighthouse:Q7994169|articles/whitby_lighthouse.md#1",
+   "label": "VALID",
+   "reason": "Chunk tells this lighthouse's construction (1858, James Walker).",
+   "evidence": "The lighthouse, a white octagonal brick tower, was designed by James Walker",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Lighthouse:Q7994169|articles/whitby_lighthouse.md#2",
+   "label": "VALID",
+   "reason": "Chunk continues this lighthouse's history.",
+   "evidence": "Whitby High lighthouse was electrified in 1976",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:a64e5cebf3c008cf|articles/st_anthony_s_lighthouse.md#2",
+   "label": "VALID",
+   "reason": "Chunk speaks of the fog horn.",
+   "evidence": "The fog horn blasts once every 30 seconds.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:b4568bf9f319bf24|articles/old_higher_lighthouse.md#1",
+   "label": "VALID",
+   "reason": "Chunk speaks of petitions for a lighthouse.",
+   "evidence": "After years of local petitions to Trinity House",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:b4568bf9f319bf24|articles/st_agnes_lighthouse.md#0",
+   "label": "VALID",
+   "reason": "Chunk speaks of petitions for a lighthouse.",
+   "evidence": "Earlier petitions to build a lighthouse on St Agnes",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:b6d0a6f98fd9dd47|articles/tater_du_lighthouse.md#1",
+   "label": "VALID",
+   "reason": "Chunk describes these Tannoy units.",
+   "evidence": "a series (72 in total) of Tannoy units built into the lighthouse tower",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:bc1474bcac820159|articles/anvil_point_lighthouse.md#2",
+   "label": "VALID",
+   "reason": "Chunk says equipment was discontinued.",
+   "evidence": "the fog signal was discontinued in 1988",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:bc1474bcac820159|articles/farne_lighthouse.md#2",
+   "label": "VALID",
+   "reason": "Chunk says the Low Light was discontinued.",
+   "evidence": "use of the Low Light was discontinued",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:bc1474bcac820159|articles/godrevy_lighthouse.md#2",
+   "label": "VALID",
+   "reason": "Chunk says the fog bell was deactivated.",
+   "evidence": "The fog bell was deactivated at the same time.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:bc1474bcac820159|articles/godrevy_lighthouse.md#3",
+   "label": "VALID",
+   "reason": "Chunk says the light in the tower was discontinued.",
+   "evidence": "In 2012 Trinity House discontinued use of the light within the tower",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:bc1474bcac820159|articles/st_agnes_lighthouse.md#2",
+   "label": "VALID",
+   "reason": "Chunk says the lighthouse was decommissioned.",
+   "evidence": "In 1911 the St Agnes lighthouse was decommissioned",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:bc1474bcac820159|articles/st_anthony_s_lighthouse.md#2",
+   "label": "VALID",
+   "reason": "Chunk says the fog bell was decommissioned.",
+   "evidence": "was therefore decommissioned",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:bc1474bcac820159|articles/st_mary_s_lighthouse.md#1",
+   "label": "AMBIGUOUS",
+   "reason": "Chunk tells of an old lighthouse demolished and a lens removed, and ends on a 'Decommissioning' heading; whether this concerns decommissioning is open.",
+   "evidence": "This lighthouse was demolished when the new lighthouse and adjacent keepers' cottages were built in 1898",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:bc1474bcac820159|articles/st_mary_s_lighthouse.md#2",
+   "label": "VALID",
+   "reason": "Chunk says the lighthouse was decommissioned.",
+   "evidence": "The lighthouse was decommissioned in 1984",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:bc1474bcac820159|articles/st_mary_s_lighthouse.md#3",
+   "label": "VALID",
+   "reason": "Chunk speaks of decommissioned lighthouses.",
+   "evidence": "Souter Lighthouse is also now decommissioned",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:bc1474bcac820159|articles/tater_du_lighthouse.md#1",
+   "label": "VALID",
+   "reason": "Chunk says the fog signal was decommissioned.",
+   "evidence": "The fog signal was decommissioned in 2012.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:bc1474bcac820159|articles/whitby_lighthouse.md#1",
+   "label": "VALID",
+   "reason": "Chunk says the North Light was deactivated and demolished.",
+   "evidence": "allowing the North Light to be deactivated",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:c038596966ec0403|articles/whitby_lighthouse.md#1",
+   "label": "VALID",
+   "reason": "Chunk speaks of Whitby North Light.",
+   "evidence": "The North Light was of a similar octagonal design to the surviving South Light, but taller",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:c038596966ec0403|articles/whitby_lighthouse.md#2",
+   "label": "VALID",
+   "reason": "Chunk says the North Lighthouse was demolished.",
+   "evidence": "The North Lighthouse was then demolished",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:c670e77d601a9be6|articles/farne_lighthouse.md#3",
+   "label": "VALID",
+   "reason": "Chunk speaks of the lighthouse on Brownsman Island.",
+   "evidence": "on one of the outer Farne Islands: Brownsman Island",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:ccc9ba8ff2ce3cd5|articles/whitby_lighthouse.md#2",
+   "label": "VALID",
+   "reason": "Chunk describes the Whitby Fog Signal.",
+   "evidence": "Whitby Fog Signal (known locally as the 'Hawsker Bull') was operational from 1903",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:d8e2e93b11a7671d|articles/st_mary_s_lighthouse.md#1",
+   "label": "VALID",
+   "reason": "Chunk names Barbier & Bénard installing the optic.",
+   "evidence": "was installed by Barbier & Bénard of Paris",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:e58a55642992f2d3|articles/farne_lighthouse.md#1",
+   "label": "VALID",
+   "reason": "Chunk speaks of solar powered electric operation.",
+   "evidence": "converted from acetylene to solar powered electric operation",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:f444646d4ea6aa98|articles/tater_du_lighthouse.md#2",
+   "label": "VALID",
+   "reason": "Chunk speaks of launching a dive-boat.",
+   "evidence": "The nearest point for launching a dive-boat is Penzance",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:f90a2d4385ac8fab|articles/whitby_lighthouse.md#1",
+   "label": "VALID",
+   "reason": "Chunk speaks of Whitby North.",
+   "evidence": "Whitby South (the present lighthouse) and Whitby North (since demolished)",
+   "outliers": [],
+   "together": []
+  }
+ ],
+ "reviewed": [
+  "p:33f9799e8ae41107|articles/st_mary_s_lighthouse.md#3",
+  "p:42f6220d7bf77589|articles/old_higher_lighthouse.md#2",
+  "p:4cdb9cb707627c33|articles/farne_lighthouse.md#3",
+  "p:56e7eb480376ffc5|articles/farne_lighthouse.md#1",
+  "p:6db85e77b0d09e92|articles/st_anthony_s_lighthouse.md#1",
+  "p:76be38e806843f76|articles/berry_head_lighthouse.md#2",
+  "p:76be38e806843f76|articles/tater_du_lighthouse.md#2",
+  "p:76be38e806843f76|articles/whitby_lighthouse.md#2",
+  "p:8fb67ccd7a822ee6|articles/old_higher_lighthouse.md#2",
+  "p:Lighthouse:Q15221791|articles/godrevy_lighthouse.md#2",
+  "p:Lighthouse:Q3739817|articles/st_agnes_lighthouse.md#1",
+  "p:bc1474bcac820159|articles/st_mary_s_lighthouse.md#1",
+  "p:bc1474bcac820159|articles/st_mary_s_lighthouse.md#2",
+  "p:d8e2e93b11a7671d|articles/st_mary_s_lighthouse.md#1"
+ ],
+ "changes": []
+}

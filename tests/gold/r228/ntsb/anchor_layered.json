@@ -1,0 +1,3644 @@
+{
+ "arm": "layered",
+ "fidelity_passed": true,
+ "provenance": {
+  "extracted.chunk_exists": {
+   "k": 293,
+   "n": 293,
+   "rate": 1.0,
+   "low": 0.9870584176880869,
+   "high": 1.0
+  },
+  "extracted.doc_consistent": {
+   "k": 293,
+   "n": 293,
+   "rate": 1.0,
+   "low": 0.9870584176880869,
+   "high": 1.0
+  },
+  "extracted.evidence_in_chunk": {
+   "k": 293,
+   "n": 293,
+   "rate": 1.0,
+   "low": 0.9870584176880869,
+   "high": 1.0
+  },
+  "extracted.ends_grounded": {
+   "k": 293,
+   "n": 293,
+   "rate": 1.0,
+   "low": 0.9870584176880869,
+   "high": 1.0
+  },
+  "extracted.mention_in_chunk": {
+   "k": 226,
+   "n": 226,
+   "rate": 1.0,
+   "low": 0.9832858803628236,
+   "high": 0.9999999999999999
+  },
+  "pass.mention_in_chunk": {
+   "k": 475,
+   "n": 475,
+   "rate": 1.0,
+   "low": 0.991977305229955,
+   "high": 1.0
+  }
+ },
+ "placed": {
+  "NB01": [
+   {
+    "name": "Cessna 172S",
+    "aliases": [
+     "172S"
+    ],
+    "nodes": [
+     "AircraftModel:172S"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "right wing",
+    "aliases": [],
+    "nodes": [
+     "7c4217880130754f"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "NB02": [
+   {
+    "name": "window",
+    "aliases": [],
+    "nodes": [
+     "41e2fc3bba014678"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "NB03": [
+   {
+    "name": "white smoke",
+    "aliases": [],
+    "nodes": [
+     "5671d134a1640e92"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "NB04": [
+   {
+    "name": "Beech A36",
+    "aliases": [
+     "A36"
+    ],
+    "nodes": [
+     "AircraftModel:A36"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "cloud layer",
+    "aliases": [],
+    "nodes": [
+     "474f2c8501c17b58"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "NB05": [
+   {
+    "name": "wire",
+    "aliases": [],
+    "nodes": [
+     "ef670a8f173cf95c"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "NB06": [
+   {
+    "name": "Cirrus airframe parachute system",
+    "aliases": [
+     "airframe parachute system"
+    ],
+    "nodes": [
+     "2f6da198429e2f04",
+     "7c7fa75d13181d2b"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "NB07": [
+   {
+    "name": "Northwestern Michigan College",
+    "aliases": [],
+    "nodes": [
+     "Aircraft:CEN22LA194"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "NB08": [
+   {
+    "name": "fuel starvation",
+    "aliases": [],
+    "nodes": [
+     "3438cbf83c62b6e8",
+     "97fd16e8d534e128",
+     "Occurrence:CEN21LA383|2",
+     "Occurrence:CEN22LA059|2",
+     "Occurrence:CEN22LA194|4",
+     "Occurrence:CEN23LA344|2"
+    ],
+    "missing": [],
+    "loose": true
+   }
+  ],
+  "NB09": [
+   {
+    "name": "left tank",
+    "aliases": [],
+    "nodes": [
+     "6b05c28b48133240"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "NB10": [
+   {
+    "name": "total loss of engine power",
+    "aliases": [
+     "Loss of engine power (total)"
+    ],
+    "nodes": [
+     "3e50688f8e79f0a6",
+     "8cb013209a9562ad",
+     "98d89f5da6794b57",
+     "Occurrence:CEN21LA221|1",
+     "Occurrence:CEN21LA221|2",
+     "Occurrence:CEN21LA284|1",
+     "Occurrence:CEN21LA382|1",
+     "Occurrence:CEN21LA414|4",
+     "Occurrence:CEN22LA059|1",
+     "Occurrence:CEN22LA312|1",
+     "d9ee56a31a6da43f",
+     "fb29d9ef8ff35735"
+    ],
+    "missing": [],
+    "loose": true
+   }
+  ],
+  "NB11": [],
+  "NB12": [],
+  "NB13": [
+   {
+    "name": "Personnel issues-Task performance-Use of equip/info-Aircraft control-Pilot",
+    "aliases": [],
+    "nodes": [
+     "Finding:CEN21FA299|1",
+     "Finding:CEN21LA185|4",
+     "Finding:CEN21LA280|1",
+     "Finding:CEN22LA235|3",
+     "Finding:CEN22LA244|1",
+     "Finding:CEN22LA249|4",
+     "Finding:CEN23LA017|1"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "NB14": [
+   {
+    "name": "road sign",
+    "aliases": [],
+    "nodes": [
+     "f44e2016f84c3547"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "NB15": [
+   {
+    "name": "fence",
+    "aliases": [],
+    "nodes": [
+     "8872dc39c8fd3c58",
+     "9b9ba26f53caa04d",
+     "fa66f9d2c808e3b0"
+    ],
+    "missing": [],
+    "loose": true
+   },
+   {
+    "name": "fence post",
+    "aliases": [],
+    "nodes": [
+     "031b4f56c9084546"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "NB16": [
+   {
+    "name": "go-around",
+    "aliases": [
+     "go around"
+    ],
+    "nodes": [
+     "e63fe7fd66598df1"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "NB17": [],
+  "NB18": [],
+  "NB19": [],
+  "NB20": [],
+  "NB21": [],
+  "NB22": [],
+  "NB23": [
+   {
+    "name": "Robinson R44 II",
+    "aliases": [
+     "R44 II"
+    ],
+    "nodes": [
+     "AircraftModel:R44 II"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "NB24": [],
+  "NB25": [],
+  "NB26": [
+   {
+    "name": "Cessna 172S",
+    "aliases": [
+     "172S"
+    ],
+    "nodes": [
+     "AircraftModel:172S"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "flight instructor",
+    "aliases": [],
+    "nodes": [
+     "c3b053aba1ea5746"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "NB27": [
+   {
+    "name": "road",
+    "aliases": [],
+    "nodes": [
+     "4e150d4481e0f72b"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "highway",
+    "aliases": [],
+    "nodes": [
+     "99f44fe40190628b",
+     "dffff94542f74863"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "NB28": [
+   {
+    "name": "Granbury",
+    "aliases": [],
+    "nodes": [
+     "Accident:CEN21LA382",
+     "b132927fc352a805"
+    ],
+    "missing": [],
+    "loose": true
+   }
+  ],
+  "NB29": [
+   {
+    "name": "Reserve",
+    "aliases": [],
+    "nodes": [
+     "Accident:CEN21LA284",
+     "da8c029e31f46f11"
+    ],
+    "missing": [],
+    "loose": true
+   }
+  ],
+  "NB30": [
+   {
+    "name": "CEN21LA283",
+    "aliases": [],
+    "nodes": [
+     "Accident:CEN21LA283"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "NB31": [
+   {
+    "name": "Robinson R44 II",
+    "aliases": [
+     "R44 II"
+    ],
+    "nodes": [
+     "AircraftModel:R44 II"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "Skwentna",
+    "aliases": [],
+    "nodes": [
+     "80b8a9080d4ca17f",
+     "Accident:ANC23LA032"
+    ],
+    "missing": [],
+    "loose": true
+   }
+  ],
+  "NB32": [
+   {
+    "name": "Cirrus SR22",
+    "aliases": [
+     "SR22"
+    ],
+    "nodes": [
+     "AircraftModel:SR22"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "go-around",
+    "aliases": [],
+    "nodes": [
+     "e63fe7fd66598df1"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "drainage ditch",
+    "aliases": [],
+    "nodes": [
+     "fe92551b6978ef9e"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "NB33": [
+   {
+    "name": "Beech A36",
+    "aliases": [
+     "A36"
+    ],
+    "nodes": [
+     "AircraftModel:A36"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "Cleveland",
+    "aliases": [],
+    "nodes": [
+     "Accident:CEN22LA059",
+     "a869bd3cba239ba8"
+    ],
+    "missing": [],
+    "loose": true
+   },
+   {
+    "name": "highway",
+    "aliases": [],
+    "nodes": [
+     "dffff94542f74863"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "left-wing fuel tanks",
+    "aliases": [],
+    "nodes": [
+     "6b05c28b48133240"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "NB34": [
+   {
+    "name": "Cessna 172S",
+    "aliases": [
+     "172S"
+    ],
+    "nodes": [
+     "AircraftModel:172S"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "Piper PA-28-181",
+    "aliases": [
+     "PA-28-181"
+    ],
+    "nodes": [
+     "AircraftModel:PA-28-181"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "touch-and-go",
+    "aliases": [
+     "touch and go"
+    ],
+    "nodes": [
+     "5803bd3caf73c38e",
+     "71322f5005e0acc4"
+    ],
+    "missing": [
+     "mention documents/cessna_172s_accidents.md ['touch-and-go']"
+    ],
+    "loose": true
+   }
+  ],
+  "NB35": [
+   {
+    "name": "CEN22LA249",
+    "aliases": [],
+    "nodes": [
+     "Accident:CEN22LA249"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "NB36": [
+   {
+    "name": "fire",
+    "aliases": [],
+    "nodes": [
+     "5af5d2ce44763564",
+     "6a275cd01b800f7d"
+    ],
+    "missing": [],
+    "loose": true
+   }
+  ],
+  "NB37": [
+   {
+    "name": "NTSB Pilot/Operator Aircraft Accident/Incident Report",
+    "aliases": [
+     "National Transportation Safety Board Pilot/Operator Aircraft Accident/Incident Report",
+     "Form 6120.1"
+    ],
+    "nodes": [],
+    "missing": [
+     "mention documents/piper_pa_28_181_accidents.md ['National Transportation Safety Board Pilot/Operator Aircraft Accident/Incident Report']",
+     "mention documents/robinson_r44_ii_accidents.md ['National Transportation Safety Board Pilot/Operator Aircraft Accident/Incident Report', 'Form 6120.1']",
+     "mention documents/beech_a36_accidents.md ['NTSB Accident/Incident Reporting Form 6120.1']"
+    ],
+    "loose": false
+   }
+  ],
+  "NB38": [
+   {
+    "name": "fuel tanks",
+    "aliases": [],
+    "nodes": [
+     "6b05c28b48133240",
+     "a7bdc01e05bdfe2c",
+     "c9f4ddc2aded1c66"
+    ],
+    "missing": [],
+    "loose": true
+   }
+  ],
+  "NB39": [
+   {
+    "name": "CEN21LA232",
+    "aliases": [],
+    "nodes": [
+     "Accident:CEN21LA232"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "directional gyro",
+    "aliases": [],
+    "nodes": [
+     "81d490cdae572436"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "NB40": [
+   {
+    "name": "CEN23LA344",
+    "aliases": [],
+    "nodes": [
+     "Accident:CEN23LA344"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "NB41": [
+   {
+    "name": "CEN21LA339",
+    "aliases": [],
+    "nodes": [
+     "Accident:CEN21LA339"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "obstructions",
+    "aliases": [],
+    "nodes": [
+     "d4d5907568015f55"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "NB42": [
+   {
+    "name": "CEN21LA353",
+    "aliases": [],
+    "nodes": [
+     "Accident:CEN21LA353"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "runway light",
+    "aliases": [],
+    "nodes": [
+     "b482a32db145c7ab"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "right main landing gear",
+    "aliases": [],
+    "nodes": [
+     "6a696e725fa1c46c"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "NB43": [
+   {
+    "name": "CEN21LA268",
+    "aliases": [],
+    "nodes": [
+     "Accident:CEN21LA268"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "air-conditioning hose",
+    "aliases": [
+     "air conditioning hose"
+    ],
+    "nodes": [
+     "56b7467c8226997a"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "NB44": [
+   {
+    "name": "CEN23LA223",
+    "aliases": [],
+    "nodes": [
+     "Accident:CEN23LA223"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "airstrip",
+    "aliases": [],
+    "nodes": [
+     "a916b51206e38ce0"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "NB45": [
+   {
+    "name": "CEN21LA362",
+    "aliases": [],
+    "nodes": [
+     "Accident:CEN21LA362"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "NB46": [
+   {
+    "name": "CEN21LA221",
+    "aliases": [],
+    "nodes": [
+     "Accident:CEN21LA221"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "engine oil pressure",
+    "aliases": [],
+    "nodes": [
+     "8c467c04f0acf90e"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "NB47": [
+   {
+    "name": "Robinson R44 II",
+    "aliases": [
+     "R44 II"
+    ],
+    "nodes": [
+     "AircraftModel:R44 II"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "CEN21LA173",
+    "aliases": [],
+    "nodes": [
+     "Accident:CEN21LA173"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "NB48": [
+   {
+    "name": "CEN21LA126",
+    "aliases": [],
+    "nodes": [
+     "Accident:CEN21LA126"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "airport manager",
+    "aliases": [],
+    "nodes": [
+     "27ce85c93a913c3c"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "patchy compressed snow",
+    "aliases": [],
+    "nodes": [
+     "ff86793f3e28eab6"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "NB49": [
+   {
+    "name": "CEN21LA353",
+    "aliases": [],
+    "nodes": [
+     "Accident:CEN21LA353"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "service bulletin",
+    "aliases": [],
+    "nodes": [
+     "4d9b37578ebf4e12"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "landing gear attachment hardware",
+    "aliases": [],
+    "nodes": [
+     "cc021dce27bbffa5"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "NB50": [
+   {
+    "name": "Cirrus SR22",
+    "aliases": [
+     "SR22"
+    ],
+    "nodes": [
+     "AircraftModel:SR22"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "CEN21FA299",
+    "aliases": [],
+    "nodes": [
+     "Accident:CEN21FA299"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ]
+ },
+ "findability": {
+  "targets": [
+   {
+    "question": "NB01",
+    "name": "Cessna 172S",
+    "nodes": [
+     "AircraftModel:172S"
+    ],
+    "rank": 1,
+    "top": [
+     "AircraftModel:172S"
+    ]
+   },
+   {
+    "question": "NB01",
+    "name": "right wing",
+    "nodes": [
+     "7c4217880130754f"
+    ],
+    "rank": 1,
+    "top": [
+     "7c4217880130754f",
+     "1771816d7d9e01c2",
+     "d8f7630c50bc2dd0",
+     "ca54f21c14009a31",
+     "d9697a93db34d62a"
+    ]
+   },
+   {
+    "question": "NB02",
+    "name": "window",
+    "nodes": [
+     "41e2fc3bba014678"
+    ],
+    "rank": 1,
+    "top": [
+     "41e2fc3bba014678"
+    ]
+   },
+   {
+    "question": "NB03",
+    "name": "white smoke",
+    "nodes": [
+     "5671d134a1640e92"
+    ],
+    "rank": 1,
+    "top": [
+     "5671d134a1640e92"
+    ]
+   },
+   {
+    "question": "NB04",
+    "name": "Beech A36",
+    "nodes": [
+     "AircraftModel:A36"
+    ],
+    "rank": 1,
+    "top": [
+     "AircraftModel:A36"
+    ]
+   },
+   {
+    "question": "NB04",
+    "name": "cloud layer",
+    "nodes": [
+     "474f2c8501c17b58"
+    ],
+    "rank": 1,
+    "top": [
+     "474f2c8501c17b58"
+    ]
+   },
+   {
+    "question": "NB05",
+    "name": "wire",
+    "nodes": [
+     "ef670a8f173cf95c"
+    ],
+    "rank": 1,
+    "top": [
+     "ef670a8f173cf95c",
+     "0ffc30aa58b84166"
+    ]
+   },
+   {
+    "question": "NB06",
+    "name": "Cirrus airframe parachute system",
+    "nodes": [
+     "2f6da198429e2f04",
+     "7c7fa75d13181d2b"
+    ],
+    "rank": 1,
+    "top": [
+     "2f6da198429e2f04",
+     "7c7fa75d13181d2b",
+     "32b182647915001c",
+     "e134100b52818153",
+     "33b326097a63ceb3"
+    ]
+   },
+   {
+    "question": "NB07",
+    "name": "Northwestern Michigan College",
+    "nodes": [
+     "Aircraft:CEN22LA194"
+    ],
+    "rank": null,
+    "top": []
+   },
+   {
+    "question": "NB08",
+    "name": "fuel starvation",
+    "nodes": [
+     "3438cbf83c62b6e8",
+     "97fd16e8d534e128",
+     "Occurrence:CEN21LA383|2",
+     "Occurrence:CEN22LA059|2",
+     "Occurrence:CEN22LA194|4",
+     "Occurrence:CEN23LA344|2"
+    ],
+    "rank": 1,
+    "top": [
+     "97fd16e8d534e128",
+     "Occurrence:CEN21LA383|2",
+     "Occurrence:CEN22LA059|2",
+     "Occurrence:CEN22LA194|4",
+     "49c428d18cb48bb7"
+    ]
+   },
+   {
+    "question": "NB09",
+    "name": "left tank",
+    "nodes": [
+     "6b05c28b48133240"
+    ],
+    "rank": 1,
+    "top": [
+     "6b05c28b48133240",
+     "0b0d9fb7bfb7564e",
+     "d9697a93db34d62a",
+     "30a67d92f82628da",
+     "c5109f7235f26993"
+    ]
+   },
+   {
+    "question": "NB10",
+    "name": "total loss of engine power",
+    "nodes": [
+     "3e50688f8e79f0a6",
+     "8cb013209a9562ad",
+     "98d89f5da6794b57",
+     "Occurrence:CEN21LA221|1",
+     "Occurrence:CEN21LA221|2",
+     "Occurrence:CEN21LA284|1",
+     "Occurrence:CEN21LA382|1",
+     "Occurrence:CEN21LA414|4",
+     "Occurrence:CEN22LA059|1",
+     "Occurrence:CEN22LA312|1",
+     "d9ee56a31a6da43f",
+     "fb29d9ef8ff35735"
+    ],
+    "rank": 1,
+    "top": [
+     "3e50688f8e79f0a6",
+     "Occurrence:CEN21LA221|1",
+     "Occurrence:CEN21LA284|1",
+     "Occurrence:CEN21LA382|1",
+     "Occurrence:CEN22LA059|1"
+    ]
+   },
+   {
+    "question": "NB13",
+    "name": "Personnel issues-Task performance-Use of equip/info-Aircraft control-Pilot",
+    "nodes": [
+     "Finding:CEN21FA299|1",
+     "Finding:CEN21LA185|4",
+     "Finding:CEN21LA280|1",
+     "Finding:CEN22LA235|3",
+     "Finding:CEN22LA244|1",
+     "Finding:CEN22LA249|4",
+     "Finding:CEN23LA017|1"
+    ],
+    "rank": 1,
+    "top": [
+     "Finding:CEN21FA299|1",
+     "Finding:CEN21LA185|4",
+     "Finding:CEN21LA280|1",
+     "Finding:CEN22LA235|3",
+     "Finding:CEN22LA244|1"
+    ]
+   },
+   {
+    "question": "NB14",
+    "name": "road sign",
+    "nodes": [
+     "f44e2016f84c3547"
+    ],
+    "rank": 1,
+    "top": [
+     "f44e2016f84c3547",
+     "55e13c92d2108bfa",
+     "4e150d4481e0f72b",
+     "f1a42a1ab3b50c38",
+     "Finding:CEN21LA268|6"
+    ]
+   },
+   {
+    "question": "NB15",
+    "name": "fence",
+    "nodes": [
+     "8872dc39c8fd3c58",
+     "9b9ba26f53caa04d",
+     "fa66f9d2c808e3b0"
+    ],
+    "rank": 1,
+    "top": [
+     "fa66f9d2c808e3b0",
+     "031b4f56c9084546",
+     "9b9ba26f53caa04d",
+     "8872dc39c8fd3c58"
+    ]
+   },
+   {
+    "question": "NB15",
+    "name": "fence post",
+    "nodes": [
+     "031b4f56c9084546"
+    ],
+    "rank": 1,
+    "top": [
+     "031b4f56c9084546",
+     "fa66f9d2c808e3b0",
+     "9b9ba26f53caa04d",
+     "8872dc39c8fd3c58"
+    ]
+   },
+   {
+    "question": "NB16",
+    "name": "go-around",
+    "nodes": [
+     "e63fe7fd66598df1"
+    ],
+    "rank": 1,
+    "top": [
+     "e63fe7fd66598df1",
+     "Occurrence:CEN22LA310|4",
+     "Occurrence:CEN21FA299|5",
+     "Occurrence:CEN21LA414|4",
+     "71322f5005e0acc4"
+    ]
+   },
+   {
+    "question": "NB23",
+    "name": "Robinson R44 II",
+    "nodes": [
+     "AircraftModel:R44 II"
+    ],
+    "rank": 1,
+    "top": [
+     "AircraftModel:R44 II"
+    ]
+   },
+   {
+    "question": "NB26",
+    "name": "Cessna 172S",
+    "nodes": [
+     "AircraftModel:172S"
+    ],
+    "rank": 1,
+    "top": [
+     "AircraftModel:172S"
+    ]
+   },
+   {
+    "question": "NB26",
+    "name": "flight instructor",
+    "nodes": [
+     "c3b053aba1ea5746"
+    ],
+    "rank": 2,
+    "top": [
+     "b1715e8b1f1283b3",
+     "c3b053aba1ea5746",
+     "bf4cc2ea74a5ce7f",
+     "fa32db4b56291894",
+     "5c895096561b3375"
+    ]
+   },
+   {
+    "question": "NB27",
+    "name": "road",
+    "nodes": [
+     "4e150d4481e0f72b"
+    ],
+    "rank": 1,
+    "top": [
+     "4e150d4481e0f72b",
+     "f44e2016f84c3547",
+     "55e13c92d2108bfa",
+     "f1a42a1ab3b50c38"
+    ]
+   },
+   {
+    "question": "NB27",
+    "name": "highway",
+    "nodes": [
+     "99f44fe40190628b",
+     "dffff94542f74863"
+    ],
+    "rank": 1,
+    "top": [
+     "99f44fe40190628b",
+     "dffff94542f74863"
+    ]
+   },
+   {
+    "question": "NB28",
+    "name": "Granbury",
+    "nodes": [
+     "Accident:CEN21LA382",
+     "b132927fc352a805"
+    ],
+    "rank": 1,
+    "top": [
+     "b132927fc352a805"
+    ]
+   },
+   {
+    "question": "NB29",
+    "name": "Reserve",
+    "nodes": [
+     "Accident:CEN21LA284",
+     "da8c029e31f46f11"
+    ],
+    "rank": 1,
+    "top": [
+     "da8c029e31f46f11"
+    ]
+   },
+   {
+    "question": "NB30",
+    "name": "CEN21LA283",
+    "nodes": [
+     "Accident:CEN21LA283"
+    ],
+    "rank": 1,
+    "top": [
+     "Accident:CEN21LA283",
+     "Aircraft:CEN21LA283",
+     "CrewMember:CEN21LA283|1",
+     "Finding:CEN21LA283|1",
+     "Finding:CEN21LA283|2"
+    ]
+   },
+   {
+    "question": "NB31",
+    "name": "Robinson R44 II",
+    "nodes": [
+     "AircraftModel:R44 II"
+    ],
+    "rank": 1,
+    "top": [
+     "AircraftModel:R44 II"
+    ]
+   },
+   {
+    "question": "NB31",
+    "name": "Skwentna",
+    "nodes": [
+     "80b8a9080d4ca17f",
+     "Accident:ANC23LA032"
+    ],
+    "rank": 1,
+    "top": [
+     "80b8a9080d4ca17f"
+    ]
+   },
+   {
+    "question": "NB32",
+    "name": "Cirrus SR22",
+    "nodes": [
+     "AircraftModel:SR22"
+    ],
+    "rank": 1,
+    "top": [
+     "AircraftModel:SR22",
+     "2f6da198429e2f04"
+    ]
+   },
+   {
+    "question": "NB32",
+    "name": "go-around",
+    "nodes": [
+     "e63fe7fd66598df1"
+    ],
+    "rank": 1,
+    "top": [
+     "e63fe7fd66598df1",
+     "Occurrence:CEN22LA310|4",
+     "Occurrence:CEN21FA299|5",
+     "Occurrence:CEN21LA414|4",
+     "71322f5005e0acc4"
+    ]
+   },
+   {
+    "question": "NB32",
+    "name": "drainage ditch",
+    "nodes": [
+     "fe92551b6978ef9e"
+    ],
+    "rank": 1,
+    "top": [
+     "fe92551b6978ef9e",
+     "48beaccfae0097b0"
+    ]
+   },
+   {
+    "question": "NB33",
+    "name": "Beech A36",
+    "nodes": [
+     "AircraftModel:A36"
+    ],
+    "rank": 1,
+    "top": [
+     "AircraftModel:A36"
+    ]
+   },
+   {
+    "question": "NB33",
+    "name": "Cleveland",
+    "nodes": [
+     "Accident:CEN22LA059",
+     "a869bd3cba239ba8"
+    ],
+    "rank": 1,
+    "top": [
+     "Accident:CEN22LA059",
+     "a869bd3cba239ba8"
+    ]
+   },
+   {
+    "question": "NB33",
+    "name": "highway",
+    "nodes": [
+     "dffff94542f74863"
+    ],
+    "rank": 2,
+    "top": [
+     "99f44fe40190628b",
+     "dffff94542f74863"
+    ]
+   },
+   {
+    "question": "NB33",
+    "name": "left-wing fuel tanks",
+    "nodes": [
+     "6b05c28b48133240"
+    ],
+    "rank": 1,
+    "top": [
+     "6b05c28b48133240",
+     "ca54f21c14009a31",
+     "d9697a93db34d62a",
+     "c9f4ddc2aded1c66",
+     "ca37058b85030900"
+    ]
+   },
+   {
+    "question": "NB34",
+    "name": "Cessna 172S",
+    "nodes": [
+     "AircraftModel:172S"
+    ],
+    "rank": 1,
+    "top": [
+     "AircraftModel:172S"
+    ]
+   },
+   {
+    "question": "NB34",
+    "name": "Piper PA-28-181",
+    "nodes": [
+     "AircraftModel:PA-28-181"
+    ],
+    "rank": 1,
+    "top": [
+     "AircraftModel:PA-28-181"
+    ]
+   },
+   {
+    "question": "NB34",
+    "name": "touch-and-go",
+    "nodes": [
+     "5803bd3caf73c38e",
+     "71322f5005e0acc4"
+    ],
+    "rank": 1,
+    "top": [
+     "71322f5005e0acc4",
+     "e63fe7fd66598df1",
+     "37cd44af95a53ec0",
+     "5803bd3caf73c38e",
+     "78a04c580e6b6a17"
+    ]
+   },
+   {
+    "question": "NB35",
+    "name": "CEN22LA249",
+    "nodes": [
+     "Accident:CEN22LA249"
+    ],
+    "rank": 1,
+    "top": [
+     "Accident:CEN22LA249",
+     "Aircraft:CEN22LA249",
+     "CrewMember:CEN22LA249|1",
+     "CrewMember:CEN22LA249|2",
+     "Finding:CEN22LA249|3"
+    ]
+   },
+   {
+    "question": "NB36",
+    "name": "fire",
+    "nodes": [
+     "5af5d2ce44763564",
+     "6a275cd01b800f7d"
+    ],
+    "rank": 1,
+    "top": [
+     "6a275cd01b800f7d",
+     "5af5d2ce44763564"
+    ]
+   },
+   {
+    "question": "NB37",
+    "name": "NTSB Pilot/Operator Aircraft Accident/Incident Report",
+    "nodes": [],
+    "rank": null,
+    "top": [
+     "32a410d076b3c45d",
+     "CrewMember:ANC21LA027|1",
+     "CrewMember:ANC21LA079|1",
+     "CrewMember:ANC23LA032|1",
+     "CrewMember:CEN21FA299|1"
+    ]
+   },
+   {
+    "question": "NB38",
+    "name": "fuel tanks",
+    "nodes": [
+     "6b05c28b48133240",
+     "a7bdc01e05bdfe2c",
+     "c9f4ddc2aded1c66"
+    ],
+    "rank": 1,
+    "top": [
+     "c9f4ddc2aded1c66",
+     "6b05c28b48133240",
+     "49c428d18cb48bb7",
+     "ca54f21c14009a31",
+     "e134100b52818153"
+    ]
+   },
+   {
+    "question": "NB39",
+    "name": "CEN21LA232",
+    "nodes": [
+     "Accident:CEN21LA232"
+    ],
+    "rank": 1,
+    "top": [
+     "Accident:CEN21LA232",
+     "Aircraft:CEN21LA232",
+     "CrewMember:CEN21LA232|1",
+     "Finding:CEN21LA232|1",
+     "Occurrence:CEN21LA232|1"
+    ]
+   },
+   {
+    "question": "NB39",
+    "name": "directional gyro",
+    "nodes": [
+     "81d490cdae572436"
+    ],
+    "rank": 1,
+    "top": [
+     "81d490cdae572436",
+     "12bbdd87e592701d",
+     "6eddc2926cef22ce",
+     "Finding:CEN21LA126|2",
+     "Finding:CEN21LA185|3"
+    ]
+   },
+   {
+    "question": "NB40",
+    "name": "CEN23LA344",
+    "nodes": [
+     "Accident:CEN23LA344"
+    ],
+    "rank": 1,
+    "top": [
+     "Accident:CEN23LA344",
+     "Aircraft:CEN23LA344",
+     "CrewMember:CEN23LA344|1",
+     "Finding:CEN23LA344|1",
+     "Finding:CEN23LA344|2"
+    ]
+   },
+   {
+    "question": "NB41",
+    "name": "CEN21LA339",
+    "nodes": [
+     "Accident:CEN21LA339"
+    ],
+    "rank": 1,
+    "top": [
+     "Accident:CEN21LA339",
+     "Aircraft:CEN21LA339",
+     "CrewMember:CEN21LA339|1",
+     "Finding:CEN21LA339|1",
+     "Occurrence:CEN21LA339|2"
+    ]
+   },
+   {
+    "question": "NB41",
+    "name": "obstructions",
+    "nodes": [
+     "d4d5907568015f55"
+    ],
+    "rank": 1,
+    "top": [
+     "d4d5907568015f55"
+    ]
+   },
+   {
+    "question": "NB42",
+    "name": "CEN21LA353",
+    "nodes": [
+     "Accident:CEN21LA353"
+    ],
+    "rank": 1,
+    "top": [
+     "Accident:CEN21LA353",
+     "Aircraft:CEN21LA353",
+     "CrewMember:CEN21LA353|1",
+     "CrewMember:CEN21LA353|2",
+     "Finding:CEN21LA353|1"
+    ]
+   },
+   {
+    "question": "NB42",
+    "name": "runway light",
+    "nodes": [
+     "b482a32db145c7ab"
+    ],
+    "rank": 1,
+    "top": [
+     "b482a32db145c7ab",
+     "9c40617e422a73ed",
+     "afa3589609734abc",
+     "84878760f300f8eb",
+     "4d806ad6ceb32e79"
+    ]
+   },
+   {
+    "question": "NB42",
+    "name": "right main landing gear",
+    "nodes": [
+     "6a696e725fa1c46c"
+    ],
+    "rank": 1,
+    "top": [
+     "6a696e725fa1c46c",
+     "6359ccc342d3384c",
+     "95812ce13ff50511",
+     "65b19cf0c8ef1b0b",
+     "56624087df97c1c0"
+    ]
+   },
+   {
+    "question": "NB43",
+    "name": "CEN21LA268",
+    "nodes": [
+     "Accident:CEN21LA268"
+    ],
+    "rank": 1,
+    "top": [
+     "Accident:CEN21LA268",
+     "Aircraft:CEN21LA268",
+     "CrewMember:CEN21LA268|1",
+     "Finding:CEN21LA268|2",
+     "Finding:CEN21LA268|3"
+    ]
+   },
+   {
+    "question": "NB43",
+    "name": "air-conditioning hose",
+    "nodes": [
+     "56b7467c8226997a"
+    ],
+    "rank": 1,
+    "top": [
+     "56b7467c8226997a",
+     "83fa63c0f136c329",
+     "b464678670e4fe4a",
+     "fb931eed52b91d76",
+     "a56b4cfcc037d8da"
+    ]
+   },
+   {
+    "question": "NB44",
+    "name": "CEN23LA223",
+    "nodes": [
+     "Accident:CEN23LA223"
+    ],
+    "rank": 1,
+    "top": [
+     "Accident:CEN23LA223",
+     "Aircraft:CEN23LA223",
+     "CrewMember:CEN23LA223|1",
+     "Finding:CEN23LA223|1",
+     "Occurrence:CEN23LA223|2"
+    ]
+   },
+   {
+    "question": "NB44",
+    "name": "airstrip",
+    "nodes": [
+     "a916b51206e38ce0"
+    ],
+    "rank": 1,
+    "top": [
+     "a916b51206e38ce0"
+    ]
+   },
+   {
+    "question": "NB45",
+    "name": "CEN21LA362",
+    "nodes": [
+     "Accident:CEN21LA362"
+    ],
+    "rank": 1,
+    "top": [
+     "Accident:CEN21LA362",
+     "Aircraft:CEN21LA362",
+     "CrewMember:CEN21LA362|1",
+     "Finding:CEN21LA362|1",
+     "Finding:CEN21LA362|4"
+    ]
+   },
+   {
+    "question": "NB46",
+    "name": "CEN21LA221",
+    "nodes": [
+     "Accident:CEN21LA221"
+    ],
+    "rank": 1,
+    "top": [
+     "Accident:CEN21LA221",
+     "Aircraft:CEN21LA221",
+     "CrewMember:CEN21LA221|1",
+     "Finding:CEN21LA221|1",
+     "Finding:CEN21LA221|2"
+    ]
+   },
+   {
+    "question": "NB46",
+    "name": "engine oil pressure",
+    "nodes": [
+     "8c467c04f0acf90e"
+    ],
+    "rank": 1,
+    "top": [
+     "8c467c04f0acf90e",
+     "3bfbaa1fb22fa2d4",
+     "dcd43bd3a381ee91",
+     "9444da478221529f",
+     "28c9a86204a891bf"
+    ]
+   },
+   {
+    "question": "NB47",
+    "name": "Robinson R44 II",
+    "nodes": [
+     "AircraftModel:R44 II"
+    ],
+    "rank": 1,
+    "top": [
+     "AircraftModel:R44 II"
+    ]
+   },
+   {
+    "question": "NB47",
+    "name": "CEN21LA173",
+    "nodes": [
+     "Accident:CEN21LA173"
+    ],
+    "rank": 1,
+    "top": [
+     "Accident:CEN21LA173",
+     "Aircraft:CEN21LA173",
+     "CrewMember:CEN21LA173|1",
+     "Finding:CEN21LA173|2",
+     "Finding:CEN21LA173|3"
+    ]
+   },
+   {
+    "question": "NB48",
+    "name": "CEN21LA126",
+    "nodes": [
+     "Accident:CEN21LA126"
+    ],
+    "rank": 1,
+    "top": [
+     "Accident:CEN21LA126",
+     "Aircraft:CEN21LA126",
+     "CrewMember:CEN21LA126|1",
+     "Finding:CEN21LA126|1",
+     "Finding:CEN21LA126|2"
+    ]
+   },
+   {
+    "question": "NB48",
+    "name": "airport manager",
+    "nodes": [
+     "27ce85c93a913c3c"
+    ],
+    "rank": 1,
+    "top": [
+     "27ce85c93a913c3c",
+     "49b4c1b1c1dc8ad9",
+     "33443c24c0418c5a",
+     "9854392caf5dbcb2",
+     "Accident:CEN22LA312"
+    ]
+   },
+   {
+    "question": "NB48",
+    "name": "patchy compressed snow",
+    "nodes": [
+     "ff86793f3e28eab6"
+    ],
+    "rank": 1,
+    "top": [
+     "ff86793f3e28eab6",
+     "84102707f0daeece",
+     "b520c8ef889bb5ea",
+     "e8c53ce4c7660292",
+     "4c97c4935e083d06"
+    ]
+   },
+   {
+    "question": "NB49",
+    "name": "CEN21LA353",
+    "nodes": [
+     "Accident:CEN21LA353"
+    ],
+    "rank": 1,
+    "top": [
+     "Accident:CEN21LA353",
+     "Aircraft:CEN21LA353",
+     "CrewMember:CEN21LA353|1",
+     "CrewMember:CEN21LA353|2",
+     "Finding:CEN21LA353|1"
+    ]
+   },
+   {
+    "question": "NB49",
+    "name": "service bulletin",
+    "nodes": [
+     "4d9b37578ebf4e12"
+    ],
+    "rank": 1,
+    "top": [
+     "4d9b37578ebf4e12",
+     "Finding:CEN22LA194|2"
+    ]
+   },
+   {
+    "question": "NB49",
+    "name": "landing gear attachment hardware",
+    "nodes": [
+     "cc021dce27bbffa5"
+    ],
+    "rank": 1,
+    "top": [
+     "cc021dce27bbffa5",
+     "6359ccc342d3384c",
+     "65b19cf0c8ef1b0b",
+     "56624087df97c1c0",
+     "b58a5d5d082fd72d"
+    ]
+   },
+   {
+    "question": "NB50",
+    "name": "Cirrus SR22",
+    "nodes": [
+     "AircraftModel:SR22"
+    ],
+    "rank": 1,
+    "top": [
+     "AircraftModel:SR22",
+     "2f6da198429e2f04"
+    ]
+   },
+   {
+    "question": "NB50",
+    "name": "CEN21FA299",
+    "nodes": [
+     "Accident:CEN21FA299"
+    ],
+    "rank": 1,
+    "top": [
+     "Accident:CEN21FA299",
+     "Aircraft:CEN21FA299",
+     "CrewMember:CEN21FA299|1",
+     "CrewMember:CEN21FA299|2",
+     "Finding:CEN21FA299|1"
+    ]
+   }
+  ],
+  "unplaced": 1,
+  "hit_at": {
+   "1": {
+    "k": 62,
+    "n": 66,
+    "rate": 0.9393939393939394,
+    "low": 0.8542688489926583,
+    "high": 0.9761817706953214
+   },
+   "5": {
+    "k": 64,
+    "n": 66,
+    "rate": 0.9696969696969697,
+    "low": 0.8960728112941316,
+    "high": 0.9916502649240535
+   }
+  }
+ },
+ "reach": {
+  "gold_start": {
+   "mode": "gold_start",
+   "questions": [
+    {
+     "question": "NB01",
+     "type": "multi_hop",
+     "gold": [
+      "documents/cessna_172s_accidents.md#0"
+     ],
+     "starts": [
+      "7c4217880130754f",
+      "AircraftModel:172S"
+     ],
+     "ranked": [
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#3",
+      "documents/cessna_172s_accidents.md#0",
+      "documents/cessna_172s_accidents.md#1",
+      "documents/cessna_172s_accidents.md#2",
+      "documents/cessna_172s_accidents.md#3",
+      "documents/cessna_172s_accidents.md#4",
+      "documents/cirrus_sr22_accidents.md#2",
+      "documents/piper_pa_28_181_accidents.md#0",
+      "documents/piper_pa_28_181_accidents.md#5"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB02",
+     "type": "multi_hop",
+     "gold": [
+      "documents/cessna_172s_accidents.md#1"
+     ],
+     "starts": [
+      "41e2fc3bba014678"
+     ],
+     "ranked": [
+      "documents/cessna_172s_accidents.md#1",
+      "documents/cessna_172s_accidents.md#0",
+      "documents/cessna_172s_accidents.md#2",
+      "documents/cessna_172s_accidents.md#3",
+      "documents/cessna_172s_accidents.md#4",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#4"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB03",
+     "type": "multi_hop",
+     "gold": [
+      "documents/air_tractor_at_502b_accidents.md#4"
+     ],
+     "starts": [
+      "5671d134a1640e92"
+     ],
+     "ranked": [
+      "documents/air_tractor_at_502b_accidents.md#4",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#5",
+      "documents/beech_a36_accidents.md#0",
+      "documents/beech_a36_accidents.md#1",
+      "documents/beech_a36_accidents.md#2",
+      "documents/beech_a36_accidents.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB04",
+     "type": "multi_hop",
+     "gold": [
+      "documents/beech_a36_accidents.md#4"
+     ],
+     "starts": [
+      "474f2c8501c17b58",
+      "AircraftModel:A36"
+     ],
+     "ranked": [
+      "documents/beech_a36_accidents.md#0",
+      "documents/beech_a36_accidents.md#1",
+      "documents/beech_a36_accidents.md#2",
+      "documents/beech_a36_accidents.md#3",
+      "documents/beech_a36_accidents.md#4",
+      "documents/beech_a36_accidents.md#5",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB05",
+     "type": "multi_hop",
+     "gold": [
+      "documents/robinson_r44_ii_accidents.md#4"
+     ],
+     "starts": [
+      "ef670a8f173cf95c"
+     ],
+     "ranked": [
+      "documents/robinson_r44_ii_accidents.md#4",
+      "documents/robinson_r44_ii_accidents.md#0",
+      "documents/robinson_r44_ii_accidents.md#1",
+      "documents/robinson_r44_ii_accidents.md#2",
+      "documents/robinson_r44_ii_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#4"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB06",
+     "type": "multi_hop",
+     "gold": [
+      "documents/cirrus_sr22_accidents.md#1"
+     ],
+     "starts": [
+      "2f6da198429e2f04",
+      "7c7fa75d13181d2b"
+     ],
+     "ranked": [
+      "documents/cirrus_sr22_accidents.md#1",
+      "documents/cirrus_sr22_accidents.md#0",
+      "documents/cirrus_sr22_accidents.md#2",
+      "documents/cirrus_sr22_accidents.md#3",
+      "documents/cirrus_sr22_accidents.md#4",
+      "documents/cirrus_sr22_accidents.md#5",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB09",
+     "type": "multi_hop",
+     "gold": [
+      "documents/piper_pa_28_181_accidents.md#3"
+     ],
+     "starts": [
+      "6b05c28b48133240"
+     ],
+     "ranked": [
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/beech_a36_accidents.md#3",
+      "documents/beech_a36_accidents.md#4",
+      "documents/piper_pa_28_181_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#4",
+      "documents/air_tractor_at_502b_accidents.md#5",
+      "documents/beech_a36_accidents.md#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB14",
+     "type": "aggregation",
+     "gold": [
+      "documents/beech_a36_accidents.md#3",
+      "documents/cessna_172s_accidents.md#1"
+     ],
+     "starts": [
+      "f44e2016f84c3547"
+     ],
+     "ranked": [
+      "documents/beech_a36_accidents.md#3",
+      "documents/cessna_172s_accidents.md#1",
+      "documents/beech_a36_accidents.md#0",
+      "documents/beech_a36_accidents.md#1",
+      "documents/beech_a36_accidents.md#2",
+      "documents/beech_a36_accidents.md#4",
+      "documents/beech_a36_accidents.md#5",
+      "documents/cessna_172s_accidents.md#0",
+      "documents/cessna_172s_accidents.md#2",
+      "documents/cessna_172s_accidents.md#3"
+     ],
+     "hits": {
+      "5": 2,
+      "10": 2
+     },
+     "reached": 2
+    },
+    {
+     "question": "NB15",
+     "type": "aggregation",
+     "gold": [
+      "documents/air_tractor_at_502b_accidents.md#4",
+      "documents/cessna_172s_accidents.md#3",
+      "documents/cirrus_sr22_accidents.md#3",
+      "documents/piper_pa_28_181_accidents.md#3"
+     ],
+     "starts": [
+      "031b4f56c9084546",
+      "8872dc39c8fd3c58",
+      "9b9ba26f53caa04d",
+      "fa66f9d2c808e3b0"
+     ],
+     "ranked": [
+      "documents/air_tractor_at_502b_accidents.md#4",
+      "documents/cessna_172s_accidents.md#3",
+      "documents/cirrus_sr22_accidents.md#3",
+      "documents/piper_pa_28_181_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#5",
+      "documents/cessna_172s_accidents.md#0"
+     ],
+     "hits": {
+      "5": 4,
+      "10": 4
+     },
+     "reached": 4
+    },
+    {
+     "question": "NB16",
+     "type": "aggregation",
+     "gold": [
+      "documents/air_tractor_at_502b_accidents.md#3",
+      "documents/cessna_172s_accidents.md#2",
+      "documents/cirrus_sr22_accidents.md#0",
+      "documents/cirrus_sr22_accidents.md#2",
+      "documents/cirrus_sr22_accidents.md#4"
+     ],
+     "starts": [
+      "e63fe7fd66598df1"
+     ],
+     "ranked": [
+      "documents/air_tractor_at_502b_accidents.md#3",
+      "documents/cirrus_sr22_accidents.md#0",
+      "documents/cirrus_sr22_accidents.md#2",
+      "documents/cirrus_sr22_accidents.md#4",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#4",
+      "documents/air_tractor_at_502b_accidents.md#5",
+      "documents/beech_a36_accidents.md#0"
+     ],
+     "hits": {
+      "5": 4,
+      "10": 4
+     },
+     "reached": 5
+    },
+    {
+     "question": "NB26",
+     "type": "structured_filter",
+     "gold": [
+      "documents/cessna_172s_accidents.md#2",
+      "documents/cessna_172s_accidents.md#3",
+      "documents/cessna_172s_accidents.md#4"
+     ],
+     "starts": [
+      "AircraftModel:172S",
+      "c3b053aba1ea5746"
+     ],
+     "ranked": [
+      "documents/cessna_172s_accidents.md#0",
+      "documents/cessna_172s_accidents.md#1",
+      "documents/cessna_172s_accidents.md#2",
+      "documents/cessna_172s_accidents.md#3",
+      "documents/cessna_172s_accidents.md#4",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#4"
+     ],
+     "hits": {
+      "5": 3,
+      "10": 3
+     },
+     "reached": 3
+    },
+    {
+     "question": "NB27",
+     "type": "structured_filter",
+     "gold": [
+      "documents/beech_a36_accidents.md#3",
+      "documents/beech_a36_accidents.md#4",
+      "documents/cessna_172s_accidents.md#1"
+     ],
+     "starts": [
+      "4e150d4481e0f72b",
+      "99f44fe40190628b",
+      "dffff94542f74863"
+     ],
+     "ranked": [
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/beech_a36_accidents.md#3",
+      "documents/beech_a36_accidents.md#4",
+      "documents/cessna_172s_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#4",
+      "documents/air_tractor_at_502b_accidents.md#5",
+      "documents/beech_a36_accidents.md#0"
+     ],
+     "hits": {
+      "5": 3,
+      "10": 3
+     },
+     "reached": 3
+    },
+    {
+     "question": "NB32",
+     "type": "disambiguation",
+     "gold": [
+      "documents/cirrus_sr22_accidents.md#0",
+      "documents/cirrus_sr22_accidents.md#2"
+     ],
+     "starts": [
+      "AircraftModel:SR22",
+      "e63fe7fd66598df1",
+      "fe92551b6978ef9e"
+     ],
+     "ranked": [
+      "documents/air_tractor_at_502b_accidents.md#3",
+      "documents/cirrus_sr22_accidents.md#0",
+      "documents/cirrus_sr22_accidents.md#1",
+      "documents/cirrus_sr22_accidents.md#2",
+      "documents/cirrus_sr22_accidents.md#3",
+      "documents/cirrus_sr22_accidents.md#4",
+      "documents/cirrus_sr22_accidents.md#5",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#2"
+     ],
+     "hits": {
+      "5": 2,
+      "10": 2
+     },
+     "reached": 2
+    },
+    {
+     "question": "NB33",
+     "type": "disambiguation",
+     "gold": [
+      "documents/beech_a36_accidents.md#3"
+     ],
+     "starts": [
+      "6b05c28b48133240",
+      "Accident:CEN22LA059",
+      "AircraftModel:A36",
+      "a869bd3cba239ba8",
+      "dffff94542f74863"
+     ],
+     "ranked": [
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/beech_a36_accidents.md#0",
+      "documents/beech_a36_accidents.md#1",
+      "documents/beech_a36_accidents.md#2",
+      "documents/beech_a36_accidents.md#3",
+      "documents/beech_a36_accidents.md#4",
+      "documents/beech_a36_accidents.md#5",
+      "documents/piper_pa_28_181_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#2"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB34",
+     "type": "disambiguation",
+     "gold": [
+      "documents/cessna_172s_accidents.md#0",
+      "documents/piper_pa_28_181_accidents.md#5"
+     ],
+     "starts": [
+      "5803bd3caf73c38e",
+      "71322f5005e0acc4",
+      "AircraftModel:172S",
+      "AircraftModel:PA-28-181"
+     ],
+     "ranked": [
+      "documents/cessna_172s_accidents.md#0",
+      "documents/cessna_172s_accidents.md#1",
+      "documents/cessna_172s_accidents.md#2",
+      "documents/cessna_172s_accidents.md#3",
+      "documents/cessna_172s_accidents.md#4",
+      "documents/piper_pa_28_181_accidents.md#0",
+      "documents/piper_pa_28_181_accidents.md#1",
+      "documents/piper_pa_28_181_accidents.md#2",
+      "documents/piper_pa_28_181_accidents.md#3",
+      "documents/piper_pa_28_181_accidents.md#4"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 2
+    },
+    {
+     "question": "NB35",
+     "type": "disambiguation",
+     "gold": [
+      "documents/piper_pa_28_181_accidents.md#4"
+     ],
+     "starts": [
+      "Accident:CEN22LA249"
+     ],
+     "ranked": [
+      "documents/piper_pa_28_181_accidents.md#4",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#4",
+      "documents/air_tractor_at_502b_accidents.md#5",
+      "documents/beech_a36_accidents.md#2",
+      "documents/cessna_172s_accidents.md#2",
+      "documents/cirrus_sr22_accidents.md#3",
+      "documents/piper_pa_28_181_accidents.md#0",
+      "documents/piper_pa_28_181_accidents.md#1",
+      "documents/piper_pa_28_181_accidents.md#2"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB36",
+     "type": "negation_sensitive",
+     "gold": [
+      "documents/cessna_172s_accidents.md#1",
+      "documents/cirrus_sr22_accidents.md#0"
+     ],
+     "starts": [
+      "5af5d2ce44763564",
+      "6a275cd01b800f7d"
+     ],
+     "ranked": [
+      "documents/cirrus_sr22_accidents.md#0",
+      "documents/cirrus_sr22_accidents.md#1",
+      "documents/cirrus_sr22_accidents.md#2",
+      "documents/cirrus_sr22_accidents.md#3",
+      "documents/cirrus_sr22_accidents.md#4",
+      "documents/cirrus_sr22_accidents.md#5",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 2
+    },
+    {
+     "question": "NB37",
+     "type": "negation_sensitive",
+     "gold": [
+      "documents/beech_a36_accidents.md#0",
+      "documents/piper_pa_28_181_accidents.md#4",
+      "documents/robinson_r44_ii_accidents.md#4"
+     ],
+     "starts": [],
+     "ranked": [],
+     "hits": {
+      "5": 0,
+      "10": 0
+     },
+     "reached": 0
+    },
+    {
+     "question": "NB38",
+     "type": "negation_sensitive",
+     "gold": [
+      "documents/beech_a36_accidents.md#4",
+      "documents/piper_pa_28_181_accidents.md#3"
+     ],
+     "starts": [
+      "6b05c28b48133240",
+      "a7bdc01e05bdfe2c",
+      "c9f4ddc2aded1c66"
+     ],
+     "ranked": [
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/beech_a36_accidents.md#2",
+      "documents/beech_a36_accidents.md#3",
+      "documents/beech_a36_accidents.md#4",
+      "documents/piper_pa_28_181_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#4",
+      "documents/air_tractor_at_502b_accidents.md#5"
+     ],
+     "hits": {
+      "5": 2,
+      "10": 2
+     },
+     "reached": 2
+    },
+    {
+     "question": "NB39",
+     "type": "negation_sensitive",
+     "gold": [
+      "documents/cirrus_sr22_accidents.md#1"
+     ],
+     "starts": [
+      "81d490cdae572436",
+      "Accident:CEN21LA232"
+     ],
+     "ranked": [
+      "documents/cirrus_sr22_accidents.md#1",
+      "documents/cirrus_sr22_accidents.md#0",
+      "documents/cirrus_sr22_accidents.md#2",
+      "documents/cirrus_sr22_accidents.md#3",
+      "documents/cirrus_sr22_accidents.md#4",
+      "documents/cirrus_sr22_accidents.md#5",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB40",
+     "type": "negation_sensitive",
+     "gold": [
+      "documents/beech_a36_accidents.md#4"
+     ],
+     "starts": [
+      "Accident:CEN23LA344"
+     ],
+     "ranked": [
+      "documents/beech_a36_accidents.md#4",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#4",
+      "documents/air_tractor_at_502b_accidents.md#5",
+      "documents/beech_a36_accidents.md#0",
+      "documents/beech_a36_accidents.md#1",
+      "documents/beech_a36_accidents.md#2"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB41",
+     "type": "negation_sensitive",
+     "gold": [
+      "documents/robinson_r44_ii_accidents.md#4"
+     ],
+     "starts": [
+      "Accident:CEN21LA339",
+      "d4d5907568015f55"
+     ],
+     "ranked": [
+      "documents/robinson_r44_ii_accidents.md#0",
+      "documents/robinson_r44_ii_accidents.md#4",
+      "documents/robinson_r44_ii_accidents.md#1",
+      "documents/robinson_r44_ii_accidents.md#2",
+      "documents/robinson_r44_ii_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#4"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB42",
+     "type": "negation_sensitive",
+     "gold": [
+      "documents/piper_pa_28_181_accidents.md#1"
+     ],
+     "starts": [
+      "6a696e725fa1c46c",
+      "Accident:CEN21LA353",
+      "b482a32db145c7ab"
+     ],
+     "ranked": [
+      "documents/piper_pa_28_181_accidents.md#1",
+      "documents/piper_pa_28_181_accidents.md#0",
+      "documents/piper_pa_28_181_accidents.md#2",
+      "documents/piper_pa_28_181_accidents.md#3",
+      "documents/piper_pa_28_181_accidents.md#4",
+      "documents/piper_pa_28_181_accidents.md#5",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB43",
+     "type": "lookup",
+     "gold": [
+      "documents/cessna_172s_accidents.md#1"
+     ],
+     "starts": [
+      "56b7467c8226997a",
+      "Accident:CEN21LA268"
+     ],
+     "ranked": [
+      "documents/cessna_172s_accidents.md#1",
+      "documents/beech_a36_accidents.md#1",
+      "documents/beech_a36_accidents.md#4",
+      "documents/cessna_172s_accidents.md#0",
+      "documents/cessna_172s_accidents.md#2",
+      "documents/cessna_172s_accidents.md#3",
+      "documents/cessna_172s_accidents.md#4",
+      "documents/piper_pa_28_181_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB44",
+     "type": "lookup",
+     "gold": [
+      "documents/air_tractor_at_502b_accidents.md#5"
+     ],
+     "starts": [
+      "Accident:CEN23LA223",
+      "a916b51206e38ce0"
+     ],
+     "ranked": [
+      "documents/air_tractor_at_502b_accidents.md#5",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#4",
+      "documents/beech_a36_accidents.md#0",
+      "documents/beech_a36_accidents.md#1",
+      "documents/beech_a36_accidents.md#2",
+      "documents/beech_a36_accidents.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB45",
+     "type": "lookup",
+     "gold": [
+      "documents/air_tractor_at_502b_accidents.md#1"
+     ],
+     "starts": [
+      "Accident:CEN21LA362"
+     ],
+     "ranked": [
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#4",
+      "documents/air_tractor_at_502b_accidents.md#5",
+      "documents/beech_a36_accidents.md#0",
+      "documents/beech_a36_accidents.md#1",
+      "documents/beech_a36_accidents.md#2",
+      "documents/beech_a36_accidents.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB46",
+     "type": "lookup",
+     "gold": [
+      "documents/beech_a36_accidents.md#1"
+     ],
+     "starts": [
+      "8c467c04f0acf90e",
+      "Accident:CEN21LA221"
+     ],
+     "ranked": [
+      "documents/beech_a36_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#4",
+      "documents/air_tractor_at_502b_accidents.md#5",
+      "documents/beech_a36_accidents.md#0",
+      "documents/beech_a36_accidents.md#2",
+      "documents/beech_a36_accidents.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB47",
+     "type": "lookup",
+     "gold": [
+      "documents/robinson_r44_ii_accidents.md#2"
+     ],
+     "starts": [
+      "Accident:CEN21LA173",
+      "AircraftModel:R44 II"
+     ],
+     "ranked": [
+      "documents/robinson_r44_ii_accidents.md#0",
+      "documents/robinson_r44_ii_accidents.md#1",
+      "documents/robinson_r44_ii_accidents.md#2",
+      "documents/robinson_r44_ii_accidents.md#3",
+      "documents/robinson_r44_ii_accidents.md#4",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#4"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB48",
+     "type": "lookup",
+     "gold": [
+      "documents/cessna_172s_accidents.md#0"
+     ],
+     "starts": [
+      "27ce85c93a913c3c",
+      "Accident:CEN21LA126",
+      "ff86793f3e28eab6"
+     ],
+     "ranked": [
+      "documents/cessna_172s_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#3",
+      "documents/cessna_172s_accidents.md#1",
+      "documents/cessna_172s_accidents.md#2",
+      "documents/cessna_172s_accidents.md#3",
+      "documents/cessna_172s_accidents.md#4",
+      "documents/cirrus_sr22_accidents.md#2",
+      "documents/piper_pa_28_181_accidents.md#0",
+      "documents/piper_pa_28_181_accidents.md#5"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB49",
+     "type": "lookup",
+     "gold": [
+      "documents/piper_pa_28_181_accidents.md#1"
+     ],
+     "starts": [
+      "4d9b37578ebf4e12",
+      "Accident:CEN21LA353",
+      "cc021dce27bbffa5"
+     ],
+     "ranked": [
+      "documents/piper_pa_28_181_accidents.md#1",
+      "documents/piper_pa_28_181_accidents.md#2",
+      "documents/piper_pa_28_181_accidents.md#0",
+      "documents/piper_pa_28_181_accidents.md#3",
+      "documents/piper_pa_28_181_accidents.md#4",
+      "documents/piper_pa_28_181_accidents.md#5",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    }
+   ],
+   "no_start": [],
+   "recall_at": {
+    "5": {
+     "k": 42,
+     "n": 48,
+     "rate": 0.875,
+     "low": 0.7529927291394518,
+     "high": 0.9414302824959915
+    },
+    "10": {
+     "k": 42,
+     "n": 48,
+     "rate": 0.875,
+     "low": 0.7529927291394518,
+     "high": 0.9414302824959915
+    }
+   },
+   "complete_at": {
+    "5": {
+     "k": 26,
+     "n": 30,
+     "rate": 0.8666666666666667,
+     "low": 0.7031831605558306,
+     "high": 0.9469043057578189
+    },
+    "10": {
+     "k": 26,
+     "n": 30,
+     "rate": 0.8666666666666667,
+     "low": 0.7031831605558306,
+     "high": 0.9469043057578189
+    }
+   },
+   "reached": {
+    "k": 45,
+    "n": 48,
+    "rate": 0.9375,
+    "low": 0.8316430233725778,
+    "high": 0.9785171568687727
+   }
+  },
+  "end_to_end": {
+   "mode": "end_to_end",
+   "questions": [
+    {
+     "question": "NB01",
+     "type": "multi_hop",
+     "gold": [
+      "documents/cessna_172s_accidents.md#0"
+     ],
+     "starts": [
+      "7c4217880130754f",
+      "AircraftModel:172S"
+     ],
+     "ranked": [
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#3",
+      "documents/cessna_172s_accidents.md#0",
+      "documents/cessna_172s_accidents.md#1",
+      "documents/cessna_172s_accidents.md#2",
+      "documents/cessna_172s_accidents.md#3",
+      "documents/cessna_172s_accidents.md#4",
+      "documents/cirrus_sr22_accidents.md#2",
+      "documents/piper_pa_28_181_accidents.md#0",
+      "documents/piper_pa_28_181_accidents.md#5"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB02",
+     "type": "multi_hop",
+     "gold": [
+      "documents/cessna_172s_accidents.md#1"
+     ],
+     "starts": [
+      "41e2fc3bba014678"
+     ],
+     "ranked": [
+      "documents/cessna_172s_accidents.md#1",
+      "documents/cessna_172s_accidents.md#0",
+      "documents/cessna_172s_accidents.md#2",
+      "documents/cessna_172s_accidents.md#3",
+      "documents/cessna_172s_accidents.md#4",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#4"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB03",
+     "type": "multi_hop",
+     "gold": [
+      "documents/air_tractor_at_502b_accidents.md#4"
+     ],
+     "starts": [
+      "5671d134a1640e92"
+     ],
+     "ranked": [
+      "documents/air_tractor_at_502b_accidents.md#4",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#5",
+      "documents/beech_a36_accidents.md#0",
+      "documents/beech_a36_accidents.md#1",
+      "documents/beech_a36_accidents.md#2",
+      "documents/beech_a36_accidents.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB04",
+     "type": "multi_hop",
+     "gold": [
+      "documents/beech_a36_accidents.md#4"
+     ],
+     "starts": [
+      "474f2c8501c17b58",
+      "AircraftModel:A36"
+     ],
+     "ranked": [
+      "documents/beech_a36_accidents.md#0",
+      "documents/beech_a36_accidents.md#1",
+      "documents/beech_a36_accidents.md#2",
+      "documents/beech_a36_accidents.md#3",
+      "documents/beech_a36_accidents.md#4",
+      "documents/beech_a36_accidents.md#5",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB05",
+     "type": "multi_hop",
+     "gold": [
+      "documents/robinson_r44_ii_accidents.md#4"
+     ],
+     "starts": [
+      "ef670a8f173cf95c"
+     ],
+     "ranked": [
+      "documents/robinson_r44_ii_accidents.md#4",
+      "documents/robinson_r44_ii_accidents.md#0",
+      "documents/robinson_r44_ii_accidents.md#1",
+      "documents/robinson_r44_ii_accidents.md#2",
+      "documents/robinson_r44_ii_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#4"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB06",
+     "type": "multi_hop",
+     "gold": [
+      "documents/cirrus_sr22_accidents.md#1"
+     ],
+     "starts": [
+      "2f6da198429e2f04"
+     ],
+     "ranked": [
+      "documents/cirrus_sr22_accidents.md#1",
+      "documents/cirrus_sr22_accidents.md#0",
+      "documents/cirrus_sr22_accidents.md#2",
+      "documents/cirrus_sr22_accidents.md#3",
+      "documents/cirrus_sr22_accidents.md#4",
+      "documents/cirrus_sr22_accidents.md#5",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB09",
+     "type": "multi_hop",
+     "gold": [
+      "documents/piper_pa_28_181_accidents.md#3"
+     ],
+     "starts": [
+      "6b05c28b48133240"
+     ],
+     "ranked": [
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/beech_a36_accidents.md#3",
+      "documents/beech_a36_accidents.md#4",
+      "documents/piper_pa_28_181_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#4",
+      "documents/air_tractor_at_502b_accidents.md#5",
+      "documents/beech_a36_accidents.md#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB14",
+     "type": "aggregation",
+     "gold": [
+      "documents/beech_a36_accidents.md#3",
+      "documents/cessna_172s_accidents.md#1"
+     ],
+     "starts": [
+      "f44e2016f84c3547"
+     ],
+     "ranked": [
+      "documents/beech_a36_accidents.md#3",
+      "documents/cessna_172s_accidents.md#1",
+      "documents/beech_a36_accidents.md#0",
+      "documents/beech_a36_accidents.md#1",
+      "documents/beech_a36_accidents.md#2",
+      "documents/beech_a36_accidents.md#4",
+      "documents/beech_a36_accidents.md#5",
+      "documents/cessna_172s_accidents.md#0",
+      "documents/cessna_172s_accidents.md#2",
+      "documents/cessna_172s_accidents.md#3"
+     ],
+     "hits": {
+      "5": 2,
+      "10": 2
+     },
+     "reached": 2
+    },
+    {
+     "question": "NB15",
+     "type": "aggregation",
+     "gold": [
+      "documents/air_tractor_at_502b_accidents.md#4",
+      "documents/cessna_172s_accidents.md#3",
+      "documents/cirrus_sr22_accidents.md#3",
+      "documents/piper_pa_28_181_accidents.md#3"
+     ],
+     "starts": [
+      "031b4f56c9084546",
+      "fa66f9d2c808e3b0"
+     ],
+     "ranked": [
+      "documents/cirrus_sr22_accidents.md#3",
+      "documents/piper_pa_28_181_accidents.md#3",
+      "documents/cirrus_sr22_accidents.md#0",
+      "documents/cirrus_sr22_accidents.md#1",
+      "documents/cirrus_sr22_accidents.md#2",
+      "documents/cirrus_sr22_accidents.md#4",
+      "documents/cirrus_sr22_accidents.md#5",
+      "documents/piper_pa_28_181_accidents.md#0",
+      "documents/piper_pa_28_181_accidents.md#1",
+      "documents/piper_pa_28_181_accidents.md#2"
+     ],
+     "hits": {
+      "5": 2,
+      "10": 2
+     },
+     "reached": 4
+    },
+    {
+     "question": "NB16",
+     "type": "aggregation",
+     "gold": [
+      "documents/air_tractor_at_502b_accidents.md#3",
+      "documents/cessna_172s_accidents.md#2",
+      "documents/cirrus_sr22_accidents.md#0",
+      "documents/cirrus_sr22_accidents.md#2",
+      "documents/cirrus_sr22_accidents.md#4"
+     ],
+     "starts": [
+      "e63fe7fd66598df1"
+     ],
+     "ranked": [
+      "documents/air_tractor_at_502b_accidents.md#3",
+      "documents/cirrus_sr22_accidents.md#0",
+      "documents/cirrus_sr22_accidents.md#2",
+      "documents/cirrus_sr22_accidents.md#4",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#4",
+      "documents/air_tractor_at_502b_accidents.md#5",
+      "documents/beech_a36_accidents.md#0"
+     ],
+     "hits": {
+      "5": 4,
+      "10": 4
+     },
+     "reached": 5
+    },
+    {
+     "question": "NB26",
+     "type": "structured_filter",
+     "gold": [
+      "documents/cessna_172s_accidents.md#2",
+      "documents/cessna_172s_accidents.md#3",
+      "documents/cessna_172s_accidents.md#4"
+     ],
+     "starts": [
+      "AircraftModel:172S",
+      "b1715e8b1f1283b3"
+     ],
+     "ranked": [
+      "documents/cessna_172s_accidents.md#0",
+      "documents/cessna_172s_accidents.md#1",
+      "documents/cessna_172s_accidents.md#2",
+      "documents/cessna_172s_accidents.md#3",
+      "documents/cessna_172s_accidents.md#4",
+      "documents/piper_pa_28_181_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3"
+     ],
+     "hits": {
+      "5": 3,
+      "10": 3
+     },
+     "reached": 3
+    },
+    {
+     "question": "NB27",
+     "type": "structured_filter",
+     "gold": [
+      "documents/beech_a36_accidents.md#3",
+      "documents/beech_a36_accidents.md#4",
+      "documents/cessna_172s_accidents.md#1"
+     ],
+     "starts": [
+      "4e150d4481e0f72b",
+      "99f44fe40190628b"
+     ],
+     "ranked": [
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/beech_a36_accidents.md#4",
+      "documents/cessna_172s_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#4",
+      "documents/air_tractor_at_502b_accidents.md#5",
+      "documents/beech_a36_accidents.md#0",
+      "documents/beech_a36_accidents.md#1"
+     ],
+     "hits": {
+      "5": 2,
+      "10": 2
+     },
+     "reached": 3
+    },
+    {
+     "question": "NB32",
+     "type": "disambiguation",
+     "gold": [
+      "documents/cirrus_sr22_accidents.md#0",
+      "documents/cirrus_sr22_accidents.md#2"
+     ],
+     "starts": [
+      "AircraftModel:SR22",
+      "e63fe7fd66598df1",
+      "fe92551b6978ef9e"
+     ],
+     "ranked": [
+      "documents/air_tractor_at_502b_accidents.md#3",
+      "documents/cirrus_sr22_accidents.md#0",
+      "documents/cirrus_sr22_accidents.md#1",
+      "documents/cirrus_sr22_accidents.md#2",
+      "documents/cirrus_sr22_accidents.md#3",
+      "documents/cirrus_sr22_accidents.md#4",
+      "documents/cirrus_sr22_accidents.md#5",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#2"
+     ],
+     "hits": {
+      "5": 2,
+      "10": 2
+     },
+     "reached": 2
+    },
+    {
+     "question": "NB33",
+     "type": "disambiguation",
+     "gold": [
+      "documents/beech_a36_accidents.md#3"
+     ],
+     "starts": [
+      "6b05c28b48133240",
+      "99f44fe40190628b",
+      "Accident:CEN22LA059",
+      "AircraftModel:A36"
+     ],
+     "ranked": [
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/beech_a36_accidents.md#0",
+      "documents/beech_a36_accidents.md#1",
+      "documents/beech_a36_accidents.md#2",
+      "documents/beech_a36_accidents.md#3",
+      "documents/beech_a36_accidents.md#4",
+      "documents/beech_a36_accidents.md#5",
+      "documents/cessna_172s_accidents.md#1",
+      "documents/piper_pa_28_181_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB34",
+     "type": "disambiguation",
+     "gold": [
+      "documents/cessna_172s_accidents.md#0",
+      "documents/piper_pa_28_181_accidents.md#5"
+     ],
+     "starts": [
+      "71322f5005e0acc4",
+      "AircraftModel:172S",
+      "AircraftModel:PA-28-181"
+     ],
+     "ranked": [
+      "documents/cessna_172s_accidents.md#0",
+      "documents/cessna_172s_accidents.md#1",
+      "documents/cessna_172s_accidents.md#2",
+      "documents/cessna_172s_accidents.md#3",
+      "documents/cessna_172s_accidents.md#4",
+      "documents/piper_pa_28_181_accidents.md#0",
+      "documents/piper_pa_28_181_accidents.md#1",
+      "documents/piper_pa_28_181_accidents.md#2",
+      "documents/piper_pa_28_181_accidents.md#3",
+      "documents/piper_pa_28_181_accidents.md#4"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 2
+    },
+    {
+     "question": "NB35",
+     "type": "disambiguation",
+     "gold": [
+      "documents/piper_pa_28_181_accidents.md#4"
+     ],
+     "starts": [
+      "Accident:CEN22LA249"
+     ],
+     "ranked": [
+      "documents/piper_pa_28_181_accidents.md#4",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#4",
+      "documents/air_tractor_at_502b_accidents.md#5",
+      "documents/beech_a36_accidents.md#2",
+      "documents/cessna_172s_accidents.md#2",
+      "documents/cirrus_sr22_accidents.md#3",
+      "documents/piper_pa_28_181_accidents.md#0",
+      "documents/piper_pa_28_181_accidents.md#1",
+      "documents/piper_pa_28_181_accidents.md#2"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB36",
+     "type": "negation_sensitive",
+     "gold": [
+      "documents/cessna_172s_accidents.md#1",
+      "documents/cirrus_sr22_accidents.md#0"
+     ],
+     "starts": [
+      "6a275cd01b800f7d"
+     ],
+     "ranked": [
+      "documents/cirrus_sr22_accidents.md#0",
+      "documents/beech_a36_accidents.md#0",
+      "documents/beech_a36_accidents.md#4",
+      "documents/cessna_172s_accidents.md#0",
+      "documents/cirrus_sr22_accidents.md#1",
+      "documents/cirrus_sr22_accidents.md#2",
+      "documents/cirrus_sr22_accidents.md#3",
+      "documents/cirrus_sr22_accidents.md#4",
+      "documents/cirrus_sr22_accidents.md#5",
+      "documents/piper_pa_28_181_accidents.md#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 2
+    },
+    {
+     "question": "NB37",
+     "type": "negation_sensitive",
+     "gold": [
+      "documents/beech_a36_accidents.md#0",
+      "documents/piper_pa_28_181_accidents.md#4",
+      "documents/robinson_r44_ii_accidents.md#4"
+     ],
+     "starts": [
+      "32a410d076b3c45d"
+     ],
+     "ranked": [
+      "documents/robinson_r44_ii_accidents.md#4",
+      "documents/robinson_r44_ii_accidents.md#0",
+      "documents/robinson_r44_ii_accidents.md#1",
+      "documents/robinson_r44_ii_accidents.md#2",
+      "documents/robinson_r44_ii_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#4"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 3
+    },
+    {
+     "question": "NB38",
+     "type": "negation_sensitive",
+     "gold": [
+      "documents/beech_a36_accidents.md#4",
+      "documents/piper_pa_28_181_accidents.md#3"
+     ],
+     "starts": [
+      "c9f4ddc2aded1c66"
+     ],
+     "ranked": [
+      "documents/beech_a36_accidents.md#2",
+      "documents/piper_pa_28_181_accidents.md#3",
+      "documents/beech_a36_accidents.md#0",
+      "documents/beech_a36_accidents.md#1",
+      "documents/beech_a36_accidents.md#3",
+      "documents/beech_a36_accidents.md#4",
+      "documents/beech_a36_accidents.md#5",
+      "documents/piper_pa_28_181_accidents.md#0",
+      "documents/piper_pa_28_181_accidents.md#1",
+      "documents/piper_pa_28_181_accidents.md#2"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 2
+     },
+     "reached": 2
+    },
+    {
+     "question": "NB39",
+     "type": "negation_sensitive",
+     "gold": [
+      "documents/cirrus_sr22_accidents.md#1"
+     ],
+     "starts": [
+      "81d490cdae572436",
+      "Accident:CEN21LA232"
+     ],
+     "ranked": [
+      "documents/cirrus_sr22_accidents.md#1",
+      "documents/cirrus_sr22_accidents.md#0",
+      "documents/cirrus_sr22_accidents.md#2",
+      "documents/cirrus_sr22_accidents.md#3",
+      "documents/cirrus_sr22_accidents.md#4",
+      "documents/cirrus_sr22_accidents.md#5",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB40",
+     "type": "negation_sensitive",
+     "gold": [
+      "documents/beech_a36_accidents.md#4"
+     ],
+     "starts": [
+      "Accident:CEN23LA344"
+     ],
+     "ranked": [
+      "documents/beech_a36_accidents.md#4",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#4",
+      "documents/air_tractor_at_502b_accidents.md#5",
+      "documents/beech_a36_accidents.md#0",
+      "documents/beech_a36_accidents.md#1",
+      "documents/beech_a36_accidents.md#2"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB41",
+     "type": "negation_sensitive",
+     "gold": [
+      "documents/robinson_r44_ii_accidents.md#4"
+     ],
+     "starts": [
+      "Accident:CEN21LA339",
+      "d4d5907568015f55"
+     ],
+     "ranked": [
+      "documents/robinson_r44_ii_accidents.md#0",
+      "documents/robinson_r44_ii_accidents.md#4",
+      "documents/robinson_r44_ii_accidents.md#1",
+      "documents/robinson_r44_ii_accidents.md#2",
+      "documents/robinson_r44_ii_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#4"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB42",
+     "type": "negation_sensitive",
+     "gold": [
+      "documents/piper_pa_28_181_accidents.md#1"
+     ],
+     "starts": [
+      "6a696e725fa1c46c",
+      "Accident:CEN21LA353",
+      "b482a32db145c7ab"
+     ],
+     "ranked": [
+      "documents/piper_pa_28_181_accidents.md#1",
+      "documents/piper_pa_28_181_accidents.md#0",
+      "documents/piper_pa_28_181_accidents.md#2",
+      "documents/piper_pa_28_181_accidents.md#3",
+      "documents/piper_pa_28_181_accidents.md#4",
+      "documents/piper_pa_28_181_accidents.md#5",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB43",
+     "type": "lookup",
+     "gold": [
+      "documents/cessna_172s_accidents.md#1"
+     ],
+     "starts": [
+      "56b7467c8226997a",
+      "Accident:CEN21LA268"
+     ],
+     "ranked": [
+      "documents/cessna_172s_accidents.md#1",
+      "documents/beech_a36_accidents.md#1",
+      "documents/beech_a36_accidents.md#4",
+      "documents/cessna_172s_accidents.md#0",
+      "documents/cessna_172s_accidents.md#2",
+      "documents/cessna_172s_accidents.md#3",
+      "documents/cessna_172s_accidents.md#4",
+      "documents/piper_pa_28_181_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB44",
+     "type": "lookup",
+     "gold": [
+      "documents/air_tractor_at_502b_accidents.md#5"
+     ],
+     "starts": [
+      "Accident:CEN23LA223",
+      "a916b51206e38ce0"
+     ],
+     "ranked": [
+      "documents/air_tractor_at_502b_accidents.md#5",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#4",
+      "documents/beech_a36_accidents.md#0",
+      "documents/beech_a36_accidents.md#1",
+      "documents/beech_a36_accidents.md#2",
+      "documents/beech_a36_accidents.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB45",
+     "type": "lookup",
+     "gold": [
+      "documents/air_tractor_at_502b_accidents.md#1"
+     ],
+     "starts": [
+      "Accident:CEN21LA362"
+     ],
+     "ranked": [
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#4",
+      "documents/air_tractor_at_502b_accidents.md#5",
+      "documents/beech_a36_accidents.md#0",
+      "documents/beech_a36_accidents.md#1",
+      "documents/beech_a36_accidents.md#2",
+      "documents/beech_a36_accidents.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB46",
+     "type": "lookup",
+     "gold": [
+      "documents/beech_a36_accidents.md#1"
+     ],
+     "starts": [
+      "8c467c04f0acf90e",
+      "Accident:CEN21LA221"
+     ],
+     "ranked": [
+      "documents/beech_a36_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#4",
+      "documents/air_tractor_at_502b_accidents.md#5",
+      "documents/beech_a36_accidents.md#0",
+      "documents/beech_a36_accidents.md#2",
+      "documents/beech_a36_accidents.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB47",
+     "type": "lookup",
+     "gold": [
+      "documents/robinson_r44_ii_accidents.md#2"
+     ],
+     "starts": [
+      "Accident:CEN21LA173",
+      "AircraftModel:R44 II"
+     ],
+     "ranked": [
+      "documents/robinson_r44_ii_accidents.md#0",
+      "documents/robinson_r44_ii_accidents.md#1",
+      "documents/robinson_r44_ii_accidents.md#2",
+      "documents/robinson_r44_ii_accidents.md#3",
+      "documents/robinson_r44_ii_accidents.md#4",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3",
+      "documents/air_tractor_at_502b_accidents.md#4"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB48",
+     "type": "lookup",
+     "gold": [
+      "documents/cessna_172s_accidents.md#0"
+     ],
+     "starts": [
+      "27ce85c93a913c3c",
+      "Accident:CEN21LA126",
+      "ff86793f3e28eab6"
+     ],
+     "ranked": [
+      "documents/cessna_172s_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#3",
+      "documents/cessna_172s_accidents.md#1",
+      "documents/cessna_172s_accidents.md#2",
+      "documents/cessna_172s_accidents.md#3",
+      "documents/cessna_172s_accidents.md#4",
+      "documents/cirrus_sr22_accidents.md#2",
+      "documents/piper_pa_28_181_accidents.md#0",
+      "documents/piper_pa_28_181_accidents.md#5"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "NB49",
+     "type": "lookup",
+     "gold": [
+      "documents/piper_pa_28_181_accidents.md#1"
+     ],
+     "starts": [
+      "4d9b37578ebf4e12",
+      "Accident:CEN21LA353",
+      "cc021dce27bbffa5"
+     ],
+     "ranked": [
+      "documents/piper_pa_28_181_accidents.md#1",
+      "documents/piper_pa_28_181_accidents.md#2",
+      "documents/piper_pa_28_181_accidents.md#0",
+      "documents/piper_pa_28_181_accidents.md#3",
+      "documents/piper_pa_28_181_accidents.md#4",
+      "documents/piper_pa_28_181_accidents.md#5",
+      "documents/air_tractor_at_502b_accidents.md#0",
+      "documents/air_tractor_at_502b_accidents.md#1",
+      "documents/air_tractor_at_502b_accidents.md#2",
+      "documents/air_tractor_at_502b_accidents.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    }
+   ],
+   "no_start": [],
+   "recall_at": {
+    "5": {
+     "k": 39,
+     "n": 48,
+     "rate": 0.8125,
+     "low": 0.6805986065115378,
+     "high": 0.8980872365179983
+    },
+    "10": {
+     "k": 40,
+     "n": 48,
+     "rate": 0.8333333333333334,
+     "low": 0.7042189996260375,
+     "high": 0.9130458996054678
+    }
+   },
+   "complete_at": {
+    "5": {
+     "k": 23,
+     "n": 30,
+     "rate": 0.7666666666666667,
+     "low": 0.5907132766967574,
+     "high": 0.8820776078949878
+    },
+    "10": {
+     "k": 24,
+     "n": 30,
+     "rate": 0.8,
+     "low": 0.6269395261897256,
+     "high": 0.9049502189759876
+    }
+   },
+   "reached": {
+    "k": 48,
+    "n": 48,
+    "rate": 1.0,
+    "low": 0.9258973488472576,
+    "high": 0.9999999999999999
+   }
+  }
+ },
+ "selectivity": {
+  "nodes": 182,
+  "corpus": 34,
+  "median_share": 0.029411764705882353,
+  "p90_share": 0.08823529411764706,
+  "hubs": [
+   {
+    "node": "3bfbaa1fb22fa2d4",
+    "chunks": 13,
+    "share": 0.38235294117647056
+   },
+   {
+    "node": "7c4217880130754f",
+    "chunks": 7,
+    "share": 0.20588235294117646
+   },
+   {
+    "node": "9c40617e422a73ed",
+    "chunks": 7,
+    "share": 0.20588235294117646
+   }
+  ]
+ },
+ "connectivity": {
+  "questions": [
+   {
+    "question": "NB01",
+    "gold": [
+     "documents/cessna_172s_accidents.md#0"
+    ],
+    "unreached": []
+   },
+   {
+    "question": "NB02",
+    "gold": [
+     "documents/cessna_172s_accidents.md#1"
+    ],
+    "unreached": []
+   },
+   {
+    "question": "NB03",
+    "gold": [
+     "documents/air_tractor_at_502b_accidents.md#4"
+    ],
+    "unreached": []
+   },
+   {
+    "question": "NB04",
+    "gold": [
+     "documents/beech_a36_accidents.md#4"
+    ],
+    "unreached": []
+   },
+   {
+    "question": "NB05",
+    "gold": [
+     "documents/robinson_r44_ii_accidents.md#4"
+    ],
+    "unreached": []
+   },
+   {
+    "question": "NB06",
+    "gold": [
+     "documents/cirrus_sr22_accidents.md#1"
+    ],
+    "unreached": []
+   },
+   {
+    "question": "NB09",
+    "gold": [
+     "documents/piper_pa_28_181_accidents.md#3"
+    ],
+    "unreached": []
+   }
+  ],
+  "connections": {
+   "k": 7,
+   "n": 7,
+   "rate": 1.0,
+   "low": 0.6456611570247934,
+   "high": 1.0
+  },
+  "thing_hops": 3360,
+  "unwitnessed_hops": 117,
+  "unwitnessed_examples": [
+   "6eddc2926cef22ce -claim- AircraftModel:PA-28-181 (documents/piper_pa_28_181_accidents.md#2)",
+   "6eddc2926cef22ce -claim- cc021dce27bbffa5 (documents/piper_pa_28_181_accidents.md#2)",
+   "6eddc2926cef22ce -claim- f6a014cbd70aef8c (documents/piper_pa_28_181_accidents.md#2)",
+   "1c87e0d908b5afc9 -claim- e0891663ecf421bd (documents/piper_pa_28_181_accidents.md#5)",
+   "Accident:CEN23LA026 -claim- e0891663ecf421bd (documents/piper_pa_28_181_accidents.md#5)",
+   "Aircraft:CEN23LA026 -claim- e0891663ecf421bd (documents/piper_pa_28_181_accidents.md#5)",
+   "AircraftModel:PA-28-181 -claim- e0891663ecf421bd (documents/piper_pa_28_181_accidents.md#5)",
+   "e0891663ecf421bd -claim- f188192de0820546 (documents/piper_pa_28_181_accidents.md#5)",
+   "1c87e0d908b5afc9 -claim- e0891663ecf421bd (documents/piper_pa_28_181_accidents.md#5)",
+   "Accident:CEN23LA026 -claim- e0891663ecf421bd (documents/piper_pa_28_181_accidents.md#5)"
+  ]
+ },
+ "size": {
+  "chunks": 34,
+  "nodes": 1901,
+  "edges": 4267,
+  "nodes_per_chunk": 55.911764705882355,
+  "edges_per_chunk": 125.5,
+  "cost_usd": 0.463853,
+  "tokens": 300935.0
+ }
+}

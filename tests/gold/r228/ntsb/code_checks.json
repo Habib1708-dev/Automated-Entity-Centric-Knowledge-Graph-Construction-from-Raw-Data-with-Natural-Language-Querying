@@ -1,0 +1,672 @@
+{
+  "provenance": {
+    "extracted.chunk_exists": {
+      "k": 293,
+      "n": 293,
+      "rate": 1.0,
+      "low": 0.9870584176880869,
+      "high": 1.0
+    },
+    "extracted.doc_consistent": {
+      "k": 293,
+      "n": 293,
+      "rate": 1.0,
+      "low": 0.9870584176880869,
+      "high": 1.0
+    },
+    "extracted.evidence_in_chunk": {
+      "k": 293,
+      "n": 293,
+      "rate": 1.0,
+      "low": 0.9870584176880869,
+      "high": 1.0
+    },
+    "extracted.ends_grounded": {
+      "k": 293,
+      "n": 293,
+      "rate": 1.0,
+      "low": 0.9870584176880869,
+      "high": 1.0
+    },
+    "extracted.mention_in_chunk": {
+      "k": 226,
+      "n": 226,
+      "rate": 1.0,
+      "low": 0.9832858803628236,
+      "high": 0.9999999999999999
+    },
+    "pass.mention_in_chunk": {
+      "k": 475,
+      "n": 475,
+      "rate": 1.0,
+      "low": 0.991977305229955,
+      "high": 1.0
+    }
+  },
+  "provenance_misses": {
+    "extracted.chunk_exists": [],
+    "extracted.doc_consistent": [],
+    "extracted.evidence_in_chunk": [],
+    "extracted.ends_grounded": [],
+    "extracted.mention_in_chunk": [],
+    "pass.mention_in_chunk": []
+  },
+  "flags": [
+    {
+      "kind": "compound_name",
+      "item": "8463bf63f317 -> b9b630d43a3e08de",
+      "graph": "(b9b630d43a3e08de \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot’s failure to identify rising terrain and to maintain terrain clearance from trees during an aerial application pass that resulted in an in-flight collision with trees and terrain FOUND_FOR CEN21LA283)",
+      "text": "Probable cause: The pilot’s failure to identify rising terrain and to maintain terrain clearance from trees during an aerial application pass that resulted in an in-flight collision with trees and terrain."
+    },
+    {
+      "kind": "compound_name",
+      "item": "9ba5cf538f51 -> b9b630d43a3e08de",
+      "graph": "(b9b630d43a3e08de \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot’s failure to identify rising terrain and to maintain terrain clearance from trees during an aerial application pass that resulted in an in-flight collision with trees and terrain CITED_CREW pilot)",
+      "text": "Probable cause: The pilot’s failure to identify rising terrain and to maintain terrain clearance from trees during an aerial application pass that resulted in an in-flight collision with trees and terrain."
+    },
+    {
+      "kind": "compound_name",
+      "item": "af9b51818047 -> b9b630d43a3e08de",
+      "graph": "(b9b630d43a3e08de \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot’s failure to identify rising terrain and to maintain terrain clearance from trees during an aerial application pass that resulted in an in-flight collision with trees and terrain CITED_CONDITION rising terrain)",
+      "text": "Probable cause: The pilot’s failure to identify rising terrain and to maintain terrain clearance from trees during an aerial application pass that resulted in an in-flight collision with trees and terrain."
+    },
+    {
+      "kind": "compound_name",
+      "item": "6ea1d3516f85 -> b9b630d43a3e08de",
+      "graph": "(b9b630d43a3e08de \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot’s decision to continue low-level aerial application flight maneuvers after the low fuel warning light illuminated, which resulted in a partial loss of engine power due to fuel exhaustion CITED_CREW pilot)",
+      "text": "The pilot’s decision to continue low-level aerial application flight maneuvers after the low fuel warning light illuminated, which resulted in a partial loss of engine power due to fuel exhaustion."
+    },
+    {
+      "kind": "compound_name",
+      "item": "1a67a0f89fab -> b9b630d43a3e08de",
+      "graph": "(b9b630d43a3e08de \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot’s decision to continue low-level aerial application flight maneuvers after the low fuel warning light illuminated, which resulted in a partial loss of engine power due to fuel exhaustion CITED_COMPONENT engine)",
+      "text": "The pilot’s decision to continue low-level aerial application flight maneuvers after the low fuel warning light illuminated, which resulted in a partial loss of engine power due to fuel exhaustion."
+    },
+    {
+      "kind": "compound_name",
+      "item": "7ec928f063ba -> b9b630d43a3e08de",
+      "graph": "(b9b630d43a3e08de \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot’s decision to continue low-level aerial application flight maneuvers after the low fuel warning light illuminated, which resulted in a partial loss of engine power due to fuel exhaustion CITED_COMPONENT low fuel warning light)",
+      "text": "The pilot’s decision to continue low-level aerial application flight maneuvers after the low fuel warning light illuminated, which resulted in a partial loss of engine power due to fuel exhaustion."
+    },
+    {
+      "kind": "compound_name",
+      "item": "df6bdb1e4201 -> b9b630d43a3e08de",
+      "graph": "(b9b630d43a3e08de \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(pilot’s improper landing flare, which resulted in a hard, bounced landing FOUND_FOR CEN22LA310)",
+      "text": "Probable cause: The pilot’s improper landing flare, which resulted in a hard, bounced landing."
+    },
+    {
+      "kind": "compound_name",
+      "item": "abe87734a099 -> b9b630d43a3e08de",
+      "graph": "(b9b630d43a3e08de \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(pilot’s improper landing flare, which resulted in a hard, bounced landing CITED_CREW pilot)",
+      "text": "Probable cause: The pilot’s improper landing flare, which resulted in a hard, bounced landing."
+    },
+    {
+      "kind": "compound_name",
+      "item": "041a241008cd -> d8ee29ca50db0b22",
+      "graph": "(d8ee29ca50db0b22 \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(pilot-rated passenger ON_BOARD airplane)",
+      "text": "On short final a pilot-rated passenger seated in the right front seat recommended adding power."
+    },
+    {
+      "kind": "compound_name",
+      "item": "2a883297d731 -> d8ee29ca50db0b22",
+      "graph": "(d8ee29ca50db0b22 \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot's misidentification of the airport’s active runway, which resulted in an off runway landing and a collision with a snow berm FOUND_FOR ANC21LA027)",
+      "text": "Probable cause: The pilot's misidentification of the airport’s active runway, which resulted in an off runway landing and a collision with a snow berm."
+    },
+    {
+      "kind": "compound_name",
+      "item": "f20bd571c2ff -> d8ee29ca50db0b22",
+      "graph": "(d8ee29ca50db0b22 \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot's misidentification of the airport’s active runway, which resulted in an off runway landing and a collision with a snow berm CITED_CREW pilot)",
+      "text": "Probable cause: The pilot's misidentification of the airport’s active runway, which resulted in an off runway landing and a collision with a snow berm."
+    },
+    {
+      "kind": "compound_name",
+      "item": "a81088f41888 -> d874c662fb0a424d",
+      "graph": "(d874c662fb0a424d \"airplane\")-[:HAS_OBSERVATION {key_in_sentence}]->(airplane’s engine COMPONENT_OF airplane)",
+      "text": "shortly after departure the airplane’s engine lost power."
+    },
+    {
+      "kind": "compound_name",
+      "item": "ddc879bff757 -> d874c662fb0a424d",
+      "graph": "(d874c662fb0a424d \"airplane\")-[:HAS_OBSERVATION {key_in_sentence}]->(pilot ON_BOARD airplane)",
+      "text": "The pilot reported that shortly after departure the airplane’s engine lost power. The pilot selected a nearby field for a forced landing."
+    },
+    {
+      "kind": "compound_name",
+      "item": "8f4c1f9cc1e3 -> d874c662fb0a424d",
+      "graph": "(d874c662fb0a424d \"airplane\")-[:HAS_OBSERVATION {key_in_sentence}]->(engine COMPONENT_OF airplane)",
+      "text": "the airplane’s engine lost power suddenly."
+    },
+    {
+      "kind": "compound_name",
+      "item": "87fdac11c139 -> d874c662fb0a424d",
+      "graph": "(d874c662fb0a424d \"airplane\")-[:HAS_OBSERVATION {key_in_sentence}]->(pilot INVOLVED_IN CEN22LA059)",
+      "text": "The pilot reported that while in cruise flight, the airplane’s engine lost power suddenly."
+    },
+    {
+      "kind": "compound_name",
+      "item": "684b14f99018 -> d874c662fb0a424d",
+      "graph": "(d874c662fb0a424d \"airplane\")-[:HAS_OBSERVATION {key_in_sentence}]->(airplane OF_MODEL Beech A36)",
+      "text": "The pilot reported that while in cruise flight, the airplane’s engine lost power suddenly."
+    },
+    {
+      "kind": "compound_name",
+      "item": "c73931fdf297 -> d874c662fb0a424d",
+      "graph": "(d874c662fb0a424d \"airplane\")-[:HAS_OBSERVATION {key_in_sentence}]->(pilot ON_BOARD airplane)",
+      "text": "As the airplane descended through the cloud layer, the pilot switched back to the left fuel tank and then focused his attention on maintaining airplane control."
+    },
+    {
+      "kind": "compound_name",
+      "item": "c05a7d13454f -> d8ee29ca50db0b22",
+      "graph": "(d8ee29ca50db0b22 \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(Contributing to the accident of the pilot’s failure to use his checklist to address the loss of engine power CITED_CREW pilot)",
+      "text": "Contributing to the accident of the pilot’s failure to use his checklist to address the loss of engine power."
+    },
+    {
+      "kind": "compound_name",
+      "item": "77a463ee913a -> 04b5d0885a2debee",
+      "graph": "(04b5d0885a2debee \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(student pilot INVOLVED_IN CEN21LA126)",
+      "text": "The student pilot reported that he was 0n a solo cross-country flight and the takeoff, climb, and en route portions of the flight were uneventful. He expected to perform a touch-and-go landing at the accident airport."
+    },
+    {
+      "kind": "compound_name",
+      "item": "53437b049cee -> 04b5d0885a2debee",
+      "graph": "(04b5d0885a2debee \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(student pilot ON_BOARD airplane)",
+      "text": "The student pilot stated that there were no mechanical anomalies with the airplane that would have precluded normal operations."
+    },
+    {
+      "kind": "compound_name",
+      "item": "5d961750dd4a -> 5177f8c2cdafda4d",
+      "graph": "(5177f8c2cdafda4d \"student pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The student pilot’s loss of directional control during landing which resulted in an impact with a snowbank FOUND_FOR CEN21LA126)",
+      "text": "Probable cause: The student pilot’s loss of directional control during landing which resulted in an impact with a snowbank."
+    },
+    {
+      "kind": "compound_name",
+      "item": "5d961750dd4a -> 04b5d0885a2debee",
+      "graph": "(04b5d0885a2debee \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The student pilot’s loss of directional control during landing which resulted in an impact with a snowbank FOUND_FOR CEN21LA126)",
+      "text": "Probable cause: The student pilot’s loss of directional control during landing which resulted in an impact with a snowbank."
+    },
+    {
+      "kind": "compound_name",
+      "item": "fa2e7004a9f8 -> 5177f8c2cdafda4d",
+      "graph": "(5177f8c2cdafda4d \"student pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The student pilot’s loss of directional control during landing which resulted in an impact with a snowbank CITED_CREW student pilot)",
+      "text": "Probable cause: The student pilot’s loss of directional control during landing which resulted in an impact with a snowbank."
+    },
+    {
+      "kind": "compound_name",
+      "item": "fa2e7004a9f8 -> 04b5d0885a2debee",
+      "graph": "(04b5d0885a2debee \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The student pilot’s loss of directional control during landing which resulted in an impact with a snowbank CITED_CREW student pilot)",
+      "text": "Probable cause: The student pilot’s loss of directional control during landing which resulted in an impact with a snowbank."
+    },
+    {
+      "kind": "compound_name",
+      "item": "bdad08b6a42a -> 04b5d0885a2debee",
+      "graph": "(04b5d0885a2debee \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(flight instructor INVOLVED_IN CEN21LA414)",
+      "text": "The flight instructor and student pilot were conducting a simulated off-field emergency landing as part of a pre-solo cross-country progress check."
+    },
+    {
+      "kind": "compound_name",
+      "item": "8a25bc0ad153 -> 04b5d0885a2debee",
+      "graph": "(04b5d0885a2debee \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(student pilot INVOLVED_IN CEN21LA414)",
+      "text": "The flight instructor and student pilot were conducting a simulated off-field emergency landing as part of a pre-solo cross-country progress check."
+    },
+    {
+      "kind": "compound_name",
+      "item": "d83ca2efd604 -> 04b5d0885a2debee",
+      "graph": "(04b5d0885a2debee \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(pilot receiving instruction INVOLVED_IN CEN22LA194)",
+      "text": "The pilot receiving instruction was on a visual approach to the runway during an instructional flight, at which time the engine lost total power."
+    },
+    {
+      "kind": "compound_name",
+      "item": "c02e7c36907c -> 04b5d0885a2debee",
+      "graph": "(04b5d0885a2debee \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot’s poor pitch control during an aborted takeoff which resulted in a hard landing FOUND_FOR CEN22LA244)",
+      "text": "Probable cause: The pilot’s poor pitch control during an aborted takeoff which resulted in a hard landing."
+    },
+    {
+      "kind": "compound_name",
+      "item": "297c3c3bbd69 -> 04b5d0885a2debee",
+      "graph": "(04b5d0885a2debee \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot’s poor pitch control during an aborted takeoff which resulted in a hard landing CITED_CREW pilot)",
+      "text": "Probable cause: The pilot’s poor pitch control during an aborted takeoff which resulted in a hard landing."
+    },
+    {
+      "kind": "compound_name",
+      "item": "fefac85b5bf1 -> b162d41162e73cec",
+      "graph": "(b162d41162e73cec \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot did not maintain aircraft control during an attempted go-around after a bounced landing, which resulted in impact with terrain and a postimpact fire FOUND_FOR CEN21FA299)",
+      "text": "Probable cause: The pilot did not maintain aircraft control during an attempted go-around after a bounced landing, which resulted in impact with terrain and a postimpact fire."
+    },
+    {
+      "kind": "compound_name",
+      "item": "d1560ba82d14 -> b162d41162e73cec",
+      "graph": "(b162d41162e73cec \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot did not maintain aircraft control during an attempted go-around after a bounced landing, which resulted in impact with terrain and a postimpact fire CITED_CREW pilot)",
+      "text": "Probable cause: The pilot did not maintain aircraft control during an attempted go-around after a bounced landing, which resulted in impact with terrain and a postimpact fire."
+    },
+    {
+      "kind": "compound_name",
+      "item": "569afe4ada4d -> b162d41162e73cec",
+      "graph": "(b162d41162e73cec \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(An inflight instrument malfunction for reasons that could not be determined based on available information, which led to the pilot’s decision to activate the airframe parachute system FOUND_FOR CEN21LA232)",
+      "text": "Probable cause: An inflight instrument malfunction for reasons that could not be determined based on available information, which led to the pilot’s decision to activate the airframe parachute system."
+    },
+    {
+      "kind": "compound_name",
+      "item": "c551d6934844 -> b162d41162e73cec",
+      "graph": "(b162d41162e73cec \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(An inflight instrument malfunction for reasons that could not be determined based on available information, which led to the pilot’s decision to activate the airframe parachute system CITED_CREW pilot)",
+      "text": "Probable cause: An inflight instrument malfunction for reasons that could not be determined based on available information, which led to the pilot’s decision to activate the airframe parachute system."
+    },
+    {
+      "kind": "compound_name",
+      "item": "1a4a36f42d37 -> b162d41162e73cec",
+      "graph": "(b162d41162e73cec \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(An inflight instrument malfunction for reasons that could not be determined based on available information, which led to the pilot’s decision to activate the airframe parachute system CITED_COMPONENT airframe parachute system)",
+      "text": "Probable cause: An inflight instrument malfunction for reasons that could not be determined based on available information, which led to the pilot’s decision to activate the airframe parachute system."
+    },
+    {
+      "kind": "compound_name",
+      "item": "2534385e11b6 -> b162d41162e73cec",
+      "graph": "(b162d41162e73cec \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot's failure to maintain directional control during landing with gusting wind FOUND_FOR CEN21LA280)",
+      "text": "Probable cause: The pilot's failure to maintain directional control during landing with gusting wind."
+    },
+    {
+      "kind": "compound_name",
+      "item": "1dfe0ccf456b -> b162d41162e73cec",
+      "graph": "(b162d41162e73cec \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot's failure to maintain directional control during landing with gusting wind CITED_CREW pilot)",
+      "text": "Probable cause: The pilot's failure to maintain directional control during landing with gusting wind."
+    },
+    {
+      "kind": "compound_name",
+      "item": "cf5a850c24d9 -> b162d41162e73cec",
+      "graph": "(b162d41162e73cec \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot's failure to maintain directional control during landing with gusting wind CITED_CONDITION gusting wind)",
+      "text": "Probable cause: The pilot's failure to maintain directional control during landing with gusting wind."
+    },
+    {
+      "kind": "compound_name",
+      "item": "652533a05496 -> e0836fb35cd91983",
+      "graph": "(e0836fb35cd91983 \"airplane\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot was not able to stop the airplane on a wet runway due to hydroplaning FOUND_FOR CEN22LA235)",
+      "text": "Probable cause: The pilot was not able to stop the airplane on a wet runway due to hydroplaning."
+    },
+    {
+      "kind": "compound_name",
+      "item": "652533a05496 -> b162d41162e73cec",
+      "graph": "(b162d41162e73cec \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot was not able to stop the airplane on a wet runway due to hydroplaning FOUND_FOR CEN22LA235)",
+      "text": "Probable cause: The pilot was not able to stop the airplane on a wet runway due to hydroplaning."
+    },
+    {
+      "kind": "compound_name",
+      "item": "a34a3d644669 -> e0836fb35cd91983",
+      "graph": "(e0836fb35cd91983 \"airplane\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot was not able to stop the airplane on a wet runway due to hydroplaning CITED_CREW pilot)",
+      "text": "Probable cause: The pilot was not able to stop the airplane on a wet runway due to hydroplaning."
+    },
+    {
+      "kind": "compound_name",
+      "item": "a34a3d644669 -> b162d41162e73cec",
+      "graph": "(b162d41162e73cec \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot was not able to stop the airplane on a wet runway due to hydroplaning CITED_CREW pilot)",
+      "text": "Probable cause: The pilot was not able to stop the airplane on a wet runway due to hydroplaning."
+    },
+    {
+      "kind": "compound_name",
+      "item": "7630e3d34f87 -> e0836fb35cd91983",
+      "graph": "(e0836fb35cd91983 \"airplane\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot was not able to stop the airplane on a wet runway due to hydroplaning CITED_CONDITION wet runway)",
+      "text": "Probable cause: The pilot was not able to stop the airplane on a wet runway due to hydroplaning."
+    },
+    {
+      "kind": "compound_name",
+      "item": "7630e3d34f87 -> b162d41162e73cec",
+      "graph": "(b162d41162e73cec \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot was not able to stop the airplane on a wet runway due to hydroplaning CITED_CONDITION wet runway)",
+      "text": "Probable cause: The pilot was not able to stop the airplane on a wet runway due to hydroplaning."
+    },
+    {
+      "kind": "compound_name",
+      "item": "b4c0f8af5f64 -> b162d41162e73cec",
+      "graph": "(b162d41162e73cec \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot’s loss of control after encountering windshear while landing in a strong, gusting crosswind CITED_CREW pilot)",
+      "text": "Probable cause: The pilot’s loss of control after encountering windshear while landing in a strong, gusting crosswind."
+    },
+    {
+      "kind": "compound_name",
+      "item": "aca72450b450 -> b162d41162e73cec",
+      "graph": "(b162d41162e73cec \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot’s loss of control after encountering windshear while landing in a strong, gusting crosswind CITED_CONDITION windshear)",
+      "text": "Probable cause: The pilot’s loss of control after encountering windshear while landing in a strong, gusting crosswind."
+    },
+    {
+      "kind": "compound_name",
+      "item": "cb8ce00e41ea -> b162d41162e73cec",
+      "graph": "(b162d41162e73cec \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot’s loss of control after encountering windshear while landing in a strong, gusting crosswind CITED_CONDITION strong, gusting crosswind)",
+      "text": "Probable cause: The pilot’s loss of control after encountering windshear while landing in a strong, gusting crosswind."
+    },
+    {
+      "kind": "compound_name",
+      "item": "d6e7975e62ae -> b162d41162e73cec",
+      "graph": "(b162d41162e73cec \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(pilot’s decision to continue the landing with a 90-degree crosswind at 30 knots CITED_CREW pilot)",
+      "text": "Contributing was pilot’s decision to continue the landing with a 90-degree crosswind at 30 knots."
+    },
+    {
+      "kind": "compound_name",
+      "item": "160c4cd37f82 -> b162d41162e73cec",
+      "graph": "(b162d41162e73cec \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(pilot’s decision to continue the landing with a 90-degree crosswind at 30 knots CITED_CONDITION 90-degree crosswind at 30 knots)",
+      "text": "Contributing was pilot’s decision to continue the landing with a 90-degree crosswind at 30 knots."
+    },
+    {
+      "kind": "compound_name",
+      "item": "324a2d8660bf -> e0891663ecf421bd",
+      "graph": "(e0891663ecf421bd \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot’s failure to maintain directional control during the rejected takeoff with a left quartering crosswind that shifted to a tailwind FOUND_FOR CEN21LA185)",
+      "text": "Probable cause: The pilot’s failure to maintain directional control during the rejected takeoff with a left quartering crosswind that shifted to a tailwind."
+    },
+    {
+      "kind": "compound_name",
+      "item": "b0303145bd70 -> e0891663ecf421bd",
+      "graph": "(e0891663ecf421bd \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot’s failure to maintain directional control during the rejected takeoff with a left quartering crosswind that shifted to a tailwind CITED_CREW pilot)",
+      "text": "Probable cause: The pilot’s failure to maintain directional control during the rejected takeoff with a left quartering crosswind that shifted to a tailwind."
+    },
+    {
+      "kind": "compound_name",
+      "item": "ee76ab86363a -> e0891663ecf421bd",
+      "graph": "(e0891663ecf421bd \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot’s failure to maintain directional control during the rejected takeoff with a left quartering crosswind that shifted to a tailwind CITED_CONDITION left quartering crosswind that shifted to a tailwind)",
+      "text": "Probable cause: The pilot’s failure to maintain directional control during the rejected takeoff with a left quartering crosswind that shifted to a tailwind."
+    },
+    {
+      "kind": "compound_name",
+      "item": "e61e414a5b65 -> e0891663ecf421bd",
+      "graph": "(e0891663ecf421bd \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(flight instructor INVOLVED_IN CEN21LA353)",
+      "text": "The flight instructor reported that, while performing takeoff and landing practice, the airplane touched down normally, then began drifting to the right, and both he and the student pilot attempted to correct without success."
+    },
+    {
+      "kind": "compound_name",
+      "item": "1c31c6174b61 -> e0891663ecf421bd",
+      "graph": "(e0891663ecf421bd \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(student pilot INVOLVED_IN CEN21LA353)",
+      "text": "The flight instructor reported that, while performing takeoff and landing practice, the airplane touched down normally, then began drifting to the right, and both he and the student pilot attempted to correct without success."
+    },
+    {
+      "kind": "compound_name",
+      "item": "9694660f0aed -> e0891663ecf421bd",
+      "graph": "(e0891663ecf421bd \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(flight instructor ON_BOARD airplane)",
+      "text": "The flight instructor reported that, while performing takeoff and landing practice, the airplane touched down normally, then began drifting to the right, and both he and the student pilot attempted to correct without success."
+    },
+    {
+      "kind": "compound_name",
+      "item": "ae73f434579c -> e0891663ecf421bd",
+      "graph": "(e0891663ecf421bd \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(student pilot ON_BOARD airplane)",
+      "text": "The flight instructor reported that, while performing takeoff and landing practice, the airplane touched down normally, then began drifting to the right, and both he and the student pilot attempted to correct without success."
+    },
+    {
+      "kind": "compound_name",
+      "item": "74cc78b9242f -> 771a0f4f69c3ce16",
+      "graph": "(771a0f4f69c3ce16 \"accident airplane\")-[:HAS_OBSERVATION {key_in_sentence}]->(landing gear attachment hardware COMPONENT_OF accident airplane)",
+      "text": "of landing gear attachment hardware on various models, including the accident airplane model."
+    },
+    {
+      "kind": "compound_name",
+      "item": "74cc78b9242f -> 1c87e0d908b5afc9",
+      "graph": "(1c87e0d908b5afc9 \"airplane\")-[:HAS_OBSERVATION {key_in_sentence}]->(landing gear attachment hardware COMPONENT_OF accident airplane)",
+      "text": "of landing gear attachment hardware on various models, including the accident airplane model."
+    },
+    {
+      "kind": "compound_name",
+      "item": "04284baf4a47 -> 6eddc2926cef22ce",
+      "graph": "(6eddc2926cef22ce \"loss of directional control\")-[:HAS_OBSERVATION {key_in_sentence}]->(A loss of directional control due to failure of the landing gear attachment hardware for reasons that could not be determined based on the available information CITED_COMPONENT landing gear attachment hardware)",
+      "text": "Probable cause: A loss of directional control due to failure of the landing gear attachment hardware for reasons that could not be determined based on the available information."
+    },
+    {
+      "kind": "compound_name",
+      "item": "04d60a91b5bf -> e0891663ecf421bd",
+      "graph": "(e0891663ecf421bd \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(A loss of engine power due to fuel starvation and the pilot's mismanagement of the available fuel FOUND_FOR CEN21LA383)",
+      "text": "Probable cause: A loss of engine power due to fuel starvation and the pilot's mismanagement of the available fuel."
+    },
+    {
+      "kind": "compound_name",
+      "item": "7fccc092694f -> e0891663ecf421bd",
+      "graph": "(e0891663ecf421bd \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(A loss of engine power due to fuel starvation and the pilot's mismanagement of the available fuel CITED_CREW pilot)",
+      "text": "Probable cause: A loss of engine power due to fuel starvation and the pilot's mismanagement of the available fuel."
+    },
+    {
+      "kind": "compound_name",
+      "item": "03a71f617eba -> e0891663ecf421bd",
+      "graph": "(e0891663ecf421bd \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(A loss of engine power due to fuel starvation and the pilot's mismanagement of the available fuel CITED_COMPONENT engine)",
+      "text": "Probable cause: A loss of engine power due to fuel starvation and the pilot's mismanagement of the available fuel."
+    },
+    {
+      "kind": "compound_name",
+      "item": "54a76521ff85 -> e0891663ecf421bd",
+      "graph": "(e0891663ecf421bd \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot in the airplane’s left seat ON_BOARD airplane)",
+      "text": "The pilot in the airplane’s left seat reported that they were taking off from a turf runway with a quartering tailwind."
+    },
+    {
+      "kind": "compound_name",
+      "item": "54a76521ff85 -> 1c87e0d908b5afc9",
+      "graph": "(1c87e0d908b5afc9 \"airplane\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot in the airplane’s left seat ON_BOARD airplane)",
+      "text": "The pilot in the airplane’s left seat reported that they were taking off from a turf runway with a quartering tailwind."
+    },
+    {
+      "kind": "compound_name",
+      "item": "49c413c87fa3 -> e0891663ecf421bd",
+      "graph": "(e0891663ecf421bd \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot in the right seat ON_BOARD airplane)",
+      "text": "The pilot in the right seat was flying and rotated 1,000 ft down the runway where they got into ground effect."
+    },
+    {
+      "kind": "compound_name",
+      "item": "cd010d3333c3 -> e0891663ecf421bd",
+      "graph": "(e0891663ecf421bd \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(CEN22LA249 ENCOUNTERED_CONDITION quartering tailwind)",
+      "text": "The pilot in the airplane’s left seat reported that they were taking off from a turf runway with a quartering tailwind."
+    },
+    {
+      "kind": "compound_name",
+      "item": "cd010d3333c3 -> 1c87e0d908b5afc9",
+      "graph": "(1c87e0d908b5afc9 \"airplane\")-[:HAS_OBSERVATION {key_in_sentence}]->(CEN22LA249 ENCOUNTERED_CONDITION quartering tailwind)",
+      "text": "The pilot in the airplane’s left seat reported that they were taking off from a turf runway with a quartering tailwind."
+    },
+    {
+      "kind": "compound_name",
+      "item": "65ebd2b01c9f -> e0891663ecf421bd",
+      "graph": "(e0891663ecf421bd \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot’s failure to maintain airspeed in the climb with a quartering tailwind which resulted in an aerodynamic stall and subsequent impact with trees FOUND_FOR CEN22LA249)",
+      "text": "Probable cause: The pilot’s failure to maintain airspeed in the climb with a quartering tailwind which resulted in an aerodynamic stall and subsequent impact with trees."
+    },
+    {
+      "kind": "compound_name",
+      "item": "8327c35574a7 -> e0891663ecf421bd",
+      "graph": "(e0891663ecf421bd \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot’s failure to maintain airspeed in the climb with a quartering tailwind which resulted in an aerodynamic stall and subsequent impact with trees CITED_CONDITION quartering tailwind)",
+      "text": "Probable cause: The pilot’s failure to maintain airspeed in the climb with a quartering tailwind which resulted in an aerodynamic stall and subsequent impact with trees."
+    },
+    {
+      "kind": "compound_name",
+      "item": "0921ebd5f6ae -> e0891663ecf421bd",
+      "graph": "(e0891663ecf421bd \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(student pilot INVOLVED_IN CEN23LA026)",
+      "text": "The student pilot reported that he was performing a touch and go landing during a solo traffic pattern flight and had added full engine power for takeoff when he noticed the airplane had drifted right of the runway centerline and made a correction back by applying left rudder."
+    },
+    {
+      "kind": "compound_name",
+      "item": "52b1dc4f4e0b -> e0891663ecf421bd",
+      "graph": "(e0891663ecf421bd \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(airplane INVOLVED_IN CEN23LA026)",
+      "text": "The student pilot reported that he was performing a touch and go landing during a solo traffic pattern flight and had added full engine power for takeoff when he noticed the airplane had drifted right of the runway centerline and made a correction back by applying left rudder."
+    },
+    {
+      "kind": "compound_name",
+      "item": "184db39e8869 -> e0891663ecf421bd",
+      "graph": "(e0891663ecf421bd \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(student pilot ON_BOARD airplane)",
+      "text": "The student pilot reported that he was performing a touch and go landing during a solo traffic pattern flight and had added full engine power for takeoff when he noticed the airplane had drifted right of the runway centerline and made a correction back by applying left rudder."
+    },
+    {
+      "kind": "compound_name",
+      "item": "64d00cc2d320 -> e0891663ecf421bd",
+      "graph": "(e0891663ecf421bd \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The student pilot’s failure to maintain directional control while taking off from a touch and go landing FOUND_FOR CEN23LA026)",
+      "text": "Probable cause: The student pilot’s failure to maintain directional control while taking off from a touch and go landing."
+    },
+    {
+      "kind": "compound_name",
+      "item": "64d00cc2d320 -> f188192de0820546",
+      "graph": "(f188192de0820546 \"student pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The student pilot’s failure to maintain directional control while taking off from a touch and go landing FOUND_FOR CEN23LA026)",
+      "text": "Probable cause: The student pilot’s failure to maintain directional control while taking off from a touch and go landing."
+    },
+    {
+      "kind": "compound_name",
+      "item": "b2685fdad38e -> e0891663ecf421bd",
+      "graph": "(e0891663ecf421bd \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The student pilot’s failure to maintain directional control while taking off from a touch and go landing CITED_CREW student pilot)",
+      "text": "Probable cause: The student pilot’s failure to maintain directional control while taking off from a touch and go landing."
+    },
+    {
+      "kind": "compound_name",
+      "item": "b2685fdad38e -> f188192de0820546",
+      "graph": "(f188192de0820546 \"student pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The student pilot’s failure to maintain directional control while taking off from a touch and go landing CITED_CREW student pilot)",
+      "text": "Probable cause: The student pilot’s failure to maintain directional control while taking off from a touch and go landing."
+    },
+    {
+      "kind": "compound_name",
+      "item": "90b70196fee1 -> 50bc54d60ed05265",
+      "graph": "(50bc54d60ed05265 \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot’s improper preflight planning to ensure adequate power to hover out-of-ground effect while conducting external load operations FOUND_FOR ANC21LA079)",
+      "text": "Probable cause: The pilot’s improper preflight planning to ensure adequate power to hover out-of-ground effect while conducting external load operations."
+    },
+    {
+      "kind": "compound_name",
+      "item": "f76a646a5787 -> 50bc54d60ed05265",
+      "graph": "(50bc54d60ed05265 \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot’s improper preflight planning to ensure adequate power to hover out-of-ground effect while conducting external load operations CITED_CREW pilot)",
+      "text": "Probable cause: The pilot’s improper preflight planning to ensure adequate power to hover out-of-ground effect while conducting external load operations."
+    },
+    {
+      "kind": "compound_name",
+      "item": "7d48ea208566 -> 50bc54d60ed05265",
+      "graph": "(50bc54d60ed05265 \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot's failure to maintain adequate altitude/clearance from terrain while maneuvering in adverse weather conditions FOUND_FOR ANC23LA032)",
+      "text": "Probable cause: The pilot's failure to maintain adequate altitude/clearance from terrain while maneuvering in adverse weather conditions, which resulted in a dynamic rollover."
+    },
+    {
+      "kind": "compound_name",
+      "item": "1d42111842ef -> 50bc54d60ed05265",
+      "graph": "(50bc54d60ed05265 \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot's failure to maintain adequate altitude/clearance from terrain while maneuvering in adverse weather conditions CITED_CREW pilot)",
+      "text": "Probable cause: The pilot's failure to maintain adequate altitude/clearance from terrain while maneuvering in adverse weather conditions, which resulted in a dynamic rollover."
+    },
+    {
+      "kind": "compound_name",
+      "item": "91d89acde685 -> 50bc54d60ed05265",
+      "graph": "(50bc54d60ed05265 \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot's failure to maintain adequate altitude/clearance from terrain while maneuvering in adverse weather conditions CITED_CONDITION adverse weather conditions)",
+      "text": "Probable cause: The pilot's failure to maintain adequate altitude/clearance from terrain while maneuvering in adverse weather conditions, which resulted in a dynamic rollover."
+    },
+    {
+      "kind": "compound_name",
+      "item": "ddfe35b81e04 -> 50bc54d60ed05265",
+      "graph": "(50bc54d60ed05265 \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot’s insufficient monitoring of the helicopter’s power while flying at low altitude and at low airspeed,  which resulted in the loss of rotor rpm and impact with a tree and terrain FOUND_FOR CEN21LA173)",
+      "text": "Probable cause: The pilot’s insufficient monitoring of the helicopter’s power while flying at low altitude and at low airspeed,  which resulted in the loss of rotor rpm and impact with a tree and terrain."
+    },
+    {
+      "kind": "compound_name",
+      "item": "ddfe35b81e04 -> b3ad0271ece38d18",
+      "graph": "(b3ad0271ece38d18 \"impact with a tree and terrain\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot’s insufficient monitoring of the helicopter’s power while flying at low altitude and at low airspeed,  which resulted in the loss of rotor rpm and impact with a tree and terrain FOUND_FOR CEN21LA173)",
+      "text": "Probable cause: The pilot’s insufficient monitoring of the helicopter’s power while flying at low altitude and at low airspeed,  which resulted in the loss of rotor rpm and impact with a tree and terrain."
+    },
+    {
+      "kind": "compound_name",
+      "item": "ddfe35b81e04 -> b659fd4eaced3154",
+      "graph": "(b659fd4eaced3154 \"helicopter\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot’s insufficient monitoring of the helicopter’s power while flying at low altitude and at low airspeed,  which resulted in the loss of rotor rpm and impact with a tree and terrain FOUND_FOR CEN21LA173)",
+      "text": "Probable cause: The pilot’s insufficient monitoring of the helicopter’s power while flying at low altitude and at low airspeed,  which resulted in the loss of rotor rpm and impact with a tree and terrain."
+    },
+    {
+      "kind": "compound_name",
+      "item": "a00fe3419148 -> 50bc54d60ed05265",
+      "graph": "(50bc54d60ed05265 \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot’s insufficient monitoring of the helicopter’s power while flying at low altitude and at low airspeed,  which resulted in the loss of rotor rpm and impact with a tree and terrain CITED_CREW pilot)",
+      "text": "Probable cause: The pilot’s insufficient monitoring of the helicopter’s power while flying at low altitude and at low airspeed,  which resulted in the loss of rotor rpm and impact with a tree and terrain."
+    },
+    {
+      "kind": "compound_name",
+      "item": "a00fe3419148 -> b3ad0271ece38d18",
+      "graph": "(b3ad0271ece38d18 \"impact with a tree and terrain\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot’s insufficient monitoring of the helicopter’s power while flying at low altitude and at low airspeed,  which resulted in the loss of rotor rpm and impact with a tree and terrain CITED_CREW pilot)",
+      "text": "Probable cause: The pilot’s insufficient monitoring of the helicopter’s power while flying at low altitude and at low airspeed,  which resulted in the loss of rotor rpm and impact with a tree and terrain."
+    },
+    {
+      "kind": "compound_name",
+      "item": "a00fe3419148 -> b659fd4eaced3154",
+      "graph": "(b659fd4eaced3154 \"helicopter\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot’s insufficient monitoring of the helicopter’s power while flying at low altitude and at low airspeed,  which resulted in the loss of rotor rpm and impact with a tree and terrain CITED_CREW pilot)",
+      "text": "Probable cause: The pilot’s insufficient monitoring of the helicopter’s power while flying at low altitude and at low airspeed,  which resulted in the loss of rotor rpm and impact with a tree and terrain."
+    },
+    {
+      "kind": "compound_name",
+      "item": "d0b79f001680 -> 50bc54d60ed05265",
+      "graph": "(50bc54d60ed05265 \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot’s insufficient monitoring of the helicopter’s power while flying at low altitude and at low airspeed,  which resulted in the loss of rotor rpm and impact with a tree and terrain CITED_CONDITION terrain)",
+      "text": "Probable cause: The pilot’s insufficient monitoring of the helicopter’s power while flying at low altitude and at low airspeed,  which resulted in the loss of rotor rpm and impact with a tree and terrain."
+    },
+    {
+      "kind": "compound_name",
+      "item": "d0b79f001680 -> b3ad0271ece38d18",
+      "graph": "(b3ad0271ece38d18 \"impact with a tree and terrain\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot’s insufficient monitoring of the helicopter’s power while flying at low altitude and at low airspeed,  which resulted in the loss of rotor rpm and impact with a tree and terrain CITED_CONDITION terrain)",
+      "text": "Probable cause: The pilot’s insufficient monitoring of the helicopter’s power while flying at low altitude and at low airspeed,  which resulted in the loss of rotor rpm and impact with a tree and terrain."
+    },
+    {
+      "kind": "compound_name",
+      "item": "d0b79f001680 -> b659fd4eaced3154",
+      "graph": "(b659fd4eaced3154 \"helicopter\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot’s insufficient monitoring of the helicopter’s power while flying at low altitude and at low airspeed,  which resulted in the loss of rotor rpm and impact with a tree and terrain CITED_CONDITION terrain)",
+      "text": "Probable cause: The pilot’s insufficient monitoring of the helicopter’s power while flying at low altitude and at low airspeed,  which resulted in the loss of rotor rpm and impact with a tree and terrain."
+    },
+    {
+      "kind": "compound_name",
+      "item": "9af8af3d5c64 -> 50bc54d60ed05265",
+      "graph": "(50bc54d60ed05265 \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot’s failure to see and avoid a wire while maneuvering at low altitude during an aerial application flight, resulting in a collision with the wire FOUND_FOR CEN21LA339)",
+      "text": "Probable cause: The pilot’s failure to see and avoid a wire while maneuvering at low altitude during an aerial application flight, resulting in a collision with the wire."
+    },
+    {
+      "kind": "compound_name",
+      "item": "8f7b13f522bb -> 50bc54d60ed05265",
+      "graph": "(50bc54d60ed05265 \"pilot\")-[:HAS_OBSERVATION {key_in_sentence}]->(The pilot’s failure to see and avoid a wire while maneuvering at low altitude during an aerial application flight, resulting in a collision with the wire CITED_CREW pilot)",
+      "text": "Probable cause: The pilot’s failure to see and avoid a wire while maneuvering at low altitude during an aerial application flight, resulting in a collision with the wire."
+    }
+  ],
+  "flag_counts": {
+    "cross_scope_link": 0,
+    "label_mismatch": 0,
+    "fuzzy_name": 0,
+    "cross_scope_attachment": 0,
+    "compound_name": 91
+  },
+  "record_links": 36,
+  "record_links_without_scope": 0,
+  "non_end_attachments": 145,
+  "key_in_sentence_attachments": 470,
+  "splits": [
+    {
+      "type": "Aircraft",
+      "name": "airplane",
+      "canonicals": 5,
+      "documents": [
+        "documents/air_tractor_at_502b_accidents.md",
+        "documents/beech_a36_accidents.md",
+        "documents/cessna_172s_accidents.md",
+        "documents/cirrus_sr22_accidents.md",
+        "documents/piper_pa_28_181_accidents.md"
+      ]
+    },
+    {
+      "type": "CrewMember",
+      "name": "flight instructor",
+      "canonicals": 2,
+      "documents": [
+        "documents/cessna_172s_accidents.md",
+        "documents/piper_pa_28_181_accidents.md"
+      ]
+    },
+    {
+      "type": "CrewMember",
+      "name": "pilot",
+      "canonicals": 6,
+      "documents": [
+        "documents/air_tractor_at_502b_accidents.md",
+        "documents/beech_a36_accidents.md",
+        "documents/cessna_172s_accidents.md",
+        "documents/cirrus_sr22_accidents.md",
+        "documents/piper_pa_28_181_accidents.md",
+        "documents/robinson_r44_ii_accidents.md"
+      ]
+    },
+    {
+      "type": "CrewMember",
+      "name": "student pilot",
+      "canonicals": 2,
+      "documents": [
+        "documents/cessna_172s_accidents.md",
+        "documents/piper_pa_28_181_accidents.md"
+      ]
+    },
+    {
+      "type": "Particular",
+      "name": "ntsb",
+      "canonicals": 2,
+      "documents": [
+        "documents/air_tractor_at_502b_accidents.md",
+        "documents/beech_a36_accidents.md",
+        "documents/cessna_172s_accidents.md",
+        "documents/cirrus_sr22_accidents.md",
+        "documents/piper_pa_28_181_accidents.md",
+        "documents/robinson_r44_ii_accidents.md"
+      ]
+    }
+  ],
+  "reach": null
+}

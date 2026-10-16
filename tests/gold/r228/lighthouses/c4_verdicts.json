@@ -1,0 +1,310 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-16",
+  "snapshot_hash": "fe62f97dcabc",
+  "sheet": "tests/gold/r228/lighthouses/c4_sheet.json",
+  "sheet_hash": "16f589e53238",
+  "sheets_git_sha": "committed with the verdicts in step R228 (built from out/r155b at cb55aa0)"
+ },
+ "criterion": "C4",
+ "verdicts": [
+  {
+   "id": "l:c62513888f9bce4c:Lighthouse:Q15182446",
+   "label": "VALID",
+   "reason": "The tower in the Anvil Point article is this lighthouse; 12 m height matches height_m 12.",
+   "evidence": "The lighthouse tower is twelve metres tall",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:ff54127865e2bd29:Lighthouse:Q15182446",
+   "label": "VALID",
+   "reason": "Exact name of the record in its own article.",
+   "evidence": "The Anvil Point Lighthouse is a fully automated lighthouse located at Durlston Country Park near Swanage in Dorset",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:97be2049b3b0d028:Lighthouse:Q10581063",
+   "label": "VALID",
+   "reason": "The lighthouse the Berry Head article speaks of is Berry Head Lighthouse.",
+   "evidence": "Berry Head Lighthouse is an active lighthouse, located at the end of Berry Head near Brixham in Devon",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:c7d65b98cfb44be9:Lighthouse:Q10581063",
+   "label": "VALID",
+   "reason": "Exact name of the record in its own article.",
+   "evidence": "Berry Head Lighthouse is an active lighthouse",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:14b08a62ed990de9:Lighthouse:Q15217395",
+   "label": "VALID",
+   "reason": "Exact name of the record in its own article.",
+   "evidence": "Farne Lighthouse is a lighthouse on the southern tip of Inner Farne",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:2233acaabcf25fa1:Lighthouse:Q15217395",
+   "label": "VALID",
+   "reason": "Variant name for the operational Farne lighthouse; 13 m tower matches height_m 13.",
+   "evidence": "The tower is 13 m (43 ft) tall with a range for the light of 8 nautical miles",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:22972c8f7becb6de:Lighthouse:Q15217395",
+   "label": "VALID",
+   "reason": "The Inner Farne light is the Farne Lighthouse's light whose arrangement the paragraph describes.",
+   "evidence": "with a sector light that worked in conjunction with the Inner Farne light",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:505b74c7a865f78a:Lighthouse:Q15217395",
+   "label": "VALID",
+   "reason": "The lighthouse the Farne article is about is Farne Lighthouse.",
+   "evidence": "Farne Lighthouse is a lighthouse on the southern tip of Inner Farne",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:587742c10c07945d:Lighthouse:Q15217395",
+   "label": "VALID",
+   "reason": "The High Lighthouse is Farne Lighthouse (its original name), as opposed to the Low Lighthouse, which has no record.",
+   "evidence": "it was monitored by the keeper at the High Lighthouse",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:60f5c45851297e99:Lighthouse:Q15217395",
+   "label": "VALID",
+   "reason": "The High Light is the Farne High Lighthouse, automated in 1910, i.e. this record.",
+   "evidence": "After the High Light had been modified and automated in 1910",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:bd5badbdaa0bc137:Lighthouse:Q15217395",
+   "label": "VALID",
+   "reason": "Stated as the original name of Farne Lighthouse.",
+   "evidence": "Farne Lighthouse (originally named Farne High Lighthouse) is a cylindrical white tower, 13 m (43 ft) tall",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:2387a61645501033:Engineer:James Walker",
+   "label": "VALID",
+   "reason": "James Walker who designed Godrevy is this engineer; the record lists Godrevy as engineered by him.",
+   "evidence": "with James Walker contracted to design the lighthouse",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:40d39b5da7ab6633:Lighthouse:Q15221791",
+   "label": "VALID",
+   "reason": "Cornish name given for Godrevy Lighthouse.",
+   "evidence": "Godrevy Lighthouse (Cornish: Golowji Godrevi) was built in 1858",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:993a1964a2aefcfb:Lighthouse:Q15221791",
+   "label": "VALID",
+   "reason": "Exact name of the record in its own article.",
+   "evidence": "Godrevy Lighthouse (Cornish: Golowji Godrevi) was built in 1858",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:a35ab555768a7ce3:Lighthouse:Q15221791",
+   "label": "VALID",
+   "reason": "The lighthouse of the Godrevy article is Godrevy Lighthouse.",
+   "evidence": "Trinity House had agreed to build the Godrevy Lighthouse",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:8b544d39d035f4bd:Lighthouse:Q2752623",
+   "label": "VALID",
+   "reason": "Exact name of this record, mentioned in another lighthouse's article.",
+   "evidence": "establishment of Start Point Lighthouse with its revolving Fresnel lenses",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:16d6b272da06e78e:Lighthouse:Q3739817",
+   "label": "VALID",
+   "reason": "Name of the record in its own article.",
+   "evidence": "St Agnes lighthouse is a 17th-century lighthouse situated on St Agnes on the Isles of Scilly",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:6d8a2607b9c2e35f:Lighthouse:Q3739817",
+   "label": "VALID",
+   "reason": "The lighthouse converted to oil in 1790 is St Agnes, the article's subject.",
+   "evidence": "The lighthouse was coal fired until 1790, when it was converted to oil",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:a22161ea812fd5ed:Lighthouse:Q3739817",
+   "label": "VALID",
+   "reason": "Possessive short form of St Agnes lighthouse.",
+   "evidence": "St Agnes's lost its status as a landfall light",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:ada67b86fe93403a:Lighthouse:Q3739817",
+   "label": "VALID",
+   "reason": "The old tower kept as a daymark is the decommissioned St Agnes lighthouse (retired 1911).",
+   "evidence": "In 1911 the St Agnes lighthouse was decommissioned",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:baae07f178d15d6c:Lighthouse:Q3739817",
+   "label": "VALID",
+   "reason": "The phrase names the status St Agnes held until 1858, so it speaks of St Agnes.",
+   "evidence": "St Agnes's lost its status as a landfall light and England's westernmost lighthouse",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:bf23a6ccef144cd9:Lighthouse:Q3739817",
+   "label": "VALID",
+   "reason": "The predicate describes St Agnes itself as the second lighthouse station of Trinity House.",
+   "evidence": "it was also only the second lighthouse station to be established by Trinity House",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:b23f8b02094f5d3a:Lighthouse:Q3739817",
+   "label": "VALID",
+   "reason": "Lighthouse at St Agnes closed in 1911, matching service_retirement 1911.",
+   "evidence": "After the closure of the lighthouse at St Agnes, Isles of Scilly in 1911",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:b3aadb0a5be8e72e:Engineer:James Walker",
+   "label": "VALID",
+   "reason": "The engineer James Walker (1781-1862) designing a Trinity House light in 1835 is this person; no other James Walker record exists.",
+   "evidence": "The lighthouse was designed by James Walker and built in 1835",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:c107a664c4f36f9e:Lighthouse:Q2686634",
+   "label": "VALID",
+   "reason": "Nickname the text gives to St Anthony's lighthouse.",
+   "evidence": "St. Anthony's lighthouse was featured in the intro of the UK version of Jim Henson's Fraggle Rock, as \"Fraggle Rock Lighthouse\"",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:f902f3099f52e9b5:Lighthouse:Q2686634",
+   "label": "VALID",
+   "reason": "Exact name of the record in its own article.",
+   "evidence": "St Anthony's Lighthouse is the lighthouse at St Anthony Head",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:fe329fc207c2032f:Lighthouse:Q2686634",
+   "label": "INCORRECT",
+   "reason": "In its sentence 'the lighthouse' is the one at St Agnes closed in 1911; the text means St Agnes Lighthouse Q3739817, not St Anthony's.",
+   "evidence": "After the closure of the lighthouse at St Agnes, Isles of Scilly in 1911",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:4ae17af8bc213d72:Lighthouse:Q7590348",
+   "label": "INCORRECT",
+   "reason": "The 1664 lighthouse at the Tynemouth Coastguard site was demolished and replaced by St Mary's (1898); it is a predecessor with no record.",
+   "evidence": "This lighthouse was demolished when the new lighthouse and adjacent keepers' cottages were built in 1898 on St Mary's Island",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:6c5aca8fe06a393b:Lighthouse:Q7590348",
+   "label": "VALID",
+   "reason": "St Mary's opened as a visitor attraction after its 1984 decommissioning is this lighthouse.",
+   "evidence": "A few years later, St Mary's was opened as a visitor attraction by the local council.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:d7bd305861a565dc:Lighthouse:Q7590348",
+   "label": "VALID",
+   "reason": "Name of the record in its own article.",
+   "evidence": "St Mary's Lighthouse is on the tiny St Mary's (or Bait) Island",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:bc10167a27890783:Lighthouse:Q2686922",
+   "label": "VALID",
+   "reason": "The lighthouse whose surroundings form the Tater-du SSSI is Tater Du Lighthouse, the article's subject.",
+   "evidence": "The coastal slope and cliffs around the lighthouse are designated the Tater",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:e096df5195332578:Lighthouse:Q2686922",
+   "label": "VALID",
+   "reason": "Exact name of the record in its own article.",
+   "evidence": "Tater Du Lighthouse is Cornwall's most recently built lighthouse.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:01d7f561f19906e4:Engineer:James Walker",
+   "label": "VALID",
+   "reason": "The designer of Whitby Lighthouse is this engineer; the record lists Whitby as engineered by him.",
+   "evidence": "was designed by James Walker of civil engineers Messrs.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:06cc81e418a0ce83:Lighthouse:Q7994169",
+   "label": "VALID",
+   "reason": "Whitby South is stated to be the present lighthouse, i.e. this record (not the demolished Whitby North).",
+   "evidence": "Whitby South (the present lighthouse)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:366423518c9b167d:Lighthouse:Q7994169",
+   "label": "VALID",
+   "reason": "Exact name of the record in its own article.",
+   "evidence": "Whitby Lighthouse is a lighthouse operated by Trinity House.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "l:4113964cf6066090:Lighthouse:Q7994169",
+   "label": "VALID",
+   "reason": "Stated alternative name of Whitby Lighthouse.",
+   "evidence": "it is sometimes known as Whitby High lighthouse",
+   "outliers": [],
+   "together": []
+  }
+ ],
+ "reviewed": [
+  "l:22972c8f7becb6de:Lighthouse:Q15217395",
+  "l:366423518c9b167d:Lighthouse:Q7994169",
+  "l:4ae17af8bc213d72:Lighthouse:Q7590348",
+  "l:b3aadb0a5be8e72e:Engineer:James Walker",
+  "l:e096df5195332578:Lighthouse:Q2686922",
+  "l:fe329fc207c2032f:Lighthouse:Q2686634"
+ ],
+ "changes": []
+}

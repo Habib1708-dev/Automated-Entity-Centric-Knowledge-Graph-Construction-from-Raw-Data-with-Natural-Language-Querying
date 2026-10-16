@@ -1,0 +1,1148 @@
+{
+ "dataset": "ntsb",
+ "judge_model": "claude-opus-5-5",
+ "final": {
+  "c3": {
+   "merges": {
+    "individual": {
+     "accepted": {
+      "k": 1,
+      "n": 1,
+      "rate": 1.0,
+      "low": 0.20654329147389294,
+      "high": 1.0
+     },
+     "strict": {
+      "k": 1,
+      "n": 1,
+      "rate": 1.0,
+      "low": 0.20654329147389294,
+      "high": 1.0
+     },
+     "worst_case": {
+      "k": 1,
+      "n": 1,
+      "rate": 1.0,
+      "low": 0.20654329147389294,
+      "high": 1.0
+     },
+     "counts": {
+      "VALID": 1,
+      "VALID_ALTERNATIVE": 0,
+      "INCORRECT": 0,
+      "AMBIGUOUS": 0,
+      "UNJUDGEABLE": 0
+     }
+    },
+    "concept": {
+     "accepted": {
+      "k": 79,
+      "n": 80,
+      "rate": 0.9875,
+      "low": 0.9325356757603457,
+      "high": 0.9977900813816939
+     },
+     "strict": {
+      "k": 74,
+      "n": 80,
+      "rate": 0.925,
+      "low": 0.8458779990261992,
+      "high": 0.9651752251489122
+     },
+     "worst_case": {
+      "k": 79,
+      "n": 82,
+      "rate": 0.9634146341463414,
+      "low": 0.8978709705672893,
+      "high": 0.9874806538199542
+     },
+     "counts": {
+      "VALID": 74,
+      "VALID_ALTERNATIVE": 5,
+      "INCORRECT": 1,
+      "AMBIGUOUS": 2,
+      "UNJUDGEABLE": 0
+     }
+    }
+   },
+   "wrong_merges": {
+    "individual": [],
+    "concept": [
+     "m:3598410f614a2118"
+    ]
+   },
+   "record_wrong_merges": [],
+   "splits": {
+    "accepted": {
+     "k": 4,
+     "n": 5,
+     "rate": 0.8,
+     "low": 0.3755282641185388,
+     "high": 0.9637768390302125
+    },
+    "strict": {
+     "k": 4,
+     "n": 5,
+     "rate": 0.8,
+     "low": 0.3755282641185388,
+     "high": 0.9637768390302125
+    },
+    "worst_case": {
+     "k": 4,
+     "n": 5,
+     "rate": 0.8,
+     "low": 0.3755282641185388,
+     "high": 0.9637768390302125
+    },
+    "counts": {
+     "VALID": 4,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 1,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "wrong_splits": [
+    "s:Particular:ntsb"
+   ],
+   "identity_pairs": {
+    "precision": 1.0,
+    "recall": 0.6666666666666666,
+    "apart": null,
+    "scored": 3,
+    "joined": 2,
+    "same_scored": 3,
+    "different_scored": 0,
+    "not_extracted": 24,
+    "outcomes": [
+     {
+      "index": 0,
+      "same": true,
+      "a_entities": [
+       "af03cedd98674137"
+      ],
+      "b_entities": []
+     },
+     {
+      "index": 1,
+      "same": true,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 2,
+      "same": true,
+      "a_entities": [
+       "5177f8c2cdafda4d"
+      ],
+      "b_entities": [
+       "5177f8c2cdafda4d"
+      ]
+     },
+     {
+      "index": 3,
+      "same": true,
+      "a_entities": [
+       "3db18a9139b637fe"
+      ],
+      "b_entities": []
+     },
+     {
+      "index": 4,
+      "same": true,
+      "a_entities": [
+       "903612cd4e9fb970"
+      ],
+      "b_entities": []
+     },
+     {
+      "index": 5,
+      "same": true,
+      "a_entities": [],
+      "b_entities": [
+       "7b010e295185d597"
+      ]
+     },
+     {
+      "index": 6,
+      "same": true,
+      "a_entities": [
+       "2f6da198429e2f04"
+      ],
+      "b_entities": [
+       "7c7fa75d13181d2b"
+      ]
+     },
+     {
+      "index": 7,
+      "same": true,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 8,
+      "same": true,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 9,
+      "same": true,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 10,
+      "same": true,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 11,
+      "same": true,
+      "a_entities": [
+       "97ecba111d14f59e"
+      ],
+      "b_entities": [
+       "97ecba111d14f59e"
+      ]
+     },
+     {
+      "index": 12,
+      "same": true,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 13,
+      "same": false,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 14,
+      "same": false,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 15,
+      "same": false,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 16,
+      "same": false,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 17,
+      "same": false,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 18,
+      "same": false,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 19,
+      "same": false,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 20,
+      "same": false,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 21,
+      "same": false,
+      "a_entities": [
+       "7c4217880130754f"
+      ],
+      "b_entities": []
+     },
+     {
+      "index": 22,
+      "same": false,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 23,
+      "same": false,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 24,
+      "same": false,
+      "a_entities": [
+       "e4cb1319689a6fdd"
+      ],
+      "b_entities": []
+     },
+     {
+      "index": 25,
+      "same": false,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 26,
+      "same": false,
+      "a_entities": [],
+      "b_entities": []
+     }
+    ]
+   },
+   "hard_passed": true
+  },
+  "c4": {
+   "links": {
+    "accepted": {
+     "k": 36,
+     "n": 36,
+     "rate": 1.0,
+     "low": 0.9035781695514236,
+     "high": 1.0
+    },
+    "strict": {
+     "k": 36,
+     "n": 36,
+     "rate": 1.0,
+     "low": 0.9035781695514236,
+     "high": 1.0
+    },
+    "worst_case": {
+     "k": 36,
+     "n": 36,
+     "rate": 1.0,
+     "low": 0.9035781695514236,
+     "high": 1.0
+    },
+    "counts": {
+     "VALID": 36,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 0,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "unlinked": {
+    "accepted": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "strict": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "worst_case": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "counts": {
+     "VALID": 0,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 0,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "incorrect": [],
+   "cross_scope_confirmed": [],
+   "flags": [],
+   "incorrect_unflagged": [],
+   "hard_passed": true
+  },
+  "c6": {
+   "purity": {
+    "anchor": {
+     "record_individual": {
+      "accepted": {
+       "k": 58,
+       "n": 60,
+       "rate": 0.9666666666666667,
+       "low": 0.8863601247107462,
+       "high": 0.9908108735098498
+      },
+      "strict": {
+       "k": 35,
+       "n": 60,
+       "rate": 0.5833333333333334,
+       "low": 0.45727854313239624,
+       "high": 0.6993591351212818
+      },
+      "worst_case": {
+       "k": 58,
+       "n": 60,
+       "rate": 0.9666666666666667,
+       "low": 0.8863601247107462,
+       "high": 0.9908108735098498
+      },
+      "counts": {
+       "VALID": 35,
+       "VALID_ALTERNATIVE": 23,
+       "INCORRECT": 2,
+       "AMBIGUOUS": 0,
+       "UNJUDGEABLE": 0
+      }
+     },
+     "concept": {
+      "accepted": {
+       "k": 58,
+       "n": 58,
+       "rate": 1.0,
+       "low": 0.9378800031047062,
+       "high": 0.9999999999999999
+      },
+      "strict": {
+       "k": 58,
+       "n": 58,
+       "rate": 1.0,
+       "low": 0.9378800031047062,
+       "high": 0.9999999999999999
+      },
+      "worst_case": {
+       "k": 58,
+       "n": 58,
+       "rate": 1.0,
+       "low": 0.9378800031047062,
+       "high": 0.9999999999999999
+      },
+      "counts": {
+       "VALID": 58,
+       "VALID_ALTERNATIVE": 0,
+       "INCORRECT": 0,
+       "AMBIGUOUS": 0,
+       "UNJUDGEABLE": 0
+      }
+     }
+    },
+    "layered": {
+     "record_individual": {
+      "accepted": {
+       "k": 58,
+       "n": 60,
+       "rate": 0.9666666666666667,
+       "low": 0.8863601247107462,
+       "high": 0.9908108735098498
+      },
+      "strict": {
+       "k": 35,
+       "n": 60,
+       "rate": 0.5833333333333334,
+       "low": 0.45727854313239624,
+       "high": 0.6993591351212818
+      },
+      "worst_case": {
+       "k": 58,
+       "n": 60,
+       "rate": 0.9666666666666667,
+       "low": 0.8863601247107462,
+       "high": 0.9908108735098498
+      },
+      "counts": {
+       "VALID": 35,
+       "VALID_ALTERNATIVE": 23,
+       "INCORRECT": 2,
+       "AMBIGUOUS": 0,
+       "UNJUDGEABLE": 0
+      }
+     },
+     "concept": {
+      "accepted": {
+       "k": 58,
+       "n": 58,
+       "rate": 1.0,
+       "low": 0.9378800031047062,
+       "high": 0.9999999999999999
+      },
+      "strict": {
+       "k": 58,
+       "n": 58,
+       "rate": 1.0,
+       "low": 0.9378800031047062,
+       "high": 0.9999999999999999
+      },
+      "worst_case": {
+       "k": 58,
+       "n": 58,
+       "rate": 1.0,
+       "low": 0.9378800031047062,
+       "high": 0.9999999999999999
+      },
+      "counts": {
+       "VALID": 58,
+       "VALID_ALTERNATIVE": 0,
+       "INCORRECT": 0,
+       "AMBIGUOUS": 0,
+       "UNJUDGEABLE": 0
+      }
+     }
+    }
+   },
+   "hard_passed": {
+    "anchor": true,
+    "layered": true
+   },
+   "starts_below": {
+    "anchor": [
+     {
+      "start": "c3b053aba1ea5746",
+      "kind": "individual",
+      "purity": {
+       "k": 1,
+       "n": 3,
+       "rate": 0.3333333333333333,
+       "low": 0.0614903152761605,
+       "high": 0.7923450448735121
+      }
+     }
+    ],
+    "layered": [
+     {
+      "start": "c3b053aba1ea5746",
+      "kind": "individual",
+      "purity": {
+       "k": 1,
+       "n": 3,
+       "rate": 0.3333333333333333,
+       "low": 0.0614903152761605,
+       "high": 0.7923450448735121
+      }
+     }
+    ]
+   },
+   "only_layered": {
+    "accepted": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "strict": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "worst_case": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "counts": {
+     "VALID": 0,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 0,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "flags": [],
+   "incorrect_unflagged": [
+    "p:c3b053aba1ea5746|documents/cessna_172s_accidents.md#3",
+    "p:c3b053aba1ea5746|documents/cessna_172s_accidents.md#4"
+   ]
+  }
+ },
+ "blind": {
+  "c3": {
+   "merges": {
+    "individual": {
+     "accepted": {
+      "k": 1,
+      "n": 1,
+      "rate": 1.0,
+      "low": 0.20654329147389294,
+      "high": 1.0
+     },
+     "strict": {
+      "k": 1,
+      "n": 1,
+      "rate": 1.0,
+      "low": 0.20654329147389294,
+      "high": 1.0
+     },
+     "worst_case": {
+      "k": 1,
+      "n": 1,
+      "rate": 1.0,
+      "low": 0.20654329147389294,
+      "high": 1.0
+     },
+     "counts": {
+      "VALID": 1,
+      "VALID_ALTERNATIVE": 0,
+      "INCORRECT": 0,
+      "AMBIGUOUS": 0,
+      "UNJUDGEABLE": 0
+     }
+    },
+    "concept": {
+     "accepted": {
+      "k": 79,
+      "n": 80,
+      "rate": 0.9875,
+      "low": 0.9325356757603457,
+      "high": 0.9977900813816939
+     },
+     "strict": {
+      "k": 74,
+      "n": 80,
+      "rate": 0.925,
+      "low": 0.8458779990261992,
+      "high": 0.9651752251489122
+     },
+     "worst_case": {
+      "k": 79,
+      "n": 82,
+      "rate": 0.9634146341463414,
+      "low": 0.8978709705672893,
+      "high": 0.9874806538199542
+     },
+     "counts": {
+      "VALID": 74,
+      "VALID_ALTERNATIVE": 5,
+      "INCORRECT": 1,
+      "AMBIGUOUS": 2,
+      "UNJUDGEABLE": 0
+     }
+    }
+   },
+   "wrong_merges": {
+    "individual": [],
+    "concept": [
+     "m:3598410f614a2118"
+    ]
+   },
+   "record_wrong_merges": [],
+   "splits": {
+    "accepted": {
+     "k": 4,
+     "n": 5,
+     "rate": 0.8,
+     "low": 0.3755282641185388,
+     "high": 0.9637768390302125
+    },
+    "strict": {
+     "k": 4,
+     "n": 5,
+     "rate": 0.8,
+     "low": 0.3755282641185388,
+     "high": 0.9637768390302125
+    },
+    "worst_case": {
+     "k": 4,
+     "n": 5,
+     "rate": 0.8,
+     "low": 0.3755282641185388,
+     "high": 0.9637768390302125
+    },
+    "counts": {
+     "VALID": 4,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 1,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "wrong_splits": [
+    "s:Particular:ntsb"
+   ],
+   "identity_pairs": {
+    "precision": 1.0,
+    "recall": 0.6666666666666666,
+    "apart": null,
+    "scored": 3,
+    "joined": 2,
+    "same_scored": 3,
+    "different_scored": 0,
+    "not_extracted": 24,
+    "outcomes": [
+     {
+      "index": 0,
+      "same": true,
+      "a_entities": [
+       "af03cedd98674137"
+      ],
+      "b_entities": []
+     },
+     {
+      "index": 1,
+      "same": true,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 2,
+      "same": true,
+      "a_entities": [
+       "5177f8c2cdafda4d"
+      ],
+      "b_entities": [
+       "5177f8c2cdafda4d"
+      ]
+     },
+     {
+      "index": 3,
+      "same": true,
+      "a_entities": [
+       "3db18a9139b637fe"
+      ],
+      "b_entities": []
+     },
+     {
+      "index": 4,
+      "same": true,
+      "a_entities": [
+       "903612cd4e9fb970"
+      ],
+      "b_entities": []
+     },
+     {
+      "index": 5,
+      "same": true,
+      "a_entities": [],
+      "b_entities": [
+       "7b010e295185d597"
+      ]
+     },
+     {
+      "index": 6,
+      "same": true,
+      "a_entities": [
+       "2f6da198429e2f04"
+      ],
+      "b_entities": [
+       "7c7fa75d13181d2b"
+      ]
+     },
+     {
+      "index": 7,
+      "same": true,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 8,
+      "same": true,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 9,
+      "same": true,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 10,
+      "same": true,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 11,
+      "same": true,
+      "a_entities": [
+       "97ecba111d14f59e"
+      ],
+      "b_entities": [
+       "97ecba111d14f59e"
+      ]
+     },
+     {
+      "index": 12,
+      "same": true,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 13,
+      "same": false,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 14,
+      "same": false,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 15,
+      "same": false,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 16,
+      "same": false,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 17,
+      "same": false,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 18,
+      "same": false,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 19,
+      "same": false,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 20,
+      "same": false,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 21,
+      "same": false,
+      "a_entities": [
+       "7c4217880130754f"
+      ],
+      "b_entities": []
+     },
+     {
+      "index": 22,
+      "same": false,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 23,
+      "same": false,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 24,
+      "same": false,
+      "a_entities": [
+       "e4cb1319689a6fdd"
+      ],
+      "b_entities": []
+     },
+     {
+      "index": 25,
+      "same": false,
+      "a_entities": [],
+      "b_entities": []
+     },
+     {
+      "index": 26,
+      "same": false,
+      "a_entities": [],
+      "b_entities": []
+     }
+    ]
+   },
+   "hard_passed": true
+  },
+  "c4": {
+   "links": {
+    "accepted": {
+     "k": 36,
+     "n": 36,
+     "rate": 1.0,
+     "low": 0.9035781695514236,
+     "high": 1.0
+    },
+    "strict": {
+     "k": 36,
+     "n": 36,
+     "rate": 1.0,
+     "low": 0.9035781695514236,
+     "high": 1.0
+    },
+    "worst_case": {
+     "k": 36,
+     "n": 36,
+     "rate": 1.0,
+     "low": 0.9035781695514236,
+     "high": 1.0
+    },
+    "counts": {
+     "VALID": 36,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 0,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "unlinked": {
+    "accepted": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "strict": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "worst_case": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "counts": {
+     "VALID": 0,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 0,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "incorrect": [],
+   "cross_scope_confirmed": [],
+   "flags": [],
+   "incorrect_unflagged": [],
+   "hard_passed": true
+  },
+  "c6": {
+   "purity": {
+    "anchor": {
+     "record_individual": {
+      "accepted": {
+       "k": 58,
+       "n": 60,
+       "rate": 0.9666666666666667,
+       "low": 0.8863601247107462,
+       "high": 0.9908108735098498
+      },
+      "strict": {
+       "k": 35,
+       "n": 60,
+       "rate": 0.5833333333333334,
+       "low": 0.45727854313239624,
+       "high": 0.6993591351212818
+      },
+      "worst_case": {
+       "k": 58,
+       "n": 60,
+       "rate": 0.9666666666666667,
+       "low": 0.8863601247107462,
+       "high": 0.9908108735098498
+      },
+      "counts": {
+       "VALID": 35,
+       "VALID_ALTERNATIVE": 23,
+       "INCORRECT": 2,
+       "AMBIGUOUS": 0,
+       "UNJUDGEABLE": 0
+      }
+     },
+     "concept": {
+      "accepted": {
+       "k": 58,
+       "n": 58,
+       "rate": 1.0,
+       "low": 0.9378800031047062,
+       "high": 0.9999999999999999
+      },
+      "strict": {
+       "k": 58,
+       "n": 58,
+       "rate": 1.0,
+       "low": 0.9378800031047062,
+       "high": 0.9999999999999999
+      },
+      "worst_case": {
+       "k": 58,
+       "n": 58,
+       "rate": 1.0,
+       "low": 0.9378800031047062,
+       "high": 0.9999999999999999
+      },
+      "counts": {
+       "VALID": 58,
+       "VALID_ALTERNATIVE": 0,
+       "INCORRECT": 0,
+       "AMBIGUOUS": 0,
+       "UNJUDGEABLE": 0
+      }
+     }
+    },
+    "layered": {
+     "record_individual": {
+      "accepted": {
+       "k": 58,
+       "n": 60,
+       "rate": 0.9666666666666667,
+       "low": 0.8863601247107462,
+       "high": 0.9908108735098498
+      },
+      "strict": {
+       "k": 35,
+       "n": 60,
+       "rate": 0.5833333333333334,
+       "low": 0.45727854313239624,
+       "high": 0.6993591351212818
+      },
+      "worst_case": {
+       "k": 58,
+       "n": 60,
+       "rate": 0.9666666666666667,
+       "low": 0.8863601247107462,
+       "high": 0.9908108735098498
+      },
+      "counts": {
+       "VALID": 35,
+       "VALID_ALTERNATIVE": 23,
+       "INCORRECT": 2,
+       "AMBIGUOUS": 0,
+       "UNJUDGEABLE": 0
+      }
+     },
+     "concept": {
+      "accepted": {
+       "k": 58,
+       "n": 58,
+       "rate": 1.0,
+       "low": 0.9378800031047062,
+       "high": 0.9999999999999999
+      },
+      "strict": {
+       "k": 58,
+       "n": 58,
+       "rate": 1.0,
+       "low": 0.9378800031047062,
+       "high": 0.9999999999999999
+      },
+      "worst_case": {
+       "k": 58,
+       "n": 58,
+       "rate": 1.0,
+       "low": 0.9378800031047062,
+       "high": 0.9999999999999999
+      },
+      "counts": {
+       "VALID": 58,
+       "VALID_ALTERNATIVE": 0,
+       "INCORRECT": 0,
+       "AMBIGUOUS": 0,
+       "UNJUDGEABLE": 0
+      }
+     }
+    }
+   },
+   "hard_passed": {
+    "anchor": true,
+    "layered": true
+   },
+   "starts_below": {
+    "anchor": [
+     {
+      "start": "c3b053aba1ea5746",
+      "kind": "individual",
+      "purity": {
+       "k": 1,
+       "n": 3,
+       "rate": 0.3333333333333333,
+       "low": 0.0614903152761605,
+       "high": 0.7923450448735121
+      }
+     }
+    ],
+    "layered": [
+     {
+      "start": "c3b053aba1ea5746",
+      "kind": "individual",
+      "purity": {
+       "k": 1,
+       "n": 3,
+       "rate": 0.3333333333333333,
+       "low": 0.0614903152761605,
+       "high": 0.7923450448735121
+      }
+     }
+    ]
+   },
+   "only_layered": {
+    "accepted": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "strict": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "worst_case": {
+     "k": 0,
+     "n": 0,
+     "rate": null,
+     "low": null,
+     "high": null
+    },
+    "counts": {
+     "VALID": 0,
+     "VALID_ALTERNATIVE": 0,
+     "INCORRECT": 0,
+     "AMBIGUOUS": 0,
+     "UNJUDGEABLE": 0
+    }
+   },
+   "flags": [],
+   "incorrect_unflagged": [
+    "p:c3b053aba1ea5746|documents/cessna_172s_accidents.md#3",
+    "p:c3b053aba1ea5746|documents/cessna_172s_accidents.md#4"
+   ]
+  }
+ },
+ "impact": {
+  "m:3598410f614a2118": [],
+  "s:Particular:ntsb": [],
+  "p:c3b053aba1ea5746|documents/cessna_172s_accidents.md#3": [
+   "NB26"
+  ],
+  "p:c3b053aba1ea5746|documents/cessna_172s_accidents.md#4": [
+   "NB26"
+  ]
+ }
+}

@@ -1,0 +1,297 @@
+{
+ "criterion": "C4",
+ "items": [
+  {
+   "id": "l:c62513888f9bce4c:Lighthouse:Q15182446",
+   "node": "Lighthouse:Q15182446",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:ff54127865e2bd29:Lighthouse:Q15182446",
+   "node": "Lighthouse:Q15182446",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:97be2049b3b0d028:Lighthouse:Q10581063",
+   "node": "Lighthouse:Q10581063",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:c7d65b98cfb44be9:Lighthouse:Q10581063",
+   "node": "Lighthouse:Q10581063",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:14b08a62ed990de9:Lighthouse:Q15217395",
+   "node": "Lighthouse:Q15217395",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:2233acaabcf25fa1:Lighthouse:Q15217395",
+   "node": "Lighthouse:Q15217395",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:22972c8f7becb6de:Lighthouse:Q15217395",
+   "node": "Lighthouse:Q15217395",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:505b74c7a865f78a:Lighthouse:Q15217395",
+   "node": "Lighthouse:Q15217395",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:587742c10c07945d:Lighthouse:Q15217395",
+   "node": "Lighthouse:Q15217395",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:60f5c45851297e99:Lighthouse:Q15217395",
+   "node": "Lighthouse:Q15217395",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "adjudicated None"
+  },
+  {
+   "id": "l:bd5badbdaa0bc137:Lighthouse:Q15217395",
+   "node": "Lighthouse:Q15217395",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:2387a61645501033:Engineer:James Walker",
+   "node": "Engineer:James Walker",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:40d39b5da7ab6633:Lighthouse:Q15221791",
+   "node": "Lighthouse:Q15221791",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:993a1964a2aefcfb:Lighthouse:Q15221791",
+   "node": "Lighthouse:Q15221791",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:a35ab555768a7ce3:Lighthouse:Q15221791",
+   "node": "Lighthouse:Q15221791",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:8b544d39d035f4bd:Lighthouse:Q2752623",
+   "node": "Lighthouse:Q2752623",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:16d6b272da06e78e:Lighthouse:Q3739817",
+   "node": "Lighthouse:Q3739817",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:6d8a2607b9c2e35f:Lighthouse:Q3739817",
+   "node": "Lighthouse:Q3739817",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:a22161ea812fd5ed:Lighthouse:Q3739817",
+   "node": "Lighthouse:Q3739817",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:ada67b86fe93403a:Lighthouse:Q3739817",
+   "node": "Lighthouse:Q3739817",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:baae07f178d15d6c:Lighthouse:Q3739817",
+   "node": "Lighthouse:Q3739817",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:bf23a6ccef144cd9:Lighthouse:Q3739817",
+   "node": "Lighthouse:Q3739817",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:b23f8b02094f5d3a:Lighthouse:Q3739817",
+   "node": "Lighthouse:Q3739817",
+   "kind": "link",
+   "flags": [
+    "cross_scope_link"
+   ],
+   "arms": [],
+   "edge": "adjudicated None"
+  },
+  {
+   "id": "l:b3aadb0a5be8e72e:Engineer:James Walker",
+   "node": "Engineer:James Walker",
+   "kind": "link",
+   "flags": [
+    "cross_scope_link"
+   ],
+   "arms": [],
+   "edge": "adjudicated None"
+  },
+  {
+   "id": "l:c107a664c4f36f9e:Lighthouse:Q2686634",
+   "node": "Lighthouse:Q2686634",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:f902f3099f52e9b5:Lighthouse:Q2686634",
+   "node": "Lighthouse:Q2686634",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:fe329fc207c2032f:Lighthouse:Q2686634",
+   "node": "Lighthouse:Q2686634",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:4ae17af8bc213d72:Lighthouse:Q7590348",
+   "node": "Lighthouse:Q7590348",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:6c5aca8fe06a393b:Lighthouse:Q7590348",
+   "node": "Lighthouse:Q7590348",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:d7bd305861a565dc:Lighthouse:Q7590348",
+   "node": "Lighthouse:Q7590348",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:bc10167a27890783:Lighthouse:Q2686922",
+   "node": "Lighthouse:Q2686922",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:e096df5195332578:Lighthouse:Q2686922",
+   "node": "Lighthouse:Q2686922",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:01d7f561f19906e4:Engineer:James Walker",
+   "node": "Engineer:James Walker",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:06cc81e418a0ce83:Lighthouse:Q7994169",
+   "node": "Lighthouse:Q7994169",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  },
+  {
+   "id": "l:366423518c9b167d:Lighthouse:Q7994169",
+   "node": "Lighthouse:Q7994169",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:4113964cf6066090:Lighthouse:Q7994169",
+   "node": "Lighthouse:Q7994169",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "chosen None"
+  }
+ ]
+}

@@ -1,0 +1,995 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-16",
+  "snapshot_hash": "6661bcc8f003",
+  "sheet": "tests/gold/r228/ntsb/c6_sheet.json",
+  "sheet_hash": "19365ec311aa",
+  "sheets_git_sha": "committed with the verdicts in step R228 (built from out/r155b at cb55aa0)"
+ },
+ "criterion": "C6",
+ "verdicts": [
+  {
+   "id": "p:031b4f56c9084546|documents/piper_pa_28_181_accidents.md#3",
+   "label": "VALID",
+   "reason": "Chunk describes the wing striking a fence post.",
+   "evidence": "after impact with a fence post",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:27ce85c93a913c3c|documents/cessna_172s_accidents.md#0",
+   "label": "VALID",
+   "reason": "Chunk names the airport manager confirming runway snow.",
+   "evidence": "The airport manager confirmed",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:2f6da198429e2f04|documents/cirrus_sr22_accidents.md#1",
+   "label": "VALID",
+   "reason": "Chunk says the pilot activated the Cirrus airframe parachute system.",
+   "evidence": "he elected to activate the Cirrus airframe parachute system",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:3438cbf83c62b6e8|documents/piper_pa_28_181_accidents.md#3",
+   "label": "VALID",
+   "reason": "Chunk holds this exact probable-cause finding.",
+   "evidence": "A loss of engine power due to fuel starvation and the pilot's mismanagement of the available fuel",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:3e50688f8e79f0a6|documents/beech_a36_accidents.md#1",
+   "label": "VALID",
+   "reason": "Concept total power loss; chunk says the engine lost total power.",
+   "evidence": "the engine began to shake and lost total power",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:3e50688f8e79f0a6|documents/beech_a36_accidents.md#2",
+   "label": "VALID",
+   "reason": "Concept total power loss; chunk says the total loss of power was evident.",
+   "evidence": "the total loss of power was evident",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:3e50688f8e79f0a6|documents/cessna_172s_accidents.md#2",
+   "label": "VALID",
+   "reason": "Concept total power loss; chunk speaks of the total loss of engine power.",
+   "evidence": "the cause of the total loss of engine power could not be determined",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:3e50688f8e79f0a6|documents/cessna_172s_accidents.md#3",
+   "label": "VALID",
+   "reason": "Concept total power loss; chunk says the engine lost total power.",
+   "evidence": "the engine lost total power",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:3e50688f8e79f0a6|documents/robinson_r44_ii_accidents.md#3",
+   "label": "VALID",
+   "reason": "Concept total power loss; chunk says the engine lost total power.",
+   "evidence": "lost total power. The helicopter touched down hard",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:41e2fc3bba014678|documents/cessna_172s_accidents.md#1",
+   "label": "VALID",
+   "reason": "Chunk says the pilot opened his window.",
+   "evidence": "the pilot opened his window to vent the cabin",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:474f2c8501c17b58|documents/beech_a36_accidents.md#4",
+   "label": "VALID",
+   "reason": "Chunk speaks of flight over a cloud layer.",
+   "evidence": "while in cruise flight over a cloud layer",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:4d9b37578ebf4e12|documents/piper_pa_28_181_accidents.md#1",
+   "label": "VALID",
+   "reason": "Chunk names the manufacturer's service bulletin.",
+   "evidence": "the manufacturer issued a service bulletin requiring replacement",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:4e150d4481e0f72b|documents/air_tractor_at_502b_accidents.md#1",
+   "label": "VALID",
+   "reason": "Concept road; chunk says the airplane slid across a road.",
+   "evidence": "slid across a road",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:4e150d4481e0f72b|documents/beech_a36_accidents.md#4",
+   "label": "VALID",
+   "reason": "Concept road; chunk describes a forced landing to a road.",
+   "evidence": "a forced landing to a road",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:5671d134a1640e92|documents/air_tractor_at_502b_accidents.md#4",
+   "label": "VALID",
+   "reason": "Chunk says white smoke trailed the airplane.",
+   "evidence": "observed white smoke trailing the airplane",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:56b7467c8226997a|documents/cessna_172s_accidents.md#1",
+   "label": "VALID",
+   "reason": "Chunk describes the failed air conditioning hose.",
+   "evidence": "a high-pressure air conditioning hose failed",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:5803bd3caf73c38e|documents/piper_pa_28_181_accidents.md#5",
+   "label": "VALID",
+   "reason": "Chunk holds this exact probable-cause finding (CEN23LA026).",
+   "evidence": "failure to maintain directional control while taking off from a touch and go landing",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:5af5d2ce44763564|documents/cirrus_sr22_accidents.md#0",
+   "label": "VALID",
+   "reason": "Chunk holds this exact probable-cause finding (CEN21FA299).",
+   "evidence": "The pilot did not maintain aircraft control during an attempted go-around after a bounced landing, which resulted in impact with terrain and a postimpact fire.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:6a275cd01b800f7d|documents/cirrus_sr22_accidents.md#0",
+   "label": "VALID",
+   "reason": "Chunk says a postimpact fire ensued.",
+   "evidence": "A postimpact fire ensued",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:6a696e725fa1c46c|documents/piper_pa_28_181_accidents.md#1",
+   "label": "VALID",
+   "reason": "Chunk names the right main landing gear separating.",
+   "evidence": "the right main landing gear impacted a runway light and separated from the airplane",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:6b05c28b48133240|documents/air_tractor_at_502b_accidents.md#1",
+   "label": "VALID",
+   "reason": "Concept left tank; chunk speaks of fuel added to the left fuel tank.",
+   "evidence": "to the left fuel tank",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:6b05c28b48133240|documents/beech_a36_accidents.md#3",
+   "label": "VALID",
+   "reason": "Concept left tank; chunk speaks of fuel recovered from the left-wing tanks.",
+   "evidence": "26 gallons were recovered from the left-wing fuel tanks",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:6b05c28b48133240|documents/beech_a36_accidents.md#4",
+   "label": "VALID",
+   "reason": "Concept left tank; chunk speaks of the left fuel tank vent obstruction.",
+   "evidence": "the fuel venting system on the left-wing fuel tank was obstructed",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:6b05c28b48133240|documents/piper_pa_28_181_accidents.md#3",
+   "label": "VALID",
+   "reason": "Concept left tank; chunk quotes running the left tank too long.",
+   "evidence": "ran the left tank too long without switching",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:71322f5005e0acc4|documents/piper_pa_28_181_accidents.md#3",
+   "label": "VALID",
+   "reason": "Concept touch and go landing; chunk mentions touch and go landings.",
+   "evidence": "which included touch and go landings",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:71322f5005e0acc4|documents/piper_pa_28_181_accidents.md#5",
+   "label": "VALID",
+   "reason": "Concept touch and go landing; chunk describes performing one.",
+   "evidence": "he was performing a touch and go landing",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:7c4217880130754f|documents/air_tractor_at_502b_accidents.md#1",
+   "label": "VALID",
+   "reason": "Concept right wing; chunk mentions damage to the right wing.",
+   "evidence": "substantial damage to the fuselage and the right wing",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:7c4217880130754f|documents/air_tractor_at_502b_accidents.md#3",
+   "label": "VALID",
+   "reason": "Concept right wing; chunk describes the right wing dipping and hitting corn.",
+   "evidence": "the pilot felt the right wing rapidly dip",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:7c4217880130754f|documents/cessna_172s_accidents.md#0",
+   "label": "VALID",
+   "reason": "Concept right wing; chunk says the right wing was bent.",
+   "evidence": "right wing was bent up at the tip",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:7c4217880130754f|documents/cessna_172s_accidents.md#3",
+   "label": "VALID",
+   "reason": "Concept right wing; chunk mentions right wing damage.",
+   "evidence": "substantial damage to the right wing and engine mount",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:7c4217880130754f|documents/cirrus_sr22_accidents.md#2",
+   "label": "VALID",
+   "reason": "Concept right wing; chunk mentions right wing damage.",
+   "evidence": "the right wing sustained substantial damage",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:7c4217880130754f|documents/piper_pa_28_181_accidents.md#0",
+   "label": "VALID",
+   "reason": "Concept right wing; chunk says the right wing struck a windsock.",
+   "evidence": "striking a windsock with its right wing",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:7c4217880130754f|documents/piper_pa_28_181_accidents.md#5",
+   "label": "VALID",
+   "reason": "Concept right wing; chunk mentions right wing damage.",
+   "evidence": "substantial damage to the right wing",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:7c7fa75d13181d2b|documents/cirrus_sr22_accidents.md#1",
+   "label": "VALID",
+   "reason": "Chunk speaks of activating the airframe parachute system.",
+   "evidence": "decision to activate the airframe parachute system",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:80b8a9080d4ca17f|documents/robinson_r44_ii_accidents.md#1",
+   "label": "VALID",
+   "reason": "Chunk section is the Skwentna, AK accident.",
+   "evidence": "## ANC23LA032 (2023-05-09, Skwentna, AK)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:81d490cdae572436|documents/cirrus_sr22_accidents.md#1",
+   "label": "VALID",
+   "reason": "Chunk reports testing of the directional gyro.",
+   "evidence": "the directional gyro counterclockwise heading stability",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:8872dc39c8fd3c58|documents/air_tractor_at_502b_accidents.md#4",
+   "label": "VALID",
+   "reason": "Chunk says the airplane struck an airport perimeter fence.",
+   "evidence": "the airplane struck an airport perimeter fence",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:8c467c04f0acf90e|documents/beech_a36_accidents.md#1",
+   "label": "VALID",
+   "reason": "Chunk says engine oil pressure fluctuated.",
+   "evidence": "the engine oil pressure began to fluctuate",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:8cb013209a9562ad|documents/beech_a36_accidents.md#1",
+   "label": "VALID",
+   "reason": "Chunk holds this probable-cause finding (CEN21LA221).",
+   "evidence": "The total loss of engine power due to oil starvation.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:97fd16e8d534e128|documents/beech_a36_accidents.md#5",
+   "label": "VALID",
+   "reason": "Chunk names fuel starvation in its probable cause.",
+   "evidence": "a total loss of engine power due to fuel starvation",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:98d89f5da6794b57|documents/robinson_r44_ii_accidents.md#3",
+   "label": "VALID",
+   "reason": "Chunk holds this exact probable-cause finding (CEN21LA284).",
+   "evidence": "A total loss of engine power for undetermined reasons.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:99f44fe40190628b|documents/cessna_172s_accidents.md#1",
+   "label": "VALID",
+   "reason": "Chunk describes landing on a multi-lane highway.",
+   "evidence": "an off-airport emergency landing on an empty multi-lane highway",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:9b9ba26f53caa04d|documents/cessna_172s_accidents.md#3",
+   "label": "VALID",
+   "reason": "Chunk says the airplane impacted a perimeter fence.",
+   "evidence": "the airplane impacted terrain and a perimeter fence",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Accident:ANC23LA032|documents/robinson_r44_ii_accidents.md#1",
+   "label": "VALID",
+   "reason": "Chunk is the narrative of accident ANC23LA032.",
+   "evidence": "## ANC23LA032 (2023-05-09, Skwentna, AK)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Accident:CEN21FA299|documents/cirrus_sr22_accidents.md#0",
+   "label": "VALID",
+   "reason": "Chunk is the narrative of accident CEN21FA299 at Lamoni.",
+   "evidence": "## CEN21FA299 (2021-07-01, Lamoni, IA)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Accident:CEN21LA126|documents/cessna_172s_accidents.md#0",
+   "label": "VALID",
+   "reason": "Chunk is the narrative of accident CEN21LA126 at Urbana.",
+   "evidence": "## CEN21LA126 (2021-02-07, Urbana, OH)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Accident:CEN21LA173|documents/robinson_r44_ii_accidents.md#2",
+   "label": "VALID",
+   "reason": "Chunk is the narrative of accident CEN21LA173.",
+   "evidence": "## CEN21LA173 (2021-03-26, Dustin, OK)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Accident:CEN21LA221|documents/beech_a36_accidents.md#1",
+   "label": "VALID",
+   "reason": "Chunk is the narrative of accident CEN21LA221.",
+   "evidence": "## CEN21LA221 (2021-05-14, Pinckneyville, IL)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Accident:CEN21LA232|documents/cirrus_sr22_accidents.md#1",
+   "label": "VALID",
+   "reason": "Chunk is the narrative of accident CEN21LA232.",
+   "evidence": "## CEN21LA232 (2021-05-16, Whitewater, WI)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Accident:CEN21LA268|documents/cessna_172s_accidents.md#1",
+   "label": "VALID",
+   "reason": "Chunk is the narrative of accident CEN21LA268.",
+   "evidence": "## CEN21LA268 (2021-06-10, Saint James, LA)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Accident:CEN21LA283|documents/air_tractor_at_502b_accidents.md#0",
+   "label": "VALID",
+   "reason": "Chunk is the narrative of accident CEN21LA283.",
+   "evidence": "## CEN21LA283 (2021-06-20, Edwardsburg, MI)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Accident:CEN21LA284|documents/robinson_r44_ii_accidents.md#3",
+   "label": "VALID",
+   "reason": "Chunk is the narrative of accident CEN21LA284 at Reserve, LA.",
+   "evidence": "## CEN21LA284 (2021-06-10, Reserve, LA)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Accident:CEN21LA339|documents/robinson_r44_ii_accidents.md#4",
+   "label": "VALID",
+   "reason": "Chunk is the narrative of accident CEN21LA339.",
+   "evidence": "## CEN21LA339 (2021-07-20, West Liberty, IA)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Accident:CEN21LA353|documents/piper_pa_28_181_accidents.md#1",
+   "label": "VALID",
+   "reason": "Chunk is the narrative of accident CEN21LA353 at Jeffersonville.",
+   "evidence": "## CEN21LA353 (2021-08-03, Jeffersonville, IN)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Accident:CEN21LA362|documents/air_tractor_at_502b_accidents.md#1",
+   "label": "VALID",
+   "reason": "Chunk is the narrative of accident CEN21LA362.",
+   "evidence": "## CEN21LA362 (2021-08-06, Topeka, KS)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Accident:CEN21LA382|documents/beech_a36_accidents.md#2",
+   "label": "VALID",
+   "reason": "Chunk is the narrative of accident CEN21LA382 at Granbury.",
+   "evidence": "## CEN21LA382 (2021-08-24, Granbury, TX)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Accident:CEN22LA059|documents/beech_a36_accidents.md#3",
+   "label": "VALID",
+   "reason": "Chunk is the narrative of accident CEN22LA059 at Cleveland, TX.",
+   "evidence": "## CEN22LA059 (2021-12-02, Cleveland, TX)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Accident:CEN22LA249|documents/piper_pa_28_181_accidents.md#4",
+   "label": "VALID",
+   "reason": "Chunk is the narrative of accident CEN22LA249 at Eaton Rapids.",
+   "evidence": "## CEN22LA249 (2022-06-14, Eaton Rapids, MI)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Accident:CEN23LA223|documents/air_tractor_at_502b_accidents.md#5",
+   "label": "VALID",
+   "reason": "Chunk is the narrative of accident CEN23LA223.",
+   "evidence": "## CEN23LA223 (2023-06-03, Lake Village, AR)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Accident:CEN23LA344|documents/beech_a36_accidents.md#4",
+   "label": "VALID",
+   "reason": "Chunk is the narrative of accident CEN23LA344.",
+   "evidence": "## CEN23LA344 (2023-07-20, Oberlin, KS)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:Aircraft:CEN22LA194|documents/cessna_172s_accidents.md#3",
+   "label": "VALID",
+   "reason": "Aircraft N184NW is INVOLVED_IN CEN22LA194; chunk narrates that accident's airplane.",
+   "evidence": "## CEN22LA194 (2022-05-10, Traverse City, MI)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:AircraftModel:172S|documents/cessna_172s_accidents.md#0",
+   "label": "VALID",
+   "reason": "Chunk names Cessna 172S and narrates CEN21LA126, an aircraft of this model.",
+   "evidence": "# Cessna 172S accidents investigated by the NTSB",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:AircraftModel:172S|documents/cessna_172s_accidents.md#1",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Chunk narrates CEN21LA268, whose aircraft is OF_MODEL 172S per the record; model not named in text.",
+   "evidence": "## CEN21LA268 (2021-06-10, Saint James, LA)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:AircraftModel:172S|documents/cessna_172s_accidents.md#2",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Chunk narrates CEN21LA414, an aircraft of this model per the record; model not named in text.",
+   "evidence": "## CEN21LA414 (2021-09-10, LaSalle, CO)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:AircraftModel:172S|documents/cessna_172s_accidents.md#3",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Chunk narrates CEN22LA194, an aircraft of this model per the record; model not named in text.",
+   "evidence": "## CEN22LA194 (2022-05-10, Traverse City, MI)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:AircraftModel:172S|documents/cessna_172s_accidents.md#4",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Chunk narrates CEN22LA244, an aircraft of this model per the record; model not named in text.",
+   "evidence": "## CEN22LA244 (2022-06-09, Salina, KS)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:AircraftModel:A36|documents/beech_a36_accidents.md#0",
+   "label": "VALID",
+   "reason": "Chunk names Beech A36 and narrates ANC21LA027, an aircraft of this model.",
+   "evidence": "# Beech A36 accidents investigated by the NTSB",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:AircraftModel:A36|documents/beech_a36_accidents.md#1",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Chunk narrates CEN21LA221, an aircraft of this model per the record; model not named in text.",
+   "evidence": "## CEN21LA221 (2021-05-14, Pinckneyville, IL)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:AircraftModel:A36|documents/beech_a36_accidents.md#2",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Chunk narrates CEN21LA382, an aircraft of this model per the record; model not named in text.",
+   "evidence": "## CEN21LA382 (2021-08-24, Granbury, TX)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:AircraftModel:A36|documents/beech_a36_accidents.md#3",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Chunk narrates CEN22LA059, an aircraft of this model per the record; model not named in text.",
+   "evidence": "## CEN22LA059 (2021-12-02, Cleveland, TX)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:AircraftModel:A36|documents/beech_a36_accidents.md#4",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Chunk narrates CEN23LA344, an aircraft of this model per the record; model not named in text.",
+   "evidence": "## CEN23LA344 (2023-07-20, Oberlin, KS)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:AircraftModel:A36|documents/beech_a36_accidents.md#5",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Chunk is the probable-cause tail of the CEN23LA344 report in the Beech A36 file; model not named.",
+   "evidence": "Probable cause: The blockage of the left fuel tank vent",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:AircraftModel:PA-28-181|documents/piper_pa_28_181_accidents.md#0",
+   "label": "VALID",
+   "reason": "Chunk names Piper PA-28-181 and narrates CEN21LA185, an aircraft of this model.",
+   "evidence": "# Piper PA-28-181 accidents investigated by the NTSB",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:AircraftModel:PA-28-181|documents/piper_pa_28_181_accidents.md#1",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Chunk narrates CEN21LA353, an aircraft of this model per the record; model not named in text.",
+   "evidence": "## CEN21LA353 (2021-08-03, Jeffersonville, IN)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:AircraftModel:PA-28-181|documents/piper_pa_28_181_accidents.md#2",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Chunk continues the CEN21LA353 report and refers to the accident airplane model.",
+   "evidence": "including the accident airplane model",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:AircraftModel:PA-28-181|documents/piper_pa_28_181_accidents.md#3",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Chunk narrates CEN21LA383, an aircraft of this model per the record; model not named in text.",
+   "evidence": "## CEN21LA383 (2021-08-24, Gypsum, CO)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:AircraftModel:PA-28-181|documents/piper_pa_28_181_accidents.md#4",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Chunk narrates CEN22LA249, an aircraft of this model per the record; model not named in text.",
+   "evidence": "## CEN22LA249 (2022-06-14, Eaton Rapids, MI)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:AircraftModel:PA-28-181|documents/piper_pa_28_181_accidents.md#5",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Chunk narrates CEN23LA026, an aircraft of this model per the record; model not named in text.",
+   "evidence": "## CEN23LA026 (2022-11-05, Mesquite, TX)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:AircraftModel:R44 II|documents/robinson_r44_ii_accidents.md#0",
+   "label": "VALID",
+   "reason": "Chunk names Robinson R44 II and narrates ANC21LA079, an aircraft of this model.",
+   "evidence": "# Robinson R44 II accidents investigated by the NTSB",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:AircraftModel:R44 II|documents/robinson_r44_ii_accidents.md#1",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Chunk narrates ANC23LA032, an aircraft of this model per the record; model not named in text.",
+   "evidence": "## ANC23LA032 (2023-05-09, Skwentna, AK)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:AircraftModel:R44 II|documents/robinson_r44_ii_accidents.md#2",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Chunk narrates CEN21LA173, an aircraft of this model per the record; model not named in text.",
+   "evidence": "## CEN21LA173 (2021-03-26, Dustin, OK)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:AircraftModel:R44 II|documents/robinson_r44_ii_accidents.md#3",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Chunk narrates CEN21LA284, an aircraft of this model per the record; model not named in text.",
+   "evidence": "## CEN21LA284 (2021-06-10, Reserve, LA)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:AircraftModel:R44 II|documents/robinson_r44_ii_accidents.md#4",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Chunk narrates CEN21LA339, an aircraft of this model per the record; model not named in text.",
+   "evidence": "## CEN21LA339 (2021-07-20, West Liberty, IA)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:AircraftModel:SR22|documents/cirrus_sr22_accidents.md#0",
+   "label": "VALID",
+   "reason": "Chunk names Cirrus SR22 and narrates CEN21FA299, an aircraft of this model.",
+   "evidence": "# Cirrus SR22 accidents investigated by the NTSB",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:AircraftModel:SR22|documents/cirrus_sr22_accidents.md#1",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Chunk narrates CEN21LA232, an aircraft of this model per the record; SR22 not named in text.",
+   "evidence": "## CEN21LA232 (2021-05-16, Whitewater, WI)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:AircraftModel:SR22|documents/cirrus_sr22_accidents.md#2",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Chunk narrates CEN21LA280, an aircraft of this model per the record; model not named in text.",
+   "evidence": "## CEN21LA280 (2021-06-18, Hayward, WI)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:AircraftModel:SR22|documents/cirrus_sr22_accidents.md#3",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Chunk narrates CEN22LA235, an aircraft of this model per the record; model not named in text.",
+   "evidence": "## CEN22LA235 (2022-06-06, Nashville, AR)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:AircraftModel:SR22|documents/cirrus_sr22_accidents.md#4",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Chunk narrates CEN23LA017, an aircraft of this model per the record; model not named in text.",
+   "evidence": "## CEN23LA017 (2022-10-23, Loveland, CO)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:AircraftModel:SR22|documents/cirrus_sr22_accidents.md#5",
+   "label": "VALID_ALTERNATIVE",
+   "reason": "Chunk is the probable-cause tail of the CEN23LA017 report in the Cirrus SR22 file; model not named.",
+   "evidence": "Probable cause: The pilot",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:a7bdc01e05bdfe2c|documents/air_tractor_at_502b_accidents.md#1",
+   "label": "VALID",
+   "reason": "Concept right fuel tank; chunk speaks of fuel added to the right fuel tank.",
+   "evidence": "to the right fuel tank after the accident",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:a7bdc01e05bdfe2c|documents/beech_a36_accidents.md#4",
+   "label": "VALID",
+   "reason": "Concept right fuel tank; chunk says the pilot switched to the right fuel tank.",
+   "evidence": "switching to the right fuel tank",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:a869bd3cba239ba8|documents/beech_a36_accidents.md#3",
+   "label": "VALID",
+   "reason": "Chunk section is the Cleveland, TX accident.",
+   "evidence": "## CEN22LA059 (2021-12-02, Cleveland, TX)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:a916b51206e38ce0|documents/air_tractor_at_502b_accidents.md#5",
+   "label": "VALID",
+   "reason": "Chunk names the agricultural airstrip.",
+   "evidence": "departing from a 2,100-ft-long airstrip",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:b132927fc352a805|documents/beech_a36_accidents.md#2",
+   "label": "VALID",
+   "reason": "Chunk section is the Granbury, TX accident.",
+   "evidence": "## CEN21LA382 (2021-08-24, Granbury, TX)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:b482a32db145c7ab|documents/piper_pa_28_181_accidents.md#1",
+   "label": "VALID",
+   "reason": "Chunk names the runway light struck by the gear.",
+   "evidence": "The runway light was mounted on a concrete base",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:c3b053aba1ea5746|documents/cessna_172s_accidents.md#2",
+   "label": "VALID",
+   "reason": "Chunk is the CEN21LA414 report where this flight instructor appears.",
+   "evidence": "The flight instructor and student pilot were conducting a simulated off-field emergency landing",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:c3b053aba1ea5746|documents/cessna_172s_accidents.md#3",
+   "label": "INCORRECT",
+   "reason": "Start is the CEN21LA414 instructor (simulated off-field landing); chunk is CEN22LA194, a different flight instructor.",
+   "evidence": "The flight instructor took control of the airplane and made multiple attempts to restart the engine",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:c3b053aba1ea5746|documents/cessna_172s_accidents.md#4",
+   "label": "INCORRECT",
+   "reason": "Start is the CEN21LA414 instructor; chunk (CEN22LA244) mentions a different instructor who flew earlier that day.",
+   "evidence": "A flight instructor, who flew the airplane earlier in the day",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:c9f4ddc2aded1c66|documents/beech_a36_accidents.md#2",
+   "label": "VALID",
+   "reason": "Concept fuel tanks; chunk says fuel was available in the fuel tanks.",
+   "evidence": "Fuel was available in the airplane",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:c9f4ddc2aded1c66|documents/piper_pa_28_181_accidents.md#3",
+   "label": "VALID",
+   "reason": "Concept fuel tanks; chunk says the fuel tanks were filled to the tabs.",
+   "evidence": "fuel tanks were filled to the tabs",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:cc021dce27bbffa5|documents/piper_pa_28_181_accidents.md#1",
+   "label": "VALID",
+   "reason": "Chunk names the landing gear mounting hardware.",
+   "evidence": "fatigue and corrosion of the landing gear mounting hardware",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:cc021dce27bbffa5|documents/piper_pa_28_181_accidents.md#2",
+   "label": "VALID",
+   "reason": "Chunk speaks of the landing gear attachment hardware (same thing).",
+   "evidence": "failure of the landing gear attachment hardware",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:d4d5907568015f55|documents/robinson_r44_ii_accidents.md#0",
+   "label": "VALID",
+   "reason": "Concept obstacles; chunk speaks of clearing terrain and obstacles.",
+   "evidence": "he cleared terrain and obstacles",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:d4d5907568015f55|documents/robinson_r44_ii_accidents.md#4",
+   "label": "VALID",
+   "reason": "Concept obstacles; chunk speaks of obstructions and a wire strike.",
+   "evidence": "did not observe any obstructions",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:d9ee56a31a6da43f|documents/beech_a36_accidents.md#3",
+   "label": "VALID",
+   "reason": "Chunk holds this exact probable-cause finding (CEN22LA059).",
+   "evidence": "A total loss of engine power due to fuel starvation, the reason for which could not be determined.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:da8c029e31f46f11|documents/robinson_r44_ii_accidents.md#3",
+   "label": "VALID",
+   "reason": "Chunk section is the Reserve, LA accident.",
+   "evidence": "## CEN21LA284 (2021-06-10, Reserve, LA)",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:dffff94542f74863|documents/beech_a36_accidents.md#3",
+   "label": "VALID",
+   "reason": "Chunk describes landing on a nearby highway.",
+   "evidence": "redirected the airplane toward a nearby highway",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:e63fe7fd66598df1|documents/air_tractor_at_502b_accidents.md#3",
+   "label": "VALID",
+   "reason": "Concept go-around; chunk says the pilot elected to go around.",
+   "evidence": "he elected to go around",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:e63fe7fd66598df1|documents/cirrus_sr22_accidents.md#0",
+   "label": "VALID",
+   "reason": "Concept go-around; chunk describes an attempted go-around.",
+   "evidence": "attempt to initiate a go-around",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:e63fe7fd66598df1|documents/cirrus_sr22_accidents.md#2",
+   "label": "VALID",
+   "reason": "Concept go-around; chunk says the pilot elected to do a go-around.",
+   "evidence": "the pilot elected to do a go-around",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:e63fe7fd66598df1|documents/cirrus_sr22_accidents.md#4",
+   "label": "VALID",
+   "reason": "Concept go-around; chunk says he initiated a go-around.",
+   "evidence": "He initiated a go-around",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:ef670a8f173cf95c|documents/robinson_r44_ii_accidents.md#4",
+   "label": "VALID",
+   "reason": "Chunk says the helicopter struck a wire.",
+   "evidence": "The pilot realized he had struck a wire",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:f44e2016f84c3547|documents/beech_a36_accidents.md#3",
+   "label": "VALID",
+   "reason": "Concept road sign; chunk says the wing tip struck a road sign.",
+   "evidence": "the right-wing tip struck a road sign",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:f44e2016f84c3547|documents/cessna_172s_accidents.md#1",
+   "label": "VALID",
+   "reason": "Concept road sign; chunk says the wing impacted a metal road sign.",
+   "evidence": "the left wing impacted a metal road sign",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:fa66f9d2c808e3b0|documents/cirrus_sr22_accidents.md#3",
+   "label": "VALID",
+   "reason": "Chunk says the airplane impacted a fence.",
+   "evidence": "impacted a fence off the end of the runway",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:fb29d9ef8ff35735|documents/beech_a36_accidents.md#5",
+   "label": "VALID",
+   "reason": "Chunk holds this exact probable-cause finding.",
+   "evidence": "The blockage of the left fuel tank vent, which resulted in a total loss of engine power due to fuel starvation.",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:fe92551b6978ef9e|documents/cirrus_sr22_accidents.md#2",
+   "label": "VALID",
+   "reason": "Chunk says the airplane impacted a drainage ditch.",
+   "evidence": "impacted a drainage ditch",
+   "outliers": [],
+   "together": []
+  },
+  {
+   "id": "p:ff86793f3e28eab6|documents/cessna_172s_accidents.md#0",
+   "label": "VALID",
+   "reason": "Chunk names patchy compressed snow on the runway.",
+   "evidence": "patchy compressed snow covering about 25% of the runway surface",
+   "outliers": [],
+   "together": []
+  }
+ ],
+ "reviewed": [
+  "p:4d9b37578ebf4e12|documents/piper_pa_28_181_accidents.md#1",
+  "p:5671d134a1640e92|documents/air_tractor_at_502b_accidents.md#4",
+  "p:56b7467c8226997a|documents/cessna_172s_accidents.md#1",
+  "p:6a275cd01b800f7d|documents/cirrus_sr22_accidents.md#0",
+  "p:6b05c28b48133240|documents/beech_a36_accidents.md#4",
+  "p:Accident:CEN21LA126|documents/cessna_172s_accidents.md#0",
+  "p:Accident:CEN21LA283|documents/air_tractor_at_502b_accidents.md#0",
+  "p:AircraftModel:172S|documents/cessna_172s_accidents.md#1",
+  "p:AircraftModel:172S|documents/cessna_172s_accidents.md#2",
+  "p:AircraftModel:172S|documents/cessna_172s_accidents.md#3",
+  "p:AircraftModel:172S|documents/cessna_172s_accidents.md#4",
+  "p:AircraftModel:A36|documents/beech_a36_accidents.md#1",
+  "p:AircraftModel:A36|documents/beech_a36_accidents.md#2",
+  "p:AircraftModel:A36|documents/beech_a36_accidents.md#3",
+  "p:AircraftModel:A36|documents/beech_a36_accidents.md#4",
+  "p:AircraftModel:A36|documents/beech_a36_accidents.md#5",
+  "p:AircraftModel:PA-28-181|documents/piper_pa_28_181_accidents.md#0",
+  "p:AircraftModel:PA-28-181|documents/piper_pa_28_181_accidents.md#1",
+  "p:AircraftModel:PA-28-181|documents/piper_pa_28_181_accidents.md#2",
+  "p:AircraftModel:PA-28-181|documents/piper_pa_28_181_accidents.md#3",
+  "p:AircraftModel:PA-28-181|documents/piper_pa_28_181_accidents.md#4",
+  "p:AircraftModel:PA-28-181|documents/piper_pa_28_181_accidents.md#5",
+  "p:AircraftModel:R44 II|documents/robinson_r44_ii_accidents.md#1",
+  "p:AircraftModel:R44 II|documents/robinson_r44_ii_accidents.md#2",
+  "p:AircraftModel:R44 II|documents/robinson_r44_ii_accidents.md#3",
+  "p:AircraftModel:R44 II|documents/robinson_r44_ii_accidents.md#4",
+  "p:AircraftModel:SR22|documents/cirrus_sr22_accidents.md#1",
+  "p:AircraftModel:SR22|documents/cirrus_sr22_accidents.md#2",
+  "p:AircraftModel:SR22|documents/cirrus_sr22_accidents.md#3",
+  "p:AircraftModel:SR22|documents/cirrus_sr22_accidents.md#4",
+  "p:AircraftModel:SR22|documents/cirrus_sr22_accidents.md#5",
+  "p:c3b053aba1ea5746|documents/cessna_172s_accidents.md#2",
+  "p:c3b053aba1ea5746|documents/cessna_172s_accidents.md#3",
+  "p:c3b053aba1ea5746|documents/cessna_172s_accidents.md#4",
+  "p:ff86793f3e28eab6|documents/cessna_172s_accidents.md#0"
+ ],
+ "changes": []
+}

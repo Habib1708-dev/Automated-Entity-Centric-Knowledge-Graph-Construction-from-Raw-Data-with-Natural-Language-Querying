@@ -1,0 +1,3439 @@
+{
+ "arm": "layered",
+ "fidelity_passed": true,
+ "provenance": {
+  "extracted.chunk_exists": {
+   "k": 161,
+   "n": 161,
+   "rate": 1.0,
+   "low": 0.9766952031526023,
+   "high": 1.0
+  },
+  "extracted.doc_consistent": {
+   "k": 161,
+   "n": 161,
+   "rate": 1.0,
+   "low": 0.9766952031526023,
+   "high": 1.0
+  },
+  "extracted.evidence_in_chunk": {
+   "k": 161,
+   "n": 161,
+   "rate": 1.0,
+   "low": 0.9766952031526023,
+   "high": 1.0
+  },
+  "extracted.ends_grounded": {
+   "k": 161,
+   "n": 161,
+   "rate": 1.0,
+   "low": 0.9766952031526023,
+   "high": 1.0
+  },
+  "pass.mention_in_chunk": {
+   "k": 555,
+   "n": 555,
+   "rate": 1.0,
+   "low": 0.9931257801852976,
+   "high": 1.0
+  },
+  "extracted.mention_in_chunk": {
+   "k": 172,
+   "n": 172,
+   "rate": 1.0,
+   "low": 0.9781530650312552,
+   "high": 0.9999999999999999
+  }
+ },
+ "placed": {
+  "LB01": [],
+  "LB02": [
+   {
+    "name": "Farne Lighthouse",
+    "aliases": [
+     "Farne High Lighthouse",
+     "Farne Island Lighthouse"
+    ],
+    "nodes": [
+     "Lighthouse:Q15217395"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "Inner Farne",
+    "aliases": [],
+    "nodes": [
+     "56e7eb480376ffc5"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "LB03": [
+   {
+    "name": "Godrevy Lighthouse",
+    "aliases": [
+     "Godrevy"
+    ],
+    "nodes": [
+     "331f597d36ceeabc",
+     "Lighthouse:Q15221791"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "LB04": [
+   {
+    "name": "St Mary's Lighthouse",
+    "aliases": [
+     "St. Mary's Lighthouse"
+    ],
+    "nodes": [
+     "Lighthouse:Q7590348"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "Barbier & Bénard",
+    "aliases": [],
+    "nodes": [
+     "d8e2e93b11a7671d"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "LB05": [
+   {
+    "name": "Whitby Lighthouse",
+    "aliases": [
+     "Whitby High lighthouse",
+     "Whitby South",
+     "South Light"
+    ],
+    "nodes": [
+     "527616ab3331a5a1",
+     "Lighthouse:Q7994169"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "Whitby North Light",
+    "aliases": [
+     "Whitby North",
+     "North Light",
+     "North Lighthouse"
+    ],
+    "nodes": [
+     "c038596966ec0403",
+     "f90a2d4385ac8fab"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "LB06": [
+   {
+    "name": "St Agnes Lighthouse",
+    "aliases": [
+     "St Agnes light"
+    ],
+    "nodes": [
+     "6db85e77b0d09e92",
+     "Lighthouse:Q3739817"
+    ],
+    "missing": [],
+    "loose": true
+   }
+  ],
+  "LB07": [
+   {
+    "name": "Whitby Lighthouse",
+    "aliases": [
+     "Whitby High lighthouse",
+     "Whitby South",
+     "South Light"
+    ],
+    "nodes": [
+     "527616ab3331a5a1",
+     "Lighthouse:Q7994169"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "LB08": [
+   {
+    "name": "Old Higher Lighthouse",
+    "aliases": [
+     "Portland Bill High Light",
+     "Portland High Light",
+     "Portland High"
+    ],
+    "nodes": [
+     "42f6220d7bf77589",
+     "8fb67ccd7a822ee6",
+     "Lighthouse:Q7084211"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "LB09": [
+   {
+    "name": "Farne Lighthouse",
+    "aliases": [
+     "Farne High Lighthouse",
+     "Farne Island Lighthouse"
+    ],
+    "nodes": [
+     "Lighthouse:Q15217395"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "Brownsman Island",
+    "aliases": [
+     "Brownsman",
+     "Brownsman Lighthouse"
+    ],
+    "nodes": [
+     "Lighthouse:Q26527913",
+     "c670e77d601a9be6"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "LB10": [],
+  "LB11": [
+   {
+    "name": "automation",
+    "aliases": [
+     "automatization"
+    ],
+    "nodes": [
+     "Event:Q10581063|automatization",
+     "Event:Q15182446|automatization",
+     "Event:Q15197902|automatization",
+     "Event:Q15207781|automatization",
+     "Event:Q15217395|automatization",
+     "Event:Q15221791|automatization",
+     "Event:Q15264295|automatization",
+     "Event:Q15543901|automatization",
+     "Event:Q15618802|automatization",
+     "Event:Q15618804|automatization",
+     "Event:Q1866643|automation",
+     "Event:Q2068627|automatization",
+     "Event:Q21061715|automatization",
+     "Event:Q25803046|automatization",
+     "Event:Q26365310|automatization",
+     "Event:Q26513741|automatization",
+     "Event:Q2686634|automatization",
+     "Event:Q2686896|automatization",
+     "Event:Q2686922|automatization",
+     "Event:Q2752583|automatization",
+     "Event:Q2752669|automatization",
+     "Event:Q2752732|automatization",
+     "Event:Q2752899|automatization",
+     "Event:Q2752905|automatization",
+     "Event:Q2753066|automatization",
+     "Event:Q3739770|automatization",
+     "Event:Q3739774|automatization",
+     "Event:Q3739779|automatization",
+     "Event:Q3739780|automatization",
+     "Event:Q3739790|automation",
+     "Event:Q3739791|automatization",
+     "Event:Q3739811|automatization",
+     "Event:Q546122|automatization",
+     "Event:Q5473757|automatization",
+     "Event:Q5652375|automatization",
+     "Event:Q59082596|automatization",
+     "Event:Q6956691|automatization",
+     "Event:Q7543693|automatization",
+     "Event:Q7571483|automatization",
+     "Event:Q7590348|automatization"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "LB12": [],
+  "LB13": [
+   {
+    "name": "electrification",
+    "aliases": [],
+    "nodes": [
+     "Event:Q15207781|electrification",
+     "Event:Q15224005|electrification",
+     "Event:Q15543901|electrification",
+     "Event:Q15618802|electrification",
+     "Event:Q1866643|electrification",
+     "Event:Q25803046|electrification",
+     "Event:Q26513741|electrification",
+     "Event:Q2686634|electrification",
+     "Event:Q2686896|electrification",
+     "Event:Q2752583|electrification",
+     "Event:Q2752623|electrification",
+     "Event:Q2752899|electrification",
+     "Event:Q3739752|electrification",
+     "Event:Q3739770|electrification",
+     "Event:Q3739799|electrification",
+     "Event:Q546122|electrification",
+     "Event:Q59082596|electrification"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "LB14": [],
+  "LB15": [],
+  "LB16": [
+   {
+    "name": "Tannoy",
+    "aliases": [],
+    "nodes": [
+     "128b22aac14ed451",
+     "b6d0a6f98fd9dd47"
+    ],
+    "missing": [],
+    "loose": true
+   },
+   {
+    "name": "fog signal",
+    "aliases": [],
+    "nodes": [
+     "064a91baf9b319b0",
+     "a64e5cebf3c008cf",
+     "ccc9ba8ff2ce3cd5"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "LB17": [
+   {
+    "name": "automation",
+    "aliases": [
+     "automatization"
+    ],
+    "nodes": [
+     "Event:Q10581063|automatization",
+     "Event:Q15182446|automatization",
+     "Event:Q15197902|automatization",
+     "Event:Q15207781|automatization",
+     "Event:Q15217395|automatization",
+     "Event:Q15221791|automatization",
+     "Event:Q15264295|automatization",
+     "Event:Q15543901|automatization",
+     "Event:Q15618802|automatization",
+     "Event:Q15618804|automatization",
+     "Event:Q1866643|automation",
+     "Event:Q2068627|automatization",
+     "Event:Q21061715|automatization",
+     "Event:Q25803046|automatization",
+     "Event:Q26365310|automatization",
+     "Event:Q26513741|automatization",
+     "Event:Q2686634|automatization",
+     "Event:Q2686896|automatization",
+     "Event:Q2686922|automatization",
+     "Event:Q2752583|automatization",
+     "Event:Q2752669|automatization",
+     "Event:Q2752732|automatization",
+     "Event:Q2752899|automatization",
+     "Event:Q2752905|automatization",
+     "Event:Q2753066|automatization",
+     "Event:Q3739770|automatization",
+     "Event:Q3739774|automatization",
+     "Event:Q3739779|automatization",
+     "Event:Q3739780|automatization",
+     "Event:Q3739790|automation",
+     "Event:Q3739791|automatization",
+     "Event:Q3739811|automatization",
+     "Event:Q546122|automatization",
+     "Event:Q5473757|automatization",
+     "Event:Q5652375|automatization",
+     "Event:Q59082596|automatization",
+     "Event:Q6956691|automatization",
+     "Event:Q7543693|automatization",
+     "Event:Q7571483|automatization",
+     "Event:Q7590348|automatization"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "LB18": [
+   {
+    "name": "solar power",
+    "aliases": [
+     "solar powered",
+     "conversion to solar power"
+    ],
+    "nodes": [
+     "2cd785447091bde4",
+     "Event:Q15618802|conversion to solar power",
+     "Event:Q15618804|conversion to solar power",
+     "e58a55642992f2d3"
+    ],
+    "missing": [],
+    "loose": true
+   }
+  ],
+  "LB19": [],
+  "LB20": [],
+  "LB21": [],
+  "LB22": [],
+  "LB23": [],
+  "LB24": [],
+  "LB25": [],
+  "LB26": [],
+  "LB27": [],
+  "LB28": [
+   {
+    "name": "Portland Bill Lighthouse",
+    "aliases": [],
+    "nodes": [
+     "Lighthouse:Q2753005"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "LB29": [
+   {
+    "name": "South Foreland Lower Lighthouse",
+    "aliases": [],
+    "nodes": [
+     "Lighthouse:Q26323604"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "LB30": [
+   {
+    "name": "Dungeness Lighthouse",
+    "aliases": [],
+    "nodes": [
+     "Lighthouse:Q3739774"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "LB31": [
+   {
+    "name": "Lundy South Lighthouse",
+    "aliases": [],
+    "nodes": [
+     "Lighthouse:Q15618804"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "solar power",
+    "aliases": [
+     "solar powered",
+     "conversion to solar power"
+    ],
+    "nodes": [
+     "2cd785447091bde4",
+     "Event:Q15618802|conversion to solar power",
+     "Event:Q15618804|conversion to solar power",
+     "e58a55642992f2d3"
+    ],
+    "missing": [],
+    "loose": true
+   }
+  ],
+  "LB32": [
+   {
+    "name": "Instow Rear Lighthouse",
+    "aliases": [],
+    "nodes": [
+     "Lighthouse:Q26206723"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "LB33": [],
+  "LB34": [
+   {
+    "name": "Burnham-on-Sea Round Tower",
+    "aliases": [],
+    "nodes": [
+     "Lighthouse:Q4999732"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "LB35": [
+   {
+    "name": "Whitby Lighthouse",
+    "aliases": [
+     "Whitby High lighthouse",
+     "Whitby South",
+     "South Light"
+    ],
+    "nodes": [
+     "527616ab3331a5a1",
+     "Lighthouse:Q7994169"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "Whitby North Light",
+    "aliases": [
+     "Whitby North",
+     "North Light",
+     "North Lighthouse"
+    ],
+    "nodes": [
+     "c038596966ec0403",
+     "f90a2d4385ac8fab"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "LB36": [
+   {
+    "name": "decommissioned",
+    "aliases": [],
+    "nodes": [
+     "bc1474bcac820159"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "disused",
+    "aliases": [],
+    "nodes": [],
+    "missing": [
+     "mention articles/old_higher_lighthouse.md ['disused']"
+    ],
+    "loose": false
+   }
+  ],
+  "LB37": [
+   {
+    "name": "Farne Lighthouse",
+    "aliases": [
+     "Farne High Lighthouse",
+     "Farne Island Lighthouse"
+    ],
+    "nodes": [
+     "Lighthouse:Q15217395"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "Inner Farne",
+    "aliases": [],
+    "nodes": [
+     "56e7eb480376ffc5"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "LB38": [
+   {
+    "name": "Tater Du Lighthouse",
+    "aliases": [],
+    "nodes": [
+     "Lighthouse:Q2686922"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "dive-boats",
+    "aliases": [],
+    "nodes": [
+     "f444646d4ea6aa98"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "LB39": [
+   {
+    "name": "St Agnes Lighthouse",
+    "aliases": [
+     "St Agnes light"
+    ],
+    "nodes": [
+     "6db85e77b0d09e92",
+     "Lighthouse:Q3739817"
+    ],
+    "missing": [],
+    "loose": true
+   },
+   {
+    "name": "petitions",
+    "aliases": [],
+    "nodes": [
+     "b4568bf9f319bf24"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "LB40": [
+   {
+    "name": "St Mary's Lighthouse",
+    "aliases": [
+     "St. Mary's Lighthouse"
+    ],
+    "nodes": [
+     "Lighthouse:Q7590348"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "renovation plan",
+    "aliases": [],
+    "nodes": [
+     "33f9799e8ae41107"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "LB41": [
+   {
+    "name": "fog signal",
+    "aliases": [],
+    "nodes": [
+     "064a91baf9b319b0",
+     "a64e5cebf3c008cf",
+     "ccc9ba8ff2ce3cd5"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "LB42": [
+   {
+    "name": "Old Higher Lighthouse",
+    "aliases": [
+     "Portland Bill High Light",
+     "Portland High Light",
+     "Portland High"
+    ],
+    "nodes": [
+     "42f6220d7bf77589",
+     "8fb67ccd7a822ee6",
+     "Lighthouse:Q7084211"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "LB43": [
+   {
+    "name": "Anvil Point Lighthouse",
+    "aliases": [
+     "Anvil Point"
+    ],
+    "nodes": [
+     "Lighthouse:Q15182446"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "LB44": [
+   {
+    "name": "Berry Head Lighthouse",
+    "aliases": [
+     "Berry Head"
+    ],
+    "nodes": [
+     "7aed786f94ee1e6e",
+     "Lighthouse:Q10581063"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "Trinity House",
+    "aliases": [],
+    "nodes": [
+     "76be38e806843f76"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "LB45": [
+   {
+    "name": "Godrevy Lighthouse",
+    "aliases": [
+     "Godrevy"
+    ],
+    "nodes": [
+     "331f597d36ceeabc",
+     "Lighthouse:Q15221791"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "LB46": [
+   {
+    "name": "Old Higher Lighthouse",
+    "aliases": [
+     "Portland Bill High Light",
+     "Portland High Light",
+     "Portland High"
+    ],
+    "nodes": [
+     "42f6220d7bf77589",
+     "8fb67ccd7a822ee6",
+     "Lighthouse:Q7084211"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "LB47": [
+   {
+    "name": "Tater Du Lighthouse",
+    "aliases": [],
+    "nodes": [
+     "Lighthouse:Q2686922"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "LB48": [
+   {
+    "name": "St Mary's Lighthouse",
+    "aliases": [
+     "St. Mary's Lighthouse"
+    ],
+    "nodes": [
+     "Lighthouse:Q7590348"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ],
+  "LB49": [
+   {
+    "name": "St Anthony's Lighthouse",
+    "aliases": [
+     "St. Anthony's lighthouse"
+    ],
+    "nodes": [
+     "Lighthouse:Q2686634"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "Tannoy",
+    "aliases": [],
+    "nodes": [
+     "128b22aac14ed451",
+     "b6d0a6f98fd9dd47"
+    ],
+    "missing": [],
+    "loose": true
+   }
+  ],
+  "LB50": [
+   {
+    "name": "Farne Lighthouse",
+    "aliases": [
+     "Farne High Lighthouse",
+     "Farne Island Lighthouse"
+    ],
+    "nodes": [
+     "Lighthouse:Q15217395"
+    ],
+    "missing": [],
+    "loose": false
+   },
+   {
+    "name": "National Trust",
+    "aliases": [],
+    "nodes": [
+     "4cdb9cb707627c33"
+    ],
+    "missing": [],
+    "loose": false
+   }
+  ]
+ },
+ "findability": {
+  "targets": [
+   {
+    "question": "LB02",
+    "name": "Farne Lighthouse",
+    "nodes": [
+     "Lighthouse:Q15217395"
+    ],
+    "rank": 1,
+    "top": [
+     "Lighthouse:Q15217395",
+     "bfad4a8bba8178a6",
+     "Lighthouse:Q3739817",
+     "Lighthouse:Q15221791",
+     "Lighthouse:Q2686634"
+    ]
+   },
+   {
+    "question": "LB02",
+    "name": "Inner Farne",
+    "nodes": [
+     "56e7eb480376ffc5"
+    ],
+    "rank": 1,
+    "top": [
+     "56e7eb480376ffc5",
+     "Lighthouse:Q15217395",
+     "b8e2d520472d4114",
+     "bfad4a8bba8178a6",
+     "ee3441cc1d451264"
+    ]
+   },
+   {
+    "question": "LB03",
+    "name": "Godrevy Lighthouse",
+    "nodes": [
+     "331f597d36ceeabc",
+     "Lighthouse:Q15221791"
+    ],
+    "rank": 1,
+    "top": [
+     "Lighthouse:Q15221791",
+     "331f597d36ceeabc",
+     "Lighthouse:Q15217395",
+     "Lighthouse:Q3739817",
+     "Lighthouse:Q2686634"
+    ]
+   },
+   {
+    "question": "LB04",
+    "name": "St Mary's Lighthouse",
+    "nodes": [
+     "Lighthouse:Q7590348"
+    ],
+    "rank": 1,
+    "top": [
+     "Lighthouse:Q7590348",
+     "Lighthouse:Q2686634",
+     "9402be9f12d66430",
+     "55974bf576b53d70",
+     "6443fee65712b685"
+    ]
+   },
+   {
+    "question": "LB04",
+    "name": "Barbier & Bénard",
+    "nodes": [
+     "d8e2e93b11a7671d"
+    ],
+    "rank": 1,
+    "top": [
+     "d8e2e93b11a7671d"
+    ]
+   },
+   {
+    "question": "LB05",
+    "name": "Whitby Lighthouse",
+    "nodes": [
+     "527616ab3331a5a1",
+     "Lighthouse:Q7994169"
+    ],
+    "rank": 1,
+    "top": [
+     "Lighthouse:Q7994169",
+     "527616ab3331a5a1",
+     "Lighthouse:Q15217395",
+     "Lighthouse:Q3739817",
+     "8932a6ccedf443e6"
+    ]
+   },
+   {
+    "question": "LB05",
+    "name": "Whitby North Light",
+    "nodes": [
+     "c038596966ec0403",
+     "f90a2d4385ac8fab"
+    ],
+    "rank": 1,
+    "top": [
+     "c038596966ec0403",
+     "f90a2d4385ac8fab",
+     "ac9fa38de3812335",
+     "Lighthouse:Q15618802",
+     "Lighthouse:Q25803046"
+    ]
+   },
+   {
+    "question": "LB06",
+    "name": "St Agnes Lighthouse",
+    "nodes": [
+     "6db85e77b0d09e92",
+     "Lighthouse:Q3739817"
+    ],
+    "rank": 1,
+    "top": [
+     "Lighthouse:Q3739817",
+     "6db85e77b0d09e92",
+     "Lighthouse:Q2753066",
+     "Lighthouse:Q2686634",
+     "Lighthouse:Q7590348"
+    ]
+   },
+   {
+    "question": "LB07",
+    "name": "Whitby Lighthouse",
+    "nodes": [
+     "527616ab3331a5a1",
+     "Lighthouse:Q7994169"
+    ],
+    "rank": 1,
+    "top": [
+     "Lighthouse:Q7994169",
+     "527616ab3331a5a1",
+     "Lighthouse:Q15217395",
+     "Lighthouse:Q3739817",
+     "8932a6ccedf443e6"
+    ]
+   },
+   {
+    "question": "LB08",
+    "name": "Old Higher Lighthouse",
+    "nodes": [
+     "42f6220d7bf77589",
+     "8fb67ccd7a822ee6",
+     "Lighthouse:Q7084211"
+    ],
+    "rank": 1,
+    "top": [
+     "8fb67ccd7a822ee6",
+     "42f6220d7bf77589",
+     "Lighthouse:Q7084211",
+     "Lighthouse:Q15217395",
+     "f81a3d360157cc91"
+    ]
+   },
+   {
+    "question": "LB09",
+    "name": "Farne Lighthouse",
+    "nodes": [
+     "Lighthouse:Q15217395"
+    ],
+    "rank": 1,
+    "top": [
+     "Lighthouse:Q15217395",
+     "bfad4a8bba8178a6",
+     "Lighthouse:Q3739817",
+     "Lighthouse:Q15221791",
+     "Lighthouse:Q2686634"
+    ]
+   },
+   {
+    "question": "LB09",
+    "name": "Brownsman Island",
+    "nodes": [
+     "Lighthouse:Q26527913",
+     "c670e77d601a9be6"
+    ],
+    "rank": 1,
+    "top": [
+     "c670e77d601a9be6",
+     "Lighthouse:Q26527913",
+     "Lighthouse:Q15217395",
+     "Lighthouse:Q3739817",
+     "Lighthouse:Q15221791"
+    ]
+   },
+   {
+    "question": "LB11",
+    "name": "automation",
+    "nodes": [
+     "Event:Q10581063|automatization",
+     "Event:Q15182446|automatization",
+     "Event:Q15197902|automatization",
+     "Event:Q15207781|automatization",
+     "Event:Q15217395|automatization",
+     "Event:Q15221791|automatization",
+     "Event:Q15264295|automatization",
+     "Event:Q15543901|automatization",
+     "Event:Q15618802|automatization",
+     "Event:Q15618804|automatization",
+     "Event:Q1866643|automation",
+     "Event:Q2068627|automatization",
+     "Event:Q21061715|automatization",
+     "Event:Q25803046|automatization",
+     "Event:Q26365310|automatization",
+     "Event:Q26513741|automatization",
+     "Event:Q2686634|automatization",
+     "Event:Q2686896|automatization",
+     "Event:Q2686922|automatization",
+     "Event:Q2752583|automatization",
+     "Event:Q2752669|automatization",
+     "Event:Q2752732|automatization",
+     "Event:Q2752899|automatization",
+     "Event:Q2752905|automatization",
+     "Event:Q2753066|automatization",
+     "Event:Q3739770|automatization",
+     "Event:Q3739774|automatization",
+     "Event:Q3739779|automatization",
+     "Event:Q3739780|automatization",
+     "Event:Q3739790|automation",
+     "Event:Q3739791|automatization",
+     "Event:Q3739811|automatization",
+     "Event:Q546122|automatization",
+     "Event:Q5473757|automatization",
+     "Event:Q5652375|automatization",
+     "Event:Q59082596|automatization",
+     "Event:Q6956691|automatization",
+     "Event:Q7543693|automatization",
+     "Event:Q7571483|automatization",
+     "Event:Q7590348|automatization"
+    ],
+    "rank": 1,
+    "top": [
+     "Event:Q10581063|automatization",
+     "Event:Q15182446|automatization",
+     "Event:Q15197902|automatization",
+     "Event:Q15207781|automatization",
+     "Event:Q15217395|automatization"
+    ]
+   },
+   {
+    "question": "LB13",
+    "name": "electrification",
+    "nodes": [
+     "Event:Q15207781|electrification",
+     "Event:Q15224005|electrification",
+     "Event:Q15543901|electrification",
+     "Event:Q15618802|electrification",
+     "Event:Q1866643|electrification",
+     "Event:Q25803046|electrification",
+     "Event:Q26513741|electrification",
+     "Event:Q2686634|electrification",
+     "Event:Q2686896|electrification",
+     "Event:Q2752583|electrification",
+     "Event:Q2752623|electrification",
+     "Event:Q2752899|electrification",
+     "Event:Q3739752|electrification",
+     "Event:Q3739770|electrification",
+     "Event:Q3739799|electrification",
+     "Event:Q546122|electrification",
+     "Event:Q59082596|electrification"
+    ],
+    "rank": 1,
+    "top": [
+     "Event:Q15207781|electrification",
+     "Event:Q15224005|electrification",
+     "Event:Q15543901|electrification",
+     "Event:Q15618802|electrification",
+     "Event:Q1866643|electrification"
+    ]
+   },
+   {
+    "question": "LB16",
+    "name": "Tannoy",
+    "nodes": [
+     "128b22aac14ed451",
+     "b6d0a6f98fd9dd47"
+    ],
+    "rank": 1,
+    "top": [
+     "128b22aac14ed451",
+     "b6d0a6f98fd9dd47"
+    ]
+   },
+   {
+    "question": "LB16",
+    "name": "fog signal",
+    "nodes": [
+     "064a91baf9b319b0",
+     "a64e5cebf3c008cf",
+     "ccc9ba8ff2ce3cd5"
+    ],
+    "rank": 1,
+    "top": [
+     "064a91baf9b319b0",
+     "42f7795b80822e91",
+     "ccc9ba8ff2ce3cd5",
+     "6172dc8dbda9c5e3",
+     "738d2340d7f56642"
+    ]
+   },
+   {
+    "question": "LB17",
+    "name": "automation",
+    "nodes": [
+     "Event:Q10581063|automatization",
+     "Event:Q15182446|automatization",
+     "Event:Q15197902|automatization",
+     "Event:Q15207781|automatization",
+     "Event:Q15217395|automatization",
+     "Event:Q15221791|automatization",
+     "Event:Q15264295|automatization",
+     "Event:Q15543901|automatization",
+     "Event:Q15618802|automatization",
+     "Event:Q15618804|automatization",
+     "Event:Q1866643|automation",
+     "Event:Q2068627|automatization",
+     "Event:Q21061715|automatization",
+     "Event:Q25803046|automatization",
+     "Event:Q26365310|automatization",
+     "Event:Q26513741|automatization",
+     "Event:Q2686634|automatization",
+     "Event:Q2686896|automatization",
+     "Event:Q2686922|automatization",
+     "Event:Q2752583|automatization",
+     "Event:Q2752669|automatization",
+     "Event:Q2752732|automatization",
+     "Event:Q2752899|automatization",
+     "Event:Q2752905|automatization",
+     "Event:Q2753066|automatization",
+     "Event:Q3739770|automatization",
+     "Event:Q3739774|automatization",
+     "Event:Q3739779|automatization",
+     "Event:Q3739780|automatization",
+     "Event:Q3739790|automation",
+     "Event:Q3739791|automatization",
+     "Event:Q3739811|automatization",
+     "Event:Q546122|automatization",
+     "Event:Q5473757|automatization",
+     "Event:Q5652375|automatization",
+     "Event:Q59082596|automatization",
+     "Event:Q6956691|automatization",
+     "Event:Q7543693|automatization",
+     "Event:Q7571483|automatization",
+     "Event:Q7590348|automatization"
+    ],
+    "rank": 1,
+    "top": [
+     "Event:Q10581063|automatization",
+     "Event:Q15182446|automatization",
+     "Event:Q15197902|automatization",
+     "Event:Q15207781|automatization",
+     "Event:Q15217395|automatization"
+    ]
+   },
+   {
+    "question": "LB18",
+    "name": "solar power",
+    "nodes": [
+     "2cd785447091bde4",
+     "Event:Q15618802|conversion to solar power",
+     "Event:Q15618804|conversion to solar power",
+     "e58a55642992f2d3"
+    ],
+    "rank": 1,
+    "top": [
+     "2cd785447091bde4",
+     "Event:Q15618802|conversion to solar power",
+     "Event:Q15618804|conversion to solar power",
+     "e58a55642992f2d3",
+     "eb01126fcc2be6b1"
+    ]
+   },
+   {
+    "question": "LB28",
+    "name": "Portland Bill Lighthouse",
+    "nodes": [
+     "Lighthouse:Q2753005"
+    ],
+    "rank": 1,
+    "top": [
+     "Lighthouse:Q2753005",
+     "495cbac6059a77f7",
+     "Lighthouse:Q7084211",
+     "Lighthouse:Q7084394",
+     "Lighthouse:Q15217395"
+    ]
+   },
+   {
+    "question": "LB29",
+    "name": "South Foreland Lower Lighthouse",
+    "nodes": [
+     "Lighthouse:Q26323604"
+    ],
+    "rank": 1,
+    "top": [
+     "Lighthouse:Q26323604",
+     "Lighthouse:Q386221",
+     "c89be68327724d53",
+     "Lighthouse:Q15243200",
+     "Lighthouse:Q15618804"
+    ]
+   },
+   {
+    "question": "LB30",
+    "name": "Dungeness Lighthouse",
+    "nodes": [
+     "Lighthouse:Q3739774"
+    ],
+    "rank": 1,
+    "top": [
+     "Lighthouse:Q3739774",
+     "Lighthouse:Q26543919",
+     "Lighthouse:Q15217395",
+     "Lighthouse:Q3739817",
+     "Lighthouse:Q15221791"
+    ]
+   },
+   {
+    "question": "LB31",
+    "name": "Lundy South Lighthouse",
+    "nodes": [
+     "Lighthouse:Q15618804"
+    ],
+    "rank": 1,
+    "top": [
+     "Lighthouse:Q15618804",
+     "ac9fa38de3812335",
+     "Lighthouse:Q15618802",
+     "Lighthouse:Q26323604",
+     "Lighthouse:Q386221"
+    ]
+   },
+   {
+    "question": "LB31",
+    "name": "solar power",
+    "nodes": [
+     "2cd785447091bde4",
+     "Event:Q15618802|conversion to solar power",
+     "Event:Q15618804|conversion to solar power",
+     "e58a55642992f2d3"
+    ],
+    "rank": 1,
+    "top": [
+     "2cd785447091bde4",
+     "Event:Q15618802|conversion to solar power",
+     "Event:Q15618804|conversion to solar power",
+     "e58a55642992f2d3",
+     "eb01126fcc2be6b1"
+    ]
+   },
+   {
+    "question": "LB32",
+    "name": "Instow Rear Lighthouse",
+    "nodes": [
+     "Lighthouse:Q26206723"
+    ],
+    "rank": 1,
+    "top": [
+     "Lighthouse:Q26206723",
+     "Lighthouse:Q26206721",
+     "Lighthouse:Q15217395",
+     "Lighthouse:Q3739817",
+     "Lighthouse:Q15221791"
+    ]
+   },
+   {
+    "question": "LB34",
+    "name": "Burnham-on-Sea Round Tower",
+    "nodes": [
+     "Lighthouse:Q4999732"
+    ],
+    "rank": 1,
+    "top": [
+     "Lighthouse:Q4999732",
+     "Lighthouse:Q4999729",
+     "ea58b04fab379bda",
+     "Lighthouse:Q3739817",
+     "Lighthouse:Q15182446"
+    ]
+   },
+   {
+    "question": "LB35",
+    "name": "Whitby Lighthouse",
+    "nodes": [
+     "527616ab3331a5a1",
+     "Lighthouse:Q7994169"
+    ],
+    "rank": 1,
+    "top": [
+     "Lighthouse:Q7994169",
+     "527616ab3331a5a1",
+     "Lighthouse:Q15217395",
+     "Lighthouse:Q3739817",
+     "8932a6ccedf443e6"
+    ]
+   },
+   {
+    "question": "LB35",
+    "name": "Whitby North Light",
+    "nodes": [
+     "c038596966ec0403",
+     "f90a2d4385ac8fab"
+    ],
+    "rank": 1,
+    "top": [
+     "c038596966ec0403",
+     "f90a2d4385ac8fab",
+     "ac9fa38de3812335",
+     "Lighthouse:Q15618802",
+     "Lighthouse:Q25803046"
+    ]
+   },
+   {
+    "question": "LB36",
+    "name": "decommissioned",
+    "nodes": [
+     "bc1474bcac820159"
+    ],
+    "rank": 1,
+    "top": [
+     "bc1474bcac820159"
+    ]
+   },
+   {
+    "question": "LB36",
+    "name": "disused",
+    "nodes": [],
+    "rank": null,
+    "top": []
+   },
+   {
+    "question": "LB37",
+    "name": "Farne Lighthouse",
+    "nodes": [
+     "Lighthouse:Q15217395"
+    ],
+    "rank": 1,
+    "top": [
+     "Lighthouse:Q15217395",
+     "bfad4a8bba8178a6",
+     "Lighthouse:Q3739817",
+     "Lighthouse:Q15221791",
+     "Lighthouse:Q2686634"
+    ]
+   },
+   {
+    "question": "LB37",
+    "name": "Inner Farne",
+    "nodes": [
+     "56e7eb480376ffc5"
+    ],
+    "rank": 1,
+    "top": [
+     "56e7eb480376ffc5",
+     "Lighthouse:Q15217395",
+     "b8e2d520472d4114",
+     "bfad4a8bba8178a6",
+     "ee3441cc1d451264"
+    ]
+   },
+   {
+    "question": "LB38",
+    "name": "Tater Du Lighthouse",
+    "nodes": [
+     "Lighthouse:Q2686922"
+    ],
+    "rank": 1,
+    "top": [
+     "Lighthouse:Q2686922",
+     "71bb2c728ee21eed",
+     "Lighthouse:Q15217395",
+     "Lighthouse:Q3739817",
+     "Lighthouse:Q15221791"
+    ]
+   },
+   {
+    "question": "LB38",
+    "name": "dive-boats",
+    "nodes": [
+     "f444646d4ea6aa98"
+    ],
+    "rank": 2,
+    "top": [
+     "1977be50e3dc6bb0",
+     "f444646d4ea6aa98"
+    ]
+   },
+   {
+    "question": "LB39",
+    "name": "St Agnes Lighthouse",
+    "nodes": [
+     "6db85e77b0d09e92",
+     "Lighthouse:Q3739817"
+    ],
+    "rank": 1,
+    "top": [
+     "Lighthouse:Q3739817",
+     "6db85e77b0d09e92",
+     "Lighthouse:Q2753066",
+     "Lighthouse:Q2686634",
+     "Lighthouse:Q7590348"
+    ]
+   },
+   {
+    "question": "LB39",
+    "name": "petitions",
+    "nodes": [
+     "b4568bf9f319bf24"
+    ],
+    "rank": 1,
+    "top": [
+     "b4568bf9f319bf24"
+    ]
+   },
+   {
+    "question": "LB40",
+    "name": "St Mary's Lighthouse",
+    "nodes": [
+     "Lighthouse:Q7590348"
+    ],
+    "rank": 1,
+    "top": [
+     "Lighthouse:Q7590348",
+     "Lighthouse:Q2686634",
+     "9402be9f12d66430",
+     "55974bf576b53d70",
+     "6443fee65712b685"
+    ]
+   },
+   {
+    "question": "LB40",
+    "name": "renovation plan",
+    "nodes": [
+     "33f9799e8ae41107"
+    ],
+    "rank": 1,
+    "top": [
+     "33f9799e8ae41107",
+     "Event:Q386221|renovation"
+    ]
+   },
+   {
+    "question": "LB41",
+    "name": "fog signal",
+    "nodes": [
+     "064a91baf9b319b0",
+     "a64e5cebf3c008cf",
+     "ccc9ba8ff2ce3cd5"
+    ],
+    "rank": 1,
+    "top": [
+     "064a91baf9b319b0",
+     "42f7795b80822e91",
+     "ccc9ba8ff2ce3cd5",
+     "6172dc8dbda9c5e3",
+     "738d2340d7f56642"
+    ]
+   },
+   {
+    "question": "LB42",
+    "name": "Old Higher Lighthouse",
+    "nodes": [
+     "42f6220d7bf77589",
+     "8fb67ccd7a822ee6",
+     "Lighthouse:Q7084211"
+    ],
+    "rank": 1,
+    "top": [
+     "8fb67ccd7a822ee6",
+     "42f6220d7bf77589",
+     "Lighthouse:Q7084211",
+     "Lighthouse:Q15217395",
+     "f81a3d360157cc91"
+    ]
+   },
+   {
+    "question": "LB43",
+    "name": "Anvil Point Lighthouse",
+    "nodes": [
+     "Lighthouse:Q15182446"
+    ],
+    "rank": 1,
+    "top": [
+     "Lighthouse:Q15182446",
+     "Lighthouse:Q2752623",
+     "Lighthouse:Q2752732",
+     "Lighthouse:Q2752855",
+     "Lighthouse:Q2752905"
+    ]
+   },
+   {
+    "question": "LB44",
+    "name": "Berry Head Lighthouse",
+    "nodes": [
+     "7aed786f94ee1e6e",
+     "Lighthouse:Q10581063"
+    ],
+    "rank": 1,
+    "top": [
+     "Lighthouse:Q10581063",
+     "7aed786f94ee1e6e",
+     "Lighthouse:Q15197902",
+     "Lighthouse:Q2686896",
+     "Lighthouse:Q3739780"
+    ]
+   },
+   {
+    "question": "LB44",
+    "name": "Trinity House",
+    "nodes": [
+     "76be38e806843f76"
+    ],
+    "rank": 1,
+    "top": [
+     "76be38e806843f76",
+     "53a5f649dcf43c55",
+     "5744734017ccadeb",
+     "cbe2f938c188c4b6",
+     "f85bcb1c6be6beab"
+    ]
+   },
+   {
+    "question": "LB45",
+    "name": "Godrevy Lighthouse",
+    "nodes": [
+     "331f597d36ceeabc",
+     "Lighthouse:Q15221791"
+    ],
+    "rank": 1,
+    "top": [
+     "Lighthouse:Q15221791",
+     "331f597d36ceeabc",
+     "Lighthouse:Q15217395",
+     "Lighthouse:Q3739817",
+     "Lighthouse:Q2686634"
+    ]
+   },
+   {
+    "question": "LB46",
+    "name": "Old Higher Lighthouse",
+    "nodes": [
+     "42f6220d7bf77589",
+     "8fb67ccd7a822ee6",
+     "Lighthouse:Q7084211"
+    ],
+    "rank": 1,
+    "top": [
+     "8fb67ccd7a822ee6",
+     "42f6220d7bf77589",
+     "Lighthouse:Q7084211",
+     "Lighthouse:Q15217395",
+     "f81a3d360157cc91"
+    ]
+   },
+   {
+    "question": "LB47",
+    "name": "Tater Du Lighthouse",
+    "nodes": [
+     "Lighthouse:Q2686922"
+    ],
+    "rank": 1,
+    "top": [
+     "Lighthouse:Q2686922",
+     "71bb2c728ee21eed",
+     "Lighthouse:Q15217395",
+     "Lighthouse:Q3739817",
+     "Lighthouse:Q15221791"
+    ]
+   },
+   {
+    "question": "LB48",
+    "name": "St Mary's Lighthouse",
+    "nodes": [
+     "Lighthouse:Q7590348"
+    ],
+    "rank": 1,
+    "top": [
+     "Lighthouse:Q7590348",
+     "Lighthouse:Q2686634",
+     "9402be9f12d66430",
+     "55974bf576b53d70",
+     "6443fee65712b685"
+    ]
+   },
+   {
+    "question": "LB49",
+    "name": "St Anthony's Lighthouse",
+    "nodes": [
+     "Lighthouse:Q2686634"
+    ],
+    "rank": 1,
+    "top": [
+     "Lighthouse:Q2686634",
+     "Lighthouse:Q7590348",
+     "6443fee65712b685",
+     "Lighthouse:Q5473757",
+     "Lighthouse:Q3739817"
+    ]
+   },
+   {
+    "question": "LB49",
+    "name": "Tannoy",
+    "nodes": [
+     "128b22aac14ed451",
+     "b6d0a6f98fd9dd47"
+    ],
+    "rank": 1,
+    "top": [
+     "128b22aac14ed451",
+     "b6d0a6f98fd9dd47"
+    ]
+   },
+   {
+    "question": "LB50",
+    "name": "Farne Lighthouse",
+    "nodes": [
+     "Lighthouse:Q15217395"
+    ],
+    "rank": 1,
+    "top": [
+     "Lighthouse:Q15217395",
+     "bfad4a8bba8178a6",
+     "Lighthouse:Q3739817",
+     "Lighthouse:Q15221791",
+     "Lighthouse:Q2686634"
+    ]
+   },
+   {
+    "question": "LB50",
+    "name": "National Trust",
+    "nodes": [
+     "4cdb9cb707627c33"
+    ],
+    "rank": 1,
+    "top": [
+     "4cdb9cb707627c33",
+     "3cc904036ab35f98",
+     "33c51be40fc6e637"
+    ]
+   }
+  ],
+  "unplaced": 1,
+  "hit_at": {
+   "1": {
+    "k": 48,
+    "n": 50,
+    "rate": 0.96,
+    "low": 0.8653966212204534,
+    "high": 0.9889613473391734
+   },
+   "5": {
+    "k": 49,
+    "n": 50,
+    "rate": 0.98,
+    "low": 0.8950431352816304,
+    "high": 0.9964608319110235
+   }
+  }
+ },
+ "reach": {
+  "gold_start": {
+   "mode": "gold_start",
+   "questions": [
+    {
+     "question": "LB02",
+     "type": "multi_hop",
+     "gold": [
+      "articles/farne_lighthouse.md#1"
+     ],
+     "starts": [
+      "56e7eb480376ffc5",
+      "Lighthouse:Q15217395"
+     ],
+     "ranked": [
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1",
+      "articles/farne_lighthouse.md#2",
+      "articles/farne_lighthouse.md#3",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/godrevy_lighthouse.md#1",
+      "articles/godrevy_lighthouse.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB03",
+     "type": "multi_hop",
+     "gold": [
+      "articles/godrevy_lighthouse.md#1"
+     ],
+     "starts": [
+      "331f597d36ceeabc",
+      "Lighthouse:Q15221791"
+     ],
+     "ranked": [
+      "articles/godrevy_lighthouse.md#0",
+      "articles/godrevy_lighthouse.md#1",
+      "articles/godrevy_lighthouse.md#2",
+      "articles/godrevy_lighthouse.md#3",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB04",
+     "type": "multi_hop",
+     "gold": [
+      "articles/st_mary_s_lighthouse.md#1"
+     ],
+     "starts": [
+      "Lighthouse:Q7590348",
+      "d8e2e93b11a7671d"
+     ],
+     "ranked": [
+      "articles/st_mary_s_lighthouse.md#0",
+      "articles/st_mary_s_lighthouse.md#1",
+      "articles/st_mary_s_lighthouse.md#2",
+      "articles/st_mary_s_lighthouse.md#3",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB05",
+     "type": "multi_hop",
+     "gold": [
+      "articles/whitby_lighthouse.md#2"
+     ],
+     "starts": [
+      "527616ab3331a5a1",
+      "Lighthouse:Q7994169",
+      "c038596966ec0403",
+      "f90a2d4385ac8fab"
+     ],
+     "ranked": [
+      "articles/whitby_lighthouse.md#0",
+      "articles/whitby_lighthouse.md#1",
+      "articles/whitby_lighthouse.md#2",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1",
+      "articles/farne_lighthouse.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB06",
+     "type": "multi_hop",
+     "gold": [
+      "articles/st_agnes_lighthouse.md#2"
+     ],
+     "starts": [
+      "6db85e77b0d09e92",
+      "Lighthouse:Q3739817"
+     ],
+     "ranked": [
+      "articles/st_agnes_lighthouse.md#0",
+      "articles/st_agnes_lighthouse.md#1",
+      "articles/st_agnes_lighthouse.md#2",
+      "articles/st_anthony_s_lighthouse.md#1",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB07",
+     "type": "multi_hop",
+     "gold": [
+      "articles/whitby_lighthouse.md#2"
+     ],
+     "starts": [
+      "527616ab3331a5a1",
+      "Lighthouse:Q7994169"
+     ],
+     "ranked": [
+      "articles/whitby_lighthouse.md#0",
+      "articles/whitby_lighthouse.md#1",
+      "articles/whitby_lighthouse.md#2",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1",
+      "articles/farne_lighthouse.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB08",
+     "type": "multi_hop",
+     "gold": [
+      "articles/old_higher_lighthouse.md#2"
+     ],
+     "starts": [
+      "42f6220d7bf77589",
+      "8fb67ccd7a822ee6",
+      "Lighthouse:Q7084211"
+     ],
+     "ranked": [
+      "articles/old_higher_lighthouse.md#0",
+      "articles/old_higher_lighthouse.md#1",
+      "articles/old_higher_lighthouse.md#2",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1",
+      "articles/farne_lighthouse.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB09",
+     "type": "multi_hop",
+     "gold": [
+      "articles/farne_lighthouse.md#3"
+     ],
+     "starts": [
+      "Lighthouse:Q15217395",
+      "Lighthouse:Q26527913",
+      "c670e77d601a9be6"
+     ],
+     "ranked": [
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1",
+      "articles/farne_lighthouse.md#2",
+      "articles/farne_lighthouse.md#3",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/godrevy_lighthouse.md#1",
+      "articles/godrevy_lighthouse.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB16",
+     "type": "aggregation",
+     "gold": [
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/st_anthony_s_lighthouse.md#2",
+      "articles/tater_du_lighthouse.md#1"
+     ],
+     "starts": [
+      "064a91baf9b319b0",
+      "128b22aac14ed451",
+      "a64e5cebf3c008cf",
+      "b6d0a6f98fd9dd47",
+      "ccc9ba8ff2ce3cd5"
+     ],
+     "ranked": [
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/st_anthony_s_lighthouse.md#2",
+      "articles/tater_du_lighthouse.md#1",
+      "articles/whitby_lighthouse.md#2",
+      "articles/tater_du_lighthouse.md#0",
+      "articles/tater_du_lighthouse.md#2",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2"
+     ],
+     "hits": {
+      "5": 3,
+      "10": 3
+     },
+     "reached": 3
+    },
+    {
+     "question": "LB17",
+     "type": "aggregation",
+     "gold": [
+      "articles/farne_lighthouse.md#0"
+     ],
+     "starts": [
+      "Event:Q10581063|automatization",
+      "Event:Q15182446|automatization",
+      "Event:Q15197902|automatization",
+      "Event:Q15207781|automatization",
+      "Event:Q15217395|automatization",
+      "Event:Q15221791|automatization",
+      "Event:Q15264295|automatization",
+      "Event:Q15543901|automatization",
+      "Event:Q15618802|automatization",
+      "Event:Q15618804|automatization",
+      "Event:Q1866643|automation",
+      "Event:Q2068627|automatization",
+      "Event:Q21061715|automatization",
+      "Event:Q25803046|automatization",
+      "Event:Q26365310|automatization",
+      "Event:Q26513741|automatization",
+      "Event:Q2686634|automatization",
+      "Event:Q2686896|automatization",
+      "Event:Q2686922|automatization",
+      "Event:Q2752583|automatization",
+      "Event:Q2752669|automatization",
+      "Event:Q2752732|automatization",
+      "Event:Q2752899|automatization",
+      "Event:Q2752905|automatization",
+      "Event:Q2753066|automatization",
+      "Event:Q3739770|automatization",
+      "Event:Q3739774|automatization",
+      "Event:Q3739779|automatization",
+      "Event:Q3739780|automatization",
+      "Event:Q3739790|automation",
+      "Event:Q3739791|automatization",
+      "Event:Q3739811|automatization",
+      "Event:Q546122|automatization",
+      "Event:Q5473757|automatization",
+      "Event:Q5652375|automatization",
+      "Event:Q59082596|automatization",
+      "Event:Q6956691|automatization",
+      "Event:Q7543693|automatization",
+      "Event:Q7571483|automatization",
+      "Event:Q7590348|automatization"
+     ],
+     "ranked": [
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#1",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#0",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1",
+      "articles/farne_lighthouse.md#2",
+      "articles/farne_lighthouse.md#3"
+     ],
+     "hits": {
+      "5": 0,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB18",
+     "type": "aggregation",
+     "gold": [
+      "articles/farne_lighthouse.md#1",
+      "articles/godrevy_lighthouse.md#3"
+     ],
+     "starts": [
+      "2cd785447091bde4",
+      "Event:Q15618802|conversion to solar power",
+      "Event:Q15618804|conversion to solar power",
+      "e58a55642992f2d3"
+     ],
+     "ranked": [
+      "articles/farne_lighthouse.md#1",
+      "articles/godrevy_lighthouse.md#3",
+      "articles/st_mary_s_lighthouse.md#2",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#2",
+      "articles/farne_lighthouse.md#3"
+     ],
+     "hits": {
+      "5": 2,
+      "10": 2
+     },
+     "reached": 2
+    },
+    {
+     "question": "LB35",
+     "type": "disambiguation",
+     "gold": [
+      "articles/whitby_lighthouse.md#1"
+     ],
+     "starts": [
+      "527616ab3331a5a1",
+      "Lighthouse:Q7994169",
+      "c038596966ec0403",
+      "f90a2d4385ac8fab"
+     ],
+     "ranked": [
+      "articles/whitby_lighthouse.md#0",
+      "articles/whitby_lighthouse.md#1",
+      "articles/whitby_lighthouse.md#2",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1",
+      "articles/farne_lighthouse.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB36",
+     "type": "negation_sensitive",
+     "gold": [
+      "articles/godrevy_lighthouse.md#3",
+      "articles/old_higher_lighthouse.md#0",
+      "articles/st_agnes_lighthouse.md#2",
+      "articles/st_mary_s_lighthouse.md#3"
+     ],
+     "starts": [
+      "bc1474bcac820159"
+     ],
+     "ranked": [
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/farne_lighthouse.md#2",
+      "articles/godrevy_lighthouse.md#2",
+      "articles/godrevy_lighthouse.md#3",
+      "articles/st_agnes_lighthouse.md#2",
+      "articles/st_anthony_s_lighthouse.md#2",
+      "articles/st_mary_s_lighthouse.md#1",
+      "articles/st_mary_s_lighthouse.md#2",
+      "articles/st_mary_s_lighthouse.md#3",
+      "articles/tater_du_lighthouse.md#1"
+     ],
+     "hits": {
+      "5": 2,
+      "10": 3
+     },
+     "reached": 4
+    },
+    {
+     "question": "LB37",
+     "type": "negation_sensitive",
+     "gold": [
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#2"
+     ],
+     "starts": [
+      "56e7eb480376ffc5",
+      "Lighthouse:Q15217395"
+     ],
+     "ranked": [
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1",
+      "articles/farne_lighthouse.md#2",
+      "articles/farne_lighthouse.md#3",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/godrevy_lighthouse.md#1",
+      "articles/godrevy_lighthouse.md#3"
+     ],
+     "hits": {
+      "5": 2,
+      "10": 2
+     },
+     "reached": 2
+    },
+    {
+     "question": "LB38",
+     "type": "negation_sensitive",
+     "gold": [
+      "articles/tater_du_lighthouse.md#2"
+     ],
+     "starts": [
+      "Lighthouse:Q2686922",
+      "f444646d4ea6aa98"
+     ],
+     "ranked": [
+      "articles/tater_du_lighthouse.md#0",
+      "articles/tater_du_lighthouse.md#1",
+      "articles/tater_du_lighthouse.md#2",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1",
+      "articles/farne_lighthouse.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB39",
+     "type": "negation_sensitive",
+     "gold": [
+      "articles/st_agnes_lighthouse.md#0",
+      "articles/st_agnes_lighthouse.md#1"
+     ],
+     "starts": [
+      "6db85e77b0d09e92",
+      "Lighthouse:Q3739817",
+      "b4568bf9f319bf24"
+     ],
+     "ranked": [
+      "articles/old_higher_lighthouse.md#1",
+      "articles/st_agnes_lighthouse.md#0",
+      "articles/st_agnes_lighthouse.md#1",
+      "articles/st_agnes_lighthouse.md#2",
+      "articles/st_anthony_s_lighthouse.md#1",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0"
+     ],
+     "hits": {
+      "5": 2,
+      "10": 2
+     },
+     "reached": 2
+    },
+    {
+     "question": "LB40",
+     "type": "negation_sensitive",
+     "gold": [
+      "articles/st_mary_s_lighthouse.md#3"
+     ],
+     "starts": [
+      "33f9799e8ae41107",
+      "Lighthouse:Q7590348"
+     ],
+     "ranked": [
+      "articles/st_mary_s_lighthouse.md#0",
+      "articles/st_mary_s_lighthouse.md#1",
+      "articles/st_mary_s_lighthouse.md#2",
+      "articles/st_mary_s_lighthouse.md#3",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB41",
+     "type": "negation_sensitive",
+     "gold": [
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/godrevy_lighthouse.md#2",
+      "articles/st_anthony_s_lighthouse.md#2",
+      "articles/tater_du_lighthouse.md#1",
+      "articles/whitby_lighthouse.md#2"
+     ],
+     "starts": [
+      "064a91baf9b319b0",
+      "a64e5cebf3c008cf",
+      "ccc9ba8ff2ce3cd5"
+     ],
+     "ranked": [
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/st_anthony_s_lighthouse.md#2",
+      "articles/tater_du_lighthouse.md#1",
+      "articles/whitby_lighthouse.md#2",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1"
+     ],
+     "hits": {
+      "5": 4,
+      "10": 4
+     },
+     "reached": 5
+    },
+    {
+     "question": "LB42",
+     "type": "negation_sensitive",
+     "gold": [
+      "articles/old_higher_lighthouse.md#1",
+      "articles/old_higher_lighthouse.md#2"
+     ],
+     "starts": [
+      "42f6220d7bf77589",
+      "8fb67ccd7a822ee6",
+      "Lighthouse:Q7084211"
+     ],
+     "ranked": [
+      "articles/old_higher_lighthouse.md#0",
+      "articles/old_higher_lighthouse.md#1",
+      "articles/old_higher_lighthouse.md#2",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1",
+      "articles/farne_lighthouse.md#3"
+     ],
+     "hits": {
+      "5": 2,
+      "10": 2
+     },
+     "reached": 2
+    },
+    {
+     "question": "LB43",
+     "type": "lookup",
+     "gold": [
+      "articles/anvil_point_lighthouse.md#1"
+     ],
+     "starts": [
+      "Lighthouse:Q15182446"
+     ],
+     "ranked": [
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#1",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1",
+      "articles/farne_lighthouse.md#3",
+      "articles/godrevy_lighthouse.md#1",
+      "articles/godrevy_lighthouse.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB44",
+     "type": "lookup",
+     "gold": [
+      "articles/berry_head_lighthouse.md#1"
+     ],
+     "starts": [
+      "76be38e806843f76",
+      "7aed786f94ee1e6e",
+      "Lighthouse:Q10581063"
+     ],
+     "ranked": [
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#0",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1",
+      "articles/farne_lighthouse.md#3",
+      "articles/godrevy_lighthouse.md#1",
+      "articles/godrevy_lighthouse.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB45",
+     "type": "lookup",
+     "gold": [
+      "articles/godrevy_lighthouse.md#1"
+     ],
+     "starts": [
+      "331f597d36ceeabc",
+      "Lighthouse:Q15221791"
+     ],
+     "ranked": [
+      "articles/godrevy_lighthouse.md#0",
+      "articles/godrevy_lighthouse.md#1",
+      "articles/godrevy_lighthouse.md#2",
+      "articles/godrevy_lighthouse.md#3",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB46",
+     "type": "lookup",
+     "gold": [
+      "articles/old_higher_lighthouse.md#2"
+     ],
+     "starts": [
+      "42f6220d7bf77589",
+      "8fb67ccd7a822ee6",
+      "Lighthouse:Q7084211"
+     ],
+     "ranked": [
+      "articles/old_higher_lighthouse.md#0",
+      "articles/old_higher_lighthouse.md#1",
+      "articles/old_higher_lighthouse.md#2",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1",
+      "articles/farne_lighthouse.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB47",
+     "type": "lookup",
+     "gold": [
+      "articles/tater_du_lighthouse.md#0"
+     ],
+     "starts": [
+      "Lighthouse:Q2686922"
+     ],
+     "ranked": [
+      "articles/tater_du_lighthouse.md#0",
+      "articles/tater_du_lighthouse.md#1",
+      "articles/tater_du_lighthouse.md#2",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1",
+      "articles/farne_lighthouse.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB48",
+     "type": "lookup",
+     "gold": [
+      "articles/st_mary_s_lighthouse.md#1"
+     ],
+     "starts": [
+      "Lighthouse:Q7590348"
+     ],
+     "ranked": [
+      "articles/st_mary_s_lighthouse.md#0",
+      "articles/st_mary_s_lighthouse.md#1",
+      "articles/st_mary_s_lighthouse.md#2",
+      "articles/st_mary_s_lighthouse.md#3",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB49",
+     "type": "lookup",
+     "gold": [
+      "articles/st_anthony_s_lighthouse.md#2"
+     ],
+     "starts": [
+      "128b22aac14ed451",
+      "Lighthouse:Q2686634",
+      "b6d0a6f98fd9dd47"
+     ],
+     "ranked": [
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/st_anthony_s_lighthouse.md#0",
+      "articles/st_anthony_s_lighthouse.md#1",
+      "articles/st_anthony_s_lighthouse.md#2",
+      "articles/tater_du_lighthouse.md#1",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB50",
+     "type": "lookup",
+     "gold": [
+      "articles/farne_lighthouse.md#3"
+     ],
+     "starts": [
+      "4cdb9cb707627c33",
+      "Lighthouse:Q15217395"
+     ],
+     "ranked": [
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1",
+      "articles/farne_lighthouse.md#2",
+      "articles/farne_lighthouse.md#3",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/godrevy_lighthouse.md#1",
+      "articles/godrevy_lighthouse.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    }
+   ],
+   "no_start": [
+    "LB20"
+   ],
+   "recall_at": {
+    "5": {
+     "k": 36,
+     "n": 40,
+     "rate": 0.9,
+     "low": 0.7694792561952611,
+     "high": 0.9604211124044252
+    },
+    "10": {
+     "k": 38,
+     "n": 40,
+     "rate": 0.95,
+     "low": 0.834958291820748,
+     "high": 0.9861796228538989
+    }
+   },
+   "complete_at": {
+    "5": {
+     "k": 24,
+     "n": 27,
+     "rate": 0.8888888888888888,
+     "low": 0.7194181745602705,
+     "high": 0.9614803521050127
+    },
+    "10": {
+     "k": 25,
+     "n": 27,
+     "rate": 0.9259259259259259,
+     "low": 0.7663002270926937,
+     "high": 0.9794457783026165
+    }
+   },
+   "reached": {
+    "k": 40,
+    "n": 40,
+    "rate": 1.0,
+    "low": 0.9123754607496077,
+    "high": 1.0
+   }
+  },
+  "end_to_end": {
+   "mode": "end_to_end",
+   "questions": [
+    {
+     "question": "LB02",
+     "type": "multi_hop",
+     "gold": [
+      "articles/farne_lighthouse.md#1"
+     ],
+     "starts": [
+      "56e7eb480376ffc5",
+      "Lighthouse:Q15217395"
+     ],
+     "ranked": [
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1",
+      "articles/farne_lighthouse.md#2",
+      "articles/farne_lighthouse.md#3",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/godrevy_lighthouse.md#1",
+      "articles/godrevy_lighthouse.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB03",
+     "type": "multi_hop",
+     "gold": [
+      "articles/godrevy_lighthouse.md#1"
+     ],
+     "starts": [
+      "Lighthouse:Q15221791"
+     ],
+     "ranked": [
+      "articles/godrevy_lighthouse.md#0",
+      "articles/godrevy_lighthouse.md#1",
+      "articles/godrevy_lighthouse.md#2",
+      "articles/godrevy_lighthouse.md#3",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB04",
+     "type": "multi_hop",
+     "gold": [
+      "articles/st_mary_s_lighthouse.md#1"
+     ],
+     "starts": [
+      "Lighthouse:Q7590348",
+      "d8e2e93b11a7671d"
+     ],
+     "ranked": [
+      "articles/st_mary_s_lighthouse.md#0",
+      "articles/st_mary_s_lighthouse.md#1",
+      "articles/st_mary_s_lighthouse.md#2",
+      "articles/st_mary_s_lighthouse.md#3",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB05",
+     "type": "multi_hop",
+     "gold": [
+      "articles/whitby_lighthouse.md#2"
+     ],
+     "starts": [
+      "Lighthouse:Q7994169",
+      "c038596966ec0403"
+     ],
+     "ranked": [
+      "articles/whitby_lighthouse.md#0",
+      "articles/whitby_lighthouse.md#1",
+      "articles/whitby_lighthouse.md#2",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1",
+      "articles/farne_lighthouse.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB06",
+     "type": "multi_hop",
+     "gold": [
+      "articles/st_agnes_lighthouse.md#2"
+     ],
+     "starts": [
+      "Lighthouse:Q3739817"
+     ],
+     "ranked": [
+      "articles/st_agnes_lighthouse.md#0",
+      "articles/st_agnes_lighthouse.md#1",
+      "articles/st_agnes_lighthouse.md#2",
+      "articles/st_anthony_s_lighthouse.md#1",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB07",
+     "type": "multi_hop",
+     "gold": [
+      "articles/whitby_lighthouse.md#2"
+     ],
+     "starts": [
+      "Lighthouse:Q7994169"
+     ],
+     "ranked": [
+      "articles/whitby_lighthouse.md#0",
+      "articles/whitby_lighthouse.md#1",
+      "articles/whitby_lighthouse.md#2",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1",
+      "articles/farne_lighthouse.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB08",
+     "type": "multi_hop",
+     "gold": [
+      "articles/old_higher_lighthouse.md#2"
+     ],
+     "starts": [
+      "8fb67ccd7a822ee6"
+     ],
+     "ranked": [
+      "articles/old_higher_lighthouse.md#1",
+      "articles/old_higher_lighthouse.md#2",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1",
+      "articles/farne_lighthouse.md#3",
+      "articles/godrevy_lighthouse.md#1"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB09",
+     "type": "multi_hop",
+     "gold": [
+      "articles/farne_lighthouse.md#3"
+     ],
+     "starts": [
+      "Lighthouse:Q15217395",
+      "c670e77d601a9be6"
+     ],
+     "ranked": [
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1",
+      "articles/farne_lighthouse.md#2",
+      "articles/farne_lighthouse.md#3",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/godrevy_lighthouse.md#1",
+      "articles/godrevy_lighthouse.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB16",
+     "type": "aggregation",
+     "gold": [
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/st_anthony_s_lighthouse.md#2",
+      "articles/tater_du_lighthouse.md#1"
+     ],
+     "starts": [
+      "064a91baf9b319b0",
+      "128b22aac14ed451"
+     ],
+     "ranked": [
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/st_anthony_s_lighthouse.md#2",
+      "articles/tater_du_lighthouse.md#1",
+      "articles/whitby_lighthouse.md#2",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1"
+     ],
+     "hits": {
+      "5": 3,
+      "10": 3
+     },
+     "reached": 3
+    },
+    {
+     "question": "LB17",
+     "type": "aggregation",
+     "gold": [
+      "articles/farne_lighthouse.md#0"
+     ],
+     "starts": [
+      "Event:Q10581063|automatization"
+     ],
+     "ranked": [
+      "articles/berry_head_lighthouse.md#0",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1",
+      "articles/farne_lighthouse.md#3",
+      "articles/godrevy_lighthouse.md#1",
+      "articles/godrevy_lighthouse.md#3"
+     ],
+     "hits": {
+      "5": 0,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB18",
+     "type": "aggregation",
+     "gold": [
+      "articles/farne_lighthouse.md#1",
+      "articles/godrevy_lighthouse.md#3"
+     ],
+     "starts": [
+      "2cd785447091bde4"
+     ],
+     "ranked": [
+      "articles/godrevy_lighthouse.md#3",
+      "articles/st_mary_s_lighthouse.md#2",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1",
+      "articles/farne_lighthouse.md#3",
+      "articles/godrevy_lighthouse.md#0"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 2
+     },
+     "reached": 2
+    },
+    {
+     "question": "LB35",
+     "type": "disambiguation",
+     "gold": [
+      "articles/whitby_lighthouse.md#1"
+     ],
+     "starts": [
+      "Lighthouse:Q7994169",
+      "c038596966ec0403"
+     ],
+     "ranked": [
+      "articles/whitby_lighthouse.md#0",
+      "articles/whitby_lighthouse.md#1",
+      "articles/whitby_lighthouse.md#2",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1",
+      "articles/farne_lighthouse.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB36",
+     "type": "negation_sensitive",
+     "gold": [
+      "articles/godrevy_lighthouse.md#3",
+      "articles/old_higher_lighthouse.md#0",
+      "articles/st_agnes_lighthouse.md#2",
+      "articles/st_mary_s_lighthouse.md#3"
+     ],
+     "starts": [
+      "bc1474bcac820159"
+     ],
+     "ranked": [
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/farne_lighthouse.md#2",
+      "articles/godrevy_lighthouse.md#2",
+      "articles/godrevy_lighthouse.md#3",
+      "articles/st_agnes_lighthouse.md#2",
+      "articles/st_anthony_s_lighthouse.md#2",
+      "articles/st_mary_s_lighthouse.md#1",
+      "articles/st_mary_s_lighthouse.md#2",
+      "articles/st_mary_s_lighthouse.md#3",
+      "articles/tater_du_lighthouse.md#1"
+     ],
+     "hits": {
+      "5": 2,
+      "10": 3
+     },
+     "reached": 4
+    },
+    {
+     "question": "LB37",
+     "type": "negation_sensitive",
+     "gold": [
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#2"
+     ],
+     "starts": [
+      "56e7eb480376ffc5",
+      "Lighthouse:Q15217395"
+     ],
+     "ranked": [
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1",
+      "articles/farne_lighthouse.md#2",
+      "articles/farne_lighthouse.md#3",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/godrevy_lighthouse.md#1",
+      "articles/godrevy_lighthouse.md#3"
+     ],
+     "hits": {
+      "5": 2,
+      "10": 2
+     },
+     "reached": 2
+    },
+    {
+     "question": "LB38",
+     "type": "negation_sensitive",
+     "gold": [
+      "articles/tater_du_lighthouse.md#2"
+     ],
+     "starts": [
+      "1977be50e3dc6bb0",
+      "Lighthouse:Q2686922"
+     ],
+     "ranked": [
+      "articles/tater_du_lighthouse.md#0",
+      "articles/tater_du_lighthouse.md#1",
+      "articles/tater_du_lighthouse.md#2",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1",
+      "articles/farne_lighthouse.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB39",
+     "type": "negation_sensitive",
+     "gold": [
+      "articles/st_agnes_lighthouse.md#0",
+      "articles/st_agnes_lighthouse.md#1"
+     ],
+     "starts": [
+      "Lighthouse:Q3739817",
+      "b4568bf9f319bf24"
+     ],
+     "ranked": [
+      "articles/old_higher_lighthouse.md#1",
+      "articles/st_agnes_lighthouse.md#0",
+      "articles/st_agnes_lighthouse.md#1",
+      "articles/st_agnes_lighthouse.md#2",
+      "articles/st_anthony_s_lighthouse.md#1",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0"
+     ],
+     "hits": {
+      "5": 2,
+      "10": 2
+     },
+     "reached": 2
+    },
+    {
+     "question": "LB40",
+     "type": "negation_sensitive",
+     "gold": [
+      "articles/st_mary_s_lighthouse.md#3"
+     ],
+     "starts": [
+      "33f9799e8ae41107",
+      "Lighthouse:Q7590348"
+     ],
+     "ranked": [
+      "articles/st_mary_s_lighthouse.md#0",
+      "articles/st_mary_s_lighthouse.md#1",
+      "articles/st_mary_s_lighthouse.md#2",
+      "articles/st_mary_s_lighthouse.md#3",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB41",
+     "type": "negation_sensitive",
+     "gold": [
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/godrevy_lighthouse.md#2",
+      "articles/st_anthony_s_lighthouse.md#2",
+      "articles/tater_du_lighthouse.md#1",
+      "articles/whitby_lighthouse.md#2"
+     ],
+     "starts": [
+      "064a91baf9b319b0"
+     ],
+     "ranked": [
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/st_anthony_s_lighthouse.md#2",
+      "articles/tater_du_lighthouse.md#1",
+      "articles/whitby_lighthouse.md#2",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1"
+     ],
+     "hits": {
+      "5": 4,
+      "10": 4
+     },
+     "reached": 5
+    },
+    {
+     "question": "LB42",
+     "type": "negation_sensitive",
+     "gold": [
+      "articles/old_higher_lighthouse.md#1",
+      "articles/old_higher_lighthouse.md#2"
+     ],
+     "starts": [
+      "8fb67ccd7a822ee6"
+     ],
+     "ranked": [
+      "articles/old_higher_lighthouse.md#1",
+      "articles/old_higher_lighthouse.md#2",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1",
+      "articles/farne_lighthouse.md#3",
+      "articles/godrevy_lighthouse.md#1"
+     ],
+     "hits": {
+      "5": 2,
+      "10": 2
+     },
+     "reached": 2
+    },
+    {
+     "question": "LB43",
+     "type": "lookup",
+     "gold": [
+      "articles/anvil_point_lighthouse.md#1"
+     ],
+     "starts": [
+      "Lighthouse:Q15182446"
+     ],
+     "ranked": [
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#1",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1",
+      "articles/farne_lighthouse.md#3",
+      "articles/godrevy_lighthouse.md#1",
+      "articles/godrevy_lighthouse.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB44",
+     "type": "lookup",
+     "gold": [
+      "articles/berry_head_lighthouse.md#1"
+     ],
+     "starts": [
+      "76be38e806843f76",
+      "Lighthouse:Q10581063"
+     ],
+     "ranked": [
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#0",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1",
+      "articles/farne_lighthouse.md#3",
+      "articles/godrevy_lighthouse.md#1",
+      "articles/godrevy_lighthouse.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB45",
+     "type": "lookup",
+     "gold": [
+      "articles/godrevy_lighthouse.md#1"
+     ],
+     "starts": [
+      "Lighthouse:Q15221791"
+     ],
+     "ranked": [
+      "articles/godrevy_lighthouse.md#0",
+      "articles/godrevy_lighthouse.md#1",
+      "articles/godrevy_lighthouse.md#2",
+      "articles/godrevy_lighthouse.md#3",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB46",
+     "type": "lookup",
+     "gold": [
+      "articles/old_higher_lighthouse.md#2"
+     ],
+     "starts": [
+      "8fb67ccd7a822ee6"
+     ],
+     "ranked": [
+      "articles/old_higher_lighthouse.md#1",
+      "articles/old_higher_lighthouse.md#2",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1",
+      "articles/farne_lighthouse.md#3",
+      "articles/godrevy_lighthouse.md#1"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB47",
+     "type": "lookup",
+     "gold": [
+      "articles/tater_du_lighthouse.md#0"
+     ],
+     "starts": [
+      "Lighthouse:Q2686922"
+     ],
+     "ranked": [
+      "articles/tater_du_lighthouse.md#0",
+      "articles/tater_du_lighthouse.md#1",
+      "articles/tater_du_lighthouse.md#2",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1",
+      "articles/farne_lighthouse.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB48",
+     "type": "lookup",
+     "gold": [
+      "articles/st_mary_s_lighthouse.md#1"
+     ],
+     "starts": [
+      "Lighthouse:Q7590348"
+     ],
+     "ranked": [
+      "articles/st_mary_s_lighthouse.md#0",
+      "articles/st_mary_s_lighthouse.md#1",
+      "articles/st_mary_s_lighthouse.md#2",
+      "articles/st_mary_s_lighthouse.md#3",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB49",
+     "type": "lookup",
+     "gold": [
+      "articles/st_anthony_s_lighthouse.md#2"
+     ],
+     "starts": [
+      "128b22aac14ed451",
+      "Lighthouse:Q2686634"
+     ],
+     "ranked": [
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/st_anthony_s_lighthouse.md#0",
+      "articles/st_anthony_s_lighthouse.md#1",
+      "articles/st_anthony_s_lighthouse.md#2",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1",
+      "articles/farne_lighthouse.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    },
+    {
+     "question": "LB50",
+     "type": "lookup",
+     "gold": [
+      "articles/farne_lighthouse.md#3"
+     ],
+     "starts": [
+      "4cdb9cb707627c33",
+      "Lighthouse:Q15217395"
+     ],
+     "ranked": [
+      "articles/farne_lighthouse.md#0",
+      "articles/farne_lighthouse.md#1",
+      "articles/farne_lighthouse.md#2",
+      "articles/farne_lighthouse.md#3",
+      "articles/anvil_point_lighthouse.md#0",
+      "articles/anvil_point_lighthouse.md#2",
+      "articles/berry_head_lighthouse.md#1",
+      "articles/berry_head_lighthouse.md#2",
+      "articles/godrevy_lighthouse.md#1",
+      "articles/godrevy_lighthouse.md#3"
+     ],
+     "hits": {
+      "5": 1,
+      "10": 1
+     },
+     "reached": 1
+    }
+   ],
+   "no_start": [
+    "LB20"
+   ],
+   "recall_at": {
+    "5": {
+     "k": 35,
+     "n": 40,
+     "rate": 0.875,
+     "low": 0.7388757932976187,
+     "high": 0.9454058022645873
+    },
+    "10": {
+     "k": 38,
+     "n": 40,
+     "rate": 0.95,
+     "low": 0.834958291820748,
+     "high": 0.9861796228538989
+    }
+   },
+   "complete_at": {
+    "5": {
+     "k": 23,
+     "n": 27,
+     "rate": 0.8518518518518519,
+     "low": 0.6752093665317052,
+     "high": 0.9408416814035512
+    },
+    "10": {
+     "k": 25,
+     "n": 27,
+     "rate": 0.9259259259259259,
+     "low": 0.7663002270926937,
+     "high": 0.9794457783026165
+    }
+   },
+   "reached": {
+    "k": 40,
+    "n": 40,
+    "rate": 1.0,
+    "low": 0.9123754607496077,
+    "high": 1.0
+   }
+  }
+ },
+ "selectivity": {
+  "nodes": 94,
+  "corpus": 33,
+  "median_share": 0.030303030303030304,
+  "p90_share": 0.12121212121212122,
+  "hubs": [
+   {
+    "node": "76be38e806843f76",
+    "chunks": 25,
+    "share": 0.7575757575757576
+   },
+   {
+    "node": "bc1474bcac820159",
+    "chunks": 11,
+    "share": 0.3333333333333333
+   },
+   {
+    "node": "ea58b04fab379bda",
+    "chunks": 10,
+    "share": 0.30303030303030304
+   },
+   {
+    "node": "8932a6ccedf443e6",
+    "chunks": 7,
+    "share": 0.21212121212121213
+   },
+   {
+    "node": "eb01126fcc2be6b1",
+    "chunks": 7,
+    "share": 0.21212121212121213
+   }
+  ]
+ },
+ "connectivity": {
+  "questions": [
+   {
+    "question": "LB02",
+    "gold": [
+     "articles/farne_lighthouse.md#1"
+    ],
+    "unreached": []
+   },
+   {
+    "question": "LB03",
+    "gold": [
+     "articles/godrevy_lighthouse.md#1"
+    ],
+    "unreached": []
+   },
+   {
+    "question": "LB04",
+    "gold": [
+     "articles/st_mary_s_lighthouse.md#1"
+    ],
+    "unreached": []
+   },
+   {
+    "question": "LB05",
+    "gold": [
+     "articles/whitby_lighthouse.md#2"
+    ],
+    "unreached": []
+   },
+   {
+    "question": "LB06",
+    "gold": [
+     "articles/st_agnes_lighthouse.md#2"
+    ],
+    "unreached": []
+   },
+   {
+    "question": "LB07",
+    "gold": [
+     "articles/whitby_lighthouse.md#2"
+    ],
+    "unreached": []
+   },
+   {
+    "question": "LB08",
+    "gold": [
+     "articles/old_higher_lighthouse.md#2"
+    ],
+    "unreached": []
+   },
+   {
+    "question": "LB09",
+    "gold": [
+     "articles/farne_lighthouse.md#3"
+    ],
+    "unreached": []
+   }
+  ],
+  "connections": {
+   "k": 8,
+   "n": 8,
+   "rate": 1.0,
+   "low": 0.6755843804891231,
+   "high": 1.0
+  },
+  "thing_hops": 720,
+  "unwitnessed_hops": 83,
+  "unwitnessed_examples": [
+   "39ecbbb0f7fc8cb5 -claim- dda1f6cdf52701dc (articles/old_higher_lighthouse.md#0)",
+   "42f6220d7bf77589 -claim- dda1f6cdf52701dc (articles/old_higher_lighthouse.md#0)",
+   "bb32c91955e17f44 -claim- dda1f6cdf52701dc (articles/old_higher_lighthouse.md#0)",
+   "d8713e192e6429ea -claim- dda1f6cdf52701dc (articles/old_higher_lighthouse.md#0)",
+   "743c3b004a0b5cdd -claim- d8713e192e6429ea (articles/st_mary_s_lighthouse.md#0)",
+   "77af757f8a1ca1f6 -claim- d8713e192e6429ea (articles/st_mary_s_lighthouse.md#0)",
+   "9402be9f12d66430 -claim- d8713e192e6429ea (articles/st_mary_s_lighthouse.md#0)",
+   "Lighthouse:Q7590348 -claim- d8713e192e6429ea (articles/st_mary_s_lighthouse.md#0)",
+   "6db85e77b0d09e92 -claim- Lighthouse:Q3739817 (articles/st_agnes_lighthouse.md#2)",
+   "6db85e77b0d09e92 -claim- a7581abe62079f3d (articles/st_agnes_lighthouse.md#2)"
+  ]
+ },
+ "size": {
+  "chunks": 33,
+  "nodes": 1588,
+  "edges": 2622,
+  "nodes_per_chunk": 48.121212121212125,
+  "edges_per_chunk": 79.45454545454545,
+  "cost_usd": 0.559838,
+  "tokens": 438981.0
+ }
+}

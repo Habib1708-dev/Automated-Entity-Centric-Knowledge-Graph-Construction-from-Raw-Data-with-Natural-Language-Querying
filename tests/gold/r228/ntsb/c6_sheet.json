@@ -1,0 +1,3853 @@
+{
+ "dataset": "ntsb",
+ "build": "out/r155b_ntsb",
+ "snapshot_hash": "6661bcc8f003",
+ "question": "Does this chunk concern this start node (speak of this very thing)?",
+ "criterion": "C6",
+ "pairs": [
+  {
+   "id": "p:031b4f56c9084546|documents/piper_pa_28_181_accidents.md#3",
+   "start": {
+    "id": "031b4f56c9084546",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "fence post",
+    "record": null,
+    "mentions": [
+     {
+      "id": "e3f0d929f8cd58d4",
+      "name": "fence post",
+      "document": "documents/piper_pa_28_181_accidents.md",
+      "chunks": [
+       "documents/piper_pa_28_181_accidents.md#3"
+      ],
+      "sentence": "During the forced landing, the left wing separated from the airplane after impact with a fence post."
+     }
+    ]
+   },
+   "chunk": "documents/piper_pa_28_181_accidents.md#3"
+  },
+  {
+   "id": "p:27ce85c93a913c3c|documents/cessna_172s_accidents.md#0",
+   "start": {
+    "id": "27ce85c93a913c3c",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "airport manager",
+    "record": null,
+    "mentions": [
+     {
+      "id": "a59c0f7ae47bf5ac",
+      "name": "airport manager",
+      "document": "documents/cessna_172s_accidents.md",
+      "chunks": [
+       "documents/cessna_172s_accidents.md#0"
+      ],
+      "sentence": "The airport manager confirmed that the runway had patchy compressed snow covering about 25% of the runway surface."
+     }
+    ]
+   },
+   "chunk": "documents/cessna_172s_accidents.md#0"
+  },
+  {
+   "id": "p:2f6da198429e2f04|documents/cirrus_sr22_accidents.md#1",
+   "start": {
+    "id": "2f6da198429e2f04",
+    "kind": "concept",
+    "type": "AircraftComponent",
+    "name": "Cirrus airframe parachute system",
+    "record": null,
+    "mentions": [
+     {
+      "id": "9b7261190a7e28ed",
+      "name": "Cirrus airframe parachute system",
+      "document": "documents/cirrus_sr22_accidents.md",
+      "chunks": [
+       "documents/cirrus_sr22_accidents.md#1"
+      ],
+      "sentence": "After determining that he could not rely on the information from the flight instruments, he elected to activate the Cirrus airframe parachute system."
+     }
+    ]
+   },
+   "chunk": "documents/cirrus_sr22_accidents.md#1"
+  },
+  {
+   "id": "p:3438cbf83c62b6e8|documents/piper_pa_28_181_accidents.md#3",
+   "start": {
+    "id": "3438cbf83c62b6e8",
+    "kind": "individual",
+    "type": "Finding",
+    "name": "A loss of engine power due to fuel starvation and the pilot's mismanagement of the available fuel",
+    "record": null,
+    "mentions": [
+     {
+      "id": "d310b02b00ad56fe",
+      "name": "A loss of engine power due to fuel starvation and the pilot's mismanagement of the available fuel",
+      "document": "documents/piper_pa_28_181_accidents.md",
+      "chunks": [
+       "documents/piper_pa_28_181_accidents.md#3"
+      ],
+      "sentence": "Probable cause: A loss of engine power due to fuel starvation and the pilot's mismanagement of the available fuel."
+     }
+    ]
+   },
+   "chunk": "documents/piper_pa_28_181_accidents.md#3"
+  },
+  {
+   "id": "p:3e50688f8e79f0a6|documents/beech_a36_accidents.md#1",
+   "start": {
+    "id": "3e50688f8e79f0a6",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "lost total power",
+    "record": null,
+    "mentions": [
+     {
+      "id": "5477a0c125fe4fcf",
+      "name": "total loss of power",
+      "document": "documents/beech_a36_accidents.md",
+      "chunks": [
+       "documents/beech_a36_accidents.md#2"
+      ],
+      "sentence": "The data did not illustrate any abnormalities with either the cylinder head temperature or exhaust gas temperatures that were recorded; the total loss of power was evident."
+     },
+     {
+      "id": "43d61d98498651fe",
+      "name": "total loss of engine power",
+      "document": "documents/cessna_172s_accidents.md",
+      "chunks": [
+       "documents/cessna_172s_accidents.md#2",
+       "documents/cessna_172s_accidents.md#3"
+      ],
+      "sentence": "As a result, the cause of the total loss of engine power could not be determined."
+     },
+     {
+      "id": "c3f51f96ba79c521",
+      "name": "lost total power",
+      "document": "documents/robinson_r44_ii_accidents.md",
+      "chunks": [
+       "documents/robinson_r44_ii_accidents.md#3"
+      ],
+      "sentence": "When the helicopter was about 10 ft above the runway, and airspeed reached about 20 kts, the engine lost total power."
+     }
+    ]
+   },
+   "chunk": "documents/beech_a36_accidents.md#1"
+  },
+  {
+   "id": "p:3e50688f8e79f0a6|documents/beech_a36_accidents.md#2",
+   "start": {
+    "id": "3e50688f8e79f0a6",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "lost total power",
+    "record": null,
+    "mentions": [
+     {
+      "id": "ea819b204257d37b",
+      "name": "lost total power",
+      "document": "documents/beech_a36_accidents.md",
+      "chunks": [
+       "documents/beech_a36_accidents.md#1"
+      ],
+      "sentence": "The pilot then requested to divert to the nearest airport, and shortly thereafter, the engine began to shake and lost total power."
+     },
+     {
+      "id": "43d61d98498651fe",
+      "name": "total loss of engine power",
+      "document": "documents/cessna_172s_accidents.md",
+      "chunks": [
+       "documents/cessna_172s_accidents.md#2",
+       "documents/cessna_172s_accidents.md#3"
+      ],
+      "sentence": "As a result, the cause of the total loss of engine power could not be determined."
+     },
+     {
+      "id": "c3f51f96ba79c521",
+      "name": "lost total power",
+      "document": "documents/robinson_r44_ii_accidents.md",
+      "chunks": [
+       "documents/robinson_r44_ii_accidents.md#3"
+      ],
+      "sentence": "When the helicopter was about 10 ft above the runway, and airspeed reached about 20 kts, the engine lost total power."
+     }
+    ]
+   },
+   "chunk": "documents/beech_a36_accidents.md#2"
+  },
+  {
+   "id": "p:3e50688f8e79f0a6|documents/cessna_172s_accidents.md#2",
+   "start": {
+    "id": "3e50688f8e79f0a6",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "lost total power",
+    "record": null,
+    "mentions": [
+     {
+      "id": "5477a0c125fe4fcf",
+      "name": "total loss of power",
+      "document": "documents/beech_a36_accidents.md",
+      "chunks": [
+       "documents/beech_a36_accidents.md#2"
+      ],
+      "sentence": "The data did not illustrate any abnormalities with either the cylinder head temperature or exhaust gas temperatures that were recorded; the total loss of power was evident."
+     },
+     {
+      "id": "ea819b204257d37b",
+      "name": "lost total power",
+      "document": "documents/beech_a36_accidents.md",
+      "chunks": [
+       "documents/beech_a36_accidents.md#1"
+      ],
+      "sentence": "The pilot then requested to divert to the nearest airport, and shortly thereafter, the engine began to shake and lost total power."
+     },
+     {
+      "id": "c3f51f96ba79c521",
+      "name": "lost total power",
+      "document": "documents/robinson_r44_ii_accidents.md",
+      "chunks": [
+       "documents/robinson_r44_ii_accidents.md#3"
+      ],
+      "sentence": "When the helicopter was about 10 ft above the runway, and airspeed reached about 20 kts, the engine lost total power."
+     }
+    ]
+   },
+   "chunk": "documents/cessna_172s_accidents.md#2"
+  },
+  {
+   "id": "p:3e50688f8e79f0a6|documents/cessna_172s_accidents.md#3",
+   "start": {
+    "id": "3e50688f8e79f0a6",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "lost total power",
+    "record": null,
+    "mentions": [
+     {
+      "id": "5477a0c125fe4fcf",
+      "name": "total loss of power",
+      "document": "documents/beech_a36_accidents.md",
+      "chunks": [
+       "documents/beech_a36_accidents.md#2"
+      ],
+      "sentence": "The data did not illustrate any abnormalities with either the cylinder head temperature or exhaust gas temperatures that were recorded; the total loss of power was evident."
+     },
+     {
+      "id": "ea819b204257d37b",
+      "name": "lost total power",
+      "document": "documents/beech_a36_accidents.md",
+      "chunks": [
+       "documents/beech_a36_accidents.md#1"
+      ],
+      "sentence": "The pilot then requested to divert to the nearest airport, and shortly thereafter, the engine began to shake and lost total power."
+     },
+     {
+      "id": "c3f51f96ba79c521",
+      "name": "lost total power",
+      "document": "documents/robinson_r44_ii_accidents.md",
+      "chunks": [
+       "documents/robinson_r44_ii_accidents.md#3"
+      ],
+      "sentence": "When the helicopter was about 10 ft above the runway, and airspeed reached about 20 kts, the engine lost total power."
+     }
+    ]
+   },
+   "chunk": "documents/cessna_172s_accidents.md#3"
+  },
+  {
+   "id": "p:3e50688f8e79f0a6|documents/robinson_r44_ii_accidents.md#3",
+   "start": {
+    "id": "3e50688f8e79f0a6",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "lost total power",
+    "record": null,
+    "mentions": [
+     {
+      "id": "5477a0c125fe4fcf",
+      "name": "total loss of power",
+      "document": "documents/beech_a36_accidents.md",
+      "chunks": [
+       "documents/beech_a36_accidents.md#2"
+      ],
+      "sentence": "The data did not illustrate any abnormalities with either the cylinder head temperature or exhaust gas temperatures that were recorded; the total loss of power was evident."
+     },
+     {
+      "id": "ea819b204257d37b",
+      "name": "lost total power",
+      "document": "documents/beech_a36_accidents.md",
+      "chunks": [
+       "documents/beech_a36_accidents.md#1"
+      ],
+      "sentence": "The pilot then requested to divert to the nearest airport, and shortly thereafter, the engine began to shake and lost total power."
+     },
+     {
+      "id": "43d61d98498651fe",
+      "name": "total loss of engine power",
+      "document": "documents/cessna_172s_accidents.md",
+      "chunks": [
+       "documents/cessna_172s_accidents.md#2",
+       "documents/cessna_172s_accidents.md#3"
+      ],
+      "sentence": "As a result, the cause of the total loss of engine power could not be determined."
+     }
+    ]
+   },
+   "chunk": "documents/robinson_r44_ii_accidents.md#3"
+  },
+  {
+   "id": "p:41e2fc3bba014678|documents/cessna_172s_accidents.md#1",
+   "start": {
+    "id": "41e2fc3bba014678",
+    "kind": "concept",
+    "type": "AircraftComponent",
+    "name": "window",
+    "record": null,
+    "mentions": [
+     {
+      "id": "336fc69c0359abe8",
+      "name": "window",
+      "document": "documents/cessna_172s_accidents.md",
+      "chunks": [
+       "documents/cessna_172s_accidents.md#1"
+      ],
+      "sentence": "After not seeing any flames, the pilot opened his window to vent the cabin and decided to conduct an off-airport emergency landing on an empty multi-lane highway."
+     }
+    ]
+   },
+   "chunk": "documents/cessna_172s_accidents.md#1"
+  },
+  {
+   "id": "p:474f2c8501c17b58|documents/beech_a36_accidents.md#4",
+   "start": {
+    "id": "474f2c8501c17b58",
+    "kind": "concept",
+    "type": "EnvironmentalCondition",
+    "name": "cloud layer",
+    "record": null,
+    "mentions": [
+     {
+      "id": "9a3692253d2e919f",
+      "name": "cloud layer",
+      "document": "documents/beech_a36_accidents.md",
+      "chunks": [
+       "documents/beech_a36_accidents.md#4"
+      ],
+      "sentence": "The pilot reported that while in cruise flight over a cloud layer, the engine lost power as if it were out of fuel."
+     }
+    ]
+   },
+   "chunk": "documents/beech_a36_accidents.md#4"
+  },
+  {
+   "id": "p:4d9b37578ebf4e12|documents/piper_pa_28_181_accidents.md#1",
+   "start": {
+    "id": "4d9b37578ebf4e12",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "service bulletin",
+    "record": null,
+    "mentions": [
+     {
+      "id": "735490215851b257",
+      "name": "service bulletin",
+      "document": "documents/piper_pa_28_181_accidents.md",
+      "chunks": [
+       "documents/piper_pa_28_181_accidents.md#1"
+      ],
+      "sentence": "About 7 months after this accident, the manufacturer issued a service bulletin requiring replacement"
+     }
+    ]
+   },
+   "chunk": "documents/piper_pa_28_181_accidents.md#1"
+  },
+  {
+   "id": "p:4e150d4481e0f72b|documents/air_tractor_at_502b_accidents.md#1",
+   "start": {
+    "id": "4e150d4481e0f72b",
+    "kind": "concept",
+    "type": "EnvironmentalCondition",
+    "name": "road",
+    "record": null,
+    "mentions": [
+     {
+      "id": "cc0394eb1e21abf9",
+      "name": "road",
+      "document": "documents/beech_a36_accidents.md",
+      "chunks": [
+       "documents/beech_a36_accidents.md#4"
+      ],
+      "sentence": "The airplane descended below the cloud layer and the pilot maneuvered the airplane for a forced landing to a road."
+     }
+    ]
+   },
+   "chunk": "documents/air_tractor_at_502b_accidents.md#1"
+  },
+  {
+   "id": "p:4e150d4481e0f72b|documents/beech_a36_accidents.md#4",
+   "start": {
+    "id": "4e150d4481e0f72b",
+    "kind": "concept",
+    "type": "EnvironmentalCondition",
+    "name": "road",
+    "record": null,
+    "mentions": [
+     {
+      "id": "cfde831264bbfb0c",
+      "name": "road",
+      "document": "documents/air_tractor_at_502b_accidents.md",
+      "chunks": [
+       "documents/air_tractor_at_502b_accidents.md#1"
+      ],
+      "sentence": "During the landing, the airplane bounced, slid across a road, and then came to rest upright."
+     }
+    ]
+   },
+   "chunk": "documents/beech_a36_accidents.md#4"
+  },
+  {
+   "id": "p:5671d134a1640e92|documents/air_tractor_at_502b_accidents.md#4",
+   "start": {
+    "id": "5671d134a1640e92",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "white smoke",
+    "record": null,
+    "mentions": [
+     {
+      "id": "118b471b4a913ac8",
+      "name": "white smoke",
+      "document": "documents/air_tractor_at_502b_accidents.md",
+      "chunks": [
+       "documents/air_tractor_at_502b_accidents.md#4"
+      ],
+      "sentence": "During departure climbout for spray operations, the pilot heard a “pop” and observed white smoke trailing the airplane."
+     }
+    ]
+   },
+   "chunk": "documents/air_tractor_at_502b_accidents.md#4"
+  },
+  {
+   "id": "p:56b7467c8226997a|documents/cessna_172s_accidents.md#1",
+   "start": {
+    "id": "56b7467c8226997a",
+    "kind": "concept",
+    "type": "AircraftComponent",
+    "name": "air-conditioning system hose",
+    "record": null,
+    "mentions": [
+     {
+      "id": "aac7cb76cf83eb09",
+      "name": "air-conditioning system hose",
+      "document": "documents/cessna_172s_accidents.md",
+      "chunks": [
+       "documents/cessna_172s_accidents.md#1"
+      ],
+      "sentence": "Probable cause: The in-flight fatigue failure of an air-conditioning system hose which resulted in a precautionary landing and impact with a road sign."
+     },
+     {
+      "id": "de05372e2a8763e2",
+      "name": "high-pressure air conditioning hose",
+      "document": "documents/cessna_172s_accidents.md",
+      "chunks": [
+       "documents/cessna_172s_accidents.md#1"
+      ],
+      "sentence": "A postaccident examination of the airplane revealed that a high-pressure air conditioning hose failed and separated at a metal crimp connection at the firewall pass-through."
+     }
+    ]
+   },
+   "chunk": "documents/cessna_172s_accidents.md#1"
+  },
+  {
+   "id": "p:5803bd3caf73c38e|documents/piper_pa_28_181_accidents.md#5",
+   "start": {
+    "id": "5803bd3caf73c38e",
+    "kind": "individual",
+    "type": "Finding",
+    "name": "The student pilot’s failure to maintain directional control while taking off from a touch and go landing",
+    "record": null,
+    "mentions": [
+     {
+      "id": "af18d0d596711112",
+      "name": "The student pilot’s failure to maintain directional control while taking off from a touch and go landing",
+      "document": "documents/piper_pa_28_181_accidents.md",
+      "chunks": [
+       "documents/piper_pa_28_181_accidents.md#5"
+      ],
+      "sentence": "Probable cause: The student pilot’s failure to maintain directional control while taking off from a touch and go landing."
+     }
+    ]
+   },
+   "chunk": "documents/piper_pa_28_181_accidents.md#5"
+  },
+  {
+   "id": "p:5af5d2ce44763564|documents/cirrus_sr22_accidents.md#0",
+   "start": {
+    "id": "5af5d2ce44763564",
+    "kind": "individual",
+    "type": "Finding",
+    "name": "The pilot did not maintain aircraft control during an attempted go-around after a bounced landing, which resulted in impact with terrain and a postimpact fire",
+    "record": null,
+    "mentions": [
+     {
+      "id": "86b04a1382f3ff8b",
+      "name": "The pilot did not maintain aircraft control during an attempted go-around after a bounced landing, which resulted in impact with terrain and a postimpact fire",
+      "document": "documents/cirrus_sr22_accidents.md",
+      "chunks": [
+       "documents/cirrus_sr22_accidents.md#0"
+      ],
+      "sentence": "Probable cause: The pilot did not maintain aircraft control during an attempted go-around after a bounced landing, which resulted in impact with terrain and a postimpact fire."
+     }
+    ]
+   },
+   "chunk": "documents/cirrus_sr22_accidents.md#0"
+  },
+  {
+   "id": "p:6a275cd01b800f7d|documents/cirrus_sr22_accidents.md#0",
+   "start": {
+    "id": "6a275cd01b800f7d",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "postimpact fire",
+    "record": null,
+    "mentions": [
+     {
+      "id": "21bf9f8deb7d03fc",
+      "name": "postimpact fire",
+      "document": "documents/cirrus_sr22_accidents.md",
+      "chunks": [
+       "documents/cirrus_sr22_accidents.md#0"
+      ],
+      "sentence": "A postimpact fire ensued, and the pilot and passenger were not able to egress the airplane."
+     }
+    ]
+   },
+   "chunk": "documents/cirrus_sr22_accidents.md#0"
+  },
+  {
+   "id": "p:6a696e725fa1c46c|documents/piper_pa_28_181_accidents.md#1",
+   "start": {
+    "id": "6a696e725fa1c46c",
+    "kind": "concept",
+    "type": "AircraftComponent",
+    "name": "right main landing gear",
+    "record": null,
+    "mentions": [
+     {
+      "id": "96eda7bad93f2146",
+      "name": "right main landing gear",
+      "document": "documents/piper_pa_28_181_accidents.md",
+      "chunks": [
+       "documents/piper_pa_28_181_accidents.md#1"
+      ],
+      "sentence": "The airplane continued off the right side of the runway, and the right main landing gear impacted a runway light and separated from the airplane."
+     }
+    ]
+   },
+   "chunk": "documents/piper_pa_28_181_accidents.md#1"
+  },
+  {
+   "id": "p:6b05c28b48133240|documents/air_tractor_at_502b_accidents.md#1",
+   "start": {
+    "id": "6b05c28b48133240",
+    "kind": "concept",
+    "type": "AircraftComponent",
+    "name": "left tank",
+    "record": null,
+    "mentions": [
+     {
+      "id": "57030d359401aa1a",
+      "name": "left-wing fuel tanks",
+      "document": "documents/beech_a36_accidents.md",
+      "chunks": [
+       "documents/beech_a36_accidents.md#3"
+      ],
+      "sentence": "During recovery of the airplane, 22 gallons of fuel were recovered from the right-wing fuel tanks, and 26 gallons were recovered from the left-wing fuel tanks."
+     },
+     {
+      "id": "825a788829899561",
+      "name": "left-wing fuel tank",
+      "document": "documents/beech_a36_accidents.md",
+      "chunks": [
+       "documents/beech_a36_accidents.md#4"
+      ],
+      "sentence": "Examination of the fuel system revealed that the fuel venting system on the left-wing fuel tank was obstructed by what appeared to be insect debris."
+     },
+     {
+      "id": "39f7b17b14d6c337",
+      "name": "left tank",
+      "document": "documents/piper_pa_28_181_accidents.md",
+      "chunks": [
+       "documents/piper_pa_28_181_accidents.md#3"
+      ],
+      "sentence": "He added that he “just ran the left tank too long without switching” fuel tanks."
+     }
+    ]
+   },
+   "chunk": "documents/air_tractor_at_502b_accidents.md#1"
+  },
+  {
+   "id": "p:6b05c28b48133240|documents/beech_a36_accidents.md#3",
+   "start": {
+    "id": "6b05c28b48133240",
+    "kind": "concept",
+    "type": "AircraftComponent",
+    "name": "left tank",
+    "record": null,
+    "mentions": [
+     {
+      "id": "9f5e194a79501668",
+      "name": "left fuel tank",
+      "document": "documents/air_tractor_at_502b_accidents.md",
+      "chunks": [
+       "documents/air_tractor_at_502b_accidents.md#1"
+      ],
+      "sentence": "The property owner of the bean field reported that he helped the pilot add about 9 gallons of red die automotive diesel fuel to the left fuel tank and about 5 gallons of the fuel to the right fuel tank after the accident."
+     },
+     {
+      "id": "825a788829899561",
+      "name": "left-wing fuel tank",
+      "document": "documents/beech_a36_accidents.md",
+      "chunks": [
+       "documents/beech_a36_accidents.md#4"
+      ],
+      "sentence": "Examination of the fuel system revealed that the fuel venting system on the left-wing fuel tank was obstructed by what appeared to be insect debris."
+     },
+     {
+      "id": "39f7b17b14d6c337",
+      "name": "left tank",
+      "document": "documents/piper_pa_28_181_accidents.md",
+      "chunks": [
+       "documents/piper_pa_28_181_accidents.md#3"
+      ],
+      "sentence": "He added that he “just ran the left tank too long without switching” fuel tanks."
+     }
+    ]
+   },
+   "chunk": "documents/beech_a36_accidents.md#3"
+  },
+  {
+   "id": "p:6b05c28b48133240|documents/beech_a36_accidents.md#4",
+   "start": {
+    "id": "6b05c28b48133240",
+    "kind": "concept",
+    "type": "AircraftComponent",
+    "name": "left tank",
+    "record": null,
+    "mentions": [
+     {
+      "id": "9f5e194a79501668",
+      "name": "left fuel tank",
+      "document": "documents/air_tractor_at_502b_accidents.md",
+      "chunks": [
+       "documents/air_tractor_at_502b_accidents.md#1"
+      ],
+      "sentence": "The property owner of the bean field reported that he helped the pilot add about 9 gallons of red die automotive diesel fuel to the left fuel tank and about 5 gallons of the fuel to the right fuel tank after the accident."
+     },
+     {
+      "id": "57030d359401aa1a",
+      "name": "left-wing fuel tanks",
+      "document": "documents/beech_a36_accidents.md",
+      "chunks": [
+       "documents/beech_a36_accidents.md#3"
+      ],
+      "sentence": "During recovery of the airplane, 22 gallons of fuel were recovered from the right-wing fuel tanks, and 26 gallons were recovered from the left-wing fuel tanks."
+     },
+     {
+      "id": "39f7b17b14d6c337",
+      "name": "left tank",
+      "document": "documents/piper_pa_28_181_accidents.md",
+      "chunks": [
+       "documents/piper_pa_28_181_accidents.md#3"
+      ],
+      "sentence": "He added that he “just ran the left tank too long without switching” fuel tanks."
+     }
+    ]
+   },
+   "chunk": "documents/beech_a36_accidents.md#4"
+  },
+  {
+   "id": "p:6b05c28b48133240|documents/piper_pa_28_181_accidents.md#3",
+   "start": {
+    "id": "6b05c28b48133240",
+    "kind": "concept",
+    "type": "AircraftComponent",
+    "name": "left tank",
+    "record": null,
+    "mentions": [
+     {
+      "id": "9f5e194a79501668",
+      "name": "left fuel tank",
+      "document": "documents/air_tractor_at_502b_accidents.md",
+      "chunks": [
+       "documents/air_tractor_at_502b_accidents.md#1"
+      ],
+      "sentence": "The property owner of the bean field reported that he helped the pilot add about 9 gallons of red die automotive diesel fuel to the left fuel tank and about 5 gallons of the fuel to the right fuel tank after the accident."
+     },
+     {
+      "id": "57030d359401aa1a",
+      "name": "left-wing fuel tanks",
+      "document": "documents/beech_a36_accidents.md",
+      "chunks": [
+       "documents/beech_a36_accidents.md#3"
+      ],
+      "sentence": "During recovery of the airplane, 22 gallons of fuel were recovered from the right-wing fuel tanks, and 26 gallons were recovered from the left-wing fuel tanks."
+     },
+     {
+      "id": "825a788829899561",
+      "name": "left-wing fuel tank",
+      "document": "documents/beech_a36_accidents.md",
+      "chunks": [
+       "documents/beech_a36_accidents.md#4"
+      ],
+      "sentence": "Examination of the fuel system revealed that the fuel venting system on the left-wing fuel tank was obstructed by what appeared to be insect debris."
+     }
+    ]
+   },
+   "chunk": "documents/piper_pa_28_181_accidents.md#3"
+  },
+  {
+   "id": "p:71322f5005e0acc4|documents/piper_pa_28_181_accidents.md#3",
+   "start": {
+    "id": "71322f5005e0acc4",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "touch and go landing",
+    "record": null,
+    "mentions": [
+     {
+      "id": "6f4f2439a7110cea",
+      "name": "touch and go landing",
+      "document": "documents/piper_pa_28_181_accidents.md",
+      "chunks": [
+       "documents/piper_pa_28_181_accidents.md#5"
+      ],
+      "sentence": "The student pilot reported that he was performing a touch and go landing during a solo traffic pattern flight and had added full engine power for takeoff when he noticed the airplane had drifted right of the runway centerline and made a correction back by applying left rudder."
+     }
+    ]
+   },
+   "chunk": "documents/piper_pa_28_181_accidents.md#3"
+  },
+  {
+   "id": "p:71322f5005e0acc4|documents/piper_pa_28_181_accidents.md#5",
+   "start": {
+    "id": "71322f5005e0acc4",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "touch and go landing",
+    "record": null,
+    "mentions": [
+     {
+      "id": "c76c9ab1e1f38925",
+      "name": "touch and go landings",
+      "document": "documents/piper_pa_28_181_accidents.md",
+      "chunks": [
+       "documents/piper_pa_28_181_accidents.md#3"
+      ],
+      "sentence": "He then departed on about a two-hour local flight, which included touch and go landings."
+     }
+    ]
+   },
+   "chunk": "documents/piper_pa_28_181_accidents.md#5"
+  },
+  {
+   "id": "p:7c4217880130754f|documents/air_tractor_at_502b_accidents.md#1",
+   "start": {
+    "id": "7c4217880130754f",
+    "kind": "concept",
+    "type": "AircraftComponent",
+    "name": "right wing",
+    "record": null,
+    "mentions": [
+     {
+      "id": "0ac7b6cf77a2ccde",
+      "name": "right-wing",
+      "document": "documents/air_tractor_at_502b_accidents.md",
+      "chunks": [
+       "documents/air_tractor_at_502b_accidents.md#3"
+      ],
+      "sentence": "The right-wing started to rise, but before it leveled off, he heard it contact the corn."
+     },
+     {
+      "id": "268e9c77969aab73",
+      "name": "right wing",
+      "document": "documents/cessna_172s_accidents.md",
+      "chunks": [
+       "documents/cessna_172s_accidents.md#0",
+       "documents/cessna_172s_accidents.md#3"
+      ],
+      "sentence": "The airplane’s right wing was bent up at the tip resulting in substantial damage."
+     },
+     {
+      "id": "4f94523d3840a5f4",
+      "name": "right wing",
+      "document": "documents/cirrus_sr22_accidents.md",
+      "chunks": [
+       "documents/cirrus_sr22_accidents.md#2"
+      ],
+      "sentence": "During the accident, the nose landing gear collapsed, and the right wing sustained substantial damage."
+     }
+    ]
+   },
+   "chunk": "documents/air_tractor_at_502b_accidents.md#1"
+  },
+  {
+   "id": "p:7c4217880130754f|documents/air_tractor_at_502b_accidents.md#3",
+   "start": {
+    "id": "7c4217880130754f",
+    "kind": "concept",
+    "type": "AircraftComponent",
+    "name": "right wing",
+    "record": null,
+    "mentions": [
+     {
+      "id": "268e9c77969aab73",
+      "name": "right wing",
+      "document": "documents/cessna_172s_accidents.md",
+      "chunks": [
+       "documents/cessna_172s_accidents.md#0",
+       "documents/cessna_172s_accidents.md#3"
+      ],
+      "sentence": "The airplane’s right wing was bent up at the tip resulting in substantial damage."
+     },
+     {
+      "id": "4f94523d3840a5f4",
+      "name": "right wing",
+      "document": "documents/cirrus_sr22_accidents.md",
+      "chunks": [
+       "documents/cirrus_sr22_accidents.md#2"
+      ],
+      "sentence": "During the accident, the nose landing gear collapsed, and the right wing sustained substantial damage."
+     },
+     {
+      "id": "779ad53e177d366e",
+      "name": "right wing",
+      "document": "documents/piper_pa_28_181_accidents.md",
+      "chunks": [
+       "documents/piper_pa_28_181_accidents.md#0",
+       "documents/piper_pa_28_181_accidents.md#5"
+      ],
+      "sentence": "The pilot could not maintain directional control following the firm landing and the airplane exited the runway striking a windsock with its right wing."
+     }
+    ]
+   },
+   "chunk": "documents/air_tractor_at_502b_accidents.md#3"
+  },
+  {
+   "id": "p:7c4217880130754f|documents/cessna_172s_accidents.md#0",
+   "start": {
+    "id": "7c4217880130754f",
+    "kind": "concept",
+    "type": "AircraftComponent",
+    "name": "right wing",
+    "record": null,
+    "mentions": [
+     {
+      "id": "0ac7b6cf77a2ccde",
+      "name": "right-wing",
+      "document": "documents/air_tractor_at_502b_accidents.md",
+      "chunks": [
+       "documents/air_tractor_at_502b_accidents.md#3"
+      ],
+      "sentence": "The right-wing started to rise, but before it leveled off, he heard it contact the corn."
+     },
+     {
+      "id": "3f43b7ed02d07b67",
+      "name": "right wing",
+      "document": "documents/air_tractor_at_502b_accidents.md",
+      "chunks": [
+       "documents/air_tractor_at_502b_accidents.md#1",
+       "documents/air_tractor_at_502b_accidents.md#3"
+      ],
+      "sentence": "The airplane sustained substantial damage to the fuselage and the right wing."
+     },
+     {
+      "id": "4f94523d3840a5f4",
+      "name": "right wing",
+      "document": "documents/cirrus_sr22_accidents.md",
+      "chunks": [
+       "documents/cirrus_sr22_accidents.md#2"
+      ],
+      "sentence": "During the accident, the nose landing gear collapsed, and the right wing sustained substantial damage."
+     }
+    ]
+   },
+   "chunk": "documents/cessna_172s_accidents.md#0"
+  },
+  {
+   "id": "p:7c4217880130754f|documents/cessna_172s_accidents.md#3",
+   "start": {
+    "id": "7c4217880130754f",
+    "kind": "concept",
+    "type": "AircraftComponent",
+    "name": "right wing",
+    "record": null,
+    "mentions": [
+     {
+      "id": "0ac7b6cf77a2ccde",
+      "name": "right-wing",
+      "document": "documents/air_tractor_at_502b_accidents.md",
+      "chunks": [
+       "documents/air_tractor_at_502b_accidents.md#3"
+      ],
+      "sentence": "The right-wing started to rise, but before it leveled off, he heard it contact the corn."
+     },
+     {
+      "id": "3f43b7ed02d07b67",
+      "name": "right wing",
+      "document": "documents/air_tractor_at_502b_accidents.md",
+      "chunks": [
+       "documents/air_tractor_at_502b_accidents.md#1",
+       "documents/air_tractor_at_502b_accidents.md#3"
+      ],
+      "sentence": "The airplane sustained substantial damage to the fuselage and the right wing."
+     },
+     {
+      "id": "4f94523d3840a5f4",
+      "name": "right wing",
+      "document": "documents/cirrus_sr22_accidents.md",
+      "chunks": [
+       "documents/cirrus_sr22_accidents.md#2"
+      ],
+      "sentence": "During the accident, the nose landing gear collapsed, and the right wing sustained substantial damage."
+     }
+    ]
+   },
+   "chunk": "documents/cessna_172s_accidents.md#3"
+  },
+  {
+   "id": "p:7c4217880130754f|documents/cirrus_sr22_accidents.md#2",
+   "start": {
+    "id": "7c4217880130754f",
+    "kind": "concept",
+    "type": "AircraftComponent",
+    "name": "right wing",
+    "record": null,
+    "mentions": [
+     {
+      "id": "0ac7b6cf77a2ccde",
+      "name": "right-wing",
+      "document": "documents/air_tractor_at_502b_accidents.md",
+      "chunks": [
+       "documents/air_tractor_at_502b_accidents.md#3"
+      ],
+      "sentence": "The right-wing started to rise, but before it leveled off, he heard it contact the corn."
+     },
+     {
+      "id": "3f43b7ed02d07b67",
+      "name": "right wing",
+      "document": "documents/air_tractor_at_502b_accidents.md",
+      "chunks": [
+       "documents/air_tractor_at_502b_accidents.md#1",
+       "documents/air_tractor_at_502b_accidents.md#3"
+      ],
+      "sentence": "The airplane sustained substantial damage to the fuselage and the right wing."
+     },
+     {
+      "id": "268e9c77969aab73",
+      "name": "right wing",
+      "document": "documents/cessna_172s_accidents.md",
+      "chunks": [
+       "documents/cessna_172s_accidents.md#0",
+       "documents/cessna_172s_accidents.md#3"
+      ],
+      "sentence": "The airplane’s right wing was bent up at the tip resulting in substantial damage."
+     }
+    ]
+   },
+   "chunk": "documents/cirrus_sr22_accidents.md#2"
+  },
+  {
+   "id": "p:7c4217880130754f|documents/piper_pa_28_181_accidents.md#0",
+   "start": {
+    "id": "7c4217880130754f",
+    "kind": "concept",
+    "type": "AircraftComponent",
+    "name": "right wing",
+    "record": null,
+    "mentions": [
+     {
+      "id": "0ac7b6cf77a2ccde",
+      "name": "right-wing",
+      "document": "documents/air_tractor_at_502b_accidents.md",
+      "chunks": [
+       "documents/air_tractor_at_502b_accidents.md#3"
+      ],
+      "sentence": "The right-wing started to rise, but before it leveled off, he heard it contact the corn."
+     },
+     {
+      "id": "3f43b7ed02d07b67",
+      "name": "right wing",
+      "document": "documents/air_tractor_at_502b_accidents.md",
+      "chunks": [
+       "documents/air_tractor_at_502b_accidents.md#1",
+       "documents/air_tractor_at_502b_accidents.md#3"
+      ],
+      "sentence": "The airplane sustained substantial damage to the fuselage and the right wing."
+     },
+     {
+      "id": "268e9c77969aab73",
+      "name": "right wing",
+      "document": "documents/cessna_172s_accidents.md",
+      "chunks": [
+       "documents/cessna_172s_accidents.md#0",
+       "documents/cessna_172s_accidents.md#3"
+      ],
+      "sentence": "The airplane’s right wing was bent up at the tip resulting in substantial damage."
+     }
+    ]
+   },
+   "chunk": "documents/piper_pa_28_181_accidents.md#0"
+  },
+  {
+   "id": "p:7c4217880130754f|documents/piper_pa_28_181_accidents.md#5",
+   "start": {
+    "id": "7c4217880130754f",
+    "kind": "concept",
+    "type": "AircraftComponent",
+    "name": "right wing",
+    "record": null,
+    "mentions": [
+     {
+      "id": "0ac7b6cf77a2ccde",
+      "name": "right-wing",
+      "document": "documents/air_tractor_at_502b_accidents.md",
+      "chunks": [
+       "documents/air_tractor_at_502b_accidents.md#3"
+      ],
+      "sentence": "The right-wing started to rise, but before it leveled off, he heard it contact the corn."
+     },
+     {
+      "id": "3f43b7ed02d07b67",
+      "name": "right wing",
+      "document": "documents/air_tractor_at_502b_accidents.md",
+      "chunks": [
+       "documents/air_tractor_at_502b_accidents.md#1",
+       "documents/air_tractor_at_502b_accidents.md#3"
+      ],
+      "sentence": "The airplane sustained substantial damage to the fuselage and the right wing."
+     },
+     {
+      "id": "268e9c77969aab73",
+      "name": "right wing",
+      "document": "documents/cessna_172s_accidents.md",
+      "chunks": [
+       "documents/cessna_172s_accidents.md#0",
+       "documents/cessna_172s_accidents.md#3"
+      ],
+      "sentence": "The airplane’s right wing was bent up at the tip resulting in substantial damage."
+     }
+    ]
+   },
+   "chunk": "documents/piper_pa_28_181_accidents.md#5"
+  },
+  {
+   "id": "p:7c7fa75d13181d2b|documents/cirrus_sr22_accidents.md#1",
+   "start": {
+    "id": "7c7fa75d13181d2b",
+    "kind": "concept",
+    "type": "AircraftComponent",
+    "name": "airframe parachute system",
+    "record": null,
+    "mentions": [
+     {
+      "id": "832ccdc0b4f4e941",
+      "name": "airframe parachute system",
+      "document": "documents/cirrus_sr22_accidents.md",
+      "chunks": [
+       "documents/cirrus_sr22_accidents.md#1"
+      ],
+      "sentence": "After determining that he could not rely on the information from the flight instruments, he elected to activate the Cirrus airframe parachute system."
+     }
+    ]
+   },
+   "chunk": "documents/cirrus_sr22_accidents.md#1"
+  },
+  {
+   "id": "p:80b8a9080d4ca17f|documents/robinson_r44_ii_accidents.md#1",
+   "start": {
+    "id": "80b8a9080d4ca17f",
+    "kind": "individual",
+    "type": "Location",
+    "name": "Skwentna, AK",
+    "record": null,
+    "mentions": [
+     {
+      "id": "2fb53e48fb07a3c3",
+      "name": "Skwentna, AK",
+      "document": "documents/robinson_r44_ii_accidents.md",
+      "chunks": [
+       "documents/robinson_r44_ii_accidents.md#1"
+      ],
+      "sentence": "## ANC23LA032 (2023-05-09, Skwentna, AK)"
+     }
+    ]
+   },
+   "chunk": "documents/robinson_r44_ii_accidents.md#1"
+  },
+  {
+   "id": "p:81d490cdae572436|documents/cirrus_sr22_accidents.md#1",
+   "start": {
+    "id": "81d490cdae572436",
+    "kind": "concept",
+    "type": "AircraftComponent",
+    "name": "directional gyro",
+    "record": null,
+    "mentions": [
+     {
+      "id": "4d64c61996a25e91",
+      "name": "directional gyro",
+      "document": "documents/cirrus_sr22_accidents.md",
+      "chunks": [
+       "documents/cirrus_sr22_accidents.md#1"
+      ],
+      "sentence": "Postaccident testing of the electronic horizonal situation indicator, directional gyro, and horizon reference indicator revealed no anomalies except for the directional gyro counterclockwise heading stability, which exceed the testing limits by about 3°."
+     }
+    ]
+   },
+   "chunk": "documents/cirrus_sr22_accidents.md#1"
+  },
+  {
+   "id": "p:8872dc39c8fd3c58|documents/air_tractor_at_502b_accidents.md#4",
+   "start": {
+    "id": "8872dc39c8fd3c58",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "airport perimeter fence",
+    "record": null,
+    "mentions": [
+     {
+      "id": "62a4764f0f1f654f",
+      "name": "airport perimeter fence",
+      "document": "documents/air_tractor_at_502b_accidents.md",
+      "chunks": [
+       "documents/air_tractor_at_502b_accidents.md#4"
+      ],
+      "sentence": "The pilot made a forced landing, during which the airplane struck an airport perimeter fence that resulted in substantial damaged to both wings."
+     }
+    ]
+   },
+   "chunk": "documents/air_tractor_at_502b_accidents.md#4"
+  },
+  {
+   "id": "p:8c467c04f0acf90e|documents/beech_a36_accidents.md#1",
+   "start": {
+    "id": "8c467c04f0acf90e",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "engine oil pressure",
+    "record": null,
+    "mentions": [
+     {
+      "id": "90f7681321fa7f97",
+      "name": "engine oil pressure",
+      "document": "documents/beech_a36_accidents.md",
+      "chunks": [
+       "documents/beech_a36_accidents.md#1"
+      ],
+      "sentence": "While at an altitude of 8,000 ft mean sea level, the pilot noticed the engine oil pressure began to fluctuate."
+     }
+    ]
+   },
+   "chunk": "documents/beech_a36_accidents.md#1"
+  },
+  {
+   "id": "p:8cb013209a9562ad|documents/beech_a36_accidents.md#1",
+   "start": {
+    "id": "8cb013209a9562ad",
+    "kind": "individual",
+    "type": "Finding",
+    "name": "total loss of engine power due to oil starvation",
+    "record": null,
+    "mentions": [
+     {
+      "id": "001f6b866fe6eb14",
+      "name": "total loss of engine power due to oil starvation",
+      "document": "documents/beech_a36_accidents.md",
+      "chunks": [
+       "documents/beech_a36_accidents.md#1"
+      ],
+      "sentence": "Probable cause: The total loss of engine power due to oil starvation."
+     }
+    ]
+   },
+   "chunk": "documents/beech_a36_accidents.md#1"
+  },
+  {
+   "id": "p:97fd16e8d534e128|documents/beech_a36_accidents.md#5",
+   "start": {
+    "id": "97fd16e8d534e128",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "fuel starvation",
+    "record": null,
+    "mentions": [
+     {
+      "id": "5250b01e14f45456",
+      "name": "fuel starvation",
+      "document": "documents/beech_a36_accidents.md",
+      "chunks": [
+       "documents/beech_a36_accidents.md#5"
+      ],
+      "sentence": "Probable cause: The blockage of the left fuel tank vent, which resulted in a total loss of engine power due to fuel starvation."
+     }
+    ]
+   },
+   "chunk": "documents/beech_a36_accidents.md#5"
+  },
+  {
+   "id": "p:98d89f5da6794b57|documents/robinson_r44_ii_accidents.md#3",
+   "start": {
+    "id": "98d89f5da6794b57",
+    "kind": "individual",
+    "type": "Finding",
+    "name": "A total loss of engine power for undetermined reasons",
+    "record": null,
+    "mentions": [
+     {
+      "id": "7cc3aa166e7e37d2",
+      "name": "A total loss of engine power for undetermined reasons",
+      "document": "documents/robinson_r44_ii_accidents.md",
+      "chunks": [
+       "documents/robinson_r44_ii_accidents.md#3"
+      ],
+      "sentence": "Probable cause: A total loss of engine power for undetermined reasons."
+     }
+    ]
+   },
+   "chunk": "documents/robinson_r44_ii_accidents.md#3"
+  },
+  {
+   "id": "p:99f44fe40190628b|documents/cessna_172s_accidents.md#1",
+   "start": {
+    "id": "99f44fe40190628b",
+    "kind": "concept",
+    "type": "EnvironmentalCondition",
+    "name": "highway",
+    "record": null,
+    "mentions": [
+     {
+      "id": "b1fb5f4848cf21d6",
+      "name": "highway",
+      "document": "documents/cessna_172s_accidents.md",
+      "chunks": [
+       "documents/cessna_172s_accidents.md#1"
+      ],
+      "sentence": "After not seeing any flames, the pilot opened his window to vent the cabin and decided to conduct an off-airport emergency landing on an empty multi-lane highway."
+     }
+    ]
+   },
+   "chunk": "documents/cessna_172s_accidents.md#1"
+  },
+  {
+   "id": "p:9b9ba26f53caa04d|documents/cessna_172s_accidents.md#3",
+   "start": {
+    "id": "9b9ba26f53caa04d",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "perimeter fence",
+    "record": null,
+    "mentions": [
+     {
+      "id": "268265d761389cbe",
+      "name": "perimeter fence",
+      "document": "documents/cessna_172s_accidents.md",
+      "chunks": [
+       "documents/cessna_172s_accidents.md#3"
+      ],
+      "sentence": "During the forced landing, the airplane impacted terrain and a perimeter fence."
+     }
+    ]
+   },
+   "chunk": "documents/cessna_172s_accidents.md#3"
+  },
+  {
+   "id": "p:Accident:ANC23LA032|documents/robinson_r44_ii_accidents.md#1",
+   "start": {
+    "id": "Accident:ANC23LA032",
+    "kind": "record",
+    "type": "Accident",
+    "name": "ANC23LA032",
+    "record": {
+     "ref": "Accident:ANC23LA032",
+     "label": "Accident",
+     "key": "ANC23LA032",
+     "name": null,
+     "cells": {
+      "date": "2023-05-09",
+      "time": "20:00",
+      "city": "Skwentna",
+      "state": "AK",
+      "country": "USA",
+      "airport_distance_sm": "0",
+      "light_condition": "Day",
+      "weather_condition": "Unknown",
+      "wind_speed_kts": "9",
+      "gust_kts": "18",
+      "highest_injury": "Minor",
+      "fatal_injuries": "0",
+      "serious_injuries": "0",
+      "minor_injuries": "2",
+      "uninjured": "1",
+      "latitude": "61.774586",
+      "longitude": "-151.7413"
+     },
+     "relations": [
+      "Aircraft:ANC23LA032 (N704T) INVOLVED_IN -> this",
+      "CrewMember:ANC23LA032|1 (ANC23LA032|1) INVOLVED_IN -> this",
+      "CrewMember:ANC23LA032|2 (ANC23LA032|2) INVOLVED_IN -> this",
+      "CrewMember:ANC23LA032|3 (ANC23LA032|3) INVOLVED_IN -> this",
+      "Occurrence:ANC23LA032|2 (Maneuvering Loss of visual reference) OCCURRED_IN -> this",
+      "Occurrence:ANC23LA032|4 (Maneuvering VFR encounter with IMC) OCCURRED_IN -> this",
+      "Occurrence:ANC23LA032|5 (Maneuvering Controlled flight into terr/obj (CFIT)) OCCURRED_IN -> this",
+      "Finding:ANC23LA032|1 (Environmental issues-Conditions/weather/phenomena-Ceiling/visibility/precip-Whiteout-Effect on operation) FOUND_FOR -> this",
+      "Finding:ANC23LA032|2 (Personnel issues-Action/decision-Info processing/decision-Identification/recognition-Pilot) FOUND_FOR -> this",
+      "Finding:ANC23LA032|3 (Personnel issues-Action/decision-Info processing/decision-Decision making/judgment-Pilot) FOUND_FOR -> this",
+      "Finding:ANC23LA032|4 (Environmental issues-Conditions/weather/phenomena-Ceiling/visibility/precip-Snow-Decision related to condition) FOUND_FOR -> this",
+      "Injury:ANC23LA032|Flig|Minor (ANC23LA032|Flig|Minor) RECORDED_FOR -> this",
+      "Injury:ANC23LA032|Flig|Total (ANC23LA032|Flig|Total) RECORDED_FOR -> this",
+      "Injury:ANC23LA032|Pass|Minor (ANC23LA032|Pass|Minor) RECORDED_FOR -> this",
+      "Injury:ANC23LA032|Pass|None (ANC23LA032|Pass|None) RECORDED_FOR -> this",
+      "Injury:ANC23LA032|Pass|Total (ANC23LA032|Pass|Total) RECORDED_FOR -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/robinson_r44_ii_accidents.md#1"
+  },
+  {
+   "id": "p:Accident:CEN21FA299|documents/cirrus_sr22_accidents.md#0",
+   "start": {
+    "id": "Accident:CEN21FA299",
+    "kind": "record",
+    "type": "Accident",
+    "name": "LAMONI MUNI",
+    "record": {
+     "ref": "Accident:CEN21FA299",
+     "label": "Accident",
+     "key": "CEN21FA299",
+     "name": "LAMONI MUNI",
+     "cells": {
+      "date": "2021-07-01",
+      "time": "12:55",
+      "city": "Lamoni",
+      "state": "IA",
+      "country": "USA",
+      "airport_id": "LWD",
+      "airport_name": "LAMONI MUNI",
+      "airport_distance_sm": "0.2",
+      "light_condition": "Day",
+      "weather_condition": "Visual Meteorological Cond",
+      "wind_speed_kts": "7",
+      "gust_kts": "0",
+      "highest_injury": "Fatal",
+      "fatal_injuries": "2",
+      "serious_injuries": "0",
+      "minor_injuries": "0",
+      "uninjured": "0",
+      "latitude": "40.630195",
+      "longitude": "-93.902882"
+     },
+     "relations": [
+      "Aircraft:CEN21FA299 (N123RE) INVOLVED_IN -> this",
+      "CrewMember:CEN21FA299|1 (CEN21FA299|1) INVOLVED_IN -> this",
+      "CrewMember:CEN21FA299|2 (CEN21FA299|2) INVOLVED_IN -> this",
+      "Occurrence:CEN21FA299|4 (Approach-VFR go-around Collision with terr/obj (non-CFIT)) OCCURRED_IN -> this",
+      "Occurrence:CEN21FA299|5 (Approach-VFR go-around Loss of control in flight) OCCURRED_IN -> this",
+      "Finding:CEN21FA299|1 (Personnel issues-Task performance-Use of equip/info-Aircraft control-Pilot) FOUND_FOR -> this",
+      "Finding:CEN21FA299|3 (Aircraft-Aircraft oper/perf/capability-Performance/control parameters-Lateral/bank control-Not attained/maintained) FOUND_FOR -> this",
+      "Injury:CEN21FA299|Flig|Fatal (CEN21FA299|Flig|Fatal) RECORDED_FOR -> this",
+      "Injury:CEN21FA299|Flig|Total (CEN21FA299|Flig|Total) RECORDED_FOR -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/cirrus_sr22_accidents.md#0"
+  },
+  {
+   "id": "p:Accident:CEN21LA126|documents/cessna_172s_accidents.md#0",
+   "start": {
+    "id": "Accident:CEN21LA126",
+    "kind": "record",
+    "type": "Accident",
+    "name": "GRIMES FLD",
+    "record": {
+     "ref": "Accident:CEN21LA126",
+     "label": "Accident",
+     "key": "CEN21LA126",
+     "name": "GRIMES FLD",
+     "cells": {
+      "date": "2021-02-07",
+      "time": "20:00",
+      "city": "Urbana",
+      "state": "OH",
+      "country": "USA",
+      "airport_id": "I74",
+      "airport_name": "GRIMES FLD",
+      "airport_distance_sm": "0",
+      "light_condition": "Day",
+      "weather_condition": "Visual Meteorological Cond",
+      "wind_speed_kts": "7",
+      "gust_kts": "0",
+      "highest_injury": "None",
+      "fatal_injuries": "0",
+      "serious_injuries": "0",
+      "minor_injuries": "0",
+      "uninjured": "1",
+      "latitude": "40.130746",
+      "longitude": "-83.754296"
+     },
+     "relations": [
+      "Aircraft:CEN21LA126 (N348RM) INVOLVED_IN -> this",
+      "CrewMember:CEN21LA126|1 (CEN21LA126|1) INVOLVED_IN -> this",
+      "Occurrence:CEN21LA126|1 (Landing-landing roll Other weather encounter) OCCURRED_IN -> this",
+      "Occurrence:CEN21LA126|2 (Landing-landing roll Loss of control on ground) OCCURRED_IN -> this",
+      "Occurrence:CEN21LA126|3 (Landing-landing roll Collision with terr/obj (non-CFIT)) OCCURRED_IN -> this",
+      "Finding:CEN21LA126|1 (Personnel issues-Task performance-Use of equip/info-Aircraft control-Student/instructed pilot) FOUND_FOR -> this",
+      "Finding:CEN21LA126|2 (Aircraft-Aircraft oper/perf/capability-Performance/control parameters-Directional control-Not attained/maintained) FOUND_FOR -> this",
+      "Finding:CEN21LA126|3 (Environmental issues-Physical environment-Runway/land/takeoff/taxi surface-Snow/slush/ice covered surface-Effect on operation) FOUND_FOR -> this",
+      "Injury:CEN21LA126|Flig|None (CEN21LA126|Flig|None) RECORDED_FOR -> this",
+      "Injury:CEN21LA126|Flig|Total (CEN21LA126|Flig|Total) RECORDED_FOR -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/cessna_172s_accidents.md#0"
+  },
+  {
+   "id": "p:Accident:CEN21LA173|documents/robinson_r44_ii_accidents.md#2",
+   "start": {
+    "id": "Accident:CEN21LA173",
+    "kind": "record",
+    "type": "Accident",
+    "name": "CEN21LA173",
+    "record": {
+     "ref": "Accident:CEN21LA173",
+     "label": "Accident",
+     "key": "CEN21LA173",
+     "name": null,
+     "cells": {
+      "date": "2021-03-26",
+      "time": "20:15",
+      "city": "Dustin",
+      "state": "OK",
+      "country": "USA",
+      "airport_distance_sm": "0",
+      "light_condition": "Day",
+      "weather_condition": "Visual Meteorological Cond",
+      "wind_speed_kts": "14",
+      "gust_kts": "21",
+      "highest_injury": "Serious",
+      "fatal_injuries": "0",
+      "serious_injuries": "2",
+      "minor_injuries": "2",
+      "uninjured": "0",
+      "latitude": "35.2707",
+      "longitude": "-96.0308"
+     },
+     "relations": [
+      "Aircraft:CEN21LA173 (N178DF) INVOLVED_IN -> this",
+      "CrewMember:CEN21LA173|1 (CEN21LA173|1) INVOLVED_IN -> this",
+      "Occurrence:CEN21LA173|2 (Landing Collision during takeoff/land) OCCURRED_IN -> this",
+      "Occurrence:CEN21LA173|3 (Maneuvering-low-alt flying Loss of control in flight) OCCURRED_IN -> this",
+      "Occurrence:CEN21LA173|5 (Uncontrolled descent Attempted remediation/recovery) OCCURRED_IN -> this",
+      "Finding:CEN21LA173|2 (Personnel issues-Action/decision-Action-Incorrect action performance-Pilot) FOUND_FOR -> this",
+      "Finding:CEN21LA173|3 (Aircraft-Aircraft oper/perf/capability-Performance/control parameters-Airspeed-Not attained/maintained) FOUND_FOR -> this",
+      "Finding:CEN21LA173|4 (Environmental issues-Physical environment-Object/animal/substance-Tree(s)-Effect on equipment) FOUND_FOR -> this",
+      "Injury:CEN21LA173|Flig|Serious (CEN21LA173|Flig|Serious) RECORDED_FOR -> this",
+      "Injury:CEN21LA173|Flig|Total (CEN21LA173|Flig|Total) RECORDED_FOR -> this",
+      "Injury:CEN21LA173|Pass|Minor (CEN21LA173|Pass|Minor) RECORDED_FOR -> this",
+      "Injury:CEN21LA173|Pass|Serious (CEN21LA173|Pass|Serious) RECORDED_FOR -> this",
+      "Injury:CEN21LA173|Pass|Total (CEN21LA173|Pass|Total) RECORDED_FOR -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/robinson_r44_ii_accidents.md#2"
+  },
+  {
+   "id": "p:Accident:CEN21LA221|documents/beech_a36_accidents.md#1",
+   "start": {
+    "id": "Accident:CEN21LA221",
+    "kind": "record",
+    "type": "Accident",
+    "name": "CEN21LA221",
+    "record": {
+     "ref": "Accident:CEN21LA221",
+     "label": "Accident",
+     "key": "CEN21LA221",
+     "name": null,
+     "cells": {
+      "date": "2021-05-14",
+      "time": "20:00",
+      "city": "Pinckneyville",
+      "state": "IL",
+      "country": "USA",
+      "airport_id": "PJY",
+      "airport_distance_sm": "0",
+      "light_condition": "Day",
+      "weather_condition": "Visual Meteorological Cond",
+      "wind_speed_kts": "6",
+      "gust_kts": "0",
+      "highest_injury": "None",
+      "fatal_injuries": "0",
+      "serious_injuries": "0",
+      "minor_injuries": "0",
+      "uninjured": "2",
+      "latitude": "38.076674",
+      "longitude": "-89.402136"
+     },
+     "relations": [
+      "Aircraft:CEN21LA221 (CEN21LA221) INVOLVED_IN -> this",
+      "CrewMember:CEN21LA221|1 (CEN21LA221|1) INVOLVED_IN -> this",
+      "Occurrence:CEN21LA221|1 (Enroute Loss of engine power (total)) OCCURRED_IN -> this",
+      "Occurrence:CEN21LA221|2 (Emergency descent Loss of engine power (total)) OCCURRED_IN -> this",
+      "Occurrence:CEN21LA221|3 (Landing Collision with terr/obj (non-CFIT)) OCCURRED_IN -> this",
+      "Finding:CEN21LA221|1 (Aircraft-Aircraft power plant-Engine (reciprocating)-Recip engine power section-Failure) FOUND_FOR -> this",
+      "Finding:CEN21LA221|2 (Aircraft-Fluids/misc hardware-Fluids-Oil-Fluid level) FOUND_FOR -> this",
+      "Injury:CEN21LA221|Flig|None (CEN21LA221|Flig|None) RECORDED_FOR -> this",
+      "Injury:CEN21LA221|Flig|Total (CEN21LA221|Flig|Total) RECORDED_FOR -> this",
+      "Injury:CEN21LA221|Pass|None (CEN21LA221|Pass|None) RECORDED_FOR -> this",
+      "Injury:CEN21LA221|Pass|Total (CEN21LA221|Pass|Total) RECORDED_FOR -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/beech_a36_accidents.md#1"
+  },
+  {
+   "id": "p:Accident:CEN21LA232|documents/cirrus_sr22_accidents.md#1",
+   "start": {
+    "id": "Accident:CEN21LA232",
+    "kind": "record",
+    "type": "Accident",
+    "name": "CEN21LA232",
+    "record": {
+     "ref": "Accident:CEN21LA232",
+     "label": "Accident",
+     "key": "CEN21LA232",
+     "name": null,
+     "cells": {
+      "date": "2021-05-16",
+      "time": "02:15",
+      "city": "Whitewater",
+      "state": "WI",
+      "country": "USA",
+      "airport_id": "n/a",
+      "airport_distance_sm": "0",
+      "light_condition": "Night",
+      "weather_condition": "Instrument Meteorological Cond",
+      "wind_speed_kts": "5",
+      "gust_kts": "0",
+      "highest_injury": "None",
+      "fatal_injuries": "0",
+      "serious_injuries": "0",
+      "minor_injuries": "0",
+      "uninjured": "3",
+      "latitude": "42.787917",
+      "longitude": "-88.684086"
+     },
+     "relations": [
+      "Aircraft:CEN21LA232 (CEN21LA232) INVOLVED_IN -> this",
+      "CrewMember:CEN21LA232|1 (CEN21LA232|1) INVOLVED_IN -> this",
+      "Occurrence:CEN21LA232|1 (Enroute Flight instrument malf/fail) OCCURRED_IN -> this",
+      "Finding:CEN21LA232|1 (Aircraft-Aircraft systems-Navigation system-(general)-Malfunction) FOUND_FOR -> this",
+      "Injury:CEN21LA232|Flig|None (CEN21LA232|Flig|None) RECORDED_FOR -> this",
+      "Injury:CEN21LA232|Flig|Total (CEN21LA232|Flig|Total) RECORDED_FOR -> this",
+      "Injury:CEN21LA232|Pass|None (CEN21LA232|Pass|None) RECORDED_FOR -> this",
+      "Injury:CEN21LA232|Pass|Total (CEN21LA232|Pass|Total) RECORDED_FOR -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/cirrus_sr22_accidents.md#1"
+  },
+  {
+   "id": "p:Accident:CEN21LA268|documents/cessna_172s_accidents.md#1",
+   "start": {
+    "id": "Accident:CEN21LA268",
+    "kind": "record",
+    "type": "Accident",
+    "name": "CEN21LA268",
+    "record": {
+     "ref": "Accident:CEN21LA268",
+     "label": "Accident",
+     "key": "CEN21LA268",
+     "name": null,
+     "cells": {
+      "date": "2021-06-10",
+      "time": "15:08",
+      "city": "Saint James",
+      "state": "LA",
+      "country": "USA",
+      "airport_distance_sm": "0",
+      "light_condition": "Day",
+      "weather_condition": "Visual Meteorological Cond",
+      "wind_speed_kts": "5",
+      "gust_kts": "0",
+      "highest_injury": "None",
+      "fatal_injuries": "0",
+      "serious_injuries": "0",
+      "minor_injuries": "0",
+      "uninjured": "2",
+      "latitude": "30.038001",
+      "longitude": "-90.927146"
+     },
+     "relations": [
+      "Aircraft:CEN21LA268 (N365CP) INVOLVED_IN -> this",
+      "CrewMember:CEN21LA268|1 (CEN21LA268|1) INVOLVED_IN -> this",
+      "Occurrence:CEN21LA268|4 (Maneuvering-low-alt flying Pressure/environ sys malf/fail) OCCURRED_IN -> this",
+      "Occurrence:CEN21LA268|5 (Emergency descent Off-field or emergency landing) OCCURRED_IN -> this",
+      "Occurrence:CEN21LA268|6 (Landing Collision during takeoff/land) OCCURRED_IN -> this",
+      "Finding:CEN21LA268|2 (Aircraft-Aircraft systems-Air conditioning system-(general)-Failure) FOUND_FOR -> this",
+      "Finding:CEN21LA268|3 (Aircraft-Aircraft systems-Air conditioning system-(general)-Fatigue/wear/corrosion) FOUND_FOR -> this",
+      "Finding:CEN21LA268|4 (Aircraft-Fluids/misc hardware-Misc hardware-Hoses and tubes-Not specified) FOUND_FOR -> this",
+      "Finding:CEN21LA268|5 (Personnel issues-Action/decision-Info processing/decision-Decision making/judgment-Pilot) FOUND_FOR -> this",
+      "Finding:CEN21LA268|6 (Environmental issues-Physical environment-Object/animal/substance-Sign/marker-Effect on equipment) FOUND_FOR -> this",
+      "Injury:CEN21LA268|Flig|None (CEN21LA268|Flig|None) RECORDED_FOR -> this",
+      "Injury:CEN21LA268|Flig|Total (CEN21LA268|Flig|Total) RECORDED_FOR -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/cessna_172s_accidents.md#1"
+  },
+  {
+   "id": "p:Accident:CEN21LA283|documents/air_tractor_at_502b_accidents.md#0",
+   "start": {
+    "id": "Accident:CEN21LA283",
+    "kind": "record",
+    "type": "Accident",
+    "name": "CEN21LA283",
+    "record": {
+     "ref": "Accident:CEN21LA283",
+     "label": "Accident",
+     "key": "CEN21LA283",
+     "name": null,
+     "cells": {
+      "date": "2021-06-20",
+      "time": "17:37",
+      "city": "Edwardsburg",
+      "state": "MI",
+      "country": "USA",
+      "airport_distance_sm": "0",
+      "light_condition": "Day",
+      "weather_condition": "Visual Meteorological Cond",
+      "wind_speed_kts": "8",
+      "gust_kts": "0",
+      "highest_injury": "Serious",
+      "fatal_injuries": "0",
+      "serious_injuries": "1",
+      "minor_injuries": "0",
+      "uninjured": "0",
+      "latitude": "41.7956",
+      "longitude": "-86.0808"
+     },
+     "relations": [
+      "Aircraft:CEN21LA283 (N8523Z) INVOLVED_IN -> this",
+      "CrewMember:CEN21LA283|1 (CEN21LA283|1) INVOLVED_IN -> this",
+      "Occurrence:CEN21LA283|2 (Maneuvering-low-alt flying Collision with terr/obj (non-CFIT)) OCCURRED_IN -> this",
+      "Occurrence:CEN21LA283|3 (Uncontrolled descent Collision with terr/obj (non-CFIT)) OCCURRED_IN -> this",
+      "Finding:CEN21LA283|1 (Personnel issues-Action/decision-Info processing/decision-Identification/recognition-Pilot) FOUND_FOR -> this",
+      "Finding:CEN21LA283|2 (Environmental issues-Physical environment-Terrain-Sloped/uneven terrain-Contributed to outcome) FOUND_FOR -> this",
+      "Finding:CEN21LA283|3 (Aircraft-Aircraft oper/perf/capability-Performance/control parameters-Altitude-Not attained/maintained) FOUND_FOR -> this",
+      "Injury:CEN21LA283|Flig|Minor (CEN21LA283|Flig|Minor) RECORDED_FOR -> this",
+      "Injury:CEN21LA283|Flig|Serious (CEN21LA283|Flig|Serious) RECORDED_FOR -> this",
+      "Injury:CEN21LA283|Flig|Total (CEN21LA283|Flig|Total) RECORDED_FOR -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/air_tractor_at_502b_accidents.md#0"
+  },
+  {
+   "id": "p:Accident:CEN21LA284|documents/robinson_r44_ii_accidents.md#3",
+   "start": {
+    "id": "Accident:CEN21LA284",
+    "kind": "record",
+    "type": "Accident",
+    "name": "Port of South Louisiana Exec",
+    "record": {
+     "ref": "Accident:CEN21LA284",
+     "label": "Accident",
+     "key": "CEN21LA284",
+     "name": "Port of South Louisiana Exec",
+     "cells": {
+      "date": "2021-06-10",
+      "time": "20:15",
+      "city": "Reserve",
+      "state": "LA",
+      "country": "USA",
+      "airport_id": "APS",
+      "airport_name": "Port of South Louisiana Exec",
+      "airport_distance_sm": "0",
+      "light_condition": "Day",
+      "weather_condition": "Visual Meteorological Cond",
+      "wind_speed_kts": "9",
+      "gust_kts": "0",
+      "highest_injury": "None",
+      "fatal_injuries": "0",
+      "serious_injuries": "0",
+      "minor_injuries": "0",
+      "uninjured": "1",
+      "latitude": "30.08747",
+      "longitude": "-90.58283"
+     },
+     "relations": [
+      "Aircraft:CEN21LA284 (N202SM) INVOLVED_IN -> this",
+      "CrewMember:CEN21LA284|1 (CEN21LA284|1) INVOLVED_IN -> this",
+      "Occurrence:CEN21LA284|1 (Takeoff Loss of engine power (total)) OCCURRED_IN -> this",
+      "Occurrence:CEN21LA284|2 (Takeoff Runway excursion) OCCURRED_IN -> this",
+      "Finding:CEN21LA284|1 (Aircraft-Aircraft power plant-Engine (reciprocating)-(general)-Unknown/Not determined) FOUND_FOR -> this",
+      "Injury:CEN21LA284|Flig|Fatal (CEN21LA284|Flig|Fatal) RECORDED_FOR -> this",
+      "Injury:CEN21LA284|Flig|Minor (CEN21LA284|Flig|Minor) RECORDED_FOR -> this",
+      "Injury:CEN21LA284|Flig|None (CEN21LA284|Flig|None) RECORDED_FOR -> this",
+      "Injury:CEN21LA284|Flig|Serious (CEN21LA284|Flig|Serious) RECORDED_FOR -> this",
+      "Injury:CEN21LA284|Flig|Total (CEN21LA284|Flig|Total) RECORDED_FOR -> this",
+      "Injury:CEN21LA284|Pass|Fatal (CEN21LA284|Pass|Fatal) RECORDED_FOR -> this",
+      "Injury:CEN21LA284|Pass|Minor (CEN21LA284|Pass|Minor) RECORDED_FOR -> this",
+      "Injury:CEN21LA284|Pass|None (CEN21LA284|Pass|None) RECORDED_FOR -> this",
+      "Injury:CEN21LA284|Pass|Serious (CEN21LA284|Pass|Serious) RECORDED_FOR -> this",
+      "Injury:CEN21LA284|Pass|Total (CEN21LA284|Pass|Total) RECORDED_FOR -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/robinson_r44_ii_accidents.md#3"
+  },
+  {
+   "id": "p:Accident:CEN21LA339|documents/robinson_r44_ii_accidents.md#4",
+   "start": {
+    "id": "Accident:CEN21LA339",
+    "kind": "record",
+    "type": "Accident",
+    "name": "CEN21LA339",
+    "record": {
+     "ref": "Accident:CEN21LA339",
+     "label": "Accident",
+     "key": "CEN21LA339",
+     "name": null,
+     "cells": {
+      "date": "2021-07-20",
+      "time": "22:20",
+      "city": "West Liberty",
+      "state": "IA",
+      "country": "USA",
+      "airport_distance_sm": "0",
+      "light_condition": "Day",
+      "weather_condition": "Visual Meteorological Cond",
+      "wind_speed_kts": "5",
+      "gust_kts": "0",
+      "highest_injury": "Minor",
+      "fatal_injuries": "0",
+      "serious_injuries": "0",
+      "minor_injuries": "1",
+      "uninjured": "0",
+      "latitude": "41.57",
+      "longitude": "-91.2638"
+     },
+     "relations": [
+      "Aircraft:CEN21LA339 (CEN21LA339) INVOLVED_IN -> this",
+      "CrewMember:CEN21LA339|1 (CEN21LA339|1) INVOLVED_IN -> this",
+      "Occurrence:CEN21LA339|2 (Maneuvering-low-alt flying Part(s) separation from AC) OCCURRED_IN -> this",
+      "Occurrence:CEN21LA339|3 (Maneuvering-low-alt flying Loss of control in flight) OCCURRED_IN -> this",
+      "Occurrence:CEN21LA339|4 (Maneuvering-low-alt flying Low altitude operation/event) OCCURRED_IN -> this",
+      "Finding:CEN21LA339|1 (Personnel issues-Psychological-Attention/monitoring-Monitoring environment-Pilot) FOUND_FOR -> this",
+      "Injury:CEN21LA339|Flig|Fatal (CEN21LA339|Flig|Fatal) RECORDED_FOR -> this",
+      "Injury:CEN21LA339|Flig|Minor (CEN21LA339|Flig|Minor) RECORDED_FOR -> this",
+      "Injury:CEN21LA339|Flig|Serious (CEN21LA339|Flig|Serious) RECORDED_FOR -> this",
+      "Injury:CEN21LA339|Flig|Total (CEN21LA339|Flig|Total) RECORDED_FOR -> this",
+      "Injury:CEN21LA339|Pass|Fatal (CEN21LA339|Pass|Fatal) RECORDED_FOR -> this",
+      "Injury:CEN21LA339|Pass|Minor (CEN21LA339|Pass|Minor) RECORDED_FOR -> this",
+      "Injury:CEN21LA339|Pass|None (CEN21LA339|Pass|None) RECORDED_FOR -> this",
+      "Injury:CEN21LA339|Pass|Serious (CEN21LA339|Pass|Serious) RECORDED_FOR -> this",
+      "Injury:CEN21LA339|Pass|Total (CEN21LA339|Pass|Total) RECORDED_FOR -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/robinson_r44_ii_accidents.md#4"
+  },
+  {
+   "id": "p:Accident:CEN21LA353|documents/piper_pa_28_181_accidents.md#1",
+   "start": {
+    "id": "Accident:CEN21LA353",
+    "kind": "record",
+    "type": "Accident",
+    "name": "CLARK RGNL",
+    "record": {
+     "ref": "Accident:CEN21LA353",
+     "label": "Accident",
+     "key": "CEN21LA353",
+     "name": "CLARK RGNL",
+     "cells": {
+      "date": "2021-08-03",
+      "time": "15:15",
+      "city": "Jeffersonville",
+      "state": "IN",
+      "country": "USA",
+      "airport_id": "JVY",
+      "airport_name": "CLARK RGNL",
+      "airport_distance_sm": "0",
+      "light_condition": "Day",
+      "weather_condition": "Visual Meteorological Cond",
+      "gust_kts": "0",
+      "highest_injury": "None",
+      "fatal_injuries": "0",
+      "serious_injuries": "0",
+      "minor_injuries": "0",
+      "uninjured": "2",
+      "latitude": "38.366618",
+      "longitude": "-85.738145"
+     },
+     "relations": [
+      "Aircraft:CEN21LA353 (N728A) INVOLVED_IN -> this",
+      "CrewMember:CEN21LA353|1 (CEN21LA353|1) INVOLVED_IN -> this",
+      "CrewMember:CEN21LA353|2 (CEN21LA353|2) INVOLVED_IN -> this",
+      "Occurrence:CEN21LA353|1 (Landing-flare/touchdown Collision during takeoff/land) OCCURRED_IN -> this",
+      "Finding:CEN21LA353|1 (Aircraft-Aircraft systems-Landing gear system-Main landing gear-Failure) FOUND_FOR -> this",
+      "Finding:CEN21LA353|2 (Aircraft-Aircraft oper/perf/capability-Performance/control parameters-Directional control-Attain/maintain not possible) FOUND_FOR -> this",
+      "Injury:CEN21LA353|Flig|None (CEN21LA353|Flig|None) RECORDED_FOR -> this",
+      "Injury:CEN21LA353|Flig|Total (CEN21LA353|Flig|Total) RECORDED_FOR -> this",
+      "Injury:CEN21LA353|Pass|None (CEN21LA353|Pass|None) RECORDED_FOR -> this",
+      "Injury:CEN21LA353|Pass|Total (CEN21LA353|Pass|Total) RECORDED_FOR -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/piper_pa_28_181_accidents.md#1"
+  },
+  {
+   "id": "p:Accident:CEN21LA362|documents/air_tractor_at_502b_accidents.md#1",
+   "start": {
+    "id": "Accident:CEN21LA362",
+    "kind": "record",
+    "type": "Accident",
+    "name": "CEN21LA362",
+    "record": {
+     "ref": "Accident:CEN21LA362",
+     "label": "Accident",
+     "key": "CEN21LA362",
+     "name": null,
+     "cells": {
+      "date": "2021-08-06",
+      "time": "13:48",
+      "city": "Topeka",
+      "state": "KS",
+      "country": "USA",
+      "airport_distance_sm": "0",
+      "light_condition": "Day",
+      "weather_condition": "Visual Meteorological Cond",
+      "wind_speed_kts": "5",
+      "gust_kts": "0",
+      "highest_injury": "None",
+      "fatal_injuries": "0",
+      "serious_injuries": "0",
+      "minor_injuries": "0",
+      "uninjured": "1",
+      "latitude": "39.216972",
+      "longitude": "-95.76119"
+     },
+     "relations": [
+      "Aircraft:CEN21LA362 (N502CP) INVOLVED_IN -> this",
+      "CrewMember:CEN21LA362|1 (CEN21LA362|1) INVOLVED_IN -> this",
+      "Occurrence:CEN21LA362|1 (Maneuvering-low-alt flying Loss of engine power (partial)) OCCURRED_IN -> this",
+      "Occurrence:CEN21LA362|2 (Maneuvering-low-alt flying Fuel related) OCCURRED_IN -> this",
+      "Occurrence:CEN21LA362|3 (Maneuvering-low-alt flying Fuel exhaustion) OCCURRED_IN -> this",
+      "Occurrence:CEN21LA362|4 (Maneuvering-low-alt flying Attempted remediation/recovery) OCCURRED_IN -> this",
+      "Occurrence:CEN21LA362|5 (Landing Off-field or emergency landing) OCCURRED_IN -> this",
+      "Occurrence:CEN21LA362|6 (Landing Collision during takeoff/land) OCCURRED_IN -> this",
+      "Finding:CEN21LA362|1 (Aircraft-Fluids/misc hardware-Fluids-Fuel-Fluid management) FOUND_FOR -> this",
+      "Finding:CEN21LA362|4 (Personnel issues-Task performance-Use of equip/info-Use of equip/system-Pilot) FOUND_FOR -> this",
+      "Finding:CEN21LA362|5 (Aircraft-Aircraft systems-Fuel system-(general)-Incorrect use/operation) FOUND_FOR -> this",
+      "Finding:CEN21LA362|6 (Personnel issues-Action/decision-Info processing/decision-Decision making/judgment-Pilot) FOUND_FOR -> this",
+      "Injury:CEN21LA362|Flig|None (CEN21LA362|Flig|None) RECORDED_FOR -> this",
+      "Injury:CEN21LA362|Flig|Total (CEN21LA362|Flig|Total) RECORDED_FOR -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/air_tractor_at_502b_accidents.md#1"
+  },
+  {
+   "id": "p:Accident:CEN21LA382|documents/beech_a36_accidents.md#2",
+   "start": {
+    "id": "Accident:CEN21LA382",
+    "kind": "record",
+    "type": "Accident",
+    "name": "Pecan Plantation",
+    "record": {
+     "ref": "Accident:CEN21LA382",
+     "label": "Accident",
+     "key": "CEN21LA382",
+     "name": "Pecan Plantation",
+     "cells": {
+      "date": "2021-08-24",
+      "time": "15:30",
+      "city": "Granbury",
+      "state": "TX",
+      "country": "USA",
+      "airport_id": "0TX1",
+      "airport_name": "Pecan Plantation",
+      "airport_distance_sm": "2",
+      "light_condition": "Day",
+      "weather_condition": "Visual Meteorological Cond",
+      "wind_speed_kts": "7",
+      "gust_kts": "0",
+      "highest_injury": "None",
+      "fatal_injuries": "0",
+      "serious_injuries": "0",
+      "minor_injuries": "0",
+      "uninjured": "1",
+      "latitude": "32.340946",
+      "longitude": "-97.646717"
+     },
+     "relations": [
+      "Aircraft:CEN21LA382 (N67CW) INVOLVED_IN -> this",
+      "CrewMember:CEN21LA382|1 (CEN21LA382|1) INVOLVED_IN -> this",
+      "Occurrence:CEN21LA382|1 (Takeoff Loss of engine power (total)) OCCURRED_IN -> this",
+      "Occurrence:CEN21LA382|2 (Landing-flare/touchdown Off-field or emergency landing) OCCURRED_IN -> this",
+      "Finding:CEN21LA382|1 (Aircraft-Aircraft power plant-Power plant-(general)-Unknown/Not determined) FOUND_FOR -> this",
+      "Injury:CEN21LA382|Flig|Fatal (CEN21LA382|Flig|Fatal) RECORDED_FOR -> this",
+      "Injury:CEN21LA382|Flig|Minor (CEN21LA382|Flig|Minor) RECORDED_FOR -> this",
+      "Injury:CEN21LA382|Flig|None (CEN21LA382|Flig|None) RECORDED_FOR -> this",
+      "Injury:CEN21LA382|Flig|Serious (CEN21LA382|Flig|Serious) RECORDED_FOR -> this",
+      "Injury:CEN21LA382|Flig|Total (CEN21LA382|Flig|Total) RECORDED_FOR -> this",
+      "Injury:CEN21LA382|Pass|Fatal (CEN21LA382|Pass|Fatal) RECORDED_FOR -> this",
+      "Injury:CEN21LA382|Pass|Minor (CEN21LA382|Pass|Minor) RECORDED_FOR -> this",
+      "Injury:CEN21LA382|Pass|None (CEN21LA382|Pass|None) RECORDED_FOR -> this",
+      "Injury:CEN21LA382|Pass|Serious (CEN21LA382|Pass|Serious) RECORDED_FOR -> this",
+      "Injury:CEN21LA382|Pass|Total (CEN21LA382|Pass|Total) RECORDED_FOR -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/beech_a36_accidents.md#2"
+  },
+  {
+   "id": "p:Accident:CEN22LA059|documents/beech_a36_accidents.md#3",
+   "start": {
+    "id": "Accident:CEN22LA059",
+    "kind": "record",
+    "type": "Accident",
+    "name": "CLEVELAND MUNI",
+    "record": {
+     "ref": "Accident:CEN22LA059",
+     "label": "Accident",
+     "key": "CEN22LA059",
+     "name": "CLEVELAND MUNI",
+     "cells": {
+      "date": "2021-12-02",
+      "time": "20:15",
+      "city": "Cleveland",
+      "state": "TX",
+      "country": "USA",
+      "airport_id": "6R3",
+      "airport_name": "CLEVELAND MUNI",
+      "airport_distance_sm": "0",
+      "light_condition": "Day",
+      "weather_condition": "Visual Meteorological Cond",
+      "gust_kts": "0",
+      "highest_injury": "None",
+      "fatal_injuries": "0",
+      "serious_injuries": "0",
+      "minor_injuries": "0",
+      "uninjured": "3",
+      "latitude": "30.401525",
+      "longitude": "-95.053575"
+     },
+     "relations": [
+      "Aircraft:CEN22LA059 (N8038Z) INVOLVED_IN -> this",
+      "CrewMember:CEN22LA059|1 (CEN22LA059|1) INVOLVED_IN -> this",
+      "Occurrence:CEN22LA059|1 (Enroute Loss of engine power (total)) OCCURRED_IN -> this",
+      "Occurrence:CEN22LA059|2 (Enroute Fuel starvation) OCCURRED_IN -> this",
+      "Finding:CEN22LA059|1 (Aircraft-Fluids/misc hardware-Fluids-Fuel-Unknown/Not determined) FOUND_FOR -> this",
+      "Injury:CEN22LA059|Flig|None (CEN22LA059|Flig|None) RECORDED_FOR -> this",
+      "Injury:CEN22LA059|Flig|Total (CEN22LA059|Flig|Total) RECORDED_FOR -> this",
+      "Injury:CEN22LA059|Pass|None (CEN22LA059|Pass|None) RECORDED_FOR -> this",
+      "Injury:CEN22LA059|Pass|Total (CEN22LA059|Pass|Total) RECORDED_FOR -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/beech_a36_accidents.md#3"
+  },
+  {
+   "id": "p:Accident:CEN22LA249|documents/piper_pa_28_181_accidents.md#4",
+   "start": {
+    "id": "Accident:CEN22LA249",
+    "kind": "record",
+    "type": "Accident",
+    "name": "Skyway Estates Airport",
+    "record": {
+     "ref": "Accident:CEN22LA249",
+     "label": "Accident",
+     "key": "CEN22LA249",
+     "name": "Skyway Estates Airport",
+     "cells": {
+      "date": "2022-06-14",
+      "time": "22:15",
+      "city": "Eaton Rapids",
+      "state": "MI",
+      "country": "USA",
+      "airport_id": "60G",
+      "airport_name": "Skyway Estates Airport",
+      "airport_distance_sm": "2",
+      "light_condition": "Day",
+      "weather_condition": "Visual Meteorological Cond",
+      "wind_speed_kts": "10",
+      "gust_kts": "0",
+      "highest_injury": "None",
+      "fatal_injuries": "0",
+      "serious_injuries": "0",
+      "minor_injuries": "0",
+      "uninjured": "2",
+      "latitude": "42.467812",
+      "longitude": "-84.71279"
+     },
+     "relations": [
+      "Aircraft:CEN22LA249 (CEN22LA249) INVOLVED_IN -> this",
+      "CrewMember:CEN22LA249|1 (CEN22LA249|1) INVOLVED_IN -> this",
+      "CrewMember:CEN22LA249|2 (CEN22LA249|2) INVOLVED_IN -> this",
+      "Occurrence:CEN22LA249|3 (Initial climb Loss of control in flight) OCCURRED_IN -> this",
+      "Occurrence:CEN22LA249|4 (Initial climb Collision with terr/obj (non-CFIT)) OCCURRED_IN -> this",
+      "Finding:CEN22LA249|3 (Aircraft-Aircraft oper/perf/capability-Performance/control parameters-Airspeed-Not attained/maintained) FOUND_FOR -> this",
+      "Finding:CEN22LA249|4 (Personnel issues-Task performance-Use of equip/info-Aircraft control-Pilot) FOUND_FOR -> this",
+      "Finding:CEN22LA249|5 (Environmental issues-Physical environment-Object/animal/substance-Tree(s)-Contributed to outcome) FOUND_FOR -> this",
+      "Injury:CEN22LA249|Flig|None (CEN22LA249|Flig|None) RECORDED_FOR -> this",
+      "Injury:CEN22LA249|Flig|Total (CEN22LA249|Flig|Total) RECORDED_FOR -> this",
+      "Injury:CEN22LA249|Pass|None (CEN22LA249|Pass|None) RECORDED_FOR -> this",
+      "Injury:CEN22LA249|Pass|Total (CEN22LA249|Pass|Total) RECORDED_FOR -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/piper_pa_28_181_accidents.md#4"
+  },
+  {
+   "id": "p:Accident:CEN23LA223|documents/air_tractor_at_502b_accidents.md#5",
+   "start": {
+    "id": "Accident:CEN23LA223",
+    "kind": "record",
+    "type": "Accident",
+    "name": "CEN23LA223",
+    "record": {
+     "ref": "Accident:CEN23LA223",
+     "label": "Accident",
+     "key": "CEN23LA223",
+     "name": null,
+     "cells": {
+      "date": "2023-06-03",
+      "time": "16:58",
+      "city": "Lake Village",
+      "state": "AR",
+      "country": "USA",
+      "airport_distance_sm": "0",
+      "light_condition": "Day",
+      "weather_condition": "Visual Meteorological Cond",
+      "wind_speed_kts": "4",
+      "gust_kts": "0",
+      "highest_injury": "None",
+      "fatal_injuries": "0",
+      "serious_injuries": "0",
+      "minor_injuries": "0",
+      "uninjured": "1",
+      "latitude": "33.322807",
+      "longitude": "-91.299856"
+     },
+     "relations": [
+      "Aircraft:CEN23LA223 (N509HB) INVOLVED_IN -> this",
+      "CrewMember:CEN23LA223|1 (CEN23LA223|1) INVOLVED_IN -> this",
+      "Occurrence:CEN23LA223|2 (Landing Off-field or emergency landing) OCCURRED_IN -> this",
+      "Occurrence:CEN23LA223|6 (Initial climb Unknown or undetermined) OCCURRED_IN -> this",
+      "Finding:CEN23LA223|1 (Aircraft-Aircraft power plant-(general)-(general)-Unknown/Not determined) FOUND_FOR -> this",
+      "Injury:CEN23LA223|Cabi|None (CEN23LA223|Cabi|None) RECORDED_FOR -> this",
+      "Injury:CEN23LA223|Cabi|Total (CEN23LA223|Cabi|Total) RECORDED_FOR -> this",
+      "Injury:CEN23LA223|Flig|Minor (CEN23LA223|Flig|Minor) RECORDED_FOR -> this",
+      "Injury:CEN23LA223|Flig|None (CEN23LA223|Flig|None) RECORDED_FOR -> this",
+      "Injury:CEN23LA223|Flig|Total (CEN23LA223|Flig|Total) RECORDED_FOR -> this",
+      "Injury:CEN23LA223|LapC|None (CEN23LA223|LapC|None) RECORDED_FOR -> this",
+      "Injury:CEN23LA223|LapC|Total (CEN23LA223|LapC|Total) RECORDED_FOR -> this",
+      "Injury:CEN23LA223|Pass|None (CEN23LA223|Pass|None) RECORDED_FOR -> this",
+      "Injury:CEN23LA223|Pass|Total (CEN23LA223|Pass|Total) RECORDED_FOR -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/air_tractor_at_502b_accidents.md#5"
+  },
+  {
+   "id": "p:Accident:CEN23LA344|documents/beech_a36_accidents.md#4",
+   "start": {
+    "id": "Accident:CEN23LA344",
+    "kind": "record",
+    "type": "Accident",
+    "name": "CEN23LA344",
+    "record": {
+     "ref": "Accident:CEN23LA344",
+     "label": "Accident",
+     "key": "CEN23LA344",
+     "name": null,
+     "cells": {
+      "date": "2023-07-20",
+      "time": "17:36",
+      "city": "Oberlin",
+      "state": "KS",
+      "country": "USA",
+      "airport_id": "OIN",
+      "airport_distance_sm": "11",
+      "light_condition": "Day",
+      "weather_condition": "Visual Meteorological Cond",
+      "wind_speed_kts": "4",
+      "gust_kts": "0",
+      "highest_injury": "Minor",
+      "fatal_injuries": "0",
+      "serious_injuries": "0",
+      "minor_injuries": "1",
+      "uninjured": "1",
+      "latitude": "39.671297",
+      "longitude": "-100.64721"
+     },
+     "relations": [
+      "Aircraft:CEN23LA344 (CEN23LA344) INVOLVED_IN -> this",
+      "CrewMember:CEN23LA344|1 (CEN23LA344|1) INVOLVED_IN -> this",
+      "Occurrence:CEN23LA344|2 (Enroute-cruise Fuel starvation) OCCURRED_IN -> this",
+      "Occurrence:CEN23LA344|3 (Enroute-cruise Sys/Comp malf/fail (non-power)) OCCURRED_IN -> this",
+      "Finding:CEN23LA344|1 (Aircraft-Aircraft systems-Fuel system-(general)-Malfunction) FOUND_FOR -> this",
+      "Finding:CEN23LA344|2 (Personnel issues-Task performance-Use of equip/info-Use of checklist-Pilot) FOUND_FOR -> this",
+      "Injury:CEN23LA344|Flig|None (CEN23LA344|Flig|None) RECORDED_FOR -> this",
+      "Injury:CEN23LA344|Flig|Total (CEN23LA344|Flig|Total) RECORDED_FOR -> this",
+      "Injury:CEN23LA344|Pass|Minor (CEN23LA344|Pass|Minor) RECORDED_FOR -> this",
+      "Injury:CEN23LA344|Pass|None (CEN23LA344|Pass|None) RECORDED_FOR -> this",
+      "Injury:CEN23LA344|Pass|Total (CEN23LA344|Pass|Total) RECORDED_FOR -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/beech_a36_accidents.md#4"
+  },
+  {
+   "id": "p:Aircraft:CEN22LA194|documents/cessna_172s_accidents.md#3",
+   "start": {
+    "id": "Aircraft:CEN22LA194",
+    "kind": "record",
+    "type": "Aircraft",
+    "name": "N184NW",
+    "record": {
+     "ref": "Aircraft:CEN22LA194",
+     "label": "Aircraft",
+     "key": "CEN22LA194",
+     "name": "N184NW",
+     "cells": {
+      "registration": "N184NW",
+      "reported_make": "CESSNA",
+      "reported_model": "172S",
+      "year_built": "2010",
+      "category": "Airplane",
+      "regulation": "Part 91: General Aviation",
+      "damage": "Substantial",
+      "engines": "1",
+      "seats": "4",
+      "operator": "NORTHWESTERN MICHIGAN COLLEGE",
+      "flight_purpose": "Instructional",
+      "departure_airport": "GLR",
+      "engine.manufacturer": "Lycoming",
+      "engine.model": "IO-360-L2A",
+      "engine.type": "Reciprocating",
+      "engine.power": "180",
+      "engine.power_unit": "Horsepower",
+      "engine.fuel_system": "Fuel Injected"
+     },
+     "relations": [
+      "INVOLVED_IN -> Accident:CEN22LA194 (CEN22LA194)",
+      "OF_MODEL -> AircraftModel:172S (Cessna 172S)"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/cessna_172s_accidents.md#3"
+  },
+  {
+   "id": "p:AircraftModel:172S|documents/cessna_172s_accidents.md#0",
+   "start": {
+    "id": "AircraftModel:172S",
+    "kind": "record",
+    "type": "AircraftModel",
+    "name": "Cessna 172S",
+    "record": {
+     "ref": "AircraftModel:172S",
+     "label": "AircraftModel",
+     "key": "172S",
+     "name": "Cessna 172S",
+     "cells": {
+      "name": "Cessna 172S",
+      "make": "Cessna",
+      "manufacturer": "CESSNA",
+      "category": "Airplane",
+      "engine_type": "Reciprocating"
+     },
+     "relations": [
+      "Aircraft:CEN21LA126 (N348RM) OF_MODEL -> this",
+      "Aircraft:CEN21LA268 (N365CP) OF_MODEL -> this",
+      "Aircraft:CEN21LA414 (N2099J) OF_MODEL -> this",
+      "Aircraft:CEN22LA194 (N184NW) OF_MODEL -> this",
+      "Aircraft:CEN22LA244 (N831KS) OF_MODEL -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/cessna_172s_accidents.md#0"
+  },
+  {
+   "id": "p:AircraftModel:172S|documents/cessna_172s_accidents.md#1",
+   "start": {
+    "id": "AircraftModel:172S",
+    "kind": "record",
+    "type": "AircraftModel",
+    "name": "Cessna 172S",
+    "record": {
+     "ref": "AircraftModel:172S",
+     "label": "AircraftModel",
+     "key": "172S",
+     "name": "Cessna 172S",
+     "cells": {
+      "name": "Cessna 172S",
+      "make": "Cessna",
+      "manufacturer": "CESSNA",
+      "category": "Airplane",
+      "engine_type": "Reciprocating"
+     },
+     "relations": [
+      "Aircraft:CEN21LA126 (N348RM) OF_MODEL -> this",
+      "Aircraft:CEN21LA268 (N365CP) OF_MODEL -> this",
+      "Aircraft:CEN21LA414 (N2099J) OF_MODEL -> this",
+      "Aircraft:CEN22LA194 (N184NW) OF_MODEL -> this",
+      "Aircraft:CEN22LA244 (N831KS) OF_MODEL -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/cessna_172s_accidents.md#1"
+  },
+  {
+   "id": "p:AircraftModel:172S|documents/cessna_172s_accidents.md#2",
+   "start": {
+    "id": "AircraftModel:172S",
+    "kind": "record",
+    "type": "AircraftModel",
+    "name": "Cessna 172S",
+    "record": {
+     "ref": "AircraftModel:172S",
+     "label": "AircraftModel",
+     "key": "172S",
+     "name": "Cessna 172S",
+     "cells": {
+      "name": "Cessna 172S",
+      "make": "Cessna",
+      "manufacturer": "CESSNA",
+      "category": "Airplane",
+      "engine_type": "Reciprocating"
+     },
+     "relations": [
+      "Aircraft:CEN21LA126 (N348RM) OF_MODEL -> this",
+      "Aircraft:CEN21LA268 (N365CP) OF_MODEL -> this",
+      "Aircraft:CEN21LA414 (N2099J) OF_MODEL -> this",
+      "Aircraft:CEN22LA194 (N184NW) OF_MODEL -> this",
+      "Aircraft:CEN22LA244 (N831KS) OF_MODEL -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/cessna_172s_accidents.md#2"
+  },
+  {
+   "id": "p:AircraftModel:172S|documents/cessna_172s_accidents.md#3",
+   "start": {
+    "id": "AircraftModel:172S",
+    "kind": "record",
+    "type": "AircraftModel",
+    "name": "Cessna 172S",
+    "record": {
+     "ref": "AircraftModel:172S",
+     "label": "AircraftModel",
+     "key": "172S",
+     "name": "Cessna 172S",
+     "cells": {
+      "name": "Cessna 172S",
+      "make": "Cessna",
+      "manufacturer": "CESSNA",
+      "category": "Airplane",
+      "engine_type": "Reciprocating"
+     },
+     "relations": [
+      "Aircraft:CEN21LA126 (N348RM) OF_MODEL -> this",
+      "Aircraft:CEN21LA268 (N365CP) OF_MODEL -> this",
+      "Aircraft:CEN21LA414 (N2099J) OF_MODEL -> this",
+      "Aircraft:CEN22LA194 (N184NW) OF_MODEL -> this",
+      "Aircraft:CEN22LA244 (N831KS) OF_MODEL -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/cessna_172s_accidents.md#3"
+  },
+  {
+   "id": "p:AircraftModel:172S|documents/cessna_172s_accidents.md#4",
+   "start": {
+    "id": "AircraftModel:172S",
+    "kind": "record",
+    "type": "AircraftModel",
+    "name": "Cessna 172S",
+    "record": {
+     "ref": "AircraftModel:172S",
+     "label": "AircraftModel",
+     "key": "172S",
+     "name": "Cessna 172S",
+     "cells": {
+      "name": "Cessna 172S",
+      "make": "Cessna",
+      "manufacturer": "CESSNA",
+      "category": "Airplane",
+      "engine_type": "Reciprocating"
+     },
+     "relations": [
+      "Aircraft:CEN21LA126 (N348RM) OF_MODEL -> this",
+      "Aircraft:CEN21LA268 (N365CP) OF_MODEL -> this",
+      "Aircraft:CEN21LA414 (N2099J) OF_MODEL -> this",
+      "Aircraft:CEN22LA194 (N184NW) OF_MODEL -> this",
+      "Aircraft:CEN22LA244 (N831KS) OF_MODEL -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/cessna_172s_accidents.md#4"
+  },
+  {
+   "id": "p:AircraftModel:A36|documents/beech_a36_accidents.md#0",
+   "start": {
+    "id": "AircraftModel:A36",
+    "kind": "record",
+    "type": "AircraftModel",
+    "name": "Beech A36",
+    "record": {
+     "ref": "AircraftModel:A36",
+     "label": "AircraftModel",
+     "key": "A36",
+     "name": "Beech A36",
+     "cells": {
+      "name": "Beech A36",
+      "make": "Beech",
+      "manufacturer": "BEECH",
+      "category": "Airplane",
+      "engine_type": "Reciprocating"
+     },
+     "relations": [
+      "Aircraft:ANC21LA027 (N1820L) OF_MODEL -> this",
+      "Aircraft:CEN21LA221 (CEN21LA221) OF_MODEL -> this",
+      "Aircraft:CEN21LA382 (N67CW) OF_MODEL -> this",
+      "Aircraft:CEN22LA059 (N8038Z) OF_MODEL -> this",
+      "Aircraft:CEN23LA344 (CEN23LA344) OF_MODEL -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/beech_a36_accidents.md#0"
+  },
+  {
+   "id": "p:AircraftModel:A36|documents/beech_a36_accidents.md#1",
+   "start": {
+    "id": "AircraftModel:A36",
+    "kind": "record",
+    "type": "AircraftModel",
+    "name": "Beech A36",
+    "record": {
+     "ref": "AircraftModel:A36",
+     "label": "AircraftModel",
+     "key": "A36",
+     "name": "Beech A36",
+     "cells": {
+      "name": "Beech A36",
+      "make": "Beech",
+      "manufacturer": "BEECH",
+      "category": "Airplane",
+      "engine_type": "Reciprocating"
+     },
+     "relations": [
+      "Aircraft:ANC21LA027 (N1820L) OF_MODEL -> this",
+      "Aircraft:CEN21LA221 (CEN21LA221) OF_MODEL -> this",
+      "Aircraft:CEN21LA382 (N67CW) OF_MODEL -> this",
+      "Aircraft:CEN22LA059 (N8038Z) OF_MODEL -> this",
+      "Aircraft:CEN23LA344 (CEN23LA344) OF_MODEL -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/beech_a36_accidents.md#1"
+  },
+  {
+   "id": "p:AircraftModel:A36|documents/beech_a36_accidents.md#2",
+   "start": {
+    "id": "AircraftModel:A36",
+    "kind": "record",
+    "type": "AircraftModel",
+    "name": "Beech A36",
+    "record": {
+     "ref": "AircraftModel:A36",
+     "label": "AircraftModel",
+     "key": "A36",
+     "name": "Beech A36",
+     "cells": {
+      "name": "Beech A36",
+      "make": "Beech",
+      "manufacturer": "BEECH",
+      "category": "Airplane",
+      "engine_type": "Reciprocating"
+     },
+     "relations": [
+      "Aircraft:ANC21LA027 (N1820L) OF_MODEL -> this",
+      "Aircraft:CEN21LA221 (CEN21LA221) OF_MODEL -> this",
+      "Aircraft:CEN21LA382 (N67CW) OF_MODEL -> this",
+      "Aircraft:CEN22LA059 (N8038Z) OF_MODEL -> this",
+      "Aircraft:CEN23LA344 (CEN23LA344) OF_MODEL -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/beech_a36_accidents.md#2"
+  },
+  {
+   "id": "p:AircraftModel:A36|documents/beech_a36_accidents.md#3",
+   "start": {
+    "id": "AircraftModel:A36",
+    "kind": "record",
+    "type": "AircraftModel",
+    "name": "Beech A36",
+    "record": {
+     "ref": "AircraftModel:A36",
+     "label": "AircraftModel",
+     "key": "A36",
+     "name": "Beech A36",
+     "cells": {
+      "name": "Beech A36",
+      "make": "Beech",
+      "manufacturer": "BEECH",
+      "category": "Airplane",
+      "engine_type": "Reciprocating"
+     },
+     "relations": [
+      "Aircraft:ANC21LA027 (N1820L) OF_MODEL -> this",
+      "Aircraft:CEN21LA221 (CEN21LA221) OF_MODEL -> this",
+      "Aircraft:CEN21LA382 (N67CW) OF_MODEL -> this",
+      "Aircraft:CEN22LA059 (N8038Z) OF_MODEL -> this",
+      "Aircraft:CEN23LA344 (CEN23LA344) OF_MODEL -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/beech_a36_accidents.md#3"
+  },
+  {
+   "id": "p:AircraftModel:A36|documents/beech_a36_accidents.md#4",
+   "start": {
+    "id": "AircraftModel:A36",
+    "kind": "record",
+    "type": "AircraftModel",
+    "name": "Beech A36",
+    "record": {
+     "ref": "AircraftModel:A36",
+     "label": "AircraftModel",
+     "key": "A36",
+     "name": "Beech A36",
+     "cells": {
+      "name": "Beech A36",
+      "make": "Beech",
+      "manufacturer": "BEECH",
+      "category": "Airplane",
+      "engine_type": "Reciprocating"
+     },
+     "relations": [
+      "Aircraft:ANC21LA027 (N1820L) OF_MODEL -> this",
+      "Aircraft:CEN21LA221 (CEN21LA221) OF_MODEL -> this",
+      "Aircraft:CEN21LA382 (N67CW) OF_MODEL -> this",
+      "Aircraft:CEN22LA059 (N8038Z) OF_MODEL -> this",
+      "Aircraft:CEN23LA344 (CEN23LA344) OF_MODEL -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/beech_a36_accidents.md#4"
+  },
+  {
+   "id": "p:AircraftModel:A36|documents/beech_a36_accidents.md#5",
+   "start": {
+    "id": "AircraftModel:A36",
+    "kind": "record",
+    "type": "AircraftModel",
+    "name": "Beech A36",
+    "record": {
+     "ref": "AircraftModel:A36",
+     "label": "AircraftModel",
+     "key": "A36",
+     "name": "Beech A36",
+     "cells": {
+      "name": "Beech A36",
+      "make": "Beech",
+      "manufacturer": "BEECH",
+      "category": "Airplane",
+      "engine_type": "Reciprocating"
+     },
+     "relations": [
+      "Aircraft:ANC21LA027 (N1820L) OF_MODEL -> this",
+      "Aircraft:CEN21LA221 (CEN21LA221) OF_MODEL -> this",
+      "Aircraft:CEN21LA382 (N67CW) OF_MODEL -> this",
+      "Aircraft:CEN22LA059 (N8038Z) OF_MODEL -> this",
+      "Aircraft:CEN23LA344 (CEN23LA344) OF_MODEL -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/beech_a36_accidents.md#5"
+  },
+  {
+   "id": "p:AircraftModel:PA-28-181|documents/piper_pa_28_181_accidents.md#0",
+   "start": {
+    "id": "AircraftModel:PA-28-181",
+    "kind": "record",
+    "type": "AircraftModel",
+    "name": "Piper PA-28-181",
+    "record": {
+     "ref": "AircraftModel:PA-28-181",
+     "label": "AircraftModel",
+     "key": "PA-28-181",
+     "name": "Piper PA-28-181",
+     "cells": {
+      "name": "Piper PA-28-181",
+      "make": "Piper",
+      "manufacturer": "PIPER",
+      "category": "Airplane",
+      "engine_type": "Reciprocating"
+     },
+     "relations": [
+      "Aircraft:CEN21LA185 (CEN21LA185) OF_MODEL -> this",
+      "Aircraft:CEN21LA353 (N728A) OF_MODEL -> this",
+      "Aircraft:CEN21LA383 (N46MD) OF_MODEL -> this",
+      "Aircraft:CEN22LA249 (CEN22LA249) OF_MODEL -> this",
+      "Aircraft:CEN23LA026 (N787TF) OF_MODEL -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/piper_pa_28_181_accidents.md#0"
+  },
+  {
+   "id": "p:AircraftModel:PA-28-181|documents/piper_pa_28_181_accidents.md#1",
+   "start": {
+    "id": "AircraftModel:PA-28-181",
+    "kind": "record",
+    "type": "AircraftModel",
+    "name": "Piper PA-28-181",
+    "record": {
+     "ref": "AircraftModel:PA-28-181",
+     "label": "AircraftModel",
+     "key": "PA-28-181",
+     "name": "Piper PA-28-181",
+     "cells": {
+      "name": "Piper PA-28-181",
+      "make": "Piper",
+      "manufacturer": "PIPER",
+      "category": "Airplane",
+      "engine_type": "Reciprocating"
+     },
+     "relations": [
+      "Aircraft:CEN21LA185 (CEN21LA185) OF_MODEL -> this",
+      "Aircraft:CEN21LA353 (N728A) OF_MODEL -> this",
+      "Aircraft:CEN21LA383 (N46MD) OF_MODEL -> this",
+      "Aircraft:CEN22LA249 (CEN22LA249) OF_MODEL -> this",
+      "Aircraft:CEN23LA026 (N787TF) OF_MODEL -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/piper_pa_28_181_accidents.md#1"
+  },
+  {
+   "id": "p:AircraftModel:PA-28-181|documents/piper_pa_28_181_accidents.md#2",
+   "start": {
+    "id": "AircraftModel:PA-28-181",
+    "kind": "record",
+    "type": "AircraftModel",
+    "name": "Piper PA-28-181",
+    "record": {
+     "ref": "AircraftModel:PA-28-181",
+     "label": "AircraftModel",
+     "key": "PA-28-181",
+     "name": "Piper PA-28-181",
+     "cells": {
+      "name": "Piper PA-28-181",
+      "make": "Piper",
+      "manufacturer": "PIPER",
+      "category": "Airplane",
+      "engine_type": "Reciprocating"
+     },
+     "relations": [
+      "Aircraft:CEN21LA185 (CEN21LA185) OF_MODEL -> this",
+      "Aircraft:CEN21LA353 (N728A) OF_MODEL -> this",
+      "Aircraft:CEN21LA383 (N46MD) OF_MODEL -> this",
+      "Aircraft:CEN22LA249 (CEN22LA249) OF_MODEL -> this",
+      "Aircraft:CEN23LA026 (N787TF) OF_MODEL -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/piper_pa_28_181_accidents.md#2"
+  },
+  {
+   "id": "p:AircraftModel:PA-28-181|documents/piper_pa_28_181_accidents.md#3",
+   "start": {
+    "id": "AircraftModel:PA-28-181",
+    "kind": "record",
+    "type": "AircraftModel",
+    "name": "Piper PA-28-181",
+    "record": {
+     "ref": "AircraftModel:PA-28-181",
+     "label": "AircraftModel",
+     "key": "PA-28-181",
+     "name": "Piper PA-28-181",
+     "cells": {
+      "name": "Piper PA-28-181",
+      "make": "Piper",
+      "manufacturer": "PIPER",
+      "category": "Airplane",
+      "engine_type": "Reciprocating"
+     },
+     "relations": [
+      "Aircraft:CEN21LA185 (CEN21LA185) OF_MODEL -> this",
+      "Aircraft:CEN21LA353 (N728A) OF_MODEL -> this",
+      "Aircraft:CEN21LA383 (N46MD) OF_MODEL -> this",
+      "Aircraft:CEN22LA249 (CEN22LA249) OF_MODEL -> this",
+      "Aircraft:CEN23LA026 (N787TF) OF_MODEL -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/piper_pa_28_181_accidents.md#3"
+  },
+  {
+   "id": "p:AircraftModel:PA-28-181|documents/piper_pa_28_181_accidents.md#4",
+   "start": {
+    "id": "AircraftModel:PA-28-181",
+    "kind": "record",
+    "type": "AircraftModel",
+    "name": "Piper PA-28-181",
+    "record": {
+     "ref": "AircraftModel:PA-28-181",
+     "label": "AircraftModel",
+     "key": "PA-28-181",
+     "name": "Piper PA-28-181",
+     "cells": {
+      "name": "Piper PA-28-181",
+      "make": "Piper",
+      "manufacturer": "PIPER",
+      "category": "Airplane",
+      "engine_type": "Reciprocating"
+     },
+     "relations": [
+      "Aircraft:CEN21LA185 (CEN21LA185) OF_MODEL -> this",
+      "Aircraft:CEN21LA353 (N728A) OF_MODEL -> this",
+      "Aircraft:CEN21LA383 (N46MD) OF_MODEL -> this",
+      "Aircraft:CEN22LA249 (CEN22LA249) OF_MODEL -> this",
+      "Aircraft:CEN23LA026 (N787TF) OF_MODEL -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/piper_pa_28_181_accidents.md#4"
+  },
+  {
+   "id": "p:AircraftModel:PA-28-181|documents/piper_pa_28_181_accidents.md#5",
+   "start": {
+    "id": "AircraftModel:PA-28-181",
+    "kind": "record",
+    "type": "AircraftModel",
+    "name": "Piper PA-28-181",
+    "record": {
+     "ref": "AircraftModel:PA-28-181",
+     "label": "AircraftModel",
+     "key": "PA-28-181",
+     "name": "Piper PA-28-181",
+     "cells": {
+      "name": "Piper PA-28-181",
+      "make": "Piper",
+      "manufacturer": "PIPER",
+      "category": "Airplane",
+      "engine_type": "Reciprocating"
+     },
+     "relations": [
+      "Aircraft:CEN21LA185 (CEN21LA185) OF_MODEL -> this",
+      "Aircraft:CEN21LA353 (N728A) OF_MODEL -> this",
+      "Aircraft:CEN21LA383 (N46MD) OF_MODEL -> this",
+      "Aircraft:CEN22LA249 (CEN22LA249) OF_MODEL -> this",
+      "Aircraft:CEN23LA026 (N787TF) OF_MODEL -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/piper_pa_28_181_accidents.md#5"
+  },
+  {
+   "id": "p:AircraftModel:R44 II|documents/robinson_r44_ii_accidents.md#0",
+   "start": {
+    "id": "AircraftModel:R44 II",
+    "kind": "record",
+    "type": "AircraftModel",
+    "name": "Robinson R44 II",
+    "record": {
+     "ref": "AircraftModel:R44 II",
+     "label": "AircraftModel",
+     "key": "R44 II",
+     "name": "Robinson R44 II",
+     "cells": {
+      "name": "Robinson R44 II",
+      "make": "Robinson",
+      "manufacturer": "ROBINSON HELICOPTER COMPANY",
+      "category": "Helicopter",
+      "engine_type": "Reciprocating"
+     },
+     "relations": [
+      "Aircraft:ANC21LA079 (N878CB) OF_MODEL -> this",
+      "Aircraft:ANC23LA032 (N704T) OF_MODEL -> this",
+      "Aircraft:CEN21LA173 (N178DF) OF_MODEL -> this",
+      "Aircraft:CEN21LA284 (N202SM) OF_MODEL -> this",
+      "Aircraft:CEN21LA339 (CEN21LA339) OF_MODEL -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/robinson_r44_ii_accidents.md#0"
+  },
+  {
+   "id": "p:AircraftModel:R44 II|documents/robinson_r44_ii_accidents.md#1",
+   "start": {
+    "id": "AircraftModel:R44 II",
+    "kind": "record",
+    "type": "AircraftModel",
+    "name": "Robinson R44 II",
+    "record": {
+     "ref": "AircraftModel:R44 II",
+     "label": "AircraftModel",
+     "key": "R44 II",
+     "name": "Robinson R44 II",
+     "cells": {
+      "name": "Robinson R44 II",
+      "make": "Robinson",
+      "manufacturer": "ROBINSON HELICOPTER COMPANY",
+      "category": "Helicopter",
+      "engine_type": "Reciprocating"
+     },
+     "relations": [
+      "Aircraft:ANC21LA079 (N878CB) OF_MODEL -> this",
+      "Aircraft:ANC23LA032 (N704T) OF_MODEL -> this",
+      "Aircraft:CEN21LA173 (N178DF) OF_MODEL -> this",
+      "Aircraft:CEN21LA284 (N202SM) OF_MODEL -> this",
+      "Aircraft:CEN21LA339 (CEN21LA339) OF_MODEL -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/robinson_r44_ii_accidents.md#1"
+  },
+  {
+   "id": "p:AircraftModel:R44 II|documents/robinson_r44_ii_accidents.md#2",
+   "start": {
+    "id": "AircraftModel:R44 II",
+    "kind": "record",
+    "type": "AircraftModel",
+    "name": "Robinson R44 II",
+    "record": {
+     "ref": "AircraftModel:R44 II",
+     "label": "AircraftModel",
+     "key": "R44 II",
+     "name": "Robinson R44 II",
+     "cells": {
+      "name": "Robinson R44 II",
+      "make": "Robinson",
+      "manufacturer": "ROBINSON HELICOPTER COMPANY",
+      "category": "Helicopter",
+      "engine_type": "Reciprocating"
+     },
+     "relations": [
+      "Aircraft:ANC21LA079 (N878CB) OF_MODEL -> this",
+      "Aircraft:ANC23LA032 (N704T) OF_MODEL -> this",
+      "Aircraft:CEN21LA173 (N178DF) OF_MODEL -> this",
+      "Aircraft:CEN21LA284 (N202SM) OF_MODEL -> this",
+      "Aircraft:CEN21LA339 (CEN21LA339) OF_MODEL -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/robinson_r44_ii_accidents.md#2"
+  },
+  {
+   "id": "p:AircraftModel:R44 II|documents/robinson_r44_ii_accidents.md#3",
+   "start": {
+    "id": "AircraftModel:R44 II",
+    "kind": "record",
+    "type": "AircraftModel",
+    "name": "Robinson R44 II",
+    "record": {
+     "ref": "AircraftModel:R44 II",
+     "label": "AircraftModel",
+     "key": "R44 II",
+     "name": "Robinson R44 II",
+     "cells": {
+      "name": "Robinson R44 II",
+      "make": "Robinson",
+      "manufacturer": "ROBINSON HELICOPTER COMPANY",
+      "category": "Helicopter",
+      "engine_type": "Reciprocating"
+     },
+     "relations": [
+      "Aircraft:ANC21LA079 (N878CB) OF_MODEL -> this",
+      "Aircraft:ANC23LA032 (N704T) OF_MODEL -> this",
+      "Aircraft:CEN21LA173 (N178DF) OF_MODEL -> this",
+      "Aircraft:CEN21LA284 (N202SM) OF_MODEL -> this",
+      "Aircraft:CEN21LA339 (CEN21LA339) OF_MODEL -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/robinson_r44_ii_accidents.md#3"
+  },
+  {
+   "id": "p:AircraftModel:R44 II|documents/robinson_r44_ii_accidents.md#4",
+   "start": {
+    "id": "AircraftModel:R44 II",
+    "kind": "record",
+    "type": "AircraftModel",
+    "name": "Robinson R44 II",
+    "record": {
+     "ref": "AircraftModel:R44 II",
+     "label": "AircraftModel",
+     "key": "R44 II",
+     "name": "Robinson R44 II",
+     "cells": {
+      "name": "Robinson R44 II",
+      "make": "Robinson",
+      "manufacturer": "ROBINSON HELICOPTER COMPANY",
+      "category": "Helicopter",
+      "engine_type": "Reciprocating"
+     },
+     "relations": [
+      "Aircraft:ANC21LA079 (N878CB) OF_MODEL -> this",
+      "Aircraft:ANC23LA032 (N704T) OF_MODEL -> this",
+      "Aircraft:CEN21LA173 (N178DF) OF_MODEL -> this",
+      "Aircraft:CEN21LA284 (N202SM) OF_MODEL -> this",
+      "Aircraft:CEN21LA339 (CEN21LA339) OF_MODEL -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/robinson_r44_ii_accidents.md#4"
+  },
+  {
+   "id": "p:AircraftModel:SR22|documents/cirrus_sr22_accidents.md#0",
+   "start": {
+    "id": "AircraftModel:SR22",
+    "kind": "record",
+    "type": "AircraftModel",
+    "name": "Cirrus SR22",
+    "record": {
+     "ref": "AircraftModel:SR22",
+     "label": "AircraftModel",
+     "key": "SR22",
+     "name": "Cirrus SR22",
+     "cells": {
+      "name": "Cirrus SR22",
+      "make": "Cirrus",
+      "manufacturer": "CIRRUS DESIGN CORP",
+      "category": "Airplane",
+      "engine_type": "Reciprocating"
+     },
+     "relations": [
+      "Aircraft:CEN21FA299 (N123RE) OF_MODEL -> this",
+      "Aircraft:CEN21LA232 (CEN21LA232) OF_MODEL -> this",
+      "Aircraft:CEN21LA280 (CEN21LA280) OF_MODEL -> this",
+      "Aircraft:CEN22LA235 (CEN22LA235) OF_MODEL -> this",
+      "Aircraft:CEN23LA017 (CEN23LA017) OF_MODEL -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/cirrus_sr22_accidents.md#0"
+  },
+  {
+   "id": "p:AircraftModel:SR22|documents/cirrus_sr22_accidents.md#1",
+   "start": {
+    "id": "AircraftModel:SR22",
+    "kind": "record",
+    "type": "AircraftModel",
+    "name": "Cirrus SR22",
+    "record": {
+     "ref": "AircraftModel:SR22",
+     "label": "AircraftModel",
+     "key": "SR22",
+     "name": "Cirrus SR22",
+     "cells": {
+      "name": "Cirrus SR22",
+      "make": "Cirrus",
+      "manufacturer": "CIRRUS DESIGN CORP",
+      "category": "Airplane",
+      "engine_type": "Reciprocating"
+     },
+     "relations": [
+      "Aircraft:CEN21FA299 (N123RE) OF_MODEL -> this",
+      "Aircraft:CEN21LA232 (CEN21LA232) OF_MODEL -> this",
+      "Aircraft:CEN21LA280 (CEN21LA280) OF_MODEL -> this",
+      "Aircraft:CEN22LA235 (CEN22LA235) OF_MODEL -> this",
+      "Aircraft:CEN23LA017 (CEN23LA017) OF_MODEL -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/cirrus_sr22_accidents.md#1"
+  },
+  {
+   "id": "p:AircraftModel:SR22|documents/cirrus_sr22_accidents.md#2",
+   "start": {
+    "id": "AircraftModel:SR22",
+    "kind": "record",
+    "type": "AircraftModel",
+    "name": "Cirrus SR22",
+    "record": {
+     "ref": "AircraftModel:SR22",
+     "label": "AircraftModel",
+     "key": "SR22",
+     "name": "Cirrus SR22",
+     "cells": {
+      "name": "Cirrus SR22",
+      "make": "Cirrus",
+      "manufacturer": "CIRRUS DESIGN CORP",
+      "category": "Airplane",
+      "engine_type": "Reciprocating"
+     },
+     "relations": [
+      "Aircraft:CEN21FA299 (N123RE) OF_MODEL -> this",
+      "Aircraft:CEN21LA232 (CEN21LA232) OF_MODEL -> this",
+      "Aircraft:CEN21LA280 (CEN21LA280) OF_MODEL -> this",
+      "Aircraft:CEN22LA235 (CEN22LA235) OF_MODEL -> this",
+      "Aircraft:CEN23LA017 (CEN23LA017) OF_MODEL -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/cirrus_sr22_accidents.md#2"
+  },
+  {
+   "id": "p:AircraftModel:SR22|documents/cirrus_sr22_accidents.md#3",
+   "start": {
+    "id": "AircraftModel:SR22",
+    "kind": "record",
+    "type": "AircraftModel",
+    "name": "Cirrus SR22",
+    "record": {
+     "ref": "AircraftModel:SR22",
+     "label": "AircraftModel",
+     "key": "SR22",
+     "name": "Cirrus SR22",
+     "cells": {
+      "name": "Cirrus SR22",
+      "make": "Cirrus",
+      "manufacturer": "CIRRUS DESIGN CORP",
+      "category": "Airplane",
+      "engine_type": "Reciprocating"
+     },
+     "relations": [
+      "Aircraft:CEN21FA299 (N123RE) OF_MODEL -> this",
+      "Aircraft:CEN21LA232 (CEN21LA232) OF_MODEL -> this",
+      "Aircraft:CEN21LA280 (CEN21LA280) OF_MODEL -> this",
+      "Aircraft:CEN22LA235 (CEN22LA235) OF_MODEL -> this",
+      "Aircraft:CEN23LA017 (CEN23LA017) OF_MODEL -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/cirrus_sr22_accidents.md#3"
+  },
+  {
+   "id": "p:AircraftModel:SR22|documents/cirrus_sr22_accidents.md#4",
+   "start": {
+    "id": "AircraftModel:SR22",
+    "kind": "record",
+    "type": "AircraftModel",
+    "name": "Cirrus SR22",
+    "record": {
+     "ref": "AircraftModel:SR22",
+     "label": "AircraftModel",
+     "key": "SR22",
+     "name": "Cirrus SR22",
+     "cells": {
+      "name": "Cirrus SR22",
+      "make": "Cirrus",
+      "manufacturer": "CIRRUS DESIGN CORP",
+      "category": "Airplane",
+      "engine_type": "Reciprocating"
+     },
+     "relations": [
+      "Aircraft:CEN21FA299 (N123RE) OF_MODEL -> this",
+      "Aircraft:CEN21LA232 (CEN21LA232) OF_MODEL -> this",
+      "Aircraft:CEN21LA280 (CEN21LA280) OF_MODEL -> this",
+      "Aircraft:CEN22LA235 (CEN22LA235) OF_MODEL -> this",
+      "Aircraft:CEN23LA017 (CEN23LA017) OF_MODEL -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/cirrus_sr22_accidents.md#4"
+  },
+  {
+   "id": "p:AircraftModel:SR22|documents/cirrus_sr22_accidents.md#5",
+   "start": {
+    "id": "AircraftModel:SR22",
+    "kind": "record",
+    "type": "AircraftModel",
+    "name": "Cirrus SR22",
+    "record": {
+     "ref": "AircraftModel:SR22",
+     "label": "AircraftModel",
+     "key": "SR22",
+     "name": "Cirrus SR22",
+     "cells": {
+      "name": "Cirrus SR22",
+      "make": "Cirrus",
+      "manufacturer": "CIRRUS DESIGN CORP",
+      "category": "Airplane",
+      "engine_type": "Reciprocating"
+     },
+     "relations": [
+      "Aircraft:CEN21FA299 (N123RE) OF_MODEL -> this",
+      "Aircraft:CEN21LA232 (CEN21LA232) OF_MODEL -> this",
+      "Aircraft:CEN21LA280 (CEN21LA280) OF_MODEL -> this",
+      "Aircraft:CEN22LA235 (CEN22LA235) OF_MODEL -> this",
+      "Aircraft:CEN23LA017 (CEN23LA017) OF_MODEL -> this"
+     ]
+    },
+    "mentions": []
+   },
+   "chunk": "documents/cirrus_sr22_accidents.md#5"
+  },
+  {
+   "id": "p:a7bdc01e05bdfe2c|documents/air_tractor_at_502b_accidents.md#1",
+   "start": {
+    "id": "a7bdc01e05bdfe2c",
+    "kind": "concept",
+    "type": "AircraftComponent",
+    "name": "right fuel tank",
+    "record": null,
+    "mentions": [
+     {
+      "id": "2a8244f00ab2b826",
+      "name": "right fuel tank",
+      "document": "documents/beech_a36_accidents.md",
+      "chunks": [
+       "documents/beech_a36_accidents.md#4"
+      ],
+      "sentence": "The pilot attempted to restore engine power by switching to the right fuel tank and activating the starter but was unsuccessful."
+     }
+    ]
+   },
+   "chunk": "documents/air_tractor_at_502b_accidents.md#1"
+  },
+  {
+   "id": "p:a7bdc01e05bdfe2c|documents/beech_a36_accidents.md#4",
+   "start": {
+    "id": "a7bdc01e05bdfe2c",
+    "kind": "concept",
+    "type": "AircraftComponent",
+    "name": "right fuel tank",
+    "record": null,
+    "mentions": [
+     {
+      "id": "89f39a0f09d99379",
+      "name": "right fuel tank",
+      "document": "documents/air_tractor_at_502b_accidents.md",
+      "chunks": [
+       "documents/air_tractor_at_502b_accidents.md#1"
+      ],
+      "sentence": "The property owner of the bean field reported that he helped the pilot add about 9 gallons of red die automotive diesel fuel to the left fuel tank and about 5 gallons of the fuel to the right fuel tank after the accident."
+     }
+    ]
+   },
+   "chunk": "documents/beech_a36_accidents.md#4"
+  },
+  {
+   "id": "p:a869bd3cba239ba8|documents/beech_a36_accidents.md#3",
+   "start": {
+    "id": "a869bd3cba239ba8",
+    "kind": "individual",
+    "type": "Location",
+    "name": "Cleveland, TX",
+    "record": null,
+    "mentions": [
+     {
+      "id": "9a911b1aac354378",
+      "name": "Cleveland, TX",
+      "document": "documents/beech_a36_accidents.md",
+      "chunks": [
+       "documents/beech_a36_accidents.md#3"
+      ],
+      "sentence": "## CEN22LA059 (2021-12-02, Cleveland, TX)"
+     }
+    ]
+   },
+   "chunk": "documents/beech_a36_accidents.md#3"
+  },
+  {
+   "id": "p:a916b51206e38ce0|documents/air_tractor_at_502b_accidents.md#5",
+   "start": {
+    "id": "a916b51206e38ce0",
+    "kind": "concept",
+    "type": "EnvironmentalCondition",
+    "name": "airstrip",
+    "record": null,
+    "mentions": [
+     {
+      "id": "8804059976e2bdea",
+      "name": "airstrip",
+      "document": "documents/air_tractor_at_502b_accidents.md",
+      "chunks": [
+       "documents/air_tractor_at_502b_accidents.md#5"
+      ],
+      "sentence": "The pilot was departing from a 2,100-ft-long airstrip used for agricultural operations."
+     }
+    ]
+   },
+   "chunk": "documents/air_tractor_at_502b_accidents.md#5"
+  },
+  {
+   "id": "p:b132927fc352a805|documents/beech_a36_accidents.md#2",
+   "start": {
+    "id": "b132927fc352a805",
+    "kind": "individual",
+    "type": "Location",
+    "name": "Granbury, TX",
+    "record": null,
+    "mentions": [
+     {
+      "id": "ebbae73044e250f2",
+      "name": "Granbury, TX",
+      "document": "documents/beech_a36_accidents.md",
+      "chunks": [
+       "documents/beech_a36_accidents.md#2"
+      ],
+      "sentence": "## CEN21LA382 (2021-08-24, Granbury, TX)"
+     }
+    ]
+   },
+   "chunk": "documents/beech_a36_accidents.md#2"
+  },
+  {
+   "id": "p:b482a32db145c7ab|documents/piper_pa_28_181_accidents.md#1",
+   "start": {
+    "id": "b482a32db145c7ab",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "runway light",
+    "record": null,
+    "mentions": [
+     {
+      "id": "2dd2a7b26dd965cc",
+      "name": "runway light",
+      "document": "documents/piper_pa_28_181_accidents.md",
+      "chunks": [
+       "documents/piper_pa_28_181_accidents.md#1"
+      ],
+      "sentence": "The airplane continued off the right side of the runway, and the right main landing gear impacted a runway light and separated from the airplane."
+     }
+    ]
+   },
+   "chunk": "documents/piper_pa_28_181_accidents.md#1"
+  },
+  {
+   "id": "p:c3b053aba1ea5746|documents/cessna_172s_accidents.md#2",
+   "start": {
+    "id": "c3b053aba1ea5746",
+    "kind": "individual",
+    "type": "CrewMember",
+    "name": "flight instructor",
+    "record": null,
+    "mentions": [
+     {
+      "id": "3cbbd12024ab3677",
+      "name": "flight instructor",
+      "document": "documents/cessna_172s_accidents.md",
+      "chunks": [
+       "documents/cessna_172s_accidents.md#2",
+       "documents/cessna_172s_accidents.md#3",
+       "documents/cessna_172s_accidents.md#4"
+      ],
+      "sentence": "The flight instructor and student pilot were conducting a simulated off-field emergency landing as part of a pre-solo cross-country progress check."
+     }
+    ]
+   },
+   "chunk": "documents/cessna_172s_accidents.md#2"
+  },
+  {
+   "id": "p:c3b053aba1ea5746|documents/cessna_172s_accidents.md#3",
+   "start": {
+    "id": "c3b053aba1ea5746",
+    "kind": "individual",
+    "type": "CrewMember",
+    "name": "flight instructor",
+    "record": null,
+    "mentions": [
+     {
+      "id": "3cbbd12024ab3677",
+      "name": "flight instructor",
+      "document": "documents/cessna_172s_accidents.md",
+      "chunks": [
+       "documents/cessna_172s_accidents.md#2",
+       "documents/cessna_172s_accidents.md#3",
+       "documents/cessna_172s_accidents.md#4"
+      ],
+      "sentence": "The flight instructor and student pilot were conducting a simulated off-field emergency landing as part of a pre-solo cross-country progress check."
+     }
+    ]
+   },
+   "chunk": "documents/cessna_172s_accidents.md#3"
+  },
+  {
+   "id": "p:c3b053aba1ea5746|documents/cessna_172s_accidents.md#4",
+   "start": {
+    "id": "c3b053aba1ea5746",
+    "kind": "individual",
+    "type": "CrewMember",
+    "name": "flight instructor",
+    "record": null,
+    "mentions": [
+     {
+      "id": "3cbbd12024ab3677",
+      "name": "flight instructor",
+      "document": "documents/cessna_172s_accidents.md",
+      "chunks": [
+       "documents/cessna_172s_accidents.md#2",
+       "documents/cessna_172s_accidents.md#3",
+       "documents/cessna_172s_accidents.md#4"
+      ],
+      "sentence": "The flight instructor and student pilot were conducting a simulated off-field emergency landing as part of a pre-solo cross-country progress check."
+     }
+    ]
+   },
+   "chunk": "documents/cessna_172s_accidents.md#4"
+  },
+  {
+   "id": "p:c9f4ddc2aded1c66|documents/beech_a36_accidents.md#2",
+   "start": {
+    "id": "c9f4ddc2aded1c66",
+    "kind": "concept",
+    "type": "AircraftComponent",
+    "name": "fuel tanks",
+    "record": null,
+    "mentions": [
+     {
+      "id": "851406a0ddcd1fc7",
+      "name": "fuel tanks",
+      "document": "documents/piper_pa_28_181_accidents.md",
+      "chunks": [
+       "documents/piper_pa_28_181_accidents.md#3"
+      ],
+      "sentence": "The pilot reported that the airplane’s fuel tanks were filled to the tabs during the preflight."
+     }
+    ]
+   },
+   "chunk": "documents/beech_a36_accidents.md#2"
+  },
+  {
+   "id": "p:c9f4ddc2aded1c66|documents/piper_pa_28_181_accidents.md#3",
+   "start": {
+    "id": "c9f4ddc2aded1c66",
+    "kind": "concept",
+    "type": "AircraftComponent",
+    "name": "fuel tanks",
+    "record": null,
+    "mentions": [
+     {
+      "id": "54bfa4ca8c7c62ba",
+      "name": "fuel tanks",
+      "document": "documents/beech_a36_accidents.md",
+      "chunks": [
+       "documents/beech_a36_accidents.md#2"
+      ],
+      "sentence": "Fuel was available in the airplane’s fuel tanks, and the engine had about 8 quarts of oil in it."
+     }
+    ]
+   },
+   "chunk": "documents/piper_pa_28_181_accidents.md#3"
+  },
+  {
+   "id": "p:cc021dce27bbffa5|documents/piper_pa_28_181_accidents.md#1",
+   "start": {
+    "id": "cc021dce27bbffa5",
+    "kind": "concept",
+    "type": "AircraftComponent",
+    "name": "landing gear mounting hardware",
+    "record": null,
+    "mentions": [
+     {
+      "id": "683e44cc169e80f8",
+      "name": "landing gear attachment hardware",
+      "document": "documents/piper_pa_28_181_accidents.md",
+      "chunks": [
+       "documents/piper_pa_28_181_accidents.md#2"
+      ],
+      "sentence": "of landing gear attachment hardware on various models, including the accident airplane model."
+     }
+    ]
+   },
+   "chunk": "documents/piper_pa_28_181_accidents.md#1"
+  },
+  {
+   "id": "p:cc021dce27bbffa5|documents/piper_pa_28_181_accidents.md#2",
+   "start": {
+    "id": "cc021dce27bbffa5",
+    "kind": "concept",
+    "type": "AircraftComponent",
+    "name": "landing gear mounting hardware",
+    "record": null,
+    "mentions": [
+     {
+      "id": "256a7c5df1e6b14d",
+      "name": "landing gear mounting hardware",
+      "document": "documents/piper_pa_28_181_accidents.md",
+      "chunks": [
+       "documents/piper_pa_28_181_accidents.md#1"
+      ],
+      "sentence": "The airplane manufacturer relayed information regarding landing gear collapses on similar model airplanes, including one landing gear separation, due to fatigue and corrosion of the landing gear mounting hardware."
+     }
+    ]
+   },
+   "chunk": "documents/piper_pa_28_181_accidents.md#2"
+  },
+  {
+   "id": "p:d4d5907568015f55|documents/robinson_r44_ii_accidents.md#0",
+   "start": {
+    "id": "d4d5907568015f55",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "obstacles",
+    "record": null,
+    "mentions": [
+     {
+      "id": "fccf6f6b460367f0",
+      "name": "obstructions",
+      "document": "documents/robinson_r44_ii_accidents.md",
+      "chunks": [
+       "documents/robinson_r44_ii_accidents.md#4"
+      ],
+      "sentence": "The pilot reported that prior to conducting the aerial application pass, he circled the field and did not observe any obstructions."
+     }
+    ]
+   },
+   "chunk": "documents/robinson_r44_ii_accidents.md#0"
+  },
+  {
+   "id": "p:d4d5907568015f55|documents/robinson_r44_ii_accidents.md#4",
+   "start": {
+    "id": "d4d5907568015f55",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "obstacles",
+    "record": null,
+    "mentions": [
+     {
+      "id": "6f5510607f9d3bb4",
+      "name": "obstacles",
+      "document": "documents/robinson_r44_ii_accidents.md",
+      "chunks": [
+       "documents/robinson_r44_ii_accidents.md#0"
+      ],
+      "sentence": "At the drop off site, while in a hover about 20 ft above the ground, with his attention focused outside to ensure he cleared terrain and obstacles, he felt the helicopter begin to settle."
+     }
+    ]
+   },
+   "chunk": "documents/robinson_r44_ii_accidents.md#4"
+  },
+  {
+   "id": "p:d9ee56a31a6da43f|documents/beech_a36_accidents.md#3",
+   "start": {
+    "id": "d9ee56a31a6da43f",
+    "kind": "individual",
+    "type": "Finding",
+    "name": "A total loss of engine power due to fuel starvation, the reason for which could not be determined",
+    "record": null,
+    "mentions": [
+     {
+      "id": "10ca30d7697d9771",
+      "name": "A total loss of engine power due to fuel starvation, the reason for which could not be determined",
+      "document": "documents/beech_a36_accidents.md",
+      "chunks": [
+       "documents/beech_a36_accidents.md#3"
+      ],
+      "sentence": "Probable cause: A total loss of engine power due to fuel starvation, the reason for which could not be determined."
+     }
+    ]
+   },
+   "chunk": "documents/beech_a36_accidents.md#3"
+  },
+  {
+   "id": "p:da8c029e31f46f11|documents/robinson_r44_ii_accidents.md#3",
+   "start": {
+    "id": "da8c029e31f46f11",
+    "kind": "individual",
+    "type": "Location",
+    "name": "Reserve, LA",
+    "record": null,
+    "mentions": [
+     {
+      "id": "378cc651a01613e1",
+      "name": "Reserve, LA",
+      "document": "documents/robinson_r44_ii_accidents.md",
+      "chunks": [
+       "documents/robinson_r44_ii_accidents.md#3"
+      ],
+      "sentence": "## CEN21LA284 (2021-06-10, Reserve, LA)"
+     }
+    ]
+   },
+   "chunk": "documents/robinson_r44_ii_accidents.md#3"
+  },
+  {
+   "id": "p:dffff94542f74863|documents/beech_a36_accidents.md#3",
+   "start": {
+    "id": "dffff94542f74863",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "highway",
+    "record": null,
+    "mentions": [
+     {
+      "id": "334b7f06282cd151",
+      "name": "highway",
+      "document": "documents/beech_a36_accidents.md",
+      "chunks": [
+       "documents/beech_a36_accidents.md#3"
+      ],
+      "sentence": "The pilot realized that he would not be able to reach the airport he had selected and redirected the airplane toward a nearby highway."
+     }
+    ]
+   },
+   "chunk": "documents/beech_a36_accidents.md#3"
+  },
+  {
+   "id": "p:e63fe7fd66598df1|documents/air_tractor_at_502b_accidents.md#3",
+   "start": {
+    "id": "e63fe7fd66598df1",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "go-around",
+    "record": null,
+    "mentions": [
+     {
+      "id": "22e4e725f7f181ff",
+      "name": "go-around",
+      "document": "documents/cirrus_sr22_accidents.md",
+      "chunks": [
+       "documents/cirrus_sr22_accidents.md#0",
+       "documents/cirrus_sr22_accidents.md#2",
+       "documents/cirrus_sr22_accidents.md#4"
+      ],
+      "sentence": "The pilot flew a visual approach to the airport, where several witnesses observed the airplane bounce on the runway then heard an increase in engine power, consistent with the pilot’s attempt to initiate a go-around."
+     }
+    ]
+   },
+   "chunk": "documents/air_tractor_at_502b_accidents.md#3"
+  },
+  {
+   "id": "p:e63fe7fd66598df1|documents/cirrus_sr22_accidents.md#0",
+   "start": {
+    "id": "e63fe7fd66598df1",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "go-around",
+    "record": null,
+    "mentions": [
+     {
+      "id": "6ba0f0ad5de249bb",
+      "name": "go around",
+      "document": "documents/air_tractor_at_502b_accidents.md",
+      "chunks": [
+       "documents/air_tractor_at_502b_accidents.md#3"
+      ],
+      "sentence": "The pilot reported that, upon landing, the airplane bounced and he elected to go around."
+     }
+    ]
+   },
+   "chunk": "documents/cirrus_sr22_accidents.md#0"
+  },
+  {
+   "id": "p:e63fe7fd66598df1|documents/cirrus_sr22_accidents.md#2",
+   "start": {
+    "id": "e63fe7fd66598df1",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "go-around",
+    "record": null,
+    "mentions": [
+     {
+      "id": "6ba0f0ad5de249bb",
+      "name": "go around",
+      "document": "documents/air_tractor_at_502b_accidents.md",
+      "chunks": [
+       "documents/air_tractor_at_502b_accidents.md#3"
+      ],
+      "sentence": "The pilot reported that, upon landing, the airplane bounced and he elected to go around."
+     }
+    ]
+   },
+   "chunk": "documents/cirrus_sr22_accidents.md#2"
+  },
+  {
+   "id": "p:e63fe7fd66598df1|documents/cirrus_sr22_accidents.md#4",
+   "start": {
+    "id": "e63fe7fd66598df1",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "go-around",
+    "record": null,
+    "mentions": [
+     {
+      "id": "6ba0f0ad5de249bb",
+      "name": "go around",
+      "document": "documents/air_tractor_at_502b_accidents.md",
+      "chunks": [
+       "documents/air_tractor_at_502b_accidents.md#3"
+      ],
+      "sentence": "The pilot reported that, upon landing, the airplane bounced and he elected to go around."
+     }
+    ]
+   },
+   "chunk": "documents/cirrus_sr22_accidents.md#4"
+  },
+  {
+   "id": "p:ef670a8f173cf95c|documents/robinson_r44_ii_accidents.md#4",
+   "start": {
+    "id": "ef670a8f173cf95c",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "wire",
+    "record": null,
+    "mentions": [
+     {
+      "id": "3a366e0e13269489",
+      "name": "wire",
+      "document": "documents/robinson_r44_ii_accidents.md",
+      "chunks": [
+       "documents/robinson_r44_ii_accidents.md#4"
+      ],
+      "sentence": "The pilot realized he had struck a wire as the helicopter pitched up and started to slow."
+     }
+    ]
+   },
+   "chunk": "documents/robinson_r44_ii_accidents.md#4"
+  },
+  {
+   "id": "p:f44e2016f84c3547|documents/beech_a36_accidents.md#3",
+   "start": {
+    "id": "f44e2016f84c3547",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "road sign",
+    "record": null,
+    "mentions": [
+     {
+      "id": "edba7c81d7cc30e1",
+      "name": "road sign",
+      "document": "documents/cessna_172s_accidents.md",
+      "chunks": [
+       "documents/cessna_172s_accidents.md#1"
+      ],
+      "sentence": "During the landing rollout, the left wing impacted a metal road sign, and the airplane came to a stop on a grass median."
+     }
+    ]
+   },
+   "chunk": "documents/beech_a36_accidents.md#3"
+  },
+  {
+   "id": "p:f44e2016f84c3547|documents/cessna_172s_accidents.md#1",
+   "start": {
+    "id": "f44e2016f84c3547",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "road sign",
+    "record": null,
+    "mentions": [
+     {
+      "id": "276221f6a2f0ca3d",
+      "name": "road sign",
+      "document": "documents/beech_a36_accidents.md",
+      "chunks": [
+       "documents/beech_a36_accidents.md#3"
+      ],
+      "sentence": "During the landing flare on the highway, the right-wing tip struck a road sign."
+     }
+    ]
+   },
+   "chunk": "documents/cessna_172s_accidents.md#1"
+  },
+  {
+   "id": "p:fa66f9d2c808e3b0|documents/cirrus_sr22_accidents.md#3",
+   "start": {
+    "id": "fa66f9d2c808e3b0",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "fence",
+    "record": null,
+    "mentions": [
+     {
+      "id": "28f196afe86d6f4d",
+      "name": "fence",
+      "document": "documents/cirrus_sr22_accidents.md",
+      "chunks": [
+       "documents/cirrus_sr22_accidents.md#3"
+      ],
+      "sentence": "The airplane subsequently impacted a fence off the end of the runway, which resulted in substantial damage to both wings."
+     }
+    ]
+   },
+   "chunk": "documents/cirrus_sr22_accidents.md#3"
+  },
+  {
+   "id": "p:fb29d9ef8ff35735|documents/beech_a36_accidents.md#5",
+   "start": {
+    "id": "fb29d9ef8ff35735",
+    "kind": "individual",
+    "type": "Finding",
+    "name": "The blockage of the left fuel tank vent, which resulted in a total loss of engine power due to fuel starvation",
+    "record": null,
+    "mentions": [
+     {
+      "id": "791e9fd7aa53e75b",
+      "name": "The blockage of the left fuel tank vent, which resulted in a total loss of engine power due to fuel starvation",
+      "document": "documents/beech_a36_accidents.md",
+      "chunks": [
+       "documents/beech_a36_accidents.md#5"
+      ],
+      "sentence": "Probable cause: The blockage of the left fuel tank vent, which resulted in a total loss of engine power due to fuel starvation."
+     }
+    ]
+   },
+   "chunk": "documents/beech_a36_accidents.md#5"
+  },
+  {
+   "id": "p:fe92551b6978ef9e|documents/cirrus_sr22_accidents.md#2",
+   "start": {
+    "id": "fe92551b6978ef9e",
+    "kind": "concept",
+    "type": "EnvironmentalCondition",
+    "name": "drainage ditch",
+    "record": null,
+    "mentions": [
+     {
+      "id": "03988d15b47c8eba",
+      "name": "drainage ditch",
+      "document": "documents/cirrus_sr22_accidents.md",
+      "chunks": [
+       "documents/cirrus_sr22_accidents.md#2"
+      ],
+      "sentence": "He applied throttle; however, the airplane veered left and impacted a drainage ditch."
+     }
+    ]
+   },
+   "chunk": "documents/cirrus_sr22_accidents.md#2"
+  },
+  {
+   "id": "p:ff86793f3e28eab6|documents/cessna_172s_accidents.md#0",
+   "start": {
+    "id": "ff86793f3e28eab6",
+    "kind": "concept",
+    "type": "EnvironmentalCondition",
+    "name": "patchy compressed snow",
+    "record": null,
+    "mentions": [
+     {
+      "id": "aae30012beef38cf",
+      "name": "patchy compressed snow",
+      "document": "documents/cessna_172s_accidents.md",
+      "chunks": [
+       "documents/cessna_172s_accidents.md#0"
+      ],
+      "sentence": "The airport manager confirmed that the runway had patchy compressed snow covering about 25% of the runway surface."
+     }
+    ]
+   },
+   "chunk": "documents/cessna_172s_accidents.md#0"
+  }
+ ],
+ "chunks": {
+  "documents/air_tractor_at_502b_accidents.md#0": {
+   "document": "documents/air_tractor_at_502b_accidents.md",
+   "heading": "Air Tractor AT-502B accidents investigated by the NTSB",
+   "text": "# Air Tractor AT-502B accidents investigated by the NTSB\n\n## CEN21LA283 (2021-06-20, Edwardsburg, MI)\nThe pilot reported that while conducting an aerial application pass over a field, the airplane stuck trees and subsequently impacted the ground. The airplane sustained substantial damage to the fuselage, both wings, and empennage. The pilot reported that there were no preaccident mechanical failures or malfunctions with the airplane that would have precluded normal operations. The pilot reported that the field had rising terrain toward its southern edge and as the airplane approached the southern edge, the airplane was unable to climb above the rising terrain. It is likely the pilot failed to identify the rising terrain in time to clear the trees.\n\nProbable cause: The pilot’s failure to identify rising terrain and to maintain terrain clearance from trees during an aerial application pass that resulted in an in-flight collision with trees and terrain."
+  },
+  "documents/air_tractor_at_502b_accidents.md#1": {
+   "document": "documents/air_tractor_at_502b_accidents.md",
+   "heading": "Air Tractor AT-502B accidents investigated by the NTSB",
+   "text": "## CEN21LA362 (2021-08-06, Topeka, KS)\nThe commercial pilot reported that before the aerial application flight, he added Jet A fuel to both wing tanks for a total of 150 gallons of fuel onboard. While flying low-level over a field on the third load, the pilot noticed a change in engine power. He maneuvered the airplane out of the field and the engine steadily lost power. The pilot tried to advance the power forward with no change and the airspeed and altitude decreased. The pilot performed a forced landing to a bean field. During the landing, the airplane bounced, slid across a road, and then came to rest upright. The airplane sustained substantial damage to the fuselage and the right wing.  \nThe property owner of the bean field reported that he helped the pilot add about 9 gallons of red die automotive diesel fuel to the left fuel tank and about 5 gallons of the fuel to the right fuel tank after the accident. The pilot reported that the low fuel warning light illuminated about five minutes before the partial loss of engine power, yet the pilot continued with the low-level aerial application maneuvers. When the low fuel warning light illuminates, the airplane flight manual states to, “fly straight and level and monitor fuel gauges” and “land as soon as practical.” The operator reported that there were no preimpact mechanical malfunctions or failures with the airframe and engine that would have precluded normal operation."
+  },
+  "documents/air_tractor_at_502b_accidents.md#3": {
+   "document": "documents/air_tractor_at_502b_accidents.md",
+   "heading": "Air Tractor AT-502B accidents investigated by the NTSB",
+   "text": "## CEN22LA310 (2022-07-10, Wyoming, IL)\nThe pilot reported that, upon landing, the airplane bounced and he elected to go around. He added power and heard the engine spool up. The airplane became airborne again, but at the top of the bounce, the pilot felt the right wing rapidly dip and he applied left aileron to correct it.  The right-wing started to rise, but before it leveled off, he heard it contact the corn. The airplane spun to the right and landed in the corn field, resulting in substantial damage to aft fuselage and empennage. The pilot reported that there were no preaccident mechanical malfunctions or failures with the airplane that would have precluded normal operation.\n\nProbable cause: The pilot’s improper landing flare, which resulted in a hard, bounced landing."
+  },
+  "documents/air_tractor_at_502b_accidents.md#4": {
+   "document": "documents/air_tractor_at_502b_accidents.md",
+   "heading": "Air Tractor AT-502B accidents investigated by the NTSB",
+   "text": "## CEN22LA312 (2022-07-11, Decatur, IL)\nDuring departure climbout for spray operations, the pilot heard a “pop” and observed white smoke trailing the airplane. The pilot made a forced landing, during which the airplane struck an airport perimeter fence that resulted in substantial damaged to both wings. \nExamination revealed that all compressor turbine (CT) rotor blades were fractured at varying spanwise locations. The power turbine (PT) rotor blades downstream of the CT blades exhibited impact damage and were fractured at varying spanwise locations. \nMetallurgical analysis of the CT blades revealed micro-voids were present along the material grain boundaries and rafting of the gamma prime which were indicative of creep. Metallurgical analysis of the CT blades revealed solutioning of the gamma prime which is consistent with exposure to temperature in excess of the engine operating limits. It was not determined if the exposure to elevated temperatures occurred before or during the event.\n\nProbable cause: Fracture of the compressor turbine (CT) blades due to creep."
+  },
+  "documents/air_tractor_at_502b_accidents.md#5": {
+   "document": "documents/air_tractor_at_502b_accidents.md",
+   "heading": "Air Tractor AT-502B accidents investigated by the NTSB",
+   "text": "## CEN23LA223 (2023-06-03, Lake Village, AR)\nThe pilot was departing from a 2,100-ft-long airstrip used for agricultural operations. The pilot reported that shortly after departure, the airplane lost thrust, but the engine remained operating. Unable to continue flight with diminished thrust, the pilot started to jettison fertilizer and completed a forced landing to a field, which resulted in substantial damage to the fuselage, empennage, and both wings. \nA postaccident engine and propeller examination did not reveal any evidence of a mechanical malfunction or failure consistent with an inability to produce rated engine power. Damage to the propeller blades was consistent with high impact forces while the propeller was rotating at low power at a low blade pitch angle.\nThe airplane’s gross weight and center-of-gravity limits could not be definitively determined. However, based on the available evidence, the airplane weight was estimated to be at or above 8,000 lbs. Takeoff distance data indicated the distance required for takeoff would have been between 1,418 ft and 2,156 ft. The runway used for takeoff was 2,100 ft long.\nThe reason for a loss of engine power as described by the pilot could not be determined as no anomalies were found with the engine.\n\nProbable cause: A reported loss of thrust for reasons that could not be determined."
+  },
+  "documents/beech_a36_accidents.md#0": {
+   "document": "documents/beech_a36_accidents.md",
+   "heading": "Beech A36 accidents investigated by the NTSB",
+   "text": "# Beech A36 accidents investigated by the NTSB\n\n## ANC21LA027 (2021-03-20, Port Alsworth, AK)\nAccording to the pilot, during the approach to land on a plowed- snow-covered runway, he selected a touchdown point near, what he had identified as, the runway threshold. On short final a pilot-rated passenger seated in the right front seat recommended adding power. The pilot assumed this was to “cushion” the landing not realizing he was landing short of the runway’s plowed surface. Subsequently, the airplane touchdown in an area of unplowed snow, impacted a snow berm, and the nosewheel collapsed. The airplane sustained substantial damage to the fuselage. The pilot reported no preaccident mechanical failures or malfunctions that would have precluded normal operations.\n\nIn the recommendation section of the NTSB Accident/Incident Reporting Form 6120.1, the pilot stated that the accident may have been prevented if there were clear runway threshold markings to define the runway’s plowed surface.  \n\nAccording to the operator, cones are normally used to identify the runway threshold; however, they had been removed due to ongoing snow removal operations on the day of the accident.\n\nProbable cause: The pilot's misidentification of the airport’s active runway, which resulted in an off runway landing and a collision with a snow berm. Contributing to the accident was the runway’s lack of identifying markings."
+  },
+  "documents/beech_a36_accidents.md#1": {
+   "document": "documents/beech_a36_accidents.md",
+   "heading": "Beech A36 accidents investigated by the NTSB",
+   "text": "## CEN21LA221 (2021-05-14, Pinckneyville, IL)\nWhile at an altitude of 8,000 ft mean sea level, the pilot noticed the engine oil pressure began to fluctuate. The pilot then requested to divert to the nearest airport, and shortly thereafter, the engine began to shake and lost total power. Unable to make the airport, the pilot executed a forced landing to a field. During the landing, the airplane’s nose wheel landing gear impacted a ditch. The nose landing gear collapsed, and the airplane came to rest upright. The airplane sustained substantial damage to the left wing and fuselage.\n\nPostaccident examination of the engine revealed that connecting rods 2 through 5 were fractured and separated from the crankshaft, and the connecting rod bearings were destroyed. Heat distress signatures were noted on the crankshaft connecting rod locations. The connecting rod bearings number 1 and 6 displayed significant scoring consistent with a lack of oil lubrication. It is likely the engine failure was the result of oil starvation to the connecting rod bearings, however, the reason for the oil starvation could not be determined based on the available evidence.\n\nProbable cause: The total loss of engine power due to oil starvation. The reason for the oil starvation could not be determined based on available evidence."
+  },
+  "documents/beech_a36_accidents.md#2": {
+   "document": "documents/beech_a36_accidents.md",
+   "heading": "Beech A36 accidents investigated by the NTSB",
+   "text": "## CEN21LA382 (2021-08-24, Granbury, TX)\nThe pilot reported that shortly after departure the airplane’s engine lost power. The pilot selected a nearby field for a forced landing. An initial inspection of the airplane noted damage to the airplane’s wings and fuselage. Fuel was available in the airplane’s fuel tanks, and the engine had about 8 quarts of oil in it.\n\nAfter the airplane was recovered, a visual inspection of the engine did not reveal any pre-impact abnormities.  A test run of the engine was subsequently conducted and the engine ran at various power settings and no anomalies were noted. An examination of the fuel system revealed no anomalies.\n \nBefore and after the test run, data from an onboard engine monitor was downloaded. The data did not illustrate any abnormalities with either the cylinder head temperature or exhaust gas temperatures that were recorded; the total loss of power was evident. No abnormalities were noted during the engine test run and the engine appeared to make rated power.\n\nA reason for the loss of engine power could not be determined with the available information.\n\nProbable cause: The loss of engine power for reasons that could not be determined with the available information."
+  },
+  "documents/beech_a36_accidents.md#3": {
+   "document": "documents/beech_a36_accidents.md",
+   "heading": "Beech A36 accidents investigated by the NTSB",
+   "text": "## CEN22LA059 (2021-12-02, Cleveland, TX)\nThe pilot reported that while in cruise flight, the airplane’s engine lost power suddenly. He noted that he was not in the process of changing or manipulating any controls when the power loss occurred. The pilot reported that the fuel flow to the engine dropped and the engine lost power, which is supported by engine monitor data. The pilot’s attempts to restore fuel flow and restart the engine were unsuccessful. The pilot realized that he would not be able to reach the airport he had selected and redirected the airplane toward a nearby highway. During the landing flare on the highway, the right-wing tip struck a road sign. The airplane exited the highway and came to rest nose down in a ditch which resulted in substantial damage to the fuselage. \nDuring recovery of the airplane, 22 gallons of fuel were recovered from the right-wing fuel tanks, and 26 gallons were recovered from the left-wing fuel tanks. Postaccident examination of the airplane and an engine test run were performed. The engine ran normally and no reason for the interruption of fuel flow was discovered. \nBased on the available information, the airplane’s engine lost power due to a fuel flow interruption for reasons that could not be determined.\n\nProbable cause: A total loss of engine power due to fuel starvation, the reason for which could not be determined."
+  },
+  "documents/beech_a36_accidents.md#4": {
+   "document": "documents/beech_a36_accidents.md",
+   "heading": "Beech A36 accidents investigated by the NTSB",
+   "text": "## CEN23LA344 (2023-07-20, Oberlin, KS)\nThe pilot reported that while in cruise flight over a cloud layer, the engine lost power as if it were out of fuel. The pilot attempted to restore engine power by switching to the right fuel tank and activating the starter but was unsuccessful. As the airplane descended through the cloud layer, the pilot switched back to the left fuel tank and then focused his attention on maintaining airplane control. The airplane descended below the cloud layer and the pilot maneuvered the airplane for a forced landing to a road. During the forced landing, the airplane impacted terrain, resulting in substantial damage to the left wing and fuselage.\nExamination of the fuel system revealed that the fuel venting system on the left-wing fuel tank was obstructed by what appeared to be insect debris. No other anomalies were noted during the examination of the airframe and engine that would have precluded normal operations.\nThe circumstances of the power loss are consistent with an interruption of fuel flow from the left fuel tank due to inadequate venting of the fuel tank. \nDuring the attempt to restore engine power, the pilot did not engage the auxiliary fuel pump as stated in the emergency procedures checklist, which may have aided in restoring engine power."
+  },
+  "documents/beech_a36_accidents.md#5": {
+   "document": "documents/beech_a36_accidents.md",
+   "heading": "Beech A36 accidents investigated by the NTSB",
+   "text": "Probable cause: The blockage of the left fuel tank vent, which resulted in a total loss of engine power due to fuel starvation. Contributing to the accident of the pilot’s failure to use his checklist to address the loss of engine power."
+  },
+  "documents/cessna_172s_accidents.md#0": {
+   "document": "documents/cessna_172s_accidents.md",
+   "heading": "Cessna 172S accidents investigated by the NTSB",
+   "text": "# Cessna 172S accidents investigated by the NTSB\n\n## CEN21LA126 (2021-02-07, Urbana, OH)\nThe student pilot reported that he was 0n a solo cross-country flight and the takeoff, climb, and en route portions of the flight were uneventful. He expected to perform a touch-and-go landing at the accident airport. During the approach, he noticed that the runway had patchy snow on it. Upon landing the airplane veered to the left, which the student pilot believed was due to the unresponsiveness of the controls and the ice. He decided to change to a full stop landing and applied the brakes, but the airplane struck a snowbank on the left side of the runway, and it tipped forward and to the right. The airplane’s right wing was bent up at the tip resulting in substantial damage. The student pilot stated that there were no mechanical anomalies with the airplane that would have precluded normal operations. The airport manager confirmed that the runway had patchy compressed snow covering about 25% of the runway surface.\n\nProbable cause: The student pilot’s loss of directional control during landing which resulted in an impact with a snowbank. The slippery runway condition contributed to the accident."
+  },
+  "documents/cessna_172s_accidents.md#1": {
+   "document": "documents/cessna_172s_accidents.md",
+   "heading": "Cessna 172S accidents investigated by the NTSB",
+   "text": "## CEN21LA268 (2021-06-10, Saint James, LA)\nThe pilot of the low-level pipeline patrol flight reported that after about one hour into the flight, a “very loud pop” noise emitted from behind the instrument panel followed by an unidentified high-pressure air/gas release into the cabin. After not seeing any flames, the pilot opened his window to vent the cabin and decided to conduct an off-airport emergency landing on an empty multi-lane highway. During the landing rollout, the left wing impacted a metal road sign, and the airplane came to a stop on a grass median. The airplane sustained substantial damage to the left wing. A postaccident examination of the airplane revealed that a high-pressure air conditioning hose failed and separated at a metal crimp connection at the firewall pass-through. The hose ends at the separation showed signs of age deterioration. Maintenance records revealed that the hose had been in service for about 20 years, accumulating 12,512.5 total hours. According to the air conditioning system maintenance manual, the system’s components are to be inspected every 600 hours or every annual inspection, whichever comes first, and are to be cleaned or replaced as necessary.\n\nProbable cause: The in-flight fatigue failure of an air-conditioning system hose which resulted in a precautionary landing and impact with a road sign."
+  },
+  "documents/cessna_172s_accidents.md#2": {
+   "document": "documents/cessna_172s_accidents.md",
+   "heading": "Cessna 172S accidents investigated by the NTSB",
+   "text": "## CEN21LA414 (2021-09-10, LaSalle, CO)\n** This report was modified on January 13, 2026. Please see the docket for this accident to view the original report. **\nThe flight instructor and student pilot were conducting a simulated off-field emergency landing as part of a pre-solo cross-country progress check. The flight instructor told the student pilot to break off the maneuver and apply engine power, but the airplane’s engine did not respond when power was added. The flight instructor took control of the airplane and attempted to restart the engine with no success. He then declared an emergency and performed a 180° power-off turn to a field. During the touchdown, the airplane contacted a raised embankment, nosed over, and came to rest inverted. The airplane sustained substantial damage to both wings and the fuselage.\nA postaccident examination of the airframe and engine showed no preaccident failures or malfunctions that would have precluded normal operation. As a result, the cause of the total loss of engine power could not be determined.\n\nProbable cause: A loss of engine power for undetermined reasons."
+  },
+  "documents/cessna_172s_accidents.md#3": {
+   "document": "documents/cessna_172s_accidents.md",
+   "heading": "Cessna 172S accidents investigated by the NTSB",
+   "text": "## CEN22LA194 (2022-05-10, Traverse City, MI)\nThe pilot receiving instruction was on a visual approach to the runway during an instructional flight, at which time the engine lost total power. The flight instructor took control of the airplane and made multiple attempts to restart the engine, which were unsuccessful. The flight instructor declared an emergency and executed a forced landing to a park area about 1 mile north of the runway. During the forced landing, the airplane impacted terrain and a perimeter fence. \nPostaccident examination of the airplane revealed substantial damage to the right wing and engine mount. Examination of the engine and fuel system revealed a loose “B” nut fitting on the fuel line between the fuel injector and fuel manifold. The engine had recently been installed by maintenance personnel; the airplane had flown about 2.7 hours after the installation and before the accident. There was no visible impact damage to the “B” nut on the line or the fitting. Given this evidence, the “B” nut on the fuel line was likely not properly tightened during engine installation, which allowed the nut to loosen with normal engine vibration and allowed air to enter the system which resulted in total loss of engine power.\n\nProbable cause: The failure of maintenance personnel to properly torque a fuel line “B” nut, which resulted in a total loss of engine power."
+  },
+  "documents/cessna_172s_accidents.md#4": {
+   "document": "documents/cessna_172s_accidents.md",
+   "heading": "Cessna 172S accidents investigated by the NTSB",
+   "text": "## CEN22LA244 (2022-06-09, Salina, KS)\nThe pilot reported that while taxiing for a local night flight, he heard a slight noise that originated from the front of the airplane.  When the stopped the airplane short of the runway, the noise stopped. During the takeoff roll, a louder noise occurred and shortly after the airplane lifted off the ground, the pilot elected to abort the takeoff and pitched nose down. The airplane contacted the runway and bounced multiple times, which resulted in substantial damage to the fuselage. \n\nA postaccident examination conducted by maintenance personnel could not determine a reason for the noise. A flight instructor, who flew the airplane earlier in the day, reported that he heard a noise that he thought was coming from the nosewheel shimmy dampener. Except for the noise the pilot heard, he reported no other mechanical malfunctions or failures with the airplane that would have precluded normal operation.\n\nProbable cause: The pilot’s poor pitch control during an aborted takeoff which resulted in a hard landing."
+  },
+  "documents/cirrus_sr22_accidents.md#0": {
+   "document": "documents/cirrus_sr22_accidents.md",
+   "heading": "Cirrus SR22 accidents investigated by the NTSB",
+   "text": "# Cirrus SR22 accidents investigated by the NTSB\n\n## CEN21FA299 (2021-07-01, Lamoni, IA)\nThe pilot flew a visual approach to the airport, where several witnesses observed the airplane bounce on the runway then heard an increase in engine power, consistent with the pilot’s attempt to initiate a go-around. The airplane banked left, with the left-wing tip striking the ground. It then cartwheeled and impacted the ground to the left of the runway. A postimpact fire ensued, and the pilot and passenger were not able to egress the airplane.\n\nPostaccident examinations of the airplane revealed no evidence of preimpact mechanical malfunctions or failures that would preclude normal operation. The airplane’s flaps were found in the retracted position. The airplane’s acute left bank during the attempted go-around was consistent with the pilot’s insufficient right rudder control to counter the airplane’s left-turning tendency associated with the increased engine power.\n\nProbable cause: The pilot did not maintain aircraft control during an attempted go-around after a bounced landing, which resulted in impact with terrain and a postimpact fire."
+  },
+  "documents/cirrus_sr22_accidents.md#1": {
+   "document": "documents/cirrus_sr22_accidents.md",
+   "heading": "Cirrus SR22 accidents investigated by the NTSB",
+   "text": "## CEN21LA232 (2021-05-16, Whitewater, WI)\nThe pilot reported that, during an instrument flight rules flight, he began receiving conflicting information from the flight instruments and digital flight information display. He stated that the turn coordinator and GPS were displaying opposite information, the heading bug was moving erratically, and he felt as if he was flying in circles. After determining that he could not rely on the information from the flight instruments, he elected to activate the Cirrus airframe parachute system. The airplane came to rest in a stand of trees, resulting in substantial damage.\n\nPostaccident testing of the electronic horizonal situation indicator, directional gyro, and horizon reference indicator revealed no anomalies except for the directional gyro counterclockwise heading stability, which exceed the testing limits by about 3°. The heading stability finding, although outside the testing limits, would not result in the instrument anomalies reported by the pilot. The reason for the flight instrument disagreement/malfunction could not be determined based on the available information.\n\nProbable cause: An inflight instrument malfunction for reasons that could not be determined based on available information, which led to the pilot’s decision to activate the airframe parachute system."
+  },
+  "documents/cirrus_sr22_accidents.md#2": {
+   "document": "documents/cirrus_sr22_accidents.md",
+   "heading": "Cirrus SR22 accidents investigated by the NTSB",
+   "text": "## CEN21LA280 (2021-06-18, Hayward, WI)\nThe pilot completed a short cross-country flight and checked the wind conditions at the destination airport.  He reported the automated weather station was out of service but received weather and runway information from an air traffic controller and airport personnel.  The on-board weather information reported the wind was 10 to 12 kts at a 60°crosswind angle, so he set up for a normal landing.  The pilot added that when he was about 30 to 50 ft agl, the airplane was hit with a gust of wind.  He pulled back on the controls and stalled the airplane. The airplane bounced onto the runway, so the pilot elected to do a go-around. He applied throttle; however, the airplane veered left and impacted a drainage ditch. During the accident, the nose landing gear collapsed, and the right wing sustained substantial damage.  About the time of the accident, the automated weather reporting station located 23 miles northwest of the accident site reported, wind from 290° at 10 kts gusting to 21 kts.\n\nProbable cause: The pilot's failure to maintain directional control during landing with gusting wind."
+  },
+  "documents/cirrus_sr22_accidents.md#3": {
+   "document": "documents/cirrus_sr22_accidents.md",
+   "heading": "Cirrus SR22 accidents investigated by the NTSB",
+   "text": "## CEN22LA235 (2022-06-06, Nashville, AR)\nThe pilot reported that he landed on a runway that was wet due to recent rain showers. As he applied the brakes, the airplane began to hydroplane, so he released braking pressure to regain directional control. The pilot then reapplied the brakes but was unable to stop the airplane on the remaining runway. The airplane subsequently impacted a fence off the end of the runway, which resulted in substantial damage to both wings. The pilot reported that there were no preaccident mechanical failures or malfunctions with the airplane that would have precluded normal operations. Following the accident, the pilot recognized he should have diverted to another airport.\n\nProbable cause: The pilot was not able to stop the airplane on a wet runway due to hydroplaning."
+  },
+  "documents/cirrus_sr22_accidents.md#4": {
+   "document": "documents/cirrus_sr22_accidents.md",
+   "heading": "Cirrus SR22 accidents investigated by the NTSB",
+   "text": "## CEN23LA017 (2022-10-23, Loveland, CO)\nThe pilot reported that the airplane encountered low-level wind shear as it crossed the runway threshold while landing. He stated that as he was about to flare for landing, the airplane encountered a strong crosswind from the right causing it to drift toward the left side of the runway. He initiated a go-around; however, the engine made a “coughing” sound and lost power.\n\nADS-B data revealed that, about 3 seconds after crossing the runway threshold, the airplane began drifting toward the left side of the runway. The final data point was recorded about 2 seconds later, as the airplane was about 10 ft from the left side of the runway. The airplane impacted the terrain and came to rest upright about 300 ft off the side of the runway and about 1,000 ft from the approach threshold.\n\nPostaccident airplane examination did not reveal any anomalies consistent with an inability of the engine to produce rated power. Flight control continuity was established from each control surface to the corresponding cockpit controls.\n\nAt the time of the accident, the pilot encountered a 90° direct crosswind, gusting to 31 knots. The pilot’s operating handbook (POH) noted that the maximum allowable crosswind velocity depends on pilot capability and airplane limitations. However, demonstrated crosswind landings were limited to 20 knots."
+  },
+  "documents/cirrus_sr22_accidents.md#5": {
+   "document": "documents/cirrus_sr22_accidents.md",
+   "heading": "Cirrus SR22 accidents investigated by the NTSB",
+   "text": "Probable cause: The pilot’s loss of control after encountering windshear while landing in a strong, gusting crosswind. Contributing was pilot’s decision to continue the landing with a 90-degree crosswind at 30 knots."
+  },
+  "documents/piper_pa_28_181_accidents.md#0": {
+   "document": "documents/piper_pa_28_181_accidents.md",
+   "heading": "Piper PA-28-181 accidents investigated by the NTSB",
+   "text": "# Piper PA-28-181 accidents investigated by the NTSB\n\n## CEN21LA185 (2021-04-07, Schaumburg, IL)\nThe pilot reported that during takeoff, the airplane’s airspeed momentarily stopped about 40 knots and then increased again, and the airplane reached its rotation speed, about 60 knots, about one-half to two-thirds down the runway. The airplane lifted off, but the pilot noticed no gain in airspeed and altitude as he began to climb out. He pitched the nose down as the stall warning horn came on, and he landed the airplane firmly on the remaining runway. The pilot could not maintain directional control following the firm landing and the airplane exited the runway striking a windsock with its right wing. The airplane sustained substantial damage to the outboard right wing. The pilot reported there were no preaccident mechanical failures or malfunctions with the airplane that would have precluded normal operation. At the time of the accident, the pilot was taking off on runway 29 with a left quartering crosswind of 10 knots that shifted to a tailwind.\n\nProbable cause: The pilot’s failure to maintain directional control during the rejected takeoff with a left quartering crosswind that shifted to a tailwind."
+  },
+  "documents/piper_pa_28_181_accidents.md#1": {
+   "document": "documents/piper_pa_28_181_accidents.md",
+   "heading": "Piper PA-28-181 accidents investigated by the NTSB",
+   "text": "## CEN21LA353 (2021-08-03, Jeffersonville, IN)\nThe flight instructor reported that, while performing takeoff and landing practice, the airplane touched down normally, then began drifting to the right, and both he and the student pilot attempted to correct without success. The airplane continued off the right side of the runway, and the right main landing gear impacted a runway light and separated from the airplane. \nThe runway light was mounted on a concrete base that protruded from the ground about 1 inch and the stanchion, which was a small pipe, broke at the threads at its base. Based on these observations, the runway light should not have resulted in complete separation of the landing gear.\nExamination of remnants of three of the eight bolts that secured the landing gear to the wing spar revealed fracture features consistent with overstress. The five remaining bolts were not recovered, and their failure mode could not be determined.\nThe circumstances of the accident were consistent with a loss of directional control due to the failure of the right main landing gear attachment hardware for reasons that could not be determined based on the available information.\nThe airplane manufacturer relayed information regarding landing gear collapses on similar model airplanes, including one landing gear separation, due to fatigue and corrosion of the landing gear mounting hardware. About 7 months after this accident, the manufacturer issued a service bulletin requiring replacement"
+  },
+  "documents/piper_pa_28_181_accidents.md#2": {
+   "document": "documents/piper_pa_28_181_accidents.md",
+   "heading": "Piper PA-28-181 accidents investigated by the NTSB",
+   "text": "of landing gear attachment hardware on various models, including the accident airplane model.\n\nProbable cause: A loss of directional control due to failure of the landing gear attachment hardware for reasons that could not be determined based on the available information."
+  },
+  "documents/piper_pa_28_181_accidents.md#3": {
+   "document": "documents/piper_pa_28_181_accidents.md",
+   "heading": "Piper PA-28-181 accidents investigated by the NTSB",
+   "text": "## CEN21LA383 (2021-08-24, Gypsum, CO)\nThe pilot reported that the airplane’s fuel tanks were filled to the tabs during the preflight.  He then departed on about a two-hour local flight, which included touch and go landings.  He added that he did a soft field technique, where he pulled up abruptly.  The engine then ran rough, so he leveled off, and the engine regained power briefly, before going to idle rpm.  He lowered the flaps for the forced landing.  During the forced landing, the left wing separated from the airplane after impact with a fence post.\n \nThe pilot stated that he ran the fuel tank too low and when he pulled up during the takeoff, the remaining fuel was unable to reach the engine.  He added that he “just ran the left tank too long without switching” fuel tanks.\n\nProbable cause: A loss of engine power due to fuel starvation and the pilot's mismanagement of the available fuel."
+  },
+  "documents/piper_pa_28_181_accidents.md#4": {
+   "document": "documents/piper_pa_28_181_accidents.md",
+   "heading": "Piper PA-28-181 accidents investigated by the NTSB",
+   "text": "## CEN22LA249 (2022-06-14, Eaton Rapids, MI)\nThe pilot in the airplane’s left seat reported that they were taking off from a turf runway with a quartering tailwind. The pilot in the right seat was flying and rotated 1,000 ft down the runway where they got into ground effect. About 800 ft from trees at the end of the runway and an airspeed of about 63 kts, the airplane began to climb. After they cleared the first group of trees, the stall warning came on. The pilot pushed the nose over to regain airspeed, but the airplane’s tires caught in a second set of trees. The airplane went into the trees and subsequently impacted the terrain. The airplane sustained substantial damage to both wings and the forward fuselage. The left seat pilot reported that there were no preaccident mechanical malfunctions or failures with the airplane that would have precluded normal operation. A National Transportation Safety Board Pilot/Operator Aircraft Accident/Incident Report was not received from the right seat pilot. At the time of the accident, the airplane was taking off on runway 08 with winds 140 degrees at 10 kts and the density altitude was 2,805 ft.\n\nProbable cause: The pilot’s failure to maintain airspeed in the climb with a quartering tailwind which resulted in an aerodynamic stall and subsequent impact with trees."
+  },
+  "documents/piper_pa_28_181_accidents.md#5": {
+   "document": "documents/piper_pa_28_181_accidents.md",
+   "heading": "Piper PA-28-181 accidents investigated by the NTSB",
+   "text": "## CEN23LA026 (2022-11-05, Mesquite, TX)\nThe student pilot reported that he was performing a touch and go landing during a solo traffic pattern flight and had added full engine power for takeoff when he noticed the airplane had drifted right of the runway centerline and made a correction back by applying left rudder. The airplane then began oscillating and increased with each control input. Realizing that the airplane was not going to be able to takeoff safely, the student pilot aborted the takeoff. He continued to apply corrective directional control inputs, but the airplane departed the runway surface and impacted terrain in a field adjacent to the runway. The airplane sustained substantial damage to the right wing. The student pilot reported that there were no preaccident mechanical failures or malfunctions with the airplane that would have precluded normal operation.\n\nProbable cause: The student pilot’s failure to maintain directional control while taking off from a touch and go landing."
+  },
+  "documents/robinson_r44_ii_accidents.md#0": {
+   "document": "documents/robinson_r44_ii_accidents.md",
+   "heading": "Robinson R44 II accidents investigated by the NTSB",
+   "text": "# Robinson R44 II accidents investigated by the NTSB\n\n## ANC21LA079 (2021-08-30, Pelican, AK)\nThe pilot reported that he was conducting helicopter external sling load operations to a remote mountain top. At the drop off site, while in a hover about 20 ft above the ground, with his attention focused outside to ensure he cleared terrain and obstacles, he felt the helicopter begin to settle. The rpm began to decay, the low rotor rpm light illuminated, and the horn sounded. He immediately lowered the collective, released the cargo and impacted the ground coming to rest on top of the cargo. The helicopter sustained substantial damage to the rotor system and vertical stabilizer.\n\nThe pilot reported that there were no preaccident mechanical malfunctions or anomalies with the helicopter that would have precluded normal operation, and that the accident may have been prevented if he had received additional training from the company to include flying at gross weight with and without external loads. In addition to having pilots check for available power in an out-of-ground effect hover with altitudes and escape routes before committing to the approach.\n\nProbable cause: The pilot’s improper preflight planning to ensure adequate power to hover out-of-ground effect while conducting external load operations."
+  },
+  "documents/robinson_r44_ii_accidents.md#1": {
+   "document": "documents/robinson_r44_ii_accidents.md",
+   "heading": "Robinson R44 II accidents investigated by the NTSB",
+   "text": "## ANC23LA032 (2023-05-09, Skwentna, AK)\nThe pilot reported that, he was flying uphill over an area of snow-covered, mountainous terrain, when he encountered flat light and whiteout conditions, which made it difficult to discern topographical features. In an attempt to maintain visual reference with the ground, he turned the helicopter to the right to fly back down the hill. Subsequently, the right landing gear skid contacted terrain and the helicopter entered a dynamic rollover to the right, resulting in substantial damage to the fuselage, tail boom, and powertrain system.  The pilot reported that there were no preaccident mechanical malfunctions or anomalies that would have precluded normal operation.\n\nProbable cause: The pilot's failure to maintain adequate altitude/clearance from terrain while maneuvering in adverse weather conditions, which resulted in a dynamic rollover."
+  },
+  "documents/robinson_r44_ii_accidents.md#2": {
+   "document": "documents/robinson_r44_ii_accidents.md",
+   "heading": "Robinson R44 II accidents investigated by the NTSB",
+   "text": "## CEN21LA173 (2021-03-26, Dustin, OK)\nThe pilot of the helicopter stated that, while maneuvering “low and slow” with three passengers onboard, he noticed “insufficient power” and shortly thereafter, the low rotor rpm warning annunciated. He applied full throttle and attempted to regain rotor rpm but was unsuccessful. The pilot stated that he was forced to land immediately, during which the helicopter impacted a tree then terrain, resulting in substantial damage.\n\nThe pilot reported that there were no mechanical malfunctions or failures of the helicopter and recommended operating “at a lower gross weight.” Postacccident examination of the helicopter revealed no anomalies that would have precluded normal operation.\n\nProbable cause: The pilot’s insufficient monitoring of the helicopter’s power while flying at low altitude and at low airspeed,  which resulted in the loss of rotor rpm and impact with a tree and terrain."
+  },
+  "documents/robinson_r44_ii_accidents.md#3": {
+   "document": "documents/robinson_r44_ii_accidents.md",
+   "heading": "Robinson R44 II accidents investigated by the NTSB",
+   "text": "## CEN21LA284 (2021-06-10, Reserve, LA)\nThe pilot reported that he started the helicopter at the refueling pad and hover-taxied to the taxiway and then onto the runway. He increased collective and started the takeoff sequence. When the helicopter was about 10 ft above the runway, and airspeed reached about 20 kts, the engine lost total power. The helicopter touched down hard onto the runway surface. The right landing skid collapsed, and the helicopter slid off the runway surface onto the grass. The helicopter’s lower fuselage structure sustained substantial damage. \n\nExamination of the helicopter and engine revealed no evidence of preimpact failure of the engine that would have precluded normal operation. No determination was made as to the reason for the reported loss of engine power.\n\nProbable cause: A total loss of engine power for undetermined reasons."
+  },
+  "documents/robinson_r44_ii_accidents.md#4": {
+   "document": "documents/robinson_r44_ii_accidents.md",
+   "heading": "Robinson R44 II accidents investigated by the NTSB",
+   "text": "## CEN21LA339 (2021-07-20, West Liberty, IA)\nThe pilot reported that he was performing an aerial application pass when he felt a “big tug” on the helicopter. The pilot realized he had struck a wire as the helicopter pitched up and started to slow. The helicopter flew about 150 yards when the pilot felt another “huge jerk” on the rear of the helicopter. The helicopter started to spin and rotated about 2-3 times before it impacted the ground and rolled over coming to rest on its left side. On exiting the helicopter, the pilot observed the wire wrapped around the helicopter. It had cut into the tail rotor gearbox “tearing it” off the helicopter. The pilot reported that there were no preaccident mechanical failures or malfunctions with the helicopter that would have precluded normal operations. The pilot reported that prior to conducting the aerial application pass, he circled the field and did not observe any obstructions. \n\nThe pilot did not submit the National Transportation Safety Board Pilot/Operator Aircraft Accident/Incident Report Form 6120.1.\n\nProbable cause: The pilot’s failure to see and avoid a wire while maneuvering at low altitude during an aerial application flight, resulting in a collision with the wire."
+  }
+ }
+}

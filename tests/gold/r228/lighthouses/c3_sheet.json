@@ -1,0 +1,3816 @@
+{
+ "dataset": "lighthouses",
+ "build": "out/r155b_lighthouses",
+ "snapshot_hash": "fe62f97dcabc",
+ "question": "Do all these mentions, read in their sentences, refer to one and the same thing?",
+ "criterion": "C3",
+ "split_question": "Are these nodes, each read through its mentions, one and the same thing?",
+ "merges": [
+  {
+   "id": "m:064a91baf9b319b0",
+   "node": {
+    "id": "064a91baf9b319b0",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "Fog signal",
+    "record": null,
+    "mentions": [
+     {
+      "id": "ef39641a3b3ab22c",
+      "name": "fog signal",
+      "document": "articles/anvil_point_lighthouse.md",
+      "chunks": [
+       "articles/anvil_point_lighthouse.md#2"
+      ],
+      "sentence": "That same year, the five-minute explosive fog signal was replaced by a triple-frequency electric signal, sounded from a stack of thirty tannoy emitters positioned on the seaward edge of the compound directly in front of the lighthouse."
+     },
+     {
+      "id": "cb84f0e6c7b7b694",
+      "name": "fog signals",
+      "document": "articles/st_anthony_s_lighthouse.md",
+      "chunks": [
+       "articles/st_anthony_s_lighthouse.md#2"
+      ],
+      "sentence": "introduced, sounding from 35 Tannoy emitters (subsequently Trinity House installed fog signals of this type at a dozen or so other lighthouses)."
+     },
+     {
+      "id": "51f8110e832da786",
+      "name": "Fog signal",
+      "document": "articles/tater_du_lighthouse.md",
+      "chunks": [
+       "articles/tater_du_lighthouse.md#1"
+      ],
+      "sentence": "### Fog signal"
+     },
+     {
+      "id": "341097f61e59a0d3",
+      "name": "fog signalling apparatus",
+      "document": "articles/whitby_lighthouse.md",
+      "chunks": [
+       "articles/whitby_lighthouse.md#2"
+      ],
+      "sentence": "On the site of the demolished North Light, buildings were erected to house new fog signalling apparatus (including a compressed air plant powered by two Hornsby horizontal 25-horsepower oil engines)."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:1174961ca8164e69",
+   "node": {
+    "id": "1174961ca8164e69",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "weight",
+    "record": null,
+    "mentions": [
+     {
+      "id": "74e478c4169f1156",
+      "name": "weight",
+      "document": "articles/berry_head_lighthouse.md",
+      "chunks": [
+       "articles/berry_head_lighthouse.md#0"
+      ],
+      "sentence": "It was also said to be the deepest because the optic was originally turned by a weight falling down a 45 metres (148 ft) deep shaft."
+     },
+     {
+      "id": "f1ed46a3473b11ac",
+      "name": "weight",
+      "document": "articles/godrevy_lighthouse.md",
+      "chunks": [
+       "articles/godrevy_lighthouse.md#2"
+      ],
+      "sentence": "The main light's rotation was powered by a clockwork motor, driven by a large weight that descended down a cavity in the wall of the tower."
+     },
+     {
+      "id": "33885ce1b34134d4",
+      "name": "weights",
+      "document": "articles/st_anthony_s_lighthouse.md",
+      "chunks": [
+       "articles/st_anthony_s_lighthouse.md#1"
+      ],
+      "sentence": "A set of weights, descending a 38-foot (12 m) shaft, drove the rotating optic; during foggy weather additional, heavier weights were engaged and the same mechanism then also activated the bell, which sounded four times every minute."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:128b22aac14ed451",
+   "node": {
+    "id": "128b22aac14ed451",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "Tannoy emitters",
+    "record": null,
+    "mentions": [
+     {
+      "id": "d31e3bb49953a78b",
+      "name": "tannoy emitters",
+      "document": "articles/anvil_point_lighthouse.md",
+      "chunks": [
+       "articles/anvil_point_lighthouse.md#2"
+      ],
+      "sentence": "That same year, the five-minute explosive fog signal was replaced by a triple-frequency electric signal, sounded from a stack of thirty tannoy emitters positioned on the seaward edge of the compound directly in front of the lighthouse."
+     },
+     {
+      "id": "ed20867c6af43977",
+      "name": "Tannoy emitters",
+      "document": "articles/st_anthony_s_lighthouse.md",
+      "chunks": [
+       "articles/st_anthony_s_lighthouse.md#2"
+      ],
+      "sentence": "introduced, sounding from 35 Tannoy emitters (subsequently Trinity House installed fog signals of this type at a dozen or so other lighthouses)."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:17cfee7d62a54ea4",
+   "node": {
+    "id": "17cfee7d62a54ea4",
+    "kind": "individual",
+    "type": "Apparatus",
+    "name": "four-tier revolving sealed beam lamp array",
+    "record": null,
+    "mentions": [
+     {
+      "id": "609b0f6ddb2eb280",
+      "name": "revolving sealed beam array",
+      "document": "articles/st_mary_s_lighthouse.md",
+      "chunks": [
+       "articles/st_mary_s_lighthouse.md#2"
+      ],
+      "sentence": "The revolving sealed beam array was reused two years later (in reduced form) on the Inner Dowsing light platform in the North Sea, as part of its conversion to become 'the first major lighthouse to be run using solar power'."
+     },
+     {
+      "id": "cf360f6cf2cde750",
+      "name": "four-tier revolving sealed beam lamp array",
+      "document": "articles/st_mary_s_lighthouse.md",
+      "chunks": [
+       "articles/st_mary_s_lighthouse.md#1"
+      ],
+      "sentence": "Its place in the tower was taken by a four-tier revolving sealed beam lamp array, manufactured by Pharos Marine; it was powered by two 12-volt batteries, charged from the mains electricity supply."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:1c26459ad5b7557b",
+   "node": {
+    "id": "1c26459ad5b7557b",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "fixed red light",
+    "record": null,
+    "mentions": [
+     {
+      "id": "fbbaa271c1483d55",
+      "name": "fixed red light",
+      "document": "articles/godrevy_lighthouse.md",
+      "chunks": [
+       "articles/godrevy_lighthouse.md#2"
+      ],
+      "sentence": "There was also a fixed red light below the main light, which could be seen over a 45-degree arc of danger from the reef."
+     },
+     {
+      "id": "12e972f3ea5086ed",
+      "name": "red fixed light",
+      "document": "articles/tater_du_lighthouse.md",
+      "chunks": [
+       "articles/tater_du_lighthouse.md#0"
+      ],
+      "sentence": "There is a separate red fixed light that shows in the line over the Runnelstone Rock, shone from a lower window in the tower."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:25a594345652b5b1",
+   "node": {
+    "id": "25a594345652b5b1",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "sun valve",
+    "record": null,
+    "mentions": [
+     {
+      "id": "a93afc350d2720b4",
+      "name": "sun valve",
+      "document": "articles/farne_lighthouse.md",
+      "chunks": [
+       "articles/farne_lighthouse.md#1"
+      ],
+      "sentence": "In 1910 it was converted to run automatically on acetylene; the gas was manufactured in an adjacent producer plant and controlled by a sun valve."
+     },
+     {
+      "id": "845e6e83770d258a",
+      "name": "sun valve",
+      "document": "articles/godrevy_lighthouse.md",
+      "chunks": [
+       "articles/godrevy_lighthouse.md#2"
+      ],
+      "sentence": "Initially, the lighthouse was staffed by two keepers at a time, working two months on and one month off, but landing keepers by boat was always a perilous activity at Godrevy and in 1933 the lighthouse was automated: a new second-order fixed catadioptric lens was installed together with an acetylene burner activated by a sun valve; the new light had a flashing characteristic and a red sector was incorporated which replaced the subsidiary red light."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:28603979d3e61a21",
+   "node": {
+    "id": "28603979d3e61a21",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "closure",
+    "record": null,
+    "mentions": [
+     {
+      "id": "df843a48d616125e",
+      "name": "closure",
+      "document": "articles/st_anthony_s_lighthouse.md",
+      "chunks": [
+       "articles/st_anthony_s_lighthouse.md#1"
+      ],
+      "sentence": "After the closure of the lighthouse at St Agnes, Isles of Scilly in 1911, St Anthony's was (along with Cromer) one of the only major Trinity House lights still using reflectors rather than Fresnel lenses."
+     },
+     {
+      "id": "21d63c0caa22a840",
+      "name": "closure",
+      "document": "articles/st_mary_s_lighthouse.md",
+      "chunks": [
+       "articles/st_mary_s_lighthouse.md#2"
+      ],
+      "sentence": "Following closure of the Penzance lighthouse museum, the original lens was returned to St Mary's in 2011 to be put on display."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:29cab0aa29866fe4",
+   "node": {
+    "id": "29cab0aa29866fe4",
+    "kind": "individual",
+    "type": "Particular",
+    "name": "List of lighthouses in England",
+    "record": null,
+    "mentions": [
+     {
+      "id": "56a36c259960fdb4",
+      "name": "List of lighthouses in England",
+      "document": "articles/anvil_point_lighthouse.md",
+      "chunks": [
+       "articles/anvil_point_lighthouse.md#2"
+      ],
+      "sentence": "List of lighthouses in England"
+     },
+     {
+      "id": "8f7f5c4f700e40bb",
+      "name": "List of lighthouses in England",
+      "document": "articles/tater_du_lighthouse.md",
+      "chunks": [
+       "articles/tater_du_lighthouse.md#2"
+      ],
+      "sentence": "List of lighthouses in England"
+     },
+     {
+      "id": "93ef0edd4efe3d01",
+      "name": "List of lighthouses in England",
+      "document": "articles/whitby_lighthouse.md",
+      "chunks": [
+       "articles/whitby_lighthouse.md#2"
+      ],
+      "sentence": "List of lighthouses in England"
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:2bb0de790df85b55",
+   "node": {
+    "id": "2bb0de790df85b55",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "replaced",
+    "record": null,
+    "mentions": [
+     {
+      "id": "81fbb3004691c711",
+      "name": "replaced",
+      "document": "articles/berry_head_lighthouse.md",
+      "chunks": [
+       "articles/berry_head_lighthouse.md#1"
+      ],
+      "sentence": "In 2019 the optic and lamp were removed and replaced with a pair of self-contained LED lanterns (one serving as the main light, the other as a standby); the old characteristic was retained."
+     },
+     {
+      "id": "2e8f3946d41d6921",
+      "name": "replacing",
+      "document": "articles/godrevy_lighthouse.md",
+      "chunks": [
+       "articles/godrevy_lighthouse.md#3"
+      ],
+      "sentence": "In 2012 Trinity House discontinued use of the light within the tower, replacing it with an LED light mounted on a steel platform nearby on the rocks."
+     },
+     {
+      "id": "230ab6ec5c6bdea2",
+      "name": "replaced",
+      "document": "articles/tater_du_lighthouse.md",
+      "chunks": [
+       "articles/tater_du_lighthouse.md#1"
+      ],
+      "sentence": "In May 2022, as part of Trinity House's lighthouse modernisation programme, the revolving optic was replaced with static LED lanterns."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:2cd785447091bde4",
+   "node": {
+    "id": "2cd785447091bde4",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "solar power",
+    "record": null,
+    "mentions": [
+     {
+      "id": "e0b386a2f689790a",
+      "name": "solar powered operation",
+      "document": "articles/godrevy_lighthouse.md",
+      "chunks": [
+       "articles/godrevy_lighthouse.md#3"
+      ],
+      "sentence": "In 1995, the lighthouse was modernised and converted to solar powered operation."
+     },
+     {
+      "id": "2bb7e88cacc80b07",
+      "name": "solar power",
+      "document": "articles/st_mary_s_lighthouse.md",
+      "chunks": [
+       "articles/st_mary_s_lighthouse.md#2"
+      ],
+      "sentence": "The revolving sealed beam array was reused two years later (in reduced form) on the Inner Dowsing light platform in the North Sea, as part of its conversion to become 'the first major lighthouse to be run using solar power'."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:33f9799e8ae41107",
+   "node": {
+    "id": "33f9799e8ae41107",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "renovation plan",
+    "record": null,
+    "mentions": [
+     {
+      "id": "aaf12000c3062225",
+      "name": "refurbishment proposal",
+      "document": "articles/st_mary_s_lighthouse.md",
+      "chunks": [
+       "articles/st_mary_s_lighthouse.md#3"
+      ],
+      "sentence": "A new refurbishment proposal (to include rebuilding the original optic) was presented in 2018; however the Heritage Lottery Fund later turned down North Tyneside Council's £2.1m funding application."
+     },
+     {
+      "id": "bbcc80786657c6bc",
+      "name": "renovation plan",
+      "document": "articles/st_mary_s_lighthouse.md",
+      "chunks": [
+       "articles/st_mary_s_lighthouse.md#3"
+      ],
+      "sentence": "In 2017 a renovation plan for the site (including roof-top viewing platforms and various glass-covered extensions) was rejected by the local planning authority due to environmental concerns."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:37efc2749b320b95",
+   "node": {
+    "id": "37efc2749b320b95",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "installation",
+    "record": null,
+    "mentions": [
+     {
+      "id": "e259f05f639e8d1c",
+      "name": "installation",
+      "document": "articles/berry_head_lighthouse.md",
+      "chunks": [
+       "articles/berry_head_lighthouse.md#1"
+      ],
+      "sentence": "The installation was the first application by Trinity House of its so-called 'simple lighthouse scheme', intended to be extended to all other shore-based mains-powered lighthouses, except those with more complex display requirements (e.g."
+     },
+     {
+      "id": "009f812f42d0e70b",
+      "name": "installation",
+      "document": "articles/tater_du_lighthouse.md",
+      "chunks": [
+       "articles/tater_du_lighthouse.md#1"
+      ],
+      "sentence": "Designed by Michael H. Crisp, the lighthouse was constructed with a completely automatic installation which was remotely controlled from the Trinity House depot in Penzance."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:381f18311f18ceb9",
+   "node": {
+    "id": "381f18311f18ceb9",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "coast",
+    "record": null,
+    "mentions": [
+     {
+      "id": "9603595b6045eac9",
+      "name": "coast",
+      "document": "articles/farne_lighthouse.md",
+      "chunks": [
+       "articles/farne_lighthouse.md#0"
+      ],
+      "sentence": "Farne Lighthouse is a lighthouse on the southern tip of Inner Farne (one of a group of islands off the coast of North Northumberland)."
+     },
+     {
+      "id": "3d162081007c6d92",
+      "name": "coasts",
+      "document": "articles/st_agnes_lighthouse.md",
+      "chunks": [
+       "articles/st_agnes_lighthouse.md#0"
+      ],
+      "sentence": "In 1680 Trinity House began a survey of the coasts of England as it was known that the contemporary charts were inaccurate; the Isles of Scilly was plotted ten miles to the north."
+     },
+     {
+      "id": "d9272207f0ec1d6c",
+      "name": "coast",
+      "document": "articles/st_mary_s_lighthouse.md",
+      "chunks": [
+       "articles/st_mary_s_lighthouse.md#0"
+      ],
+      "sentence": "St Mary's Lighthouse is on the tiny St Mary's (or Bait) Island, just north of Whitley Bay on the coast of North East England."
+     },
+     {
+      "id": "2fe2e9ea78d1a1e9",
+      "name": "coast",
+      "document": "articles/whitby_lighthouse.md",
+      "chunks": [
+       "articles/whitby_lighthouse.md#0"
+      ],
+      "sentence": "It is on Ling Hill, on the coast to the southeast of Whitby, beyond Saltwick Bay."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:38a412d7d67d3705",
+   "node": {
+    "id": "38a412d7d67d3705",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "wreck",
+    "record": null,
+    "mentions": [
+     {
+      "id": "a5c0bbe74dd83435",
+      "name": "wreck",
+      "document": "articles/godrevy_lighthouse.md",
+      "chunks": [
+       "articles/godrevy_lighthouse.md#0"
+      ],
+      "sentence": "The Stones claimed many ships, prompting calls for a lighthouse to be built, but nothing came of plans until the wreck of the iron screw steamer SS Nile during a storm on 30 November 1854."
+     },
+     {
+      "id": "f135280afadb8b85",
+      "name": "shipwrecked",
+      "document": "articles/old_higher_lighthouse.md",
+      "chunks": [
+       "articles/old_higher_lighthouse.md#1"
+      ],
+      "sentence": "The surrounding coast of Portland, namely Portland Bill and Chesil Beach, have been notorious for the many vessels that became shipwrecked in the area over the centuries."
+     },
+     {
+      "id": "0bfa6006512e6deb",
+      "name": "wrecks",
+      "document": "articles/st_agnes_lighthouse.md",
+      "chunks": [
+       "articles/st_agnes_lighthouse.md#0"
+      ],
+      "sentence": "There were two protests against the building of the St Agnes light: officials from the Isle of Wight complained that they would lose revenue from harbour dues and victualling as shipping would prefer to use the Isles of Scilly, and the Governor of Scilly objected on the grounds that he would lose money from wrecks."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:3cc904036ab35f98",
+   "node": {
+    "id": "3cc904036ab35f98",
+    "kind": "individual",
+    "type": "Organization",
+    "name": "Penzance lighthouse museum",
+    "record": null,
+    "mentions": [
+     {
+      "id": "1351756fe55c49e0",
+      "name": "Penzance lighthouse museum",
+      "document": "articles/st_mary_s_lighthouse.md",
+      "chunks": [
+       "articles/st_mary_s_lighthouse.md#2"
+      ],
+      "sentence": "Following closure of the Penzance lighthouse museum, the original lens was returned to St Mary's in 2011 to be put on display."
+     },
+     {
+      "id": "a64abb1ac6a6238a",
+      "name": "National Lighthouse Museum",
+      "document": "articles/st_mary_s_lighthouse.md",
+      "chunks": [
+       "articles/st_mary_s_lighthouse.md#1"
+      ],
+      "sentence": "As part of the electrification process the fine first-order fresnel lens was removed by Trinity House (it was later put on display in their National Lighthouse Museum in Penzance)."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:3f7696157f00c57a",
+   "node": {
+    "id": "3f7696157f00c57a",
+    "kind": "individual",
+    "type": "Location",
+    "name": "Penzance",
+    "record": null,
+    "mentions": [
+     {
+      "id": "7ee94380443a96a5",
+      "name": "Penzance",
+      "document": "articles/st_mary_s_lighthouse.md",
+      "chunks": [
+       "articles/st_mary_s_lighthouse.md#1"
+      ],
+      "sentence": "As part of the electrification process the fine first-order fresnel lens was removed by Trinity House (it was later put on display in their National Lighthouse Museum in Penzance)."
+     },
+     {
+      "id": "bb46bb43d54c2524",
+      "name": "Penzance",
+      "document": "articles/tater_du_lighthouse.md",
+      "chunks": [
+       "articles/tater_du_lighthouse.md#1",
+       "articles/tater_du_lighthouse.md#2"
+      ],
+      "sentence": "Designed by Michael H. Crisp, the lighthouse was constructed with a completely automatic installation which was remotely controlled from the Trinity House depot in Penzance."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:4383713c944635ae",
+   "node": {
+    "id": "4383713c944635ae",
+    "kind": "individual",
+    "type": "Lighthouse",
+    "name": "Withernsea",
+    "record": null,
+    "mentions": [
+     {
+      "id": "b1cd6bc0abf96610",
+      "name": "Withernsea",
+      "document": "articles/st_mary_s_lighthouse.md",
+      "chunks": [
+       "articles/st_mary_s_lighthouse.md#2"
+      ],
+      "sentence": "In place of the original optic, Trinity House offered a smaller one from their decommissioned lighthouse at Withernsea, and this can still be seen at the top of the tower."
+     },
+     {
+      "id": "f6fdecefb07a6c67",
+      "name": "Withernsea",
+      "document": "articles/whitby_lighthouse.md",
+      "chunks": [
+       "articles/whitby_lighthouse.md#2"
+      ],
+      "sentence": "The North Lighthouse was then demolished (but its lantern and optic both went on to be re-used at a new lighthouse then being built at Withernsea)."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:47c95686091dd262",
+   "node": {
+    "id": "47c95686091dd262",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "fixed beam",
+    "record": null,
+    "mentions": [
+     {
+      "id": "5075c77b65adb264",
+      "name": "fixed beam",
+      "document": "articles/farne_lighthouse.md",
+      "chunks": [
+       "articles/farne_lighthouse.md#2"
+      ],
+      "sentence": "Whereas the High Light revolved, the Low Light showed a fixed beam from a single Argand lamp and reflector; it was monitored by the keeper at the High Lighthouse, the light being made visible through a small aperture in the rear of the Low Lighthouse."
+     },
+     {
+      "id": "845b4740ba42ad65",
+      "name": "fixed light",
+      "document": "articles/st_anthony_s_lighthouse.md",
+      "chunks": [
+       "articles/st_anthony_s_lighthouse.md#0"
+      ],
+      "sentence": "In 1865 an additional lamp and reflector were installed 'in the living room of the principal keeper' which shone a fixed light through a square window in the direction of a dangerous cluster of rocks known as The Manacles."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:47f62f0034a83b5e",
+   "node": {
+    "id": "47f62f0034a83b5e",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "cottages",
+    "record": null,
+    "mentions": [
+     {
+      "id": "e28b005270915f50",
+      "name": "cottages",
+      "document": "articles/godrevy_lighthouse.md",
+      "chunks": [
+       "articles/godrevy_lighthouse.md#2"
+      ],
+      "sentence": "It is situated almost in the centre of the island and was originally provided with cottages for the keepers."
+     },
+     {
+      "id": "b4955b2aba690954",
+      "name": "cottages",
+      "document": "articles/old_higher_lighthouse.md",
+      "chunks": [
+       "articles/old_higher_lighthouse.md#2"
+      ],
+      "sentence": "The lighthouse and its cottages were refurbished in 1981."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:495cbac6059a77f7",
+   "node": {
+    "id": "495cbac6059a77f7",
+    "kind": "individual",
+    "type": "Location",
+    "name": "Bill of Portland",
+    "record": null,
+    "mentions": [
+     {
+      "id": "493444fbab9fd581",
+      "name": "Bill of Portland",
+      "document": "articles/old_higher_lighthouse.md",
+      "chunks": [
+       "articles/old_higher_lighthouse.md#1"
+      ],
+      "sentence": "That year, it was announced that Trinity House had 'caus'd to be erected two round Light-Houses of Stone upon Portland, in the County of Dorset, distant about two Thirds of a Mile from the Bill of Portland'."
+     },
+     {
+      "id": "878eef0d77e24729",
+      "name": "Portland Bill",
+      "document": "articles/old_higher_lighthouse.md",
+      "chunks": [
+       "articles/old_higher_lighthouse.md#0",
+       "articles/old_higher_lighthouse.md#1"
+      ],
+      "sentence": "It is located at Branscombe Hill on the west side of Portland, overlooking Portland Bill."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:4cee3ce2b3abbc15",
+   "node": {
+    "id": "4cee3ce2b3abbc15",
+    "kind": "individual",
+    "type": "Location",
+    "name": "Cornwall",
+    "record": null,
+    "mentions": [
+     {
+      "id": "9037189bcf0f3c30",
+      "name": "Cornwall",
+      "document": "articles/godrevy_lighthouse.md",
+      "chunks": [
+       "articles/godrevy_lighthouse.md#0"
+      ],
+      "sentence": "Godrevy Lighthouse (Cornish: Golowji Godrevi) was built in 1858–1859 on Godrevy Island in St Ives Bay, Cornwall."
+     },
+     {
+      "id": "631e7de3a83fca3f",
+      "name": "Cornwall",
+      "document": "articles/st_anthony_s_lighthouse.md",
+      "chunks": [
+       "articles/st_anthony_s_lighthouse.md#0",
+       "articles/st_anthony_s_lighthouse.md#1"
+      ],
+      "sentence": "St Anthony's Lighthouse is the lighthouse at St Anthony Head, on the eastern side of the entrance to Falmouth harbour, Cornwall, UK."
+     },
+     {
+      "id": "51de7031a3aa80fd",
+      "name": "Cornwall",
+      "document": "articles/tater_du_lighthouse.md",
+      "chunks": [
+       "articles/tater_du_lighthouse.md#0"
+      ],
+      "sentence": "Tater Du Lighthouse is Cornwall's most recently built lighthouse."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:50d6fa1f389aa194",
+   "node": {
+    "id": "50d6fa1f389aa194",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "electrified",
+    "record": null,
+    "mentions": [
+     {
+      "id": "94b4a7d35dc96953",
+      "name": "electrified",
+      "document": "articles/anvil_point_lighthouse.md",
+      "chunks": [
+       "articles/anvil_point_lighthouse.md#2"
+      ],
+      "sentence": "During 1960, the lighthouse was modernised and electrified (with a new lamp, powered by mains electricity, replacing the PVB)."
+     },
+     {
+      "id": "8d09e7366b492d51",
+      "name": "electrified",
+      "document": "articles/st_mary_s_lighthouse.md",
+      "chunks": [
+       "articles/st_mary_s_lighthouse.md#1"
+      ],
+      "sentence": "The lamp was powered by paraffin, and was not electrified until 1977; St Mary's was by then the last Trinity House lighthouse lit by oil."
+     },
+     {
+      "id": "c8864b2cd25f5bce",
+      "name": "electrified",
+      "document": "articles/whitby_lighthouse.md",
+      "chunks": [
+       "articles/whitby_lighthouse.md#2"
+      ],
+      "sentence": "Whitby High lighthouse was electrified in 1976 (after which the 'Hood' paraffin vapour burner, which had been the active light source up until that point, was donated to the Whitby Museum)."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:54d2f3eb0503019a",
+   "node": {
+    "id": "54d2f3eb0503019a",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "ships",
+    "record": null,
+    "mentions": [
+     {
+      "id": "aa5dd69ed8b015b5",
+      "name": "vessels",
+      "document": "articles/anvil_point_lighthouse.md",
+      "chunks": [
+       "articles/anvil_point_lighthouse.md#1"
+      ],
+      "sentence": "The light is positioned to give a waypoint for vessels passing along the English Channel coast."
+     },
+     {
+      "id": "2783ec1f05f5b6ca",
+      "name": "ships",
+      "document": "articles/godrevy_lighthouse.md",
+      "chunks": [
+       "articles/godrevy_lighthouse.md#0"
+      ],
+      "sentence": "The Stones claimed many ships, prompting calls for a lighthouse to be built, but nothing came of plans until the wreck of the iron screw steamer SS Nile during a storm on 30 November 1854."
+     },
+     {
+      "id": "414afd7b7847051d",
+      "name": "ship",
+      "document": "articles/godrevy_lighthouse.md",
+      "chunks": [
+       "articles/godrevy_lighthouse.md#1"
+      ],
+      "sentence": "Richard Short, a St Ives master mariner, wrote to the Shipping and Mercantile Gazette the day after the news of the sinking broke to note: \"[H]ad there been a light on Godrevy Island, which the inhabitants of this town have often applied for, it would no doubt have been the means of warning the ill-fated ship of the dangerous rocks she was approaching."
+     },
+     {
+      "id": "7acca18148b61d41",
+      "name": "vessel",
+      "document": "articles/godrevy_lighthouse.md",
+      "chunks": [
+       "articles/godrevy_lighthouse.md#1"
+      ],
+      "sentence": "scarcely a month passes by in the winter season without some vessel striking on these rocks, and hundreds of poor fellows have perished there in dark dreary nights without one being left to tell the tale.\""
+     },
+     {
+      "id": "a6bb3b39c2b87927",
+      "name": "vessels",
+      "document": "articles/old_higher_lighthouse.md",
+      "chunks": [
+       "articles/old_higher_lighthouse.md#1"
+      ],
+      "sentence": "The surrounding coast of Portland, namely Portland Bill and Chesil Beach, have been notorious for the many vessels that became shipwrecked in the area over the centuries."
+     },
+     {
+      "id": "c9136a387631aff4",
+      "name": "ships",
+      "document": "articles/old_higher_lighthouse.md",
+      "chunks": [
+       "articles/old_higher_lighthouse.md#1"
+      ],
+      "sentence": "Designed as leading lights to guide ships between Portland Race and the Shambles sandbank, they shone out for the first time on 29 September 1716."
+     },
+     {
+      "id": "3902b58157123dbf",
+      "name": "ships",
+      "document": "articles/st_mary_s_lighthouse.md",
+      "chunks": [
+       "articles/st_mary_s_lighthouse.md#1"
+      ],
+      "sentence": "The first light in the area was in Tynemouth Priory - an 11th-century monastic chapel, whose monks maintained a lantern on the tower to warn passing ships of the danger of the rocks."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:5943272dbce532c3",
+   "node": {
+    "id": "5943272dbce532c3",
+    "kind": "individual",
+    "type": "Person",
+    "name": "Captain John Blackett",
+    "record": null,
+    "mentions": [
+     {
+      "id": "0510d1129dc2f7ad",
+      "name": "Captain John Blackett",
+      "document": "articles/farne_lighthouse.md",
+      "chunks": [
+       "articles/farne_lighthouse.md#1"
+      ],
+      "sentence": "Farne Lighthouse was one of a pair built on Inner Farne by the Corporation of Trinity House in 1811, both of which were designed by Daniel Alexander to replace an earlier coal-burning light which had been established on the island by Captain John Blackett in 1778."
+     },
+     {
+      "id": "0db72f3ce7580c02",
+      "name": "Captain Blackett",
+      "document": "articles/farne_lighthouse.md",
+      "chunks": [
+       "articles/farne_lighthouse.md#3"
+      ],
+      "sentence": "It likewise replaced an earlier light built by Captain Blackett in 1778 (on nearby Staple Island, but subsequently relocated to Brownsman)."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:5f424a90a8a3102d",
+   "node": {
+    "id": "5f424a90a8a3102d",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "converted",
+    "record": null,
+    "mentions": [
+     {
+      "id": "f55eb33a77781200",
+      "name": "converted",
+      "document": "articles/berry_head_lighthouse.md",
+      "chunks": [
+       "articles/berry_head_lighthouse.md#1"
+      ],
+      "sentence": "In 1921 the lighthouse was converted by the AGA company to run on acetylene."
+     },
+     {
+      "id": "4ddebc06e5a7d657",
+      "name": "converted",
+      "document": "articles/farne_lighthouse.md",
+      "chunks": [
+       "articles/farne_lighthouse.md#1"
+      ],
+      "sentence": "In 1910 it was converted to run automatically on acetylene; the gas was manufactured in an adjacent producer plant and controlled by a sun valve."
+     },
+     {
+      "id": "af9b15eb6d4e6c91",
+      "name": "converted",
+      "document": "articles/godrevy_lighthouse.md",
+      "chunks": [
+       "articles/godrevy_lighthouse.md#3"
+      ],
+      "sentence": "In 1995, the lighthouse was modernised and converted to solar powered operation."
+     },
+     {
+      "id": "73d509c01581a8ab",
+      "name": "converted",
+      "document": "articles/st_agnes_lighthouse.md",
+      "chunks": [
+       "articles/st_agnes_lighthouse.md#1"
+      ],
+      "sentence": "The lighthouse was coal fired until 1790, when it was converted to oil: twenty-one Argand lamps with reflectors, mounted on a three-sided revolving array."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:6207684cb37feb7c",
+   "node": {
+    "id": "6207684cb37feb7c",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "upgrade",
+    "record": null,
+    "mentions": [
+     {
+      "id": "e44054d0ce5d9429",
+      "name": "upgrade",
+      "document": "articles/farne_lighthouse.md",
+      "chunks": [
+       "articles/farne_lighthouse.md#3"
+      ],
+      "sentence": "In 2022 permission was given for the lamp to be replaced with an LED light source, designed to function within the original lens; this upgrade was completed in March 2022."
+     },
+     {
+      "id": "0a4b7122fd4e16f5",
+      "name": "improved",
+      "document": "articles/old_higher_lighthouse.md",
+      "chunks": [
+       "articles/old_higher_lighthouse.md#1"
+      ],
+      "sentence": "In 1824 Portland High Light was improved by Trinity House: a three-sided revolving apparatus was installed (with Argand lamps and reflectors), 'each face exhibiting its greatest light every two minutes'; however in 1835, following the"
+     },
+     {
+      "id": "6c2e2b14fbd57f25",
+      "name": "upgraded",
+      "document": "articles/st_agnes_lighthouse.md",
+      "chunks": [
+       "articles/st_agnes_lighthouse.md#1"
+      ],
+      "sentence": "In 1880 the optical equipment was upgraded: it now consisted of fourteen reflectors and lamps (two-wick mineral oil burners), arranged (in two tiers, three above and four below) on opposite sides of a revolving square frame."
+     },
+     {
+      "id": "9db44eeaf5cae216",
+      "name": "upgrade",
+      "document": "articles/st_agnes_lighthouse.md",
+      "chunks": [
+       "articles/st_agnes_lighthouse.md#1"
+      ],
+      "sentence": "A further upgrade took place in 1891, supervised by the chief engineer of Trinity House, Sir James Douglass with the new light much more powerful than the old one."
+     },
+     {
+      "id": "1ccdd6bc031d8690",
+      "name": "upgraded",
+      "document": "articles/st_mary_s_lighthouse.md",
+      "chunks": [
+       "articles/st_mary_s_lighthouse.md#3"
+      ],
+      "sentence": "The cottage was upgraded with a wood pellet boiler in 2014."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:677aa4fdfd12c4a3",
+   "node": {
+    "id": "677aa4fdfd12c4a3",
+    "kind": "individual",
+    "type": "Location",
+    "name": "Harwich",
+    "record": null,
+    "mentions": [
+     {
+      "id": "d858af7a30287fcf",
+      "name": "Harwich",
+      "document": "articles/anvil_point_lighthouse.md",
+      "chunks": [
+       "articles/anvil_point_lighthouse.md#2"
+      ],
+      "sentence": "Anvil Point Lighthouse was fully automated on 31 May 1991 and is now monitored and controlled from the Trinity House Operations Control Centre at Harwich."
+     },
+     {
+      "id": "5620b52d51a20ad1",
+      "name": "Harwich",
+      "document": "articles/tater_du_lighthouse.md",
+      "chunks": [
+       "articles/tater_du_lighthouse.md#1"
+      ],
+      "sentence": "In 1997 the lighthouse was modernised and it is now monitored from the Trinity House Planning Centre at Harwich."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:69818373f69d64ad",
+   "node": {
+    "id": "69818373f69d64ad",
+    "kind": "individual",
+    "type": "Location",
+    "name": "Inner and Outer Bucks",
+    "record": null,
+    "mentions": [
+     {
+      "id": "33f4500d270d0733",
+      "name": "Inner and Outer Bucks",
+      "document": "articles/tater_du_lighthouse.md",
+      "chunks": [
+       "articles/tater_du_lighthouse.md#0",
+       "articles/tater_du_lighthouse.md#2"
+      ],
+      "sentence": "The lighthouse looks out over the Inner and Outer Bucks, two rocks that partially show at low water, and where in 1868 the SS Garonne was lost."
+     },
+     {
+      "id": "5e2b8a4c07013556",
+      "name": "Bucks",
+      "document": "articles/tater_du_lighthouse.md",
+      "chunks": [
+       "articles/tater_du_lighthouse.md#2"
+      ],
+      "sentence": "The nearby rocks (Inner and Outer Bucks) form a popular sub-aqua dive site."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:6a1c873411b1c0d3",
+   "node": {
+    "id": "6a1c873411b1c0d3",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "demolished",
+    "record": null,
+    "mentions": [
+     {
+      "id": "c396720882a24752",
+      "name": "demolished",
+      "document": "articles/farne_lighthouse.md",
+      "chunks": [
+       "articles/farne_lighthouse.md#2"
+      ],
+      "sentence": "After the High Light had been modified and automated in 1910, use of the Low Light was discontinued; before long it was demolished along with most of the keepers' accommodation (which was now no longer needed)."
+     },
+     {
+      "id": "7cf6c4ca54f0636b",
+      "name": "demolished",
+      "document": "articles/godrevy_lighthouse.md",
+      "chunks": [
+       "articles/godrevy_lighthouse.md#2"
+      ],
+      "sentence": "By 1939 the keepers had been withdrawn and their cottages were subsequently demolished."
+     },
+     {
+      "id": "ea6f311a525a6d67",
+      "name": "demolished",
+      "document": "articles/st_mary_s_lighthouse.md",
+      "chunks": [
+       "articles/st_mary_s_lighthouse.md#1"
+      ],
+      "sentence": "This lighthouse was demolished when the new lighthouse and adjacent keepers' cottages were built in 1898 on St Mary's Island by the John Miller company of Tynemouth, using 645 blocks of stone and 750,000 bricks."
+     },
+     {
+      "id": "20a2bb610c3704fa",
+      "name": "demolished",
+      "document": "articles/whitby_lighthouse.md",
+      "chunks": [
+       "articles/whitby_lighthouse.md#2"
+      ],
+      "sentence": "The North Lighthouse was then demolished (but its lantern and optic both went on to be re-used at a new lighthouse then being built at Withernsea)."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:6a64cfb288036237",
+   "node": {
+    "id": "6a64cfb288036237",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "Electric light",
+    "record": null,
+    "mentions": [
+     {
+      "id": "62d2998cd5debba9",
+      "name": "Electric light",
+      "document": "articles/st_anthony_s_lighthouse.md",
+      "chunks": [
+       "articles/st_anthony_s_lighthouse.md#1"
+      ],
+      "sentence": "Electric light was introduced (in the form of a 24kW filament lamp) when electricity was connected to the lighthouse in 1954."
+     },
+     {
+      "id": "fa922b43ac41edb8",
+      "name": "electric light",
+      "document": "articles/tater_du_lighthouse.md",
+      "chunks": [
+       "articles/tater_du_lighthouse.md#0"
+      ],
+      "sentence": "The short building is topped by a 7-foot 1 inch lantern with an electric light which is powered from batteries which are charged from mains electricity during the day."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:6c49aea043989563",
+   "node": {
+    "id": "6c49aea043989563",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "lit",
+    "record": null,
+    "mentions": [
+     {
+      "id": "ce7b50dbb2c9c4e0",
+      "name": "lit",
+      "document": "articles/st_agnes_lighthouse.md",
+      "chunks": [
+       "articles/st_agnes_lighthouse.md#1"
+      ],
+      "sentence": "The light was first lit on 30 October 1680; it was provided by coal burned within a brazier atop the tower."
+     },
+     {
+      "id": "4439dbf222f38abd",
+      "name": "lit",
+      "document": "articles/tater_du_lighthouse.md",
+      "chunks": [
+       "articles/tater_du_lighthouse.md#0"
+      ],
+      "sentence": "The lighthouse, built with concrete blocks, was first lit in July 1965."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:6c4ef5096c614b07",
+   "node": {
+    "id": "6c4ef5096c614b07",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "mean high water",
+    "record": null,
+    "mentions": [
+     {
+      "id": "0251eb158966ff80",
+      "name": "high-water mark",
+      "document": "articles/anvil_point_lighthouse.md",
+      "chunks": [
+       "articles/anvil_point_lighthouse.md#1"
+      ],
+      "sentence": "The lighthouse tower is twelve metres tall; the height of the light above the high-water mark is 45 m (148 ft)."
+     },
+     {
+      "id": "ef1708c489ddf99d",
+      "name": "mean high water",
+      "document": "articles/st_agnes_lighthouse.md",
+      "chunks": [
+       "articles/st_agnes_lighthouse.md#0"
+      ],
+      "sentence": "The lighthouse was built in 1680 and stands 74' above the ground, and 138' above mean high water; the incorporation of gun ports in the structure of the tower is an unusual feature."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:6db85e77b0d09e92",
+   "node": {
+    "id": "6db85e77b0d09e92",
+    "kind": "individual",
+    "type": "Location",
+    "name": "St Agnes, Isles of Scilly",
+    "record": null,
+    "mentions": [
+     {
+      "id": "0800fadee0a7e2e6",
+      "name": "St Agnes",
+      "document": "articles/st_agnes_lighthouse.md",
+      "chunks": [
+       "articles/st_agnes_lighthouse.md#0"
+      ],
+      "sentence": "# St Agnes Lighthouse"
+     },
+     {
+      "id": "3f6503ff0beffb6b",
+      "name": "St Agnes, Isles of Scilly",
+      "document": "articles/st_anthony_s_lighthouse.md",
+      "chunks": [
+       "articles/st_anthony_s_lighthouse.md#1"
+      ],
+      "sentence": "After the closure of the lighthouse at St Agnes, Isles of Scilly in 1911, St Anthony's was (along with Cromer) one of the only major Trinity House lights still using reflectors rather than Fresnel lenses."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:6f028786e604d17b",
+   "node": {
+    "id": "6f028786e604d17b",
+    "kind": "concept",
+    "type": "Value",
+    "name": "8 nautical miles",
+    "record": null,
+    "mentions": [
+     {
+      "id": "6d78f1a9b72bdcfb",
+      "name": "8 nautical miles",
+      "document": "articles/farne_lighthouse.md",
+      "chunks": [
+       "articles/farne_lighthouse.md#3"
+      ],
+      "sentence": "The tower is 13 m (43 ft) tall with a range for the light of 8 nautical miles (15 km; 9.2 mi)."
+     },
+     {
+      "id": "f276d22da0e9c478",
+      "name": "8 nautical miles",
+      "document": "articles/godrevy_lighthouse.md",
+      "chunks": [
+       "articles/godrevy_lighthouse.md#3"
+      ],
+      "sentence": "The range of the light is around 8 nautical miles (15 km)."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:75d9d94806bad103",
+   "node": {
+    "id": "75d9d94806bad103",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "clockwork motor",
+    "record": null,
+    "mentions": [
+     {
+      "id": "7ccacdf2d05de549",
+      "name": "clockwork mechanism",
+      "document": "articles/berry_head_lighthouse.md",
+      "chunks": [
+       "articles/berry_head_lighthouse.md#1"
+      ],
+      "sentence": "In addition, the clockwork mechanism  which turned the optic required regular winding."
+     },
+     {
+      "id": "c39e67fc5fb3f210",
+      "name": "clockwork motor",
+      "document": "articles/godrevy_lighthouse.md",
+      "chunks": [
+       "articles/godrevy_lighthouse.md#2"
+      ],
+      "sentence": "The main light's rotation was powered by a clockwork motor, driven by a large weight that descended down a cavity in the wall of the tower."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:76be38e806843f76",
+   "node": {
+    "id": "76be38e806843f76",
+    "kind": "individual",
+    "type": "Organization",
+    "name": "Trinity House",
+    "record": null,
+    "mentions": [
+     {
+      "id": "e205ddd212ee376b",
+      "name": "Trinity House",
+      "document": "articles/anvil_point_lighthouse.md",
+      "chunks": [
+       "articles/anvil_point_lighthouse.md#0",
+       "articles/anvil_point_lighthouse.md#2"
+      ],
+      "sentence": "It is owned by Trinity House."
+     },
+     {
+      "id": "8712f34ce9770112",
+      "name": "Trinity House",
+      "document": "articles/berry_head_lighthouse.md",
+      "chunks": [
+       "articles/berry_head_lighthouse.md#1",
+       "articles/berry_head_lighthouse.md#2"
+      ],
+      "sentence": "The lighthouse was designed and built for Trinity House by its chief engineer Thomas Matthews."
+     },
+     {
+      "id": "8fe787ad4c0b740d",
+      "name": "Trinity House",
+      "document": "articles/farne_lighthouse.md",
+      "chunks": [
+       "articles/farne_lighthouse.md#0",
+       "articles/farne_lighthouse.md#3"
+      ],
+      "sentence": "Built in the early 19th century, it still functions as a lighthouse and is managed by Trinity House (England's general lighthouse authority)."
+     },
+     {
+      "id": "a8b6106e6f7d5468",
+      "name": "Trinity House",
+      "document": "articles/godrevy_lighthouse.md",
+      "chunks": [
+       "articles/godrevy_lighthouse.md#1",
+       "articles/godrevy_lighthouse.md#3"
+      ],
+      "sentence": "Further, though less lethal, accidents followed, prompting a local clergyman, the Rev. J.W. Murray of Hayle, to start a petition to Trinity House to build a lighthouse on the island."
+     },
+     {
+      "id": "bb922c5586a4f0bd",
+      "name": "Trinity House",
+      "document": "articles/old_higher_lighthouse.md",
+      "chunks": [
+       "articles/old_higher_lighthouse.md#1",
+       "articles/old_higher_lighthouse.md#2"
+      ],
+      "sentence": "After years of local petitions to Trinity House, the organisation agreed for a lighthouse to be built at Portland Bill."
+     },
+     {
+      "id": "261a59eb00797daf",
+      "name": "Trinity House",
+      "document": "articles/st_agnes_lighthouse.md",
+      "chunks": [
+       "articles/st_agnes_lighthouse.md#0",
+       "articles/st_agnes_lighthouse.md#1"
+      ],
+      "sentence": "It was the second to be built in the western approaches (after the Lizard lighthouse of 1619); it was also only the second lighthouse station to be established by Trinity House (after Lowestoft in 1609)."
+     },
+     {
+      "id": "190e019c3016dbc5",
+      "name": "Trinity House",
+      "document": "articles/st_anthony_s_lighthouse.md",
+      "chunks": [
+       "articles/st_anthony_s_lighthouse.md#0",
+       "articles/st_anthony_s_lighthouse.md#1",
+       "articles/st_anthony_s_lighthouse.md#2"
+      ],
+      "sentence": "The lighthouse was designed by James Walker and built in 1835 by Olver of Falmouth, for Trinity House and the original light came from eight Argand oil lamps mounted on a revolving frame."
+     },
+     {
+      "id": "e37b090300bd3fa8",
+      "name": "Trinity House",
+      "document": "articles/st_mary_s_lighthouse.md",
+      "chunks": [
+       "articles/st_mary_s_lighthouse.md#1",
+       "articles/st_mary_s_lighthouse.md#2",
+       "articles/st_mary_s_lighthouse.md#3"
+      ],
+      "sentence": "The lamp was powered by paraffin, and was not electrified until 1977; St Mary's was by then the last Trinity House lighthouse lit by oil."
+     },
+     {
+      "id": "72efdc89eafcaec1",
+      "name": "Trinity House",
+      "document": "articles/tater_du_lighthouse.md",
+      "chunks": [
+       "articles/tater_du_lighthouse.md#0",
+       "articles/tater_du_lighthouse.md#1",
+       "articles/tater_du_lighthouse.md#2"
+      ],
+      "sentence": "After the tragedy the Newlyn and Mousehole Fishermen's Association put pressure on Trinity House for a lighthouse to be built, stating that similar tragedies could happen again."
+     },
+     {
+      "id": "9ef33ece3d35024a",
+      "name": "Trinity House",
+      "document": "articles/whitby_lighthouse.md",
+      "chunks": [
+       "articles/whitby_lighthouse.md#0",
+       "articles/whitby_lighthouse.md#1",
+       "articles/whitby_lighthouse.md#2"
+      ],
+      "sentence": "Whitby Lighthouse is a lighthouse operated by Trinity House."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:7da86ebbb21b027d",
+   "node": {
+    "id": "7da86ebbb21b027d",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "reflective prisms",
+    "record": null,
+    "mentions": [
+     {
+      "id": "90494ba30b0e8f1b",
+      "name": "reflective prisms",
+      "document": "articles/anvil_point_lighthouse.md",
+      "chunks": [
+       "articles/anvil_point_lighthouse.md#1"
+      ],
+      "sentence": "It was the first example of a significant new design of lighthouse optic, whereby (through the use of dense flint glass in the upper and lower portions) the height of a Fresnel lens could be significantly increased, dispensing with the need for additional reflective prisms above and below; the lenses alone stood 6 ft 2 in (1.88 m) high."
+     },
+     {
+      "id": "5bcd33cbf6ecae8e",
+      "name": "reflecting prisms",
+      "document": "articles/godrevy_lighthouse.md",
+      "chunks": [
+       "articles/godrevy_lighthouse.md#2"
+      ],
+      "sentence": "The first light was an oil lamp within a large (first-order) revolving catadioptric optic by Henri Lepaute of Paris, which flashed white every ten seconds; it consisted of 24 Fresnel lens panels with multiple rows of reflecting prisms above and below."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:84b84b4d675b4bc5",
+   "node": {
+    "id": "84b84b4d675b4bc5",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "rebuilt",
+    "record": null,
+    "mentions": [
+     {
+      "id": "7d14d5cdba72c728",
+      "name": "rebuilt",
+      "document": "articles/st_agnes_lighthouse.md",
+      "chunks": [
+       "articles/st_agnes_lighthouse.md#1"
+      ],
+      "sentence": "In 1806 the lantern structure at the top of the tower was rebuilt (as seen today) to accommodate an enlarged three-sided revolving array of 30 lamps, each with a 21-inch reflector."
+     },
+     {
+      "id": "80a199f0d7c3db3f",
+      "name": "rebuilding",
+      "document": "articles/st_mary_s_lighthouse.md",
+      "chunks": [
+       "articles/st_mary_s_lighthouse.md#3"
+      ],
+      "sentence": "A new refurbishment proposal (to include rebuilding the original optic) was presented in 2018; however the Heritage Lottery Fund later turned down North Tyneside Council's £2.1m funding application."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:867f77bb2ee23dce",
+   "node": {
+    "id": "867f77bb2ee23dce",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "reflector",
+    "record": null,
+    "mentions": [
+     {
+      "id": "27161bce57cc7648",
+      "name": "reflectors",
+      "document": "articles/old_higher_lighthouse.md",
+      "chunks": [
+       "articles/old_higher_lighthouse.md#1"
+      ],
+      "sentence": "In 1824 Portland High Light was improved by Trinity House: a three-sided revolving apparatus was installed (with Argand lamps and reflectors), 'each face exhibiting its greatest light every two minutes'; however in 1835, following the"
+     },
+     {
+      "id": "12bd65d7c6c1dfad",
+      "name": "reflector",
+      "document": "articles/st_anthony_s_lighthouse.md",
+      "chunks": [
+       "articles/st_anthony_s_lighthouse.md#0"
+      ],
+      "sentence": "In 1865 an additional lamp and reflector were installed 'in the living room of the principal keeper' which shone a fixed light through a square window in the direction of a dangerous cluster of rocks known as The Manacles."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:8932a6ccedf443e6",
+   "node": {
+    "id": "8932a6ccedf443e6",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "light",
+    "record": null,
+    "mentions": [
+     {
+      "id": "4d71e10d99d7a169",
+      "name": "light",
+      "document": "articles/anvil_point_lighthouse.md",
+      "chunks": [
+       "articles/anvil_point_lighthouse.md#1",
+       "articles/anvil_point_lighthouse.md#2"
+      ],
+      "sentence": "The lighthouse tower is twelve metres tall; the height of the light above the high-water mark is 45 m (148 ft)."
+     },
+     {
+      "id": "1948c4d09b5cf4a5",
+      "name": "light",
+      "document": "articles/farne_lighthouse.md",
+      "chunks": [
+       "articles/farne_lighthouse.md#2"
+      ],
+      "sentence": "Whereas the High Light revolved, the Low Light showed a fixed beam from a single Argand lamp and reflector; it was monitored by the keeper at the High Lighthouse, the light being made visible through a small aperture in the rear of the Low Lighthouse."
+     },
+     {
+      "id": "14fc368aa88911b0",
+      "name": "light",
+      "document": "articles/godrevy_lighthouse.md",
+      "chunks": [
+       "articles/godrevy_lighthouse.md#1"
+      ],
+      "sentence": "The disaster prompted fresh calls for a light to be built."
+     },
+     {
+      "id": "01753f4a0dc372f4",
+      "name": "light",
+      "document": "articles/st_agnes_lighthouse.md",
+      "chunks": [
+       "articles/st_agnes_lighthouse.md#1"
+      ],
+      "sentence": "The light was first lit on 30 October 1680; it was provided by coal burned within a brazier atop the tower."
+     },
+     {
+      "id": "b012b9aa6d2464be",
+      "name": "light",
+      "document": "articles/st_anthony_s_lighthouse.md",
+      "chunks": [
+       "articles/st_anthony_s_lighthouse.md#2"
+      ],
+      "sentence": "Today the light is automated, flashing every 15 seconds, with a red sector for The Manacles."
+     },
+     {
+      "id": "035a2c048fc54160",
+      "name": "light",
+      "document": "articles/st_mary_s_lighthouse.md",
+      "chunks": [
+       "articles/st_mary_s_lighthouse.md#1"
+      ],
+      "sentence": "The first light in the area was in Tynemouth Priory - an 11th-century monastic chapel, whose monks maintained a lantern on the tower to warn passing ships of the danger of the rocks."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:8b1a72d3a3d4176d",
+   "node": {
+    "id": "8b1a72d3a3d4176d",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "acetylene",
+    "record": null,
+    "mentions": [
+     {
+      "id": "a25105e10b6454f8",
+      "name": "acetylene",
+      "document": "articles/berry_head_lighthouse.md",
+      "chunks": [
+       "articles/berry_head_lighthouse.md#1"
+      ],
+      "sentence": "In 1921 the lighthouse was converted by the AGA company to run on acetylene."
+     },
+     {
+      "id": "b7ffb6989399759c",
+      "name": "acetylene",
+      "document": "articles/farne_lighthouse.md",
+      "chunks": [
+       "articles/farne_lighthouse.md#1"
+      ],
+      "sentence": "In 1910 it was converted to run automatically on acetylene; the gas was manufactured in an adjacent producer plant and controlled by a sun valve."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:8b9ad52e4db46b6a",
+   "node": {
+    "id": "8b9ad52e4db46b6a",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "red sector",
+    "record": null,
+    "mentions": [
+     {
+      "id": "ecb91a68bccd4db1",
+      "name": "red sector",
+      "document": "articles/farne_lighthouse.md",
+      "chunks": [
+       "articles/farne_lighthouse.md#1"
+      ],
+      "sentence": "A new fixed third order Fresnel lens was installed in the lantern and a red sector was added to the main light to indicate lines of approach that were hazardous for shipping."
+     },
+     {
+      "id": "267dbc4cc5c38888",
+      "name": "red sector",
+      "document": "articles/godrevy_lighthouse.md",
+      "chunks": [
+       "articles/godrevy_lighthouse.md#2"
+      ],
+      "sentence": "Initially, the lighthouse was staffed by two keepers at a time, working two months on and one month off, but landing keepers by boat was always a perilous activity at Godrevy and in 1933 the lighthouse was automated: a new second-order fixed catadioptric lens was installed together with an acetylene burner activated by a sun valve; the new light had a flashing characteristic and a red sector was incorporated which replaced the subsidiary red light."
+     },
+     {
+      "id": "92e281b8cbc90b7a",
+      "name": "red sector",
+      "document": "articles/st_anthony_s_lighthouse.md",
+      "chunks": [
+       "articles/st_anthony_s_lighthouse.md#1",
+       "articles/st_anthony_s_lighthouse.md#2"
+      ],
+      "sentence": "As part of these improvements the subsidiary light was discontinued, being replaced by the addition of a red sector to the main lamp."
+     },
+     {
+      "id": "190a1060fd71fd2f",
+      "name": "red sector",
+      "document": "articles/whitby_lighthouse.md",
+      "chunks": [
+       "articles/whitby_lighthouse.md#2"
+      ],
+      "sentence": "mechanism was also installed, which eclipsed the light once every thirty seconds, and a red sector was added marking Whitby Rock."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:8fb67ccd7a822ee6",
+   "node": {
+    "id": "8fb67ccd7a822ee6",
+    "kind": "individual",
+    "type": "Lighthouse",
+    "name": "Portland High Light",
+    "record": null,
+    "mentions": [
+     {
+      "id": "2e7b2733f3ef42a2",
+      "name": "Portland High",
+      "document": "articles/old_higher_lighthouse.md",
+      "chunks": [
+       "articles/old_higher_lighthouse.md#2"
+      ],
+      "sentence": "establishment of Start Point Lighthouse with its revolving Fresnel lenses, Portland High was again made a fixed light (matching the Low Light, which had remained fixed throughout)."
+     },
+     {
+      "id": "fdf973b6fe2acbf6",
+      "name": "Portland High Light",
+      "document": "articles/old_higher_lighthouse.md",
+      "chunks": [
+       "articles/old_higher_lighthouse.md#1"
+      ],
+      "sentence": "In 1824 Portland High Light was improved by Trinity House: a three-sided revolving apparatus was installed (with Argand lamps and reflectors), 'each face exhibiting its greatest light every two minutes'; however in 1835, following the"
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:9402be9f12d66430",
+   "node": {
+    "id": "9402be9f12d66430",
+    "kind": "individual",
+    "type": "Location",
+    "name": "St Mary's (or Bait) Island",
+    "record": null,
+    "mentions": [
+     {
+      "id": "5d495a3df9a96b3e",
+      "name": "St Mary's (or Bait) Island",
+      "document": "articles/st_mary_s_lighthouse.md",
+      "chunks": [
+       "articles/st_mary_s_lighthouse.md#0"
+      ],
+      "sentence": "St Mary's Lighthouse is on the tiny St Mary's (or Bait) Island, just north of Whitley Bay on the coast of North East England."
+     },
+     {
+      "id": "da03c6a9b7c85687",
+      "name": "St Mary's Island",
+      "document": "articles/st_mary_s_lighthouse.md",
+      "chunks": [
+       "articles/st_mary_s_lighthouse.md#1"
+      ],
+      "sentence": "This lighthouse was demolished when the new lighthouse and adjacent keepers' cottages were built in 1898 on St Mary's Island by the John Miller company of Tynemouth, using 645 blocks of stone and 750,000 bricks."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:97cc6c633ce2d492",
+   "node": {
+    "id": "97cc6c633ce2d492",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "built",
+    "record": null,
+    "mentions": [
+     {
+      "id": "5a5d4bde1d697dcb",
+      "name": "Built",
+      "document": "articles/farne_lighthouse.md",
+      "chunks": [
+       "articles/farne_lighthouse.md#0"
+      ],
+      "sentence": "Built in the early 19th century, it still functions as a lighthouse and is managed by Trinity House (England's general lighthouse authority)."
+     },
+     {
+      "id": "bf96ce125636d8f4",
+      "name": "built",
+      "document": "articles/godrevy_lighthouse.md",
+      "chunks": [
+       "articles/godrevy_lighthouse.md#0"
+      ],
+      "sentence": "Godrevy Lighthouse (Cornish: Golowji Godrevi) was built in 1858–1859 on Godrevy Island in St Ives Bay, Cornwall."
+     },
+     {
+      "id": "4bf3bc5aa0d42344",
+      "name": "built",
+      "document": "articles/old_higher_lighthouse.md",
+      "chunks": [
+       "articles/old_higher_lighthouse.md#1"
+      ],
+      "sentence": "After years of local petitions to Trinity House, the organisation agreed for a lighthouse to be built at Portland Bill."
+     },
+     {
+      "id": "24b22fc1b2d750f4",
+      "name": "built",
+      "document": "articles/st_agnes_lighthouse.md",
+      "chunks": [
+       "articles/st_agnes_lighthouse.md#0"
+      ],
+      "sentence": "It was the second to be built in the western approaches (after the Lizard lighthouse of 1619); it was also only the second lighthouse station to be established by Trinity House (after Lowestoft in 1609)."
+     },
+     {
+      "id": "aae7e522be7aceb9",
+      "name": "built",
+      "document": "articles/st_anthony_s_lighthouse.md",
+      "chunks": [
+       "articles/st_anthony_s_lighthouse.md#0"
+      ],
+      "sentence": "The lighthouse was designed by James Walker and built in 1835 by Olver of Falmouth, for Trinity House and the original light came from eight Argand oil lamps mounted on a revolving frame."
+     },
+     {
+      "id": "653c72daf2514a9b",
+      "name": "built",
+      "document": "articles/st_mary_s_lighthouse.md",
+      "chunks": [
+       "articles/st_mary_s_lighthouse.md#1"
+      ],
+      "sentence": "A lighthouse was built on the site of the current Tynemouth Coastguard station in 1664 using stone from the priory."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:9a6336cd329579ee",
+   "node": {
+    "id": "9a6336cd329579ee",
+    "kind": "concept",
+    "type": "Value",
+    "name": "20 nautical miles",
+    "record": null,
+    "mentions": [
+     {
+      "id": "e91932ed00794fc7",
+      "name": "20 nautical miles",
+      "document": "articles/berry_head_lighthouse.md",
+      "chunks": [
+       "articles/berry_head_lighthouse.md#1"
+      ],
+      "sentence": "It had a range of 20 nautical miles (37 km; 23 mi)."
+     },
+     {
+      "id": "b689f4dc7b18ce58",
+      "name": "20 nautical miles",
+      "document": "articles/tater_du_lighthouse.md",
+      "chunks": [
+       "articles/tater_du_lighthouse.md#0"
+      ],
+      "sentence": "The light is 3 white lights flashed every 15 seconds, with a range of 20 nautical miles (37 km; 23 mi)."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:9f688c01b3ca7718",
+   "node": {
+    "id": "9f688c01b3ca7718",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "installed",
+    "record": null,
+    "mentions": [
+     {
+      "id": "412ac086fba0365e",
+      "name": "installed",
+      "document": "articles/anvil_point_lighthouse.md",
+      "chunks": [
+       "articles/anvil_point_lighthouse.md#2"
+      ],
+      "sentence": "In 1981 new automatic equipment was installed, but the fog signal was discontinued in 1988."
+     },
+     {
+      "id": "57b964cde06ca295",
+      "name": "installed",
+      "document": "articles/farne_lighthouse.md",
+      "chunks": [
+       "articles/farne_lighthouse.md#1"
+      ],
+      "sentence": "A new fixed third order Fresnel lens was installed in the lantern and a red sector was added to the main light to indicate lines of approach that were hazardous for shipping."
+     },
+     {
+      "id": "85b48f4f31760a90",
+      "name": "installed",
+      "document": "articles/old_higher_lighthouse.md",
+      "chunks": [
+       "articles/old_higher_lighthouse.md#1"
+      ],
+      "sentence": "In 1788 Trinity House had Argand lamps installed within the higher lighthouse, which was the first in England to be fitted with them."
+     },
+     {
+      "id": "afc544aeccbe6296",
+      "name": "installed",
+      "document": "articles/st_anthony_s_lighthouse.md",
+      "chunks": [
+       "articles/st_anthony_s_lighthouse.md#0",
+       "articles/st_anthony_s_lighthouse.md#2"
+      ],
+      "sentence": "In 1865 an additional lamp and reflector were installed 'in the living room of the principal keeper' which shone a fixed light through a square window in the direction of a dangerous cluster of rocks known as The Manacles."
+     },
+     {
+      "id": "1d4c39d92d3b5372",
+      "name": "installed",
+      "document": "articles/st_mary_s_lighthouse.md",
+      "chunks": [
+       "articles/st_mary_s_lighthouse.md#1"
+      ],
+      "sentence": "A first-order 'bi-valve' rotating optic was installed by Barbier & Bénard of Paris, very similar to the one they had provided the previous year for Lundy North Lighthouse; it displayed a group-flashing characteristic, flashing twice every 20 seconds."
+     },
+     {
+      "id": "69b36ecf245ffa9d",
+      "name": "installed",
+      "document": "articles/whitby_lighthouse.md",
+      "chunks": [
+       "articles/whitby_lighthouse.md#1"
+      ],
+      "sentence": "In 1890, a more efficient lamp (a powerful eight-wick mineral-oil burner) was installed in the South Light, allowing the North Light to be deactivated: an occulting"
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:a24d67f443acf9d4",
+   "node": {
+    "id": "a24d67f443acf9d4",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "optic",
+    "record": null,
+    "mentions": [
+     {
+      "id": "51cc5fed98e7ddcc",
+      "name": "lighthouse optic",
+      "document": "articles/anvil_point_lighthouse.md",
+      "chunks": [
+       "articles/anvil_point_lighthouse.md#1"
+      ],
+      "sentence": "It was the first example of a significant new design of lighthouse optic, whereby (through the use of dense flint glass in the upper and lower portions) the height of a Fresnel lens could be significantly increased, dispensing with the need for additional reflective prisms above and below; the lenses alone stood 6 ft 2 in (1.88 m) high."
+     },
+     {
+      "id": "844913f131bf1a67",
+      "name": "optic",
+      "document": "articles/berry_head_lighthouse.md",
+      "chunks": [
+       "articles/berry_head_lighthouse.md#0"
+      ],
+      "sentence": "It was also said to be the deepest because the optic was originally turned by a weight falling down a 45 metres (148 ft) deep shaft."
+     },
+     {
+      "id": "907f0f0fdc18db79",
+      "name": "optic",
+      "document": "articles/st_mary_s_lighthouse.md",
+      "chunks": [
+       "articles/st_mary_s_lighthouse.md#2",
+       "articles/st_mary_s_lighthouse.md#3"
+      ],
+      "sentence": "In place of the original optic, Trinity House offered a smaller one from their decommissioned lighthouse at Withernsea, and this can still be seen at the top of the tower."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:a3d47c309b94892a",
+   "node": {
+    "id": "a3d47c309b94892a",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "reduced",
+    "record": null,
+    "mentions": [
+     {
+      "id": "28a8ec8bb65e9b6a",
+      "name": "reduced",
+      "document": "articles/st_anthony_s_lighthouse.md",
+      "chunks": [
+       "articles/st_anthony_s_lighthouse.md#2"
+      ],
+      "sentence": "In 2022 the range of the light was reduced from 22 nautical miles to 12 (and the red sector light from 20 nmi to 9); the optic remains in use but the light source is now LED."
+     },
+     {
+      "id": "0cbe988abc999de9",
+      "name": "reduced",
+      "document": "articles/tater_du_lighthouse.md",
+      "chunks": [
+       "articles/tater_du_lighthouse.md#1"
+      ],
+      "sentence": "At the same time the light's visible range was reduced from 20 nautical miles (37 km; 23 mi) to 12 nmi (22 km; 14 mi)."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:ad6cfc8c1de3a4a5",
+   "node": {
+    "id": "ad6cfc8c1de3a4a5",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "construction",
+    "record": null,
+    "mentions": [
+     {
+      "id": "6a51e66e0eb9e078",
+      "name": "construction",
+      "document": "articles/godrevy_lighthouse.md",
+      "chunks": [
+       "articles/godrevy_lighthouse.md#1"
+      ],
+      "sentence": "Its construction took around a year at a cost of £7,082 15s 12d and the light began operating on 1 March 1859."
+     },
+     {
+      "id": "34b911eb81839d07",
+      "name": "construction",
+      "document": "articles/tater_du_lighthouse.md",
+      "chunks": [
+       "articles/tater_du_lighthouse.md#0"
+      ],
+      "sentence": "The construction of the lighthouse came out of the tragedy of losing a small Spanish coaster called the Juan Ferrer on 23 October 1963, on the nearby Boscawen Point, the vessel capsized with the loss of 11 lives."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:b207fc127b722bd4",
+   "node": {
+    "id": "b207fc127b722bd4",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "batteries",
+    "record": null,
+    "mentions": [
+     {
+      "id": "1c19b1e2d2b96479",
+      "name": "batteries",
+      "document": "articles/st_mary_s_lighthouse.md",
+      "chunks": [
+       "articles/st_mary_s_lighthouse.md#1"
+      ],
+      "sentence": "Its place in the tower was taken by a four-tier revolving sealed beam lamp array, manufactured by Pharos Marine; it was powered by two 12-volt batteries, charged from the mains electricity supply."
+     },
+     {
+      "id": "f0d8a3dec15e8250",
+      "name": "batteries",
+      "document": "articles/tater_du_lighthouse.md",
+      "chunks": [
+       "articles/tater_du_lighthouse.md#0"
+      ],
+      "sentence": "The short building is topped by a 7-foot 1 inch lantern with an electric light which is powered from batteries which are charged from mains electricity during the day."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:b4568bf9f319bf24",
+   "node": {
+    "id": "b4568bf9f319bf24",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "petitions",
+    "record": null,
+    "mentions": [
+     {
+      "id": "e10ff50ccaf71586",
+      "name": "petitions",
+      "document": "articles/old_higher_lighthouse.md",
+      "chunks": [
+       "articles/old_higher_lighthouse.md#1"
+      ],
+      "sentence": "After years of local petitions to Trinity House, the organisation agreed for a lighthouse to be built at Portland Bill."
+     },
+     {
+      "id": "e28163766e134176",
+      "name": "petitions",
+      "document": "articles/st_agnes_lighthouse.md",
+      "chunks": [
+       "articles/st_agnes_lighthouse.md#0"
+      ],
+      "sentence": "Earlier petitions to build a lighthouse on St Agnes (submitted by private individuals and companies in 1665"
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:b4d3fa3a4cb6d19a",
+   "node": {
+    "id": "b4d3fa3a4cb6d19a",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "keepers' cottages",
+    "record": null,
+    "mentions": [
+     {
+      "id": "fae07b782f4737b1",
+      "name": "lighthouse keeper's cottage",
+      "document": "articles/farne_lighthouse.md",
+      "chunks": [
+       "articles/farne_lighthouse.md#1"
+      ],
+      "sentence": "Farne Lighthouse (originally named Farne High Lighthouse) is a cylindrical white tower, 13 m (43 ft) tall with a lighthouse keeper's cottage attached to its base."
+     },
+     {
+      "id": "ad5cb5d06e662d5c",
+      "name": "keepers' cottages",
+      "document": "articles/st_mary_s_lighthouse.md",
+      "chunks": [
+       "articles/st_mary_s_lighthouse.md#1",
+       "articles/st_mary_s_lighthouse.md#3"
+      ],
+      "sentence": "This lighthouse was demolished when the new lighthouse and adjacent keepers' cottages were built in 1898 on St Mary's Island by the John Miller company of Tynemouth, using 645 blocks of stone and 750,000 bricks."
+     },
+     {
+      "id": "443f5be80bd0ec26",
+      "name": "keepers' cottages",
+      "document": "articles/whitby_lighthouse.md",
+      "chunks": [
+       "articles/whitby_lighthouse.md#1"
+      ],
+      "sentence": "A pair of single-storey keepers' cottages was attached to each tower."
+     },
+     {
+      "id": "c35b774299c4ed52",
+      "name": "lighthouse keepers' cottages",
+      "document": "articles/whitby_lighthouse.md",
+      "chunks": [
+       "articles/whitby_lighthouse.md#2"
+      ],
+      "sentence": "The light was automated in 1992; the former lighthouse keepers' cottages are now available to hire by holidaymakers."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:b5e78bf99e68222e",
+   "node": {
+    "id": "b5e78bf99e68222e",
+    "kind": "individual",
+    "type": "Lighthouse",
+    "name": "Lowestoft lighthouse",
+    "record": null,
+    "mentions": [
+     {
+      "id": "3eeb9456e76a6ad1",
+      "name": "Lowestoft",
+      "document": "articles/st_agnes_lighthouse.md",
+      "chunks": [
+       "articles/st_agnes_lighthouse.md#0"
+      ],
+      "sentence": "It was the second to be built in the western approaches (after the Lizard lighthouse of 1619); it was also only the second lighthouse station to be established by Trinity House (after Lowestoft in 1609)."
+     },
+     {
+      "id": "6dd9246154d49332",
+      "name": "Lowestoft lighthouse",
+      "document": "articles/st_agnes_lighthouse.md",
+      "chunks": [
+       "articles/st_agnes_lighthouse.md#0"
+      ],
+      "sentence": "A plaque records the original construction by Captains Hugh Hill and Simon Bayly (builders of the 1676 Lowestoft lighthouse)."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:bb32c91955e17f44",
+   "node": {
+    "id": "bb32c91955e17f44",
+    "kind": "individual",
+    "type": "Location",
+    "name": "County of Dorset",
+    "record": null,
+    "mentions": [
+     {
+      "id": "2e237540215b9ab7",
+      "name": "Dorset",
+      "document": "articles/anvil_point_lighthouse.md",
+      "chunks": [
+       "articles/anvil_point_lighthouse.md#0"
+      ],
+      "sentence": "The Anvil Point Lighthouse is a fully automated lighthouse located at Durlston Country Park near Swanage in Dorset, England."
+     },
+     {
+      "id": "0f4c5a07b2bcfb3e",
+      "name": "Dorset",
+      "document": "articles/old_higher_lighthouse.md",
+      "chunks": [
+       "articles/old_higher_lighthouse.md#0"
+      ],
+      "sentence": "The Old Higher Lighthouse is a disused 19th century lighthouse on the Isle of Portland, Dorset, southern England."
+     },
+     {
+      "id": "f6a7749d400e2087",
+      "name": "County of Dorset",
+      "document": "articles/old_higher_lighthouse.md",
+      "chunks": [
+       "articles/old_higher_lighthouse.md#1"
+      ],
+      "sentence": "That year, it was announced that Trinity House had 'caus'd to be erected two round Light-Houses of Stone upon Portland, in the County of Dorset, distant about two Thirds of a Mile from the Bill of Portland'."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:bc1474bcac820159",
+   "node": {
+    "id": "bc1474bcac820159",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "decommissioned",
+    "record": null,
+    "mentions": [
+     {
+      "id": "fa3dc16750ed5de6",
+      "name": "discontinued",
+      "document": "articles/anvil_point_lighthouse.md",
+      "chunks": [
+       "articles/anvil_point_lighthouse.md#2"
+      ],
+      "sentence": "In 1981 new automatic equipment was installed, but the fog signal was discontinued in 1988."
+     },
+     {
+      "id": "eb8126d526254dee",
+      "name": "discontinued",
+      "document": "articles/farne_lighthouse.md",
+      "chunks": [
+       "articles/farne_lighthouse.md#2"
+      ],
+      "sentence": "After the High Light had been modified and automated in 1910, use of the Low Light was discontinued; before long it was demolished along with most of the keepers' accommodation (which was now no longer needed)."
+     },
+     {
+      "id": "46b2be94c5c574ee",
+      "name": "deactivated",
+      "document": "articles/godrevy_lighthouse.md",
+      "chunks": [
+       "articles/godrevy_lighthouse.md#2"
+      ],
+      "sentence": "The fog bell was deactivated at the same time."
+     },
+     {
+      "id": "6f2b2f46a3214864",
+      "name": "discontinued",
+      "document": "articles/godrevy_lighthouse.md",
+      "chunks": [
+       "articles/godrevy_lighthouse.md#3"
+      ],
+      "sentence": "In 2012 Trinity House discontinued use of the light within the tower, replacing it with an LED light mounted on a steel platform nearby on the rocks."
+     },
+     {
+      "id": "b5b95ab8d398431a",
+      "name": "decommissioned",
+      "document": "articles/st_agnes_lighthouse.md",
+      "chunks": [
+       "articles/st_agnes_lighthouse.md#2"
+      ],
+      "sentence": "In 1911 the St Agnes lighthouse was decommissioned, having been superseded by Peninnis Lighthouse (a 17-metre-tall black and white steel lattice tower situated on the southern extremity of St. Mary's island)."
+     },
+     {
+      "id": "4a4716d8cf9aa7ee",
+      "name": "decommissioned",
+      "document": "articles/st_anthony_s_lighthouse.md",
+      "chunks": [
+       "articles/st_anthony_s_lighthouse.md#2"
+      ],
+      "sentence": "The fog bell, which hung from the gallery at the front of the tower, was therefore decommissioned; it was donated to the nearby Penwerris church, but after many years of sitting on the church front lawn, was taken away to be melted down."
+     },
+     {
+      "id": "05a50766f736d03a",
+      "name": "decommissioned",
+      "document": "articles/st_mary_s_lighthouse.md",
+      "chunks": [
+       "articles/st_mary_s_lighthouse.md#2",
+       "articles/st_mary_s_lighthouse.md#3"
+      ],
+      "sentence": "The lighthouse was decommissioned in 1984 (two years after its conversion to automatic operation)."
+     },
+     {
+      "id": "2a0dc88e7194ea95",
+      "name": "Decommissioning",
+      "document": "articles/st_mary_s_lighthouse.md",
+      "chunks": [
+       "articles/st_mary_s_lighthouse.md#1"
+      ],
+      "sentence": "## Decommissioning"
+     },
+     {
+      "id": "8cda5c23bd7443b4",
+      "name": "decommissioned",
+      "document": "articles/tater_du_lighthouse.md",
+      "chunks": [
+       "articles/tater_du_lighthouse.md#1"
+      ],
+      "sentence": "The fog signal was decommissioned in 2012."
+     },
+     {
+      "id": "09ec64d3a60b12b1",
+      "name": "deactivated",
+      "document": "articles/whitby_lighthouse.md",
+      "chunks": [
+       "articles/whitby_lighthouse.md#1"
+      ],
+      "sentence": "In 1890, a more efficient lamp (a powerful eight-wick mineral-oil burner) was installed in the South Light, allowing the North Light to be deactivated: an occulting"
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:bc6257a756c9437d",
+   "node": {
+    "id": "bc6257a756c9437d",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "shipping",
+    "record": null,
+    "mentions": [
+     {
+      "id": "373e47952ea217f3",
+      "name": "shipping",
+      "document": "articles/farne_lighthouse.md",
+      "chunks": [
+       "articles/farne_lighthouse.md#1",
+       "articles/farne_lighthouse.md#2"
+      ],
+      "sentence": "A new fixed third order Fresnel lens was installed in the lantern and a red sector was added to the main light to indicate lines of approach that were hazardous for shipping."
+     },
+     {
+      "id": "5fb51f1e5b19cf96",
+      "name": "shipping",
+      "document": "articles/st_agnes_lighthouse.md",
+      "chunks": [
+       "articles/st_agnes_lighthouse.md#0",
+       "articles/st_agnes_lighthouse.md#2"
+      ],
+      "sentence": "There were two protests against the building of the St Agnes light: officials from the Isle of Wight complained that they would lose revenue from harbour dues and victualling as shipping would prefer to use the Isles of Scilly, and the Governor of Scilly objected on the grounds that he would lose money from wrecks."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:bf7dfdee05999828",
+   "node": {
+    "id": "bf7dfdee05999828",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "rocks",
+    "record": null,
+    "mentions": [
+     {
+      "id": "ebb4038a56b85c01",
+      "name": "rocks",
+      "document": "articles/godrevy_lighthouse.md",
+      "chunks": [
+       "articles/godrevy_lighthouse.md#1",
+       "articles/godrevy_lighthouse.md#3"
+      ],
+      "sentence": "Richard Short, a St Ives master mariner, wrote to the Shipping and Mercantile Gazette the day after the news of the sinking broke to note: \"[H]ad there been a light on Godrevy Island, which the inhabitants of this town have often applied for, it would no doubt have been the means of warning the ill-fated ship of the dangerous rocks she was approaching."
+     },
+     {
+      "id": "05ac8dc4330dee69",
+      "name": "rocks",
+      "document": "articles/st_agnes_lighthouse.md",
+      "chunks": [
+       "articles/st_agnes_lighthouse.md#0"
+      ],
+      "sentence": "St Agnes was chosen as it is the most westerly of the habitable islands and close to the collection of rocks, tidal flows and currents, now known as the Western Rocks."
+     },
+     {
+      "id": "ef6b47a5ac98e3ee",
+      "name": "rocks",
+      "document": "articles/st_mary_s_lighthouse.md",
+      "chunks": [
+       "articles/st_mary_s_lighthouse.md#1"
+      ],
+      "sentence": "The first light in the area was in Tynemouth Priory - an 11th-century monastic chapel, whose monks maintained a lantern on the tower to warn passing ships of the danger of the rocks."
+     },
+     {
+      "id": "659b56fe32dc7e59",
+      "name": "rocks",
+      "document": "articles/tater_du_lighthouse.md",
+      "chunks": [
+       "articles/tater_du_lighthouse.md#2"
+      ],
+      "sentence": "The nearby rocks (Inner and Outer Bucks) form a popular sub-aqua dive site."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:bfad4a8bba8178a6",
+   "node": {
+    "id": "bfad4a8bba8178a6",
+    "kind": "individual",
+    "type": "Lighthouse",
+    "name": "Farne Low Lighthouse",
+    "record": null,
+    "mentions": [
+     {
+      "id": "748d679a23c8f15e",
+      "name": "Farne Low Lighthouse",
+      "document": "articles/farne_lighthouse.md",
+      "chunks": [
+       "articles/farne_lighthouse.md#2"
+      ],
+      "sentence": "The other lighthouse on the island (Farne Low Lighthouse) was an octagonal tower, 8 m (26 ft) tall, placed 150 m (490 ft) away from the first, close to the north-west tip of the island."
+     },
+     {
+      "id": "a8860d818ba4f9a1",
+      "name": "Low Lighthouse",
+      "document": "articles/farne_lighthouse.md",
+      "chunks": [
+       "articles/farne_lighthouse.md#2"
+      ],
+      "sentence": "The other lighthouse on the island (Farne Low Lighthouse) was an octagonal tower, 8 m (26 ft) tall, placed 150 m (490 ft) away from the first, close to the north-west tip of the island."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:c038596966ec0403",
+   "node": {
+    "id": "c038596966ec0403",
+    "kind": "individual",
+    "type": "Lighthouse",
+    "name": "North Light",
+    "record": null,
+    "mentions": [
+     {
+      "id": "389bdf488eb627b0",
+      "name": "North Lighthouse",
+      "document": "articles/whitby_lighthouse.md",
+      "chunks": [
+       "articles/whitby_lighthouse.md#2"
+      ],
+      "sentence": "The North Lighthouse was then demolished (but its lantern and optic both went on to be re-used at a new lighthouse then being built at Withernsea)."
+     },
+     {
+      "id": "69637bbccad7a6be",
+      "name": "North Light",
+      "document": "articles/whitby_lighthouse.md",
+      "chunks": [
+       "articles/whitby_lighthouse.md#1",
+       "articles/whitby_lighthouse.md#2"
+      ],
+      "sentence": "The North Light was of a similar octagonal design to the surviving South Light, but taller at 20.5 m (67 ft) (so that, although the North tower was on lower ground, the two lights were on the same focal plane)."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:c4b11500f112509e",
+   "node": {
+    "id": "c4b11500f112509e",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "modernised",
+    "record": null,
+    "mentions": [
+     {
+      "id": "69a3d76fa6a7020c",
+      "name": "modernised",
+      "document": "articles/anvil_point_lighthouse.md",
+      "chunks": [
+       "articles/anvil_point_lighthouse.md#2"
+      ],
+      "sentence": "During 1960, the lighthouse was modernised and electrified (with a new lamp, powered by mains electricity, replacing the PVB)."
+     },
+     {
+      "id": "18fe11f723297bcf",
+      "name": "modernised",
+      "document": "articles/godrevy_lighthouse.md",
+      "chunks": [
+       "articles/godrevy_lighthouse.md#3"
+      ],
+      "sentence": "In 1995, the lighthouse was modernised and converted to solar powered operation."
+     },
+     {
+      "id": "fba4ad7fdf63c8fd",
+      "name": "modernised",
+      "document": "articles/tater_du_lighthouse.md",
+      "chunks": [
+       "articles/tater_du_lighthouse.md#1"
+      ],
+      "sentence": "In 1997 the lighthouse was modernised and it is now monitored from the Trinity House Planning Centre at Harwich."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:c66049c339b0cd5e",
+   "node": {
+    "id": "c66049c339b0cd5e",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "lighthouses",
+    "record": null,
+    "mentions": [
+     {
+      "id": "c7b9e9c0fef2cfbb",
+      "name": "lighthouses",
+      "document": "articles/berry_head_lighthouse.md",
+      "chunks": [
+       "articles/berry_head_lighthouse.md#1"
+      ],
+      "sentence": "The installation was the first application by Trinity House of its so-called 'simple lighthouse scheme', intended to be extended to all other shore-based mains-powered lighthouses, except those with more complex display requirements (e.g."
+     },
+     {
+      "id": "6b939993a8a2a957",
+      "name": "lighthouses",
+      "document": "articles/st_agnes_lighthouse.md",
+      "chunks": [
+       "articles/st_agnes_lighthouse.md#0",
+       "articles/st_agnes_lighthouse.md#1"
+      ],
+      "sentence": "On 24 May that year, Trinity House was given permission to erect and maintain one or more lighthouses on the islands."
+     },
+     {
+      "id": "485fbcd7c68a61af",
+      "name": "lighthouses",
+      "document": "articles/st_anthony_s_lighthouse.md",
+      "chunks": [
+       "articles/st_anthony_s_lighthouse.md#2"
+      ],
+      "sentence": "introduced, sounding from 35 Tannoy emitters (subsequently Trinity House installed fog signals of this type at a dozen or so other lighthouses)."
+     },
+     {
+      "id": "57de92e0ff3aa0f7",
+      "name": "lighthouses",
+      "document": "articles/whitby_lighthouse.md",
+      "chunks": [
+       "articles/whitby_lighthouse.md#0"
+      ],
+      "sentence": "To distinguish it from the two lighthouses in Whitby itself (which protect the town's harbour) it is sometimes known as Whitby High lighthouse (and is referred to as such on Admiralty charts)."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:c670e77d601a9be6",
+   "node": {
+    "id": "c670e77d601a9be6",
+    "kind": "individual",
+    "type": "Location",
+    "name": "Brownsman Island",
+    "record": null,
+    "mentions": [
+     {
+      "id": "da6f85371cb5355f",
+      "name": "Brownsman",
+      "document": "articles/farne_lighthouse.md",
+      "chunks": [
+       "articles/farne_lighthouse.md#3"
+      ],
+      "sentence": "In 1811, at the same time as it was building the two lighthouses on Inner Farne, Trinity House also built a new lighthouse on one of the outer Farne Islands: Brownsman Island."
+     },
+     {
+      "id": "dae87440959f0605",
+      "name": "Brownsman Island",
+      "document": "articles/farne_lighthouse.md",
+      "chunks": [
+       "articles/farne_lighthouse.md#3"
+      ],
+      "sentence": "In 1811, at the same time as it was building the two lighthouses on Inner Farne, Trinity House also built a new lighthouse on one of the outer Farne Islands: Brownsman Island."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:c6803b1be16211e2",
+   "node": {
+    "id": "c6803b1be16211e2",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "opened",
+    "record": null,
+    "mentions": [
+     {
+      "id": "6336ad408d0aeec4",
+      "name": "opened",
+      "document": "articles/anvil_point_lighthouse.md",
+      "chunks": [
+       "articles/anvil_point_lighthouse.md#1"
+      ],
+      "sentence": "It was opened by Joseph Chamberlain, the President of the Board of Trade."
+     },
+     {
+      "id": "2c11aa7e1c7058fb",
+      "name": "official opening",
+      "document": "articles/tater_du_lighthouse.md",
+      "chunks": [
+       "articles/tater_du_lighthouse.md#2"
+      ],
+      "sentence": "Pathé footage of Tater Du lighthouse interior/exterior at the time of the official opening in 1965"
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:cac9cfbcf0dd53c8",
+   "node": {
+    "id": "cac9cfbcf0dd53c8",
+    "kind": "individual",
+    "type": "Organization",
+    "name": "Chance Brothers & Co",
+    "record": null,
+    "mentions": [
+     {
+      "id": "450e63d12a3c9d55",
+      "name": "Chance Brothers & Co",
+      "document": "articles/anvil_point_lighthouse.md",
+      "chunks": [
+       "articles/anvil_point_lighthouse.md#1"
+      ],
+      "sentence": "Originally the light was illuminated by a Douglass multi-wick mineral oil burner, set within a large (first order) revolving 14-panel dioptric optic by Chance Brothers & Co."
+     },
+     {
+      "id": "d5ae652403a9a23d",
+      "name": "Chance Brothers",
+      "document": "articles/whitby_lighthouse.md",
+      "chunks": [
+       "articles/whitby_lighthouse.md#1"
+      ],
+      "sentence": "The light, a 1st Order assembly manufactured by Chance Brothers of Smethwick, was first lit on 1 October 1858 with costs of construction having run to about £8,000."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:cff85046166e6177",
+   "node": {
+    "id": "cff85046166e6177",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "daymark",
+    "record": null,
+    "mentions": [
+     {
+      "id": "5f6bf306a37d3184",
+      "name": "daymark",
+      "document": "articles/godrevy_lighthouse.md",
+      "chunks": [
+       "articles/godrevy_lighthouse.md#3"
+      ],
+      "sentence": "Godrevy is still listed by Trinity House as a lighthouse, and the tower is maintained by them as a daymark."
+     },
+     {
+      "id": "70995eee5861ca4c",
+      "name": "daymark",
+      "document": "articles/st_agnes_lighthouse.md",
+      "chunks": [
+       "articles/st_agnes_lighthouse.md#2"
+      ],
+      "sentence": "The old lighthouse tower continues to be maintained as a daymark for shipping."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:d09e5b537876bca9",
+   "node": {
+    "id": "d09e5b537876bca9",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "lamp",
+    "record": null,
+    "mentions": [
+     {
+      "id": "a266debecb7674fc",
+      "name": "lamp",
+      "document": "articles/anvil_point_lighthouse.md",
+      "chunks": [
+       "articles/anvil_point_lighthouse.md#1",
+       "articles/anvil_point_lighthouse.md#2"
+      ],
+      "sentence": "The lamp was also specially designed for Anvil Point by James Douglass; it was subsequently used in other large coastal lighthouses, a series of international patents having been granted."
+     },
+     {
+      "id": "1e79b8946c7b387e",
+      "name": "lamp",
+      "document": "articles/berry_head_lighthouse.md",
+      "chunks": [
+       "articles/berry_head_lighthouse.md#1"
+      ],
+      "sentence": "When first lit, the incandescent lamp was fuelled by oil gas (which was purchased from the Great Western Railway at Exeter and stored in large external tanks on site)."
+     },
+     {
+      "id": "cc0d7bfb2f5820de",
+      "name": "lamp",
+      "document": "articles/farne_lighthouse.md",
+      "chunks": [
+       "articles/farne_lighthouse.md#3"
+      ],
+      "sentence": "In 2022 permission was given for the lamp to be replaced with an LED light source, designed to function within the original lens; this upgrade was completed in March 2022."
+     },
+     {
+      "id": "9d657ec1f111152a",
+      "name": "lamp",
+      "document": "articles/st_anthony_s_lighthouse.md",
+      "chunks": [
+       "articles/st_anthony_s_lighthouse.md#0"
+      ],
+      "sentence": "In 1865 an additional lamp and reflector were installed 'in the living room of the principal keeper' which shone a fixed light through a square window in the direction of a dangerous cluster of rocks known as The Manacles."
+     },
+     {
+      "id": "8d3c79b54f30830b",
+      "name": "lamp",
+      "document": "articles/st_mary_s_lighthouse.md",
+      "chunks": [
+       "articles/st_mary_s_lighthouse.md#1"
+      ],
+      "sentence": "The lamp was powered by paraffin, and was not electrified until 1977; St Mary's was by then the last Trinity House lighthouse lit by oil."
+     },
+     {
+      "id": "261cb70910e1a2bf",
+      "name": "lamp",
+      "document": "articles/whitby_lighthouse.md",
+      "chunks": [
+       "articles/whitby_lighthouse.md#1"
+      ],
+      "sentence": "Each was equipped with a paraffin lamp and a large (first-order) fixed optic designed by Chance Brothers."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:d33d37ddb9d24f0c",
+   "node": {
+    "id": "d33d37ddb9d24f0c",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "island",
+    "record": null,
+    "mentions": [
+     {
+      "id": "8a0fcc108e73cfbd",
+      "name": "island",
+      "document": "articles/farne_lighthouse.md",
+      "chunks": [
+       "articles/farne_lighthouse.md#2"
+      ],
+      "sentence": "The other lighthouse on the island (Farne Low Lighthouse) was an octagonal tower, 8 m (26 ft) tall, placed 150 m (490 ft) away from the first, close to the north-west tip of the island."
+     },
+     {
+      "id": "ddbfa4756b7739ba",
+      "name": "island",
+      "document": "articles/godrevy_lighthouse.md",
+      "chunks": [
+       "articles/godrevy_lighthouse.md#2"
+      ],
+      "sentence": "It is situated almost in the centre of the island and was originally provided with cottages for the keepers."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:d36ea1d25ca3e75f",
+   "node": {
+    "id": "d36ea1d25ca3e75f",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "range",
+    "record": null,
+    "mentions": [
+     {
+      "id": "905e7dfdb6e9fa98",
+      "name": "range",
+      "document": "articles/anvil_point_lighthouse.md",
+      "chunks": [
+       "articles/anvil_point_lighthouse.md#2"
+      ],
+      "sentence": "The light's range was about 19 nautical miles (35 km; 22 mi), but was reduced to 9 nautical miles (17 km; 10 mi) following a review of aids to navigation in 2010."
+     },
+     {
+      "id": "dc1eef92eb0196fe",
+      "name": "range",
+      "document": "articles/st_anthony_s_lighthouse.md",
+      "chunks": [
+       "articles/st_anthony_s_lighthouse.md#2"
+      ],
+      "sentence": "In 2022 the range of the light was reduced from 22 nautical miles to 12 (and the red sector light from 20 nmi to 9); the optic remains in use but the light source is now LED."
+     },
+     {
+      "id": "a459da3e63a1a46f",
+      "name": "visible range",
+      "document": "articles/tater_du_lighthouse.md",
+      "chunks": [
+       "articles/tater_du_lighthouse.md#1"
+      ],
+      "sentence": "At the same time the light's visible range was reduced from 20 nautical miles (37 km; 23 mi) to 12 nmi (22 km; 14 mi)."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:d6df351da2a385cf",
+   "node": {
+    "id": "d6df351da2a385cf",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "removed",
+    "record": null,
+    "mentions": [
+     {
+      "id": "46e678e1984064f0",
+      "name": "removed",
+      "document": "articles/berry_head_lighthouse.md",
+      "chunks": [
+       "articles/berry_head_lighthouse.md#1"
+      ],
+      "sentence": "In 2019 the optic and lamp were removed and replaced with a pair of self-contained LED lanterns (one serving as the main light, the other as a standby); the old characteristic was retained."
+     },
+     {
+      "id": "166411f2abb92756",
+      "name": "removed",
+      "document": "articles/st_mary_s_lighthouse.md",
+      "chunks": [
+       "articles/st_mary_s_lighthouse.md#1"
+      ],
+      "sentence": "As part of the electrification process the fine first-order fresnel lens was removed by Trinity House (it was later put on display in their National Lighthouse Museum in Penzance)."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:d8713e192e6429ea",
+   "node": {
+    "id": "d8713e192e6429ea",
+    "kind": "individual",
+    "type": "Location",
+    "name": "England",
+    "record": null,
+    "mentions": [
+     {
+      "id": "a82189af21fc6d82",
+      "name": "England",
+      "document": "articles/anvil_point_lighthouse.md",
+      "chunks": [
+       "articles/anvil_point_lighthouse.md#0",
+       "articles/anvil_point_lighthouse.md#2"
+      ],
+      "sentence": "The Anvil Point Lighthouse is a fully automated lighthouse located at Durlston Country Park near Swanage in Dorset, England."
+     },
+     {
+      "id": "31fa21a62ada7aeb",
+      "name": "England",
+      "document": "articles/berry_head_lighthouse.md",
+      "chunks": [
+       "articles/berry_head_lighthouse.md#1"
+      ],
+      "sentence": "List of lighthouses in England"
+     },
+     {
+      "id": "f70eb656d24f092d",
+      "name": "England",
+      "document": "articles/farne_lighthouse.md",
+      "chunks": [
+       "articles/farne_lighthouse.md#0",
+       "articles/farne_lighthouse.md#3"
+      ],
+      "sentence": "Built in the early 19th century, it still functions as a lighthouse and is managed by Trinity House (England's general lighthouse authority)."
+     },
+     {
+      "id": "2baa294342228bc0",
+      "name": "England",
+      "document": "articles/godrevy_lighthouse.md",
+      "chunks": [
+       "articles/godrevy_lighthouse.md#3"
+      ],
+      "sentence": "List of lighthouses in England"
+     },
+     {
+      "id": "ce1dd789e19b6718",
+      "name": "England",
+      "document": "articles/old_higher_lighthouse.md",
+      "chunks": [
+       "articles/old_higher_lighthouse.md#0",
+       "articles/old_higher_lighthouse.md#1",
+       "articles/old_higher_lighthouse.md#2"
+      ],
+      "sentence": "The Old Higher Lighthouse is a disused 19th century lighthouse on the Isle of Portland, Dorset, southern England."
+     },
+     {
+      "id": "cc015519e68c55ac",
+      "name": "England",
+      "document": "articles/st_agnes_lighthouse.md",
+      "chunks": [
+       "articles/st_agnes_lighthouse.md#0",
+       "articles/st_agnes_lighthouse.md#1"
+      ],
+      "sentence": "In 1680 Trinity House began a survey of the coasts of England as it was known that the contemporary charts were inaccurate; the Isles of Scilly was plotted ten miles to the north."
+     },
+     {
+      "id": "9981e674d20c1d31",
+      "name": "England",
+      "document": "articles/st_anthony_s_lighthouse.md",
+      "chunks": [
+       "articles/st_anthony_s_lighthouse.md#2"
+      ],
+      "sentence": "List of lighthouses in England"
+     },
+     {
+      "id": "f33eff441ef452b8",
+      "name": "England",
+      "document": "articles/st_mary_s_lighthouse.md",
+      "chunks": [
+       "articles/st_mary_s_lighthouse.md#3"
+      ],
+      "sentence": "List of lighthouses in England"
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:dcd43bd3a381ee91",
+   "node": {
+    "id": "dcd43bd3a381ee91",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "oil",
+    "record": null,
+    "mentions": [
+     {
+      "id": "3e65afbd3289fa29",
+      "name": "oil",
+      "document": "articles/st_agnes_lighthouse.md",
+      "chunks": [
+       "articles/st_agnes_lighthouse.md#1"
+      ],
+      "sentence": "The lighthouse was coal fired until 1790, when it was converted to oil: twenty-one Argand lamps with reflectors, mounted on a three-sided revolving array."
+     },
+     {
+      "id": "ee9a7ebf4c04042b",
+      "name": "oil",
+      "document": "articles/st_mary_s_lighthouse.md",
+      "chunks": [
+       "articles/st_mary_s_lighthouse.md#1"
+      ],
+      "sentence": "The lamp was powered by paraffin, and was not electrified until 1977; St Mary's was by then the last Trinity House lighthouse lit by oil."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:e35955d5c23eda73",
+   "node": {
+    "id": "e35955d5c23eda73",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "lens",
+    "record": null,
+    "mentions": [
+     {
+      "id": "c273c32f2e37404c",
+      "name": "lens",
+      "document": "articles/berry_head_lighthouse.md",
+      "chunks": [
+       "articles/berry_head_lighthouse.md#1"
+      ],
+      "sentence": "A triple-cluster open-flame burner was installed, along with an acetylene-powered drive to turn the lens, and a Dalen sun valve (which automatically brought the light into operation when required)."
+     },
+     {
+      "id": "6dfda0523088e132",
+      "name": "lens",
+      "document": "articles/farne_lighthouse.md",
+      "chunks": [
+       "articles/farne_lighthouse.md#3"
+      ],
+      "sentence": "In 2022 permission was given for the lamp to be replaced with an LED light source, designed to function within the original lens; this upgrade was completed in March 2022."
+     },
+     {
+      "id": "50da91262925814f",
+      "name": "lens",
+      "document": "articles/st_anthony_s_lighthouse.md",
+      "chunks": [
+       "articles/st_anthony_s_lighthouse.md#1"
+      ],
+      "sentence": "The size of the lens meant that the height of the lantern had to be increased."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:e364bc063d67cc1b",
+   "node": {
+    "id": "e364bc063d67cc1b",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "lights",
+    "record": null,
+    "mentions": [
+     {
+      "id": "2206ed561ca53827",
+      "name": "lights",
+      "document": "articles/farne_lighthouse.md",
+      "chunks": [
+       "articles/farne_lighthouse.md#2"
+      ],
+      "sentence": "It served to warn shipping of the Megstone, an isolated rocky island lying (in line with the two lights) just under a mile away to the north-west."
+     },
+     {
+      "id": "633fa2fc9edfc441",
+      "name": "lights",
+      "document": "articles/old_higher_lighthouse.md",
+      "chunks": [
+       "articles/old_higher_lighthouse.md#1"
+      ],
+      "sentence": "Designed as leading lights to guide ships between Portland Race and the Shambles sandbank, they shone out for the first time on 29 September 1716."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:e36bb13aec939448",
+   "node": {
+    "id": "e36bb13aec939448",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "cottage",
+    "record": null,
+    "mentions": [
+     {
+      "id": "7f756d247baebd0a",
+      "name": "cottage",
+      "document": "articles/st_anthony_s_lighthouse.md",
+      "chunks": [
+       "articles/st_anthony_s_lighthouse.md#0"
+      ],
+      "sentence": "(At the time the principal keeper and his family lived in the tower itself, while the assistant lived in the cottage, linked to the lighthouse by a covered way)."
+     },
+     {
+      "id": "9040673b0f4e5936",
+      "name": "cottage",
+      "document": "articles/st_mary_s_lighthouse.md",
+      "chunks": [
+       "articles/st_mary_s_lighthouse.md#3"
+      ],
+      "sentence": "The cottage was upgraded with a wood pellet boiler in 2014."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:e47e8f41fdf31fed",
+   "node": {
+    "id": "e47e8f41fdf31fed",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "Fresnel lenses",
+    "record": null,
+    "mentions": [
+     {
+      "id": "f0abdae9ff0e2531",
+      "name": "Fresnel lens",
+      "document": "articles/anvil_point_lighthouse.md",
+      "chunks": [
+       "articles/anvil_point_lighthouse.md#1"
+      ],
+      "sentence": "It was the first example of a significant new design of lighthouse optic, whereby (through the use of dense flint glass in the upper and lower portions) the height of a Fresnel lens could be significantly increased, dispensing with the need for additional reflective prisms above and below; the lenses alone stood 6 ft 2 in (1.88 m) high."
+     },
+     {
+      "id": "f08cb39f1c65199b",
+      "name": "Fresnel lenses",
+      "document": "articles/old_higher_lighthouse.md",
+      "chunks": [
+       "articles/old_higher_lighthouse.md#2"
+      ],
+      "sentence": "establishment of Start Point Lighthouse with its revolving Fresnel lenses, Portland High was again made a fixed light (matching the Low Light, which had remained fixed throughout)."
+     },
+     {
+      "id": "f3d6795fe9ca7712",
+      "name": "Fresnel lenses",
+      "document": "articles/st_anthony_s_lighthouse.md",
+      "chunks": [
+       "articles/st_anthony_s_lighthouse.md#1"
+      ],
+      "sentence": "After the closure of the lighthouse at St Agnes, Isles of Scilly in 1911, St Anthony's was (along with Cromer) one of the only major Trinity House lights still using reflectors rather than Fresnel lenses."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:e699071bdce86c50",
+   "node": {
+    "id": "e699071bdce86c50",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "sector light",
+    "record": null,
+    "mentions": [
+     {
+      "id": "b6f5ef765f3cbb02",
+      "name": "sector light",
+      "document": "articles/berry_head_lighthouse.md",
+      "chunks": [
+       "articles/berry_head_lighthouse.md#1"
+      ],
+      "sentence": "provision of a sector light)."
+     },
+     {
+      "id": "c7a1c96aba1e3b3e",
+      "name": "sector light",
+      "document": "articles/farne_lighthouse.md",
+      "chunks": [
+       "articles/farne_lighthouse.md#1"
+      ],
+      "sentence": "(That same year saw the nearby Bamburgh Lighthouse established, with a sector light that worked in conjunction with the Inner Farne light.) This arrangement largely remains in place, except that in 1996 the light was converted from acetylene to solar powered electric operation."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:e7dcba70f69320e8",
+   "node": {
+    "id": "e7dcba70f69320e8",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "islands",
+    "record": null,
+    "mentions": [
+     {
+      "id": "a0f27268cdee5dd5",
+      "name": "islands",
+      "document": "articles/farne_lighthouse.md",
+      "chunks": [
+       "articles/farne_lighthouse.md#0"
+      ],
+      "sentence": "Farne Lighthouse is a lighthouse on the southern tip of Inner Farne (one of a group of islands off the coast of North Northumberland)."
+     },
+     {
+      "id": "c2f533e7b424cdf7",
+      "name": "islands",
+      "document": "articles/st_agnes_lighthouse.md",
+      "chunks": [
+       "articles/st_agnes_lighthouse.md#0"
+      ],
+      "sentence": "On 24 May that year, Trinity House was given permission to erect and maintain one or more lighthouses on the islands."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:ea44dd35474a4101",
+   "node": {
+    "id": "ea44dd35474a4101",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "mains electricity",
+    "record": null,
+    "mentions": [
+     {
+      "id": "450de0e8adcf7873",
+      "name": "mains electricity",
+      "document": "articles/anvil_point_lighthouse.md",
+      "chunks": [
+       "articles/anvil_point_lighthouse.md#2"
+      ],
+      "sentence": "During 1960, the lighthouse was modernised and electrified (with a new lamp, powered by mains electricity, replacing the PVB)."
+     },
+     {
+      "id": "b8b8c17aabf303bd",
+      "name": "mains electricity",
+      "document": "articles/berry_head_lighthouse.md",
+      "chunks": [
+       "articles/berry_head_lighthouse.md#1"
+      ],
+      "sentence": "Since 1994 the lighthouse has run on mains electricity."
+     },
+     {
+      "id": "5940714c25d54100",
+      "name": "mains electricity",
+      "document": "articles/tater_du_lighthouse.md",
+      "chunks": [
+       "articles/tater_du_lighthouse.md#0"
+      ],
+      "sentence": "The short building is topped by a 7-foot 1 inch lantern with an electric light which is powered from batteries which are charged from mains electricity during the day."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:ea58b04fab379bda",
+   "node": {
+    "id": "ea58b04fab379bda",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "tower",
+    "record": null,
+    "mentions": [
+     {
+      "id": "f198fb5e5f460f17",
+      "name": "tower",
+      "document": "articles/anvil_point_lighthouse.md",
+      "chunks": [
+       "articles/anvil_point_lighthouse.md#2"
+      ],
+      "sentence": "(The old lens, though no longer in use, remains in place in the tower.)"
+     },
+     {
+      "id": "b88c9de88223e77d",
+      "name": "tower",
+      "document": "articles/godrevy_lighthouse.md",
+      "chunks": [
+       "articles/godrevy_lighthouse.md#3"
+      ],
+      "sentence": "In 2012 Trinity House discontinued use of the light within the tower, replacing it with an LED light mounted on a steel platform nearby on the rocks."
+     },
+     {
+      "id": "d884f905cbf55f32",
+      "name": "tower",
+      "document": "articles/old_higher_lighthouse.md",
+      "chunks": [
+       "articles/old_higher_lighthouse.md#2"
+      ],
+      "sentence": "During World War II, the Royal Observer Corps used the tower as a lookout."
+     },
+     {
+      "id": "4598ae7aff6fba29",
+      "name": "tower",
+      "document": "articles/st_agnes_lighthouse.md",
+      "chunks": [
+       "articles/st_agnes_lighthouse.md#0",
+       "articles/st_agnes_lighthouse.md#1"
+      ],
+      "sentence": "The lighthouse was built in 1680 and stands 74' above the ground, and 138' above mean high water; the incorporation of gun ports in the structure of the tower is an unusual feature."
+     },
+     {
+      "id": "737fc76af4eb9920",
+      "name": "tower",
+      "document": "articles/st_anthony_s_lighthouse.md",
+      "chunks": [
+       "articles/st_anthony_s_lighthouse.md#0",
+       "articles/st_anthony_s_lighthouse.md#2"
+      ],
+      "sentence": "(At the time the principal keeper and his family lived in the tower itself, while the assistant lived in the cottage, linked to the lighthouse by a covered way)."
+     },
+     {
+      "id": "5ddf771ae1601b38",
+      "name": "tower",
+      "document": "articles/st_mary_s_lighthouse.md",
+      "chunks": [
+       "articles/st_mary_s_lighthouse.md#1",
+       "articles/st_mary_s_lighthouse.md#2"
+      ],
+      "sentence": "The first light in the area was in Tynemouth Priory - an 11th-century monastic chapel, whose monks maintained a lantern on the tower to warn passing ships of the danger of the rocks."
+     },
+     {
+      "id": "a3b020decf743858",
+      "name": "tower",
+      "document": "articles/tater_du_lighthouse.md",
+      "chunks": [
+       "articles/tater_du_lighthouse.md#0"
+      ],
+      "sentence": "There is a separate red fixed light that shows in the line over the Runnelstone Rock, shone from a lower window in the tower."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:eb01126fcc2be6b1",
+   "node": {
+    "id": "eb01126fcc2be6b1",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "automated",
+    "record": null,
+    "mentions": [
+     {
+      "id": "6b313a57912b5cb0",
+      "name": "automated",
+      "document": "articles/anvil_point_lighthouse.md",
+      "chunks": [
+       "articles/anvil_point_lighthouse.md#2"
+      ],
+      "sentence": "Anvil Point Lighthouse was fully automated on 31 May 1991 and is now monitored and controlled from the Trinity House Operations Control Centre at Harwich."
+     },
+     {
+      "id": "be36da44e433ff63",
+      "name": "automated",
+      "document": "articles/farne_lighthouse.md",
+      "chunks": [
+       "articles/farne_lighthouse.md#0",
+       "articles/farne_lighthouse.md#2"
+      ],
+      "sentence": "In 1910 it was one of the first Trinity House lighthouses to be automated."
+     },
+     {
+      "id": "29177f40b1cefebd",
+      "name": "automated",
+      "document": "articles/godrevy_lighthouse.md",
+      "chunks": [
+       "articles/godrevy_lighthouse.md#2"
+      ],
+      "sentence": "Initially, the lighthouse was staffed by two keepers at a time, working two months on and one month off, but landing keepers by boat was always a perilous activity at Godrevy and in 1933 the lighthouse was automated: a new second-order fixed catadioptric lens was installed together with an acetylene burner activated by a sun valve; the new light had a flashing characteristic and a red sector was incorporated which replaced the subsidiary red light."
+     },
+     {
+      "id": "a13ed61101ca192b",
+      "name": "automated",
+      "document": "articles/st_anthony_s_lighthouse.md",
+      "chunks": [
+       "articles/st_anthony_s_lighthouse.md#2"
+      ],
+      "sentence": "Today the light is automated, flashing every 15 seconds, with a red sector for The Manacles."
+     },
+     {
+      "id": "1513580a8f42a022",
+      "name": "conversion to automatic operation",
+      "document": "articles/st_mary_s_lighthouse.md",
+      "chunks": [
+       "articles/st_mary_s_lighthouse.md#2"
+      ],
+      "sentence": "The lighthouse was decommissioned in 1984 (two years after its conversion to automatic operation)."
+     },
+     {
+      "id": "7cb8200281041f9b",
+      "name": "automated",
+      "document": "articles/whitby_lighthouse.md",
+      "chunks": [
+       "articles/whitby_lighthouse.md#2"
+      ],
+      "sentence": "The light was automated in 1992; the former lighthouse keepers' cottages are now available to hire by holidaymakers."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:ed881ea85a42d4a6",
+   "node": {
+    "id": "ed881ea85a42d4a6",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "main light",
+    "record": null,
+    "mentions": [
+     {
+      "id": "b190f099b0022a72",
+      "name": "main light",
+      "document": "articles/anvil_point_lighthouse.md",
+      "chunks": [
+       "articles/anvil_point_lighthouse.md#2"
+      ],
+      "sentence": "In 2012, an LED lamp was installed above the rotating Fresnel lens to serve as the main light at Anvil Point; its character is, as it was previously, a white flash every 10 seconds."
+     },
+     {
+      "id": "e6ce4babd2b804f6",
+      "name": "main light",
+      "document": "articles/farne_lighthouse.md",
+      "chunks": [
+       "articles/farne_lighthouse.md#1"
+      ],
+      "sentence": "A new fixed third order Fresnel lens was installed in the lantern and a red sector was added to the main light to indicate lines of approach that were hazardous for shipping."
+     },
+     {
+      "id": "674e1e8737af1afc",
+      "name": "main light",
+      "document": "articles/godrevy_lighthouse.md",
+      "chunks": [
+       "articles/godrevy_lighthouse.md#2"
+      ],
+      "sentence": "There was also a fixed red light below the main light, which could be seen over a 45-degree arc of danger from the reef."
+     },
+     {
+      "id": "208d2756288c0746",
+      "name": "main lamp",
+      "document": "articles/st_anthony_s_lighthouse.md",
+      "chunks": [
+       "articles/st_anthony_s_lighthouse.md#1"
+      ],
+      "sentence": "As part of these improvements the subsidiary light was discontinued, being replaced by the addition of a red sector to the main lamp."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:ee68d612b26bc10a",
+   "node": {
+    "id": "ee68d612b26bc10a",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "shaft",
+    "record": null,
+    "mentions": [
+     {
+      "id": "342160f045eced50",
+      "name": "shaft",
+      "document": "articles/berry_head_lighthouse.md",
+      "chunks": [
+       "articles/berry_head_lighthouse.md#0"
+      ],
+      "sentence": "It was also said to be the deepest because the optic was originally turned by a weight falling down a 45 metres (148 ft) deep shaft."
+     },
+     {
+      "id": "3afc81348df78606",
+      "name": "shaft",
+      "document": "articles/st_anthony_s_lighthouse.md",
+      "chunks": [
+       "articles/st_anthony_s_lighthouse.md#1"
+      ],
+      "sentence": "A set of weights, descending a 38-foot (12 m) shaft, drove the rotating optic; during foggy weather additional, heavier weights were engaged and the same mechanism then also activated the bell, which sounded four times every minute."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:f3cac911ecdde5f5",
+   "node": {
+    "id": "f3cac911ecdde5f5",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "keeper",
+    "record": null,
+    "mentions": [
+     {
+      "id": "59fdd0f03570c98a",
+      "name": "keeper",
+      "document": "articles/anvil_point_lighthouse.md",
+      "chunks": [
+       "articles/anvil_point_lighthouse.md#2"
+      ],
+      "sentence": "1993 video tour of the lighthouse by P. Halil (former keeper)"
+     },
+     {
+      "id": "19f9f4a8425f680c",
+      "name": "keeper",
+      "document": "articles/farne_lighthouse.md",
+      "chunks": [
+       "articles/farne_lighthouse.md#2"
+      ],
+      "sentence": "Whereas the High Light revolved, the Low Light showed a fixed beam from a single Argand lamp and reflector; it was monitored by the keeper at the High Lighthouse, the light being made visible through a small aperture in the rear of the Low Lighthouse."
+     },
+     {
+      "id": "240a0e7fdc4d4acc",
+      "name": "keepers",
+      "document": "articles/godrevy_lighthouse.md",
+      "chunks": [
+       "articles/godrevy_lighthouse.md#2"
+      ],
+      "sentence": "It is situated almost in the centre of the island and was originally provided with cottages for the keepers."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:f63d26651ab2ef0a",
+   "node": {
+    "id": "f63d26651ab2ef0a",
+    "kind": "individual",
+    "type": "Location",
+    "name": "Stones reef",
+    "record": null,
+    "mentions": [
+     {
+      "id": "318c2bbbb6e5387b",
+      "name": "Stones reef",
+      "document": "articles/godrevy_lighthouse.md",
+      "chunks": [
+       "articles/godrevy_lighthouse.md#0"
+      ],
+      "sentence": "Standing approximately 300 metres (980 ft) off Godrevy Head, it marks the Stones reef, which has been a hazard to shipping for centuries."
+     },
+     {
+      "id": "35b7e27375dadaaa",
+      "name": "Stones",
+      "document": "articles/godrevy_lighthouse.md",
+      "chunks": [
+       "articles/godrevy_lighthouse.md#0"
+      ],
+      "sentence": "Standing approximately 300 metres (980 ft) off Godrevy Head, it marks the Stones reef, which has been a hazard to shipping for centuries."
+     },
+     {
+      "id": "ea53c5b912cae03e",
+      "name": "reef",
+      "document": "articles/godrevy_lighthouse.md",
+      "chunks": [
+       "articles/godrevy_lighthouse.md#1",
+       "articles/godrevy_lighthouse.md#2",
+       "articles/godrevy_lighthouse.md#3"
+      ],
+      "sentence": "Many applications have been made from time to time concerning the erection of a light to warn mariners against this dangerous reef, but it has never been attended to, and to that account may be attributed the destruction of hundreds of lives and a mass of property ..."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:f8634fd9bbe1cfc5",
+   "node": {
+    "id": "f8634fd9bbe1cfc5",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "building",
+    "record": null,
+    "mentions": [
+     {
+      "id": "2ad20849d3d66ae8",
+      "name": "buildings",
+      "document": "articles/whitby_lighthouse.md",
+      "chunks": [
+       "articles/whitby_lighthouse.md#2"
+      ],
+      "sentence": "On the site of the demolished North Light, buildings were erected to house new fog signalling apparatus (including a compressed air plant powered by two Hornsby horizontal 25-horsepower oil engines)."
+     },
+     {
+      "id": "c2ee5d90ce577621",
+      "name": "building",
+      "document": "articles/whitby_lighthouse.md",
+      "chunks": [
+       "articles/whitby_lighthouse.md#2"
+      ],
+      "sentence": "The building, which retains the twin roof-mounted 20-ft trumpets, is now a private dwelling, part of which is also used as holiday accommodation."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:f9f3ec894b018f15",
+   "node": {
+    "id": "f9f3ec894b018f15",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "lamps",
+    "record": null,
+    "mentions": [
+     {
+      "id": "ff2c3129b9e0830b",
+      "name": "lamps",
+      "document": "articles/old_higher_lighthouse.md",
+      "chunks": [
+       "articles/old_higher_lighthouse.md#1"
+      ],
+      "sentence": "In 1788 Trinity House had Argand lamps installed within the higher lighthouse, which was the first in England to be fitted with them."
+     },
+     {
+      "id": "7988972fa30c9c3f",
+      "name": "lamps",
+      "document": "articles/st_anthony_s_lighthouse.md",
+      "chunks": [
+       "articles/st_anthony_s_lighthouse.md#1"
+      ],
+      "sentence": "At that time it still used the same arrangement of eight lamps, providing a flash every twenty seconds."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:fa98e9b45d3a6d81",
+   "node": {
+    "id": "fa98e9b45d3a6d81",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "oil lamp",
+    "record": null,
+    "mentions": [
+     {
+      "id": "de757135b9c7af52",
+      "name": "oil lamp",
+      "document": "articles/anvil_point_lighthouse.md",
+      "chunks": [
+       "articles/anvil_point_lighthouse.md#1"
+      ],
+      "sentence": "In the early 20th century a paraffin vapour burner (PVB) replaced the oil lamp."
+     },
+     {
+      "id": "0bad8e00e4b9d53d",
+      "name": "oil lamp",
+      "document": "articles/godrevy_lighthouse.md",
+      "chunks": [
+       "articles/godrevy_lighthouse.md#2"
+      ],
+      "sentence": "The first light was an oil lamp within a large (first-order) revolving catadioptric optic by Henri Lepaute of Paris, which flashed white every ten seconds; it consisted of 24 Fresnel lens panels with multiple rows of reflecting prisms above and below."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:fdacbc7b95167c9b",
+   "node": {
+    "id": "fdacbc7b95167c9b",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "lantern",
+    "record": null,
+    "mentions": [
+     {
+      "id": "02568e7f8596d8b0",
+      "name": "lantern",
+      "document": "articles/farne_lighthouse.md",
+      "chunks": [
+       "articles/farne_lighthouse.md#1"
+      ],
+      "sentence": "A new fixed third order Fresnel lens was installed in the lantern and a red sector was added to the main light to indicate lines of approach that were hazardous for shipping."
+     },
+     {
+      "id": "dfe90f236af696d5",
+      "name": "lantern",
+      "document": "articles/st_anthony_s_lighthouse.md",
+      "chunks": [
+       "articles/st_anthony_s_lighthouse.md#1"
+      ],
+      "sentence": "The size of the lens meant that the height of the lantern had to be increased."
+     },
+     {
+      "id": "1f6b1755c7fcbe3e",
+      "name": "lantern",
+      "document": "articles/st_mary_s_lighthouse.md",
+      "chunks": [
+       "articles/st_mary_s_lighthouse.md#1"
+      ],
+      "sentence": "The first light in the area was in Tynemouth Priory - an 11th-century monastic chapel, whose monks maintained a lantern on the tower to warn passing ships of the danger of the rocks."
+     },
+     {
+      "id": "be9f2141f626562b",
+      "name": "lantern",
+      "document": "articles/tater_du_lighthouse.md",
+      "chunks": [
+       "articles/tater_du_lighthouse.md#0"
+      ],
+      "sentence": "The short building is topped by a 7-foot 1 inch lantern with an electric light which is powered from batteries which are charged from mains electricity during the day."
+     }
+    ]
+   }
+  },
+  {
+   "id": "m:fdf552a823920898",
+   "node": {
+    "id": "fdf552a823920898",
+    "kind": "concept",
+    "type": "Kind",
+    "name": "mechanism",
+    "record": null,
+    "mentions": [
+     {
+      "id": "e34ebb6c4ec72603",
+      "name": "mechanism",
+      "document": "articles/st_anthony_s_lighthouse.md",
+      "chunks": [
+       "articles/st_anthony_s_lighthouse.md#1"
+      ],
+      "sentence": "A set of weights, descending a 38-foot (12 m) shaft, drove the rotating optic; during foggy weather additional, heavier weights were engaged and the same mechanism then also activated the bell, which sounded four times every minute."
+     },
+     {
+      "id": "a600e96aaae0883a",
+      "name": "mechanism",
+      "document": "articles/whitby_lighthouse.md",
+      "chunks": [
+       "articles/whitby_lighthouse.md#2"
+      ],
+      "sentence": "mechanism was also installed, which eclipsed the light once every thirty seconds, and a red sector was added marking Whitby Rock."
+     }
+    ]
+   }
+  }
+ ],
+ "splits": [
+  {
+   "id": "s:Apparatus:fog bell",
+   "type": "Apparatus",
+   "name": "fog bell",
+   "nodes": [
+    {
+     "id": "1b3f1d08365636c3",
+     "kind": "individual",
+     "type": "Apparatus",
+     "name": "fog bell",
+     "record": null,
+     "mentions": [
+      {
+       "id": "43837fdb059e4ffa",
+       "name": "fog bell",
+       "document": "articles/st_anthony_s_lighthouse.md",
+       "chunks": [
+        "articles/st_anthony_s_lighthouse.md#2"
+       ],
+       "sentence": "The fog bell, which hung from the gallery at the front of the tower, was therefore decommissioned; it was donated to the nearby Penwerris church, but after many years of sitting on the church front lawn, was taken away to be melted down."
+      }
+     ]
+    },
+    {
+     "id": "25aab00ab80cba55",
+     "kind": "individual",
+     "type": "Apparatus",
+     "name": "fog bell",
+     "record": null,
+     "mentions": [
+      {
+       "id": "5169e2aa9f00bce4",
+       "name": "fog bell",
+       "document": "articles/godrevy_lighthouse.md",
+       "chunks": [
+        "articles/godrevy_lighthouse.md#2"
+       ],
+       "sentence": "A fog bell was also provided,."
+      }
+     ]
+    }
+   ]
+  },
+  {
+   "id": "s:Lighthouse:low light",
+   "type": "Lighthouse",
+   "name": "low light",
+   "nodes": [
+    {
+     "id": "18cc4d55ec3889ae",
+     "kind": "individual",
+     "type": "Lighthouse",
+     "name": "Low Light",
+     "record": null,
+     "mentions": [
+      {
+       "id": "cb0604b6e0e12292",
+       "name": "Low Light",
+       "document": "articles/farne_lighthouse.md",
+       "chunks": [
+        "articles/farne_lighthouse.md#2"
+       ],
+       "sentence": "Whereas the High Light revolved, the Low Light showed a fixed beam from a single Argand lamp and reflector; it was monitored by the keeper at the High Lighthouse, the light being made visible through a small aperture in the rear of the Low Lighthouse."
+      }
+     ]
+    },
+    {
+     "id": "a257d19c8ae2463d",
+     "kind": "individual",
+     "type": "Lighthouse",
+     "name": "Low Light",
+     "record": null,
+     "mentions": [
+      {
+       "id": "9095aa5c7d22f634",
+       "name": "Low Light",
+       "document": "articles/old_higher_lighthouse.md",
+       "chunks": [
+        "articles/old_higher_lighthouse.md#2"
+       ],
+       "sentence": "establishment of Start Point Lighthouse with its revolving Fresnel lenses, Portland High was again made a fixed light (matching the Low Light, which had remained fixed throughout)."
+      }
+     ]
+    }
+   ]
+  }
+ ],
+ "chunks": {
+  "articles/anvil_point_lighthouse.md#0": {
+   "document": "articles/anvil_point_lighthouse.md",
+   "heading": "Anvil Point Lighthouse",
+   "text": "# Anvil Point Lighthouse\n\nThe Anvil Point Lighthouse is a fully automated lighthouse located at Durlston Country Park near Swanage in Dorset, England. It is owned by Trinity House.\nThe lighthouse, residential block and associated buildings are listed Grade II as part of a single entry on the National Heritage List for England.\n\n## History"
+  },
+  "articles/anvil_point_lighthouse.md#1": {
+   "document": "articles/anvil_point_lighthouse.md",
+   "heading": "Anvil Point Lighthouse",
+   "text": "The lighthouse is built of local stone and was completed in 1881. It was opened by Joseph Chamberlain, the President of the Board of Trade. The lighthouse tower is twelve metres tall; the height of the light above the high-water mark is 45 m (148 ft). The light is positioned to give a waypoint for vessels passing along the English Channel coast.\nOriginally the light was illuminated by a Douglass multi-wick mineral oil burner, set within a large (first order) revolving 14-panel dioptric optic by Chance Brothers & Co. It was the first example of a significant new design of lighthouse optic, whereby (through the use of dense flint glass in the upper and lower portions) the height of a Fresnel lens could be significantly increased, dispensing with the need for additional reflective prisms above and below; the lenses alone stood 6 ft 2 in (1.88 m) high. The lamp was also specially designed for Anvil Point by James Douglass; it was subsequently used in other large coastal lighthouses, a series of international patents having been granted.\nAn explosive fog signal was established at the lighthouse in February 1894, which in foggy weather sounded once every ten minutes (later altered to every five minutes).\nIn the early 20th century a paraffin vapour burner (PVB) replaced the oil lamp."
+  },
+  "articles/anvil_point_lighthouse.md#2": {
+   "document": "articles/anvil_point_lighthouse.md",
+   "heading": "Anvil Point Lighthouse",
+   "text": "During 1960, the lighthouse was modernised and electrified (with a new lamp, powered by mains electricity, replacing the PVB). At the same time a smaller optic replaced the original lens array, which was removed and donated to the Science Museum. That same year, the five-minute explosive fog signal was replaced by a triple-frequency electric signal, sounded from a stack of thirty tannoy emitters positioned on the seaward edge of the compound directly in front of the lighthouse. In 1981 new automatic equipment was installed, but the fog signal was discontinued in 1988.\nAnvil Point Lighthouse was fully automated on 31 May 1991 and is now monitored and controlled from the Trinity House Operations Control Centre at Harwich.\nThe lighthouse had a 1,000 watt filament lamp with an intensity of 500,000 candela. The light's range was about 19 nautical miles (35 km; 22 mi), but was reduced to 9 nautical miles (17 km; 10 mi) following a review of aids to navigation in 2010.\nIn 2012, an LED lamp was installed above the rotating Fresnel lens to serve as the main light at Anvil Point; its character is, as it was previously, a white flash every 10 seconds. (The old lens, though no longer in use, remains in place in the tower.)\n\n## See also\n\nList of lighthouses in England\n\n## External links\n\nTrinity House\nPhotograph of the original first-order optic\nPhotograph of the Paraffin Vapour Burner\n1993 video tour of the lighthouse by P. Halil (former keeper)"
+  },
+  "articles/berry_head_lighthouse.md#0": {
+   "document": "articles/berry_head_lighthouse.md",
+   "heading": "Berry Head Lighthouse",
+   "text": "# Berry Head Lighthouse\n\nBerry Head Lighthouse is an active lighthouse, located at the end of Berry Head near Brixham in Devon, which has been in operation since 4 May 1906. Berry Head is reputedly the shortest lighthouse in Great Britain, but also one of the highest, being only 5 metres (16 ft) tall, but 58 metres (190 ft) above mean sea level. It was also said to be the deepest because the optic was originally turned by a weight falling down a 45 metres (148 ft) deep shaft.\n\n## History"
+  },
+  "articles/berry_head_lighthouse.md#1": {
+   "document": "articles/berry_head_lighthouse.md",
+   "heading": "Berry Head Lighthouse",
+   "text": "The lighthouse was designed and built for Trinity House by its chief engineer Thomas Matthews. When first lit, the incandescent lamp was fuelled by oil gas (which was purchased from the Great Western Railway at Exeter and stored in large external tanks on site). The lamp was placed within a revolving third-order dioptric optic, which gave a double white flash every 15 seconds. It had a range of 20 nautical miles (37 km; 23 mi). Berry Head was classed as an unwatched light; it was managed by an attendant, who brought it into service each evening. In addition, the clockwork mechanism  which turned the optic required regular winding.\nIn 1921 the lighthouse was converted by the AGA company to run on acetylene. A triple-cluster open-flame burner was installed, along with an acetylene-powered drive to turn the lens, and a Dalen sun valve (which automatically brought the light into operation when required). Since 1994 the lighthouse has run on mains electricity.\nIn 2019 the optic and lamp were removed and replaced with a pair of self-contained LED lanterns (one serving as the main light, the other as a standby); the old characteristic was retained. The installation was the first application by Trinity House of its so-called 'simple lighthouse scheme', intended to be extended to all other shore-based mains-powered lighthouses, except those with more complex display requirements (e.g. provision of a sector light).\n\n## See also\n\nList of lighthouses in England"
+  },
+  "articles/berry_head_lighthouse.md#2": {
+   "document": "articles/berry_head_lighthouse.md",
+   "heading": "Berry Head Lighthouse",
+   "text": "## Further reading\nPike, John. \"Berry Head; Forts, Lighthouse and House\". Torbytes. Torbay Council. Archived from the original on 12 October 2006. Retrieved 4 May 2010.\n\n## External links\nTrinity House"
+  },
+  "articles/farne_lighthouse.md#0": {
+   "document": "articles/farne_lighthouse.md",
+   "heading": "Farne Lighthouse",
+   "text": "# Farne Lighthouse\n\nFarne Lighthouse is a lighthouse on the southern tip of Inner Farne (one of a group of islands off the coast of North Northumberland). Built in the early 19th century, it still functions as a lighthouse and is managed by Trinity House (England's general lighthouse authority). In 1910 it was one of the first Trinity House lighthouses to be automated.\n\n## History"
+  },
+  "articles/farne_lighthouse.md#1": {
+   "document": "articles/farne_lighthouse.md",
+   "heading": "Farne Lighthouse",
+   "text": "Farne Lighthouse was one of a pair built on Inner Farne by the Corporation of Trinity House in 1811, both of which were designed by Daniel Alexander to replace an earlier coal-burning light which had been established on the island by Captain John Blackett in 1778.\nFarne Lighthouse (originally named Farne High Lighthouse) is a cylindrical white tower, 13 m (43 ft) tall with a lighthouse keeper's cottage attached to its base. It was initially provided with a revolving array of seven Argand lamps and reflectors, which displayed a single white flash every 30 seconds. In 1910 it was converted to run automatically on acetylene; the gas was manufactured in an adjacent producer plant and controlled by a sun valve. A new fixed third order Fresnel lens was installed in the lantern and a red sector was added to the main light to indicate lines of approach that were hazardous for shipping. (That same year saw the nearby Bamburgh Lighthouse established, with a sector light that worked in conjunction with the Inner Farne light.) This arrangement largely remains in place, except that in 1996 the light was converted from acetylene to solar powered electric operation."
+  },
+  "articles/farne_lighthouse.md#2": {
+   "document": "articles/farne_lighthouse.md",
+   "heading": "Farne Lighthouse",
+   "text": "The other lighthouse on the island (Farne Low Lighthouse) was an octagonal tower, 8 m (26 ft) tall, placed 150 m (490 ft) away from the first, close to the north-west tip of the island. It served to warn shipping of the Megstone, an isolated rocky island lying (in line with the two lights) just under a mile away to the north-west. Whereas the High Light revolved, the Low Light showed a fixed beam from a single Argand lamp and reflector; it was monitored by the keeper at the High Lighthouse, the light being made visible through a small aperture in the rear of the Low Lighthouse.\nAfter the High Light had been modified and automated in 1910, use of the Low Light was discontinued; before long it was demolished along with most of the keepers' accommodation (which was now no longer needed)."
+  },
+  "articles/farne_lighthouse.md#3": {
+   "document": "articles/farne_lighthouse.md",
+   "heading": "Farne Lighthouse",
+   "text": "### Associated lighthouses\nIn 1811, at the same time as it was building the two lighthouses on Inner Farne, Trinity House also built a new lighthouse on one of the outer Farne Islands: Brownsman Island. This light was also designed by Daniel Alexander and was similar to the other two in appearance and layout but taller; it too was equipped with a revolving set of lamps and reflectors. It likewise replaced an earlier light built by Captain Blackett in 1778 (on nearby Staple Island, but subsequently relocated to Brownsman). The 1811 installation on Brownsman Island was itself later moved to a more effective position on Longstone Island, further out to sea; named Longstone Lighthouse, it too remains active as an aid to navigation for Trinity House.\n\n## Present day\n\nThe tower is 13 m (43 ft) tall with a range for the light of 8 nautical miles (15 km; 9.2 mi). Farne Island Lighthouse was sold on 6 June 2005 to the National Trust for £132,000; nevertheless it remains an operational lighthouse, with relevant areas of the building having been leased back to Trinity House for a peppercorn rent. In 2022 permission was given for the lamp to be replaced with an LED light source, designed to function within the original lens; this upgrade was completed in March 2022.\n\n## See also\n\nList of lighthouses in England\n\n## External links\n\nTrinity House page\nLighthouse access & boat trips"
+  },
+  "articles/godrevy_lighthouse.md#0": {
+   "document": "articles/godrevy_lighthouse.md",
+   "heading": "Godrevy Lighthouse",
+   "text": "# Godrevy Lighthouse\n\nGodrevy Lighthouse (Cornish: Golowji Godrevi) was built in 1858–1859 on Godrevy Island in St Ives Bay, Cornwall. Standing approximately 300 metres (980 ft) off Godrevy Head, it marks the Stones reef, which has been a hazard to shipping for centuries.\n\n## History\nThe Stones claimed many ships, prompting calls for a lighthouse to be built, but nothing came of plans until the wreck of the iron screw steamer SS Nile during a storm on 30 November 1854. All of her passengers and crew, numbering about 40 people in total, were lost."
+  },
+  "articles/godrevy_lighthouse.md#1": {
+   "document": "articles/godrevy_lighthouse.md",
+   "heading": "Godrevy Lighthouse",
+   "text": "The disaster prompted fresh calls for a light to be built. Richard Short, a St Ives master mariner, wrote to the Shipping and Mercantile Gazette the day after the news of the sinking broke to note: \"[H]ad there been a light on Godrevy Island, which the inhabitants of this town have often applied for, it would no doubt have been the means of warning the ill-fated ship of the dangerous rocks she was approaching. Many applications have been made from time to time concerning the erection of a light to warn mariners against this dangerous reef, but it has never been attended to, and to that account may be attributed the destruction of hundreds of lives and a mass of property ... scarcely a month passes by in the winter season without some vessel striking on these rocks, and hundreds of poor fellows have perished there in dark dreary nights without one being left to tell the tale.\"\nFurther, though less lethal, accidents followed, prompting a local clergyman, the Rev. J.W. Murray of Hayle, to start a petition to Trinity House to build a lighthouse on the island. The petitioners were informed in October 1856 that Trinity House had agreed to build the Godrevy Lighthouse. By December 1857, James Sutcliffe had been appointed as the engineer for the project, with James Walker contracted to design the lighthouse. Its construction took around a year at a cost of £7,082 15s 12d and the light began operating on 1 March 1859.\n\n## Description"
+  },
+  "articles/godrevy_lighthouse.md#2": {
+   "document": "articles/godrevy_lighthouse.md",
+   "heading": "Godrevy Lighthouse",
+   "text": "The lighthouse is a white octagonal tower, 86 feet (26 m) high and made of rubble stone bedded in mortar. It is situated almost in the centre of the island and was originally provided with cottages for the keepers. The first light was an oil lamp within a large (first-order) revolving catadioptric optic by Henri Lepaute of Paris, which flashed white every ten seconds; it consisted of 24 Fresnel lens panels with multiple rows of reflecting prisms above and below. There was also a fixed red light below the main light, which could be seen over a 45-degree arc of danger from the reef. The main light's rotation was powered by a clockwork motor, driven by a large weight that descended down a cavity in the wall of the tower. The lights had a range of 17 and 15 miles respectively. A fog bell was also provided,. which sounded once every five seconds.\nInitially, the lighthouse was staffed by two keepers at a time, working two months on and one month off, but landing keepers by boat was always a perilous activity at Godrevy and in 1933 the lighthouse was automated: a new second-order fixed catadioptric lens was installed together with an acetylene burner activated by a sun valve; the new light had a flashing characteristic and a red sector was incorporated which replaced the subsidiary red light. The fog bell was deactivated at the same time. By 1939 the keepers had been withdrawn and their cottages were subsequently demolished."
+  },
+  "articles/godrevy_lighthouse.md#3": {
+   "document": "articles/godrevy_lighthouse.md",
+   "heading": "Godrevy Lighthouse",
+   "text": "In 1995, the lighthouse was modernised and converted to solar powered operation. In 2012 Trinity House discontinued use of the light within the tower, replacing it with an LED light mounted on a steel platform nearby on the rocks. Godrevy is still listed by Trinity House as a lighthouse, and the tower is maintained by them as a daymark. The new light maintains the same pattern as its predecessor, flashing white/red every ten seconds, with the red sector only being visible in the arc of danger from the reef. The range of the light is around 8 nautical miles (15 km).\nGodrevy Light by Charles Thomas and Jessica Mann describes the history of this lighthouse and shows the many works of art it inspired. One of those whom the lighthouse is said to have inspired was Virginia Woolf, author of To the Lighthouse – although she locates the lighthouse in the Hebrides. She first visited on 12 September 1892, signing the visitors' book, as did the pre–Raphaelite painter William Holman Hunt who was in the same party. The lighthouse's visitors' book, containing the signature of Virginia Stephen (Woolf), was sold at auction at Bonhams on 22 November 2011 for £10,250.\n\n## See also\n\nList of lighthouses in England\n\n## Further reading\nGodrevy Light by Charles Thomas with Jessica Mann, Truro: Twelveheads Press, 2009 ISBN 978-0-906294-70-3\nGodrevy Lighthouses - Worldwide Lighthouses\n\n## External links\n\nGodrevy information at Trinity House"
+  },
+  "articles/old_higher_lighthouse.md#0": {
+   "document": "articles/old_higher_lighthouse.md",
+   "heading": "Old Higher Lighthouse",
+   "text": "# Old Higher Lighthouse\n\nThe Old Higher Lighthouse is a disused 19th century lighthouse on the Isle of Portland, Dorset, southern England. It is located at Branscombe Hill on the west side of Portland, overlooking Portland Bill. The lighthouse is Grade II Listed."
+  },
+  "articles/old_higher_lighthouse.md#1": {
+   "document": "articles/old_higher_lighthouse.md",
+   "heading": "Old Higher Lighthouse",
+   "text": "## History\nThe surrounding coast of Portland, namely Portland Bill and Chesil Beach, have been notorious for the many vessels that became shipwrecked in the area over the centuries. After years of local petitions to Trinity House, the organisation agreed for a lighthouse to be built at Portland Bill. George I granted the patent in 1716. That year, it was announced that Trinity House had 'caus'd to be erected two round Light-Houses of Stone upon Portland, in the County of Dorset, distant about two Thirds of a Mile from the Bill of Portland'. This one was built at Branscombe Hill, and the other, the Old Lower Lighthouse, on lower land. Designed as leading lights to guide ships between Portland Race and the Shambles sandbank, they shone out for the first time on 29 September 1716. Initially, both were fire lights.\nAlthough they had been privately built, Trinity House took over responsibility for the lights on finding them poorly maintained, in 1752. In 1788 Trinity House had Argand lamps installed within the higher lighthouse, which was the first in England to be fitted with them. It was fitted with fourteen lamps arranged in two rows of seven, with a polished spherical reflector set behind each lamp. The lamps were designed by Thomas Rogers.\nIn 1824 Portland High Light was improved by Trinity House: a three-sided revolving apparatus was installed (with Argand lamps and reflectors), 'each face exhibiting its greatest light every two minutes'; however in 1835, following the"
+  },
+  "articles/old_higher_lighthouse.md#2": {
+   "document": "articles/old_higher_lighthouse.md",
+   "heading": "Old Higher Lighthouse",
+   "text": "establishment of Start Point Lighthouse with its revolving Fresnel lenses, Portland High was again made a fixed light (matching the Low Light, which had remained fixed throughout).\nBoth Portland lighthouses were rebuilt in 1869, and provided with large (first-order) fixed optics designed and built by James Chance. At the turn of the 20th century, Trinity House made plans to build a new lighthouse at Bill Point to replace both current lighthouses. The new lighthouse was completed in 1905, and the original two lighthouses were then auctioned. In 1923 the lighthouse was purchased by the palaeobotanist, campaigner for eugenics, pioneer of birth control and Portland Museum founder Marie Stopes as a summer residence.\nDuring World War II, the Royal Observer Corps used the tower as a lookout. During the early 1960s the lighthouse was run as a restaurant. The lighthouse and its cottages were refurbished in 1981. With a total of four cottages within its grounds, both the Branscombe Lodge Cottage and Stopes Cottage are now available as holiday lets.\n\n## See also\n\nList of lighthouses in England\n\n## External links\nOld Higher Lighthouse official website\nArchive pictures of the Lighthouse when owned by Marie Stopes"
+  },
+  "articles/st_agnes_lighthouse.md#0": {
+   "document": "articles/st_agnes_lighthouse.md",
+   "heading": "St Agnes Lighthouse",
+   "text": "# St Agnes Lighthouse\n\nSt Agnes lighthouse is a 17th-century lighthouse situated on St Agnes on the Isles of Scilly. It was the second to be built in the western approaches (after the Lizard lighthouse of 1619); it was also only the second lighthouse station to be established by Trinity House (after Lowestoft in 1609).\nIn 1680 Trinity House began a survey of the coasts of England as it was known that the contemporary charts were inaccurate; the Isles of Scilly was plotted ten miles to the north. On 24 May that year, Trinity House was given permission to erect and maintain one or more lighthouses on the islands. St Agnes was chosen as it is the most westerly of the habitable islands and close to the collection of rocks, tidal flows and currents, now known as the Western Rocks.\nThe lighthouse was built in 1680 and stands 74' above the ground, and 138' above mean high water; the incorporation of gun ports in the structure of the tower is an unusual feature. A plaque records the original construction by Captains Hugh Hill and Simon Bayly (builders of the 1676 Lowestoft lighthouse). There were two protests against the building of the St Agnes light: officials from the Isle of Wight complained that they would lose revenue from harbour dues and victualling as shipping would prefer to use the Isles of Scilly, and the Governor of Scilly objected on the grounds that he would lose money from wrecks. Earlier petitions to build a lighthouse on St Agnes (submitted by private individuals and companies in 1665"
+  },
+  "articles/st_agnes_lighthouse.md#1": {
+   "document": "articles/st_agnes_lighthouse.md",
+   "heading": "St Agnes Lighthouse",
+   "text": "and 1679) had been refused.\n\nThe light was first lit on 30 October 1680; it was provided by coal burned within a brazier atop the tower. By 1756 the brazier was set within a lantern structure made up of 16 sash windows, roofed, with multiple chimneys. The lighthouse was coal fired until 1790, when it was converted to oil: twenty-one Argand lamps with reflectors, mounted on a three-sided revolving array. This 'very novel and ingenious operation' represented an innovation in optic design which was subsequently adopted in other lighthouses, including those at Cromer and Flamborough Head. In 1806 the lantern structure at the top of the tower was rebuilt (as seen today) to accommodate an enlarged three-sided revolving array of 30 lamps, each with a 21-inch reflector.\nAfter the completion of Bishop Rock Lighthouse in 1858, St Agnes's lost its status as a landfall light and England's westernmost lighthouse. It was, in any case, prone to fog (due not least to its inland location). In 1880 the optical equipment was upgraded: it now consisted of fourteen reflectors and lamps (two-wick mineral oil burners), arranged (in two tiers, three above and four below) on opposite sides of a revolving square frame. The speed of rotation was increased, to give a flash every thirty seconds (rather than, as previously, every minute). A further upgrade took place in 1891, supervised by the chief engineer of Trinity House, Sir James Douglass with the new light much more powerful than the old one. Heavy mineral oil (flash point of"
+  },
+  "articles/st_agnes_lighthouse.md#2": {
+   "document": "articles/st_agnes_lighthouse.md",
+   "heading": "St Agnes Lighthouse",
+   "text": "280 degrees) replaced ″colza″. In 1911 the St Agnes lighthouse was decommissioned, having been superseded by Peninnis Lighthouse (a 17-metre-tall black and white steel lattice tower situated on the southern extremity of St. Mary's island). The old lighthouse tower continues to be maintained as a daymark for shipping.\nThe lighthouse is a Scheduled Monument and a Grade II* listed building."
+  },
+  "articles/st_anthony_s_lighthouse.md#0": {
+   "document": "articles/st_anthony_s_lighthouse.md",
+   "heading": "St Anthony's Lighthouse",
+   "text": "# St Anthony's Lighthouse\n\nSt Anthony's Lighthouse is the lighthouse at St Anthony Head, on the eastern side of the entrance to Falmouth harbour, Cornwall, UK. The harbour is also known as Carrick Roads and is one of the largest natural harbours in the world.\n\n## History\nThe lighthouse was designed by James Walker and built in 1835 by Olver of Falmouth, for Trinity House and the original light came from eight Argand oil lamps mounted on a revolving frame. The light was seen to flash once every twenty seconds. In 1865 an additional lamp and reflector were installed 'in the living room of the principal keeper' which shone a fixed light through a square window in the direction of a dangerous cluster of rocks known as The Manacles. (At the time the principal keeper and his family lived in the tower itself, while the assistant lived in the cottage, linked to the lighthouse by a covered way). After 1903 this subsidiary light was instead shown from a separate 'hut' 20 ft (6.1 m) from the tower itself."
+  },
+  "articles/st_anthony_s_lighthouse.md#1": {
+   "document": "articles/st_anthony_s_lighthouse.md",
+   "heading": "St Anthony's Lighthouse",
+   "text": "A fog-bell was installed in 1865, replaced in 1882 by a larger, two-ton bell, 5-foot (1.5 m) in diameter (reputedly the heaviest bell in Cornwall). It hung from a girder attached to the front of the gallery.  A set of weights, descending a 38-foot (12 m) shaft, drove the rotating optic; during foggy weather additional, heavier weights were engaged and the same mechanism then also activated the bell, which sounded four times every minute.\nAfter the closure of the lighthouse at St Agnes, Isles of Scilly in 1911, St Anthony's was (along with Cromer) one of the only major Trinity House lights still using reflectors rather than Fresnel lenses. At that time it still used the same arrangement of eight lamps, providing a flash every twenty seconds. In 1912–13, however, work was underway for the 'improvement of [the] high and abolition of [the] low light': and by 1920, the light source had been changed to pressure vapour and a large (first-order) fixed Fresnel optic had been introduced (along with a clockwork occulting mechanism, which eclipsed the light for three seconds in every twenty). The size of the lens meant that the height of the lantern had to be increased. As part of these improvements the subsidiary light was discontinued, being replaced by the addition of a red sector to the main lamp.\nElectric light was introduced (in the form of a 24kW filament lamp) when electricity was connected to the lighthouse in 1954. At the same time an experimental electric fog signal was"
+  },
+  "articles/st_anthony_s_lighthouse.md#2": {
+   "document": "articles/st_anthony_s_lighthouse.md",
+   "heading": "St Anthony's Lighthouse",
+   "text": "introduced, sounding from 35 Tannoy emitters (subsequently Trinity House installed fog signals of this type at a dozen or so other lighthouses). The fog bell, which hung from the gallery at the front of the tower, was therefore decommissioned; it was donated to the nearby Penwerris church, but after many years of sitting on the church front lawn, was taken away to be melted down.\n\n## Present day\nToday the light is automated, flashing every 15 seconds, with a red sector for The Manacles. The fog horn blasts once every 30 seconds. In 2022 the range of the light was reduced from 22 nautical miles to 12 (and the red sector light from 20 nmi to 9); the optic remains in use but the light source is now LED.\n\n## The lighthouse in popular culture\nSt. Anthony's lighthouse was featured in the intro of the UK version of Jim Henson's Fraggle Rock, as \"Fraggle Rock Lighthouse\". Nearby St. Mawes is also featured in some scenes from the programme. It also featured in one of episode of Ragdoll Productions' preschool series; Tots TV.\n\n## See also\n\nList of lighthouses in England\n\n## External links\n Media related to St Anthony's Lighthouse at Wikimedia Commons\nSt Anthony's Lighthouse at Trinity House\ngrid reference SW846311"
+  },
+  "articles/st_mary_s_lighthouse.md#0": {
+   "document": "articles/st_mary_s_lighthouse.md",
+   "heading": "St Mary's Lighthouse",
+   "text": "# St Mary's Lighthouse\n\nSt Mary's Lighthouse is on the tiny St Mary's (or Bait) Island, just north of Whitley Bay on the coast of North East England. The small rocky tidal island is linked to the mainland by a short concrete causeway which is submerged at high tide.\n\n## History"
+  },
+  "articles/st_mary_s_lighthouse.md#1": {
+   "document": "articles/st_mary_s_lighthouse.md",
+   "heading": "St Mary's Lighthouse",
+   "text": "The first light in the area was in Tynemouth Priory - an 11th-century monastic chapel, whose monks maintained a lantern on the tower to warn passing ships of the danger of the rocks. A lighthouse was built on the site of the current Tynemouth Coastguard station in 1664 using stone from the priory. This lighthouse was demolished when the new lighthouse and adjacent keepers' cottages were built in 1898 on St Mary's Island by the John Miller company of Tynemouth, using 645 blocks of stone and 750,000 bricks. A first-order 'bi-valve' rotating optic was installed by Barbier & Bénard of Paris, very similar to the one they had provided the previous year for Lundy North Lighthouse; it displayed a group-flashing characteristic, flashing twice every 20 seconds. The lamp was powered by paraffin, and was not electrified until 1977; St Mary's was by then the last Trinity House lighthouse lit by oil.\nAs part of the electrification process the fine first-order fresnel lens was removed by Trinity House (it was later put on display in their National Lighthouse Museum in Penzance). Its place in the tower was taken by a four-tier revolving sealed beam lamp array, manufactured by Pharos Marine; it was powered by two 12-volt batteries, charged from the mains electricity supply.\n\n## Decommissioning"
+  },
+  "articles/st_mary_s_lighthouse.md#2": {
+   "document": "articles/st_mary_s_lighthouse.md",
+   "heading": "St Mary's Lighthouse",
+   "text": "The lighthouse was decommissioned in 1984 (two years after its conversion to automatic operation). The revolving sealed beam array was reused two years later (in reduced form) on the Inner Dowsing light platform in the North Sea, as part of its conversion to become 'the first major lighthouse to be run using solar power'. In 1986 a blue plaque was created to record its early history.\nA few years later, St Mary's was opened as a visitor attraction by the local council. In place of the original optic, Trinity House offered a smaller one from their decommissioned lighthouse at Withernsea, and this can still be seen at the top of the tower.\nFollowing closure of the Penzance lighthouse museum, the original lens was returned to St Mary's in 2011 to be put on display.\n\n## The lighthouse today"
+  },
+  "articles/st_mary_s_lighthouse.md#3": {
+   "document": "articles/st_mary_s_lighthouse.md",
+   "heading": "St Mary's Lighthouse",
+   "text": "Since 2012 St Mary's lighthouse has been grade II listed.\nWhile it no longer functions as a working lighthouse, it is easily accessible (when the tide is out) and regularly open to visitors; in addition to the lighthouse itself there is a small museum, a visitor's centre, and a café. The cottage was upgraded with a wood pellet boiler in 2014.\nIn 2017 a renovation plan for the site (including roof-top viewing platforms and various glass-covered extensions) was rejected by the local planning authority due to environmental concerns. A new refurbishment proposal (to include rebuilding the original optic) was presented in 2018; however the Heritage Lottery Fund later turned down North Tyneside Council's £2.1m funding application. In 2024 the lighthouse and keepers' cottages were repainted and general repairs were carried out.\n\n### Other nearby lighthouses\nAnother Victorian lighthouse may be found a few miles to the south of the River Tyne: Souter Lighthouse is also now decommissioned, and open to visitors (it can be seen with the naked eye from the top of St Mary's Lighthouse). Pierhead lighthouses at Tynemouth and South Shields mark the entrance to the River Tyne. To the north, Trinity House maintains two operational lighthouses on the Farne Islands.\n\n## See also\n\nList of lighthouses in England\n\n## External links\n\nTrinity House"
+  },
+  "articles/tater_du_lighthouse.md#0": {
+   "document": "articles/tater_du_lighthouse.md",
+   "heading": "Tater Du Lighthouse",
+   "text": "# Tater Du Lighthouse\n\nTater Du Lighthouse is Cornwall's most recently built lighthouse. The construction of the lighthouse came out of the tragedy of losing a small Spanish coaster called the Juan Ferrer on 23 October 1963, on the nearby Boscawen Point, the vessel capsized with the loss of 11 lives.  After the tragedy the Newlyn and Mousehole Fishermen's Association put pressure on Trinity House for a lighthouse to be built, stating that similar tragedies could happen again. The lighthouse, built with concrete blocks, was first lit in July 1965.\n\n## Description\nThe short building is topped by a 7-foot 1 inch lantern with an electric light which is powered from batteries which are charged from mains electricity during the day. The light is 3 white lights flashed every 15 seconds, with a range of 20 nautical miles (37 km; 23 mi). There is a separate red fixed light that shows in the line over the Runnelstone Rock, shone from a lower window in the tower.\nThe lighthouse looks out over the Inner and Outer Bucks, two rocks that partially show at low water, and where in 1868 the SS Garonne was lost."
+  },
+  "articles/tater_du_lighthouse.md#1": {
+   "document": "articles/tater_du_lighthouse.md",
+   "heading": "Tater Du Lighthouse",
+   "text": "## History\nDesigned by Michael H. Crisp, the lighthouse was constructed with a completely automatic installation which was remotely controlled from the Trinity House depot in Penzance. In 1997 the lighthouse was modernised and it is now monitored from the Trinity House Planning Centre at Harwich.\nIn May 2022, as part of Trinity House's lighthouse modernisation programme, the revolving optic was replaced with static LED lanterns. At the same time the light's visible range was reduced from 20 nautical miles (37 km; 23 mi) to 12 nmi (22 km; 14 mi).\n\n### Fog signal\nThe fog signal was originally a series (72 in total) of Tannoy units built into the lighthouse tower; they were powered by an alternator coupled to a 2-cylinder Ruston diesel engine. This was later replaced by a short-range Pharos Marine Omnidirectional electric emitter sounding the same characteristic of two one second blasts every 30 seconds during fog. The fog signal was decommissioned in 2012."
+  },
+  "articles/tater_du_lighthouse.md#2": {
+   "document": "articles/tater_du_lighthouse.md",
+   "heading": "Tater Du Lighthouse",
+   "text": "## Surrounding area\nThe coastal slope and cliffs around the lighthouse are designated the Tater–du SSSI (a Site of Special Scientific Interest) notified in 1992 because ″... it provides unique evidence of the geological history of SW England during the Variscan orogeny, in particular because of the occurrence of pillow lavas.″ The cliffs are also a Geological Conservation Review site.\nThe nearby rocks (Inner and Outer Bucks) form a popular sub-aqua dive site. The nearest point for launching a dive-boat is Penzance, as Lamorna Cove just around the corner from The Bucks, does not allow launching from there.\n\n## See also\n\nList of lighthouses in England\n\n## External links\n Media related to Tater Du Lighthouse at Wikimedia Commons\nTater Du Lighthouse at Trinity House\ngrid reference SW440230\nPathé footage of Tater Du lighthouse interior/exterior at the time of the official opening in 1965"
+  },
+  "articles/whitby_lighthouse.md#0": {
+   "document": "articles/whitby_lighthouse.md",
+   "heading": "Whitby Lighthouse",
+   "text": "# Whitby Lighthouse\n\nWhitby Lighthouse is a lighthouse operated by Trinity House. It is on Ling Hill, on the coast to the southeast of Whitby, beyond Saltwick Bay. To distinguish it from the two lighthouses in Whitby itself (which protect the town's harbour) it is sometimes known as Whitby High lighthouse (and is referred to as such on Admiralty charts).\n\n## History"
+  },
+  "articles/whitby_lighthouse.md#1": {
+   "document": "articles/whitby_lighthouse.md",
+   "heading": "Whitby Lighthouse",
+   "text": "The lighthouse, a white octagonal brick tower, was designed by James Walker of civil engineers Messrs. Walker, Burgess & Cooper.  Foundations were laid on 12 April 1857 with construction carried out by local builder William Falkingbridge of Well Close Square, Whitby. Supervising the construction Henry Norris of James Walker's firm was engaged as Superintendent of the Works on behalf of Trinity House. The light, a 1st Order assembly manufactured by Chance Brothers of Smethwick, was first lit on 1 October 1858 with costs of construction having run to about £8,000.\nOriginally, it was one of a pair of towers aligned north-south and known as the twin lights of Whitby South (the present lighthouse) and Whitby North (since demolished); together they were sometimes referred to as the High Whitby lights. The North Light was of a similar octagonal design to the surviving South Light, but taller at 20.5 m (67 ft) (so that, although the North tower was on lower ground, the two lights were on the same focal plane). Their purpose was to show a fixed pair of lights which, when in transit, lined up with Whitby Rock (an offshore hazard to shipping). Each was equipped with a paraffin lamp and a large (first-order) fixed optic designed by Chance Brothers. A pair of single-storey keepers' cottages was attached to each tower.\nIn 1890, a more efficient lamp (a powerful eight-wick mineral-oil burner) was installed in the South Light, allowing the North Light to be deactivated: an occulting"
+  },
+  "articles/whitby_lighthouse.md#2": {
+   "document": "articles/whitby_lighthouse.md",
+   "heading": "Whitby Lighthouse",
+   "text": "mechanism was also installed, which eclipsed the light once every thirty seconds, and a red sector was added marking Whitby Rock. The North Lighthouse was then demolished (but its lantern and optic both went on to be re-used at a new lighthouse then being built at Withernsea).\n\nOn the site of the demolished North Light, buildings were erected to house new fog signalling apparatus (including a compressed air plant powered by two Hornsby horizontal 25-horsepower oil engines). Following trials of different types of signal (conducted at St. Catherine's Lighthouse in 1901) Trinity House decided to use sirens at Whitby, sounded through a pair of 'Rayleigh trumpets' (named after the scientific adviser at the trials). Over the next decade or more Trinity House went on to install similar equipment in several other lighthouse locations. Whitby Fog Signal (known locally as the 'Hawsker Bull') was operational from 1903 and continued in use until 1987, the equipment having been updated in 1955. The building, which retains the twin roof-mounted 20-ft trumpets, is now a private dwelling, part of which is also used as holiday accommodation.\nWhitby High lighthouse was electrified in 1976 (after which the 'Hood' paraffin vapour burner, which had been the active light source up until that point, was donated to the Whitby Museum). The light was automated in 1992; the former lighthouse keepers' cottages are now available to hire by holidaymakers.\n\n## See also\n\nList of lighthouses in England\nListed buildings in Hawsker-cum-Stainsacre\n\n## External links\n\nTrinity House"
+  }
+ }
+}

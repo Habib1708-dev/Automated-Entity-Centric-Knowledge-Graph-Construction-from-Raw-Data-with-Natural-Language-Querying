@@ -1,0 +1,293 @@
+{
+ "criterion": "C4",
+ "items": [
+  {
+   "id": "l:2cd7632bd1364e5b:AircraftModel:AT-502B",
+   "node": "AircraftModel:AT-502B",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:47fa3f44995a2d02:Accident:CEN21LA362",
+   "node": "Accident:CEN21LA362",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:5c338c9413f44cfa:Accident:CEN23LA223",
+   "node": "Accident:CEN23LA223",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:5e784859296e8460:Accident:CEN21LA283",
+   "node": "Accident:CEN21LA283",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:92517a4e5efa5b4e:Accident:CEN22LA310",
+   "node": "Accident:CEN22LA310",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:ca688bbfdac05fd0:Accident:CEN22LA312",
+   "node": "Accident:CEN22LA312",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:4cd4d3375313b52a:Accident:ANC21LA027",
+   "node": "Accident:ANC21LA027",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:510589f17579fd74:Accident:CEN21LA382",
+   "node": "Accident:CEN21LA382",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:7a45d6352f6530b3:AircraftModel:A36",
+   "node": "AircraftModel:A36",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:7c987866b8bd20c3:Accident:CEN21LA221",
+   "node": "Accident:CEN21LA221",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:c530249418a1cb7b:Accident:CEN22LA059",
+   "node": "Accident:CEN22LA059",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:fd5fcdc9146a92a5:Accident:CEN23LA344",
+   "node": "Accident:CEN23LA344",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:066a94d595e34777:Accident:CEN21LA268",
+   "node": "Accident:CEN21LA268",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:098728b279c63d84:Accident:CEN22LA194",
+   "node": "Accident:CEN22LA194",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:2f458376155ad98f:AircraftModel:172S",
+   "node": "AircraftModel:172S",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:93c1e0f02b8459ba:Accident:CEN22LA244",
+   "node": "Accident:CEN22LA244",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:ad46a399afdd2847:Accident:CEN21LA414",
+   "node": "Accident:CEN21LA414",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:f7830fd39fb3e443:Accident:CEN21LA126",
+   "node": "Accident:CEN21LA126",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:04a971b9aae053d7:AircraftModel:SR22",
+   "node": "AircraftModel:SR22",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:2564f412ad8c8081:Accident:CEN22LA235",
+   "node": "Accident:CEN22LA235",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:3e2dd96ec01a8904:Accident:CEN21FA299",
+   "node": "Accident:CEN21FA299",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:bce2b9b7d2ca0ca3:Accident:CEN21LA280",
+   "node": "Accident:CEN21LA280",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:cafffbac62fccd5b:Accident:CEN23LA017",
+   "node": "Accident:CEN23LA017",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:e8320c4e0b0da21d:Accident:CEN21LA232",
+   "node": "Accident:CEN21LA232",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:2a7555fcdfc11b87:Accident:CEN21LA383",
+   "node": "Accident:CEN21LA383",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:2d13f8b23537c8ad:Accident:CEN22LA249",
+   "node": "Accident:CEN22LA249",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:4b6982f1b5a4544d:Accident:CEN21LA353",
+   "node": "Accident:CEN21LA353",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:82fe2fdbdcf49821:Accident:CEN21LA185",
+   "node": "Accident:CEN21LA185",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:85d83fe26f72f92c:Accident:CEN23LA026",
+   "node": "Accident:CEN23LA026",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:f0da12d45bebc0dd:AircraftModel:PA-28-181",
+   "node": "AircraftModel:PA-28-181",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:52be4145b8fd3027:Accident:CEN21LA284",
+   "node": "Accident:CEN21LA284",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:6f860a79b229e148:Accident:ANC23LA032",
+   "node": "Accident:ANC23LA032",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:7c58d135e437efad:Accident:CEN21LA339",
+   "node": "Accident:CEN21LA339",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:8337c5df48f5b2b9:AircraftModel:R44 II",
+   "node": "AircraftModel:R44 II",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "name 100.0"
+  },
+  {
+   "id": "l:aba00acd61a50799:Accident:ANC21LA079",
+   "node": "Accident:ANC21LA079",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  },
+  {
+   "id": "l:fd6b4360e9cf6bbd:Accident:CEN21LA173",
+   "node": "Accident:CEN21LA173",
+   "kind": "link",
+   "flags": [],
+   "arms": [],
+   "edge": "key 100.0"
+  }
+ ]
+}

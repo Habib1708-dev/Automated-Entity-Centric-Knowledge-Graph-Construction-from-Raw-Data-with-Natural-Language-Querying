@@ -11997,6 +11997,58 @@ Gate:
 
 **R227 done 2026-10-16.** Next: R228.
 
+### R228. The audit of the lighthouses and NTSB builds judged: C3, C4, C6 (done 2026-10-16; $0, no run)
+
+**Commands.** All offline, no model. The C0 gate passed on both builds.
+- `kg --preset <ds> anchor-eval out/r155b_<ds> --targets tests/gold/r227/<ds>_targets.json --arm anchor|layered`.
+- `kg anchor-sheets`. MLflow `fdec68f5` (lighthouses), `d196eae3` (NTSB).
+- `kg anchor-judged --judged tests/gold/r228/<ds> --identity-gold tests/gold/r227/<ds>_identity.json`. MLflow `e6b19f9e`, `0e90f347`.
+
+**Sheets.** Committed with the code sides, the anchor and layered reports, R225's fidelity and code checks, and the judged report, in `tests/gold/r228/<ds>/`.
+
+| | C3 merges / splits | C4 links | C6 pairs |
+|---|---|---|---|
+| lighthouses | 90 / 2 | 36 | 107 |
+| NTSB | 83 / 5 | 36 | 118 |
+
+**Judging.** Six blind Opus 5.5 subagents, one per dataset and criterion, worked from `tests/gold/r93/rules/c{3,4,6}.md` and the sheet only, never the code side. The lead reviewed every non-VALID verdict and the seeded 10% of VALID ones. No label changed.
+
+**Results.** Judge: Claude Opus 5.5. The bound is 0.95 (R93).
+
+| | lighthouses | NTSB |
+|---|---|---|
+| **C4** links right | 34/36 = 0.944 [0.819, 0.985]: **fails** | 36/36 = 1.000 [0.904, 1.000]: passes |
+| **C3** wrong merges, individual / concept | 0/22 / 0/68 (1 + 2 AMBIGUOUS) | 0/1 / 1/82 ("field") |
+| C3 wrong record merges (= C4's wrong links, R93) | 2: **fails** | 0: passes |
+| C3 wrong splits | 0/2 | 1/5 (NTSB the agency as two nodes) |
+| C3 R75-style identity pairs: precision / recall / kept apart | 1.0 / 0.833 / 1.0 (22 of 28 scorable) | 1.0 / 0.667 / – (3 of 27 scorable) |
+| **C6** purity, anchor arm, record and individual starts | 77/79 = 0.975: passes | 58/60 = 0.967: passes (35 strict, 23 VALID_ALTERNATIVE) |
+| C6 purity, concept starts | 24/24 (1 AMBIGUOUS) | 58/58 |
+
+**Read with care:**
+- **The lighthouses failures are two links of the generic word "lighthouse".** Each is attached to the article's own lighthouse while its sentence means another tower:
+  - "After the closure of the lighthouse at St Agnes" in the St Anthony's article (impact: LB49);
+  - the 1664 Tynemouth light in the St Mary's article (LB04, LB40, LB48).
+
+  R93 counts a wrong record link as a wrong record merge, so the same two items fail C4 and C3.
+- **The lighthouses C6 failures:** the hub node Trinity House reaches two chunks that name it only in a list of external links (LB44).
+- **NTSB's C6 failures show a limit C3 cannot see.** Mentions are one per document and name (R101). The Cessna document's single "flight instructor" mention covers three accidents (chunks #2-#4), so its node merges three instructors with one mention. It is never a C3 merge item, and C6 finds it from the pairs (NB26).
+- **The same limit makes most NTSB identity pairs unscorable.** 24 of 27 pairs are `not_extracted`: "the pilot" of six accidents in one report is one mention, so pairs that tell accidents apart have no two mentions to compare. The gold is kept as written. This is a property of the build's identity unit, recorded below, not a gold correction.
+- **NTSB's 23 VALID_ALTERNATIVE C6 pairs** are model records reaching an accident chunk that never names the model (the aircraft is listed under it in the record). Strictly, purity is 35/60.
+- **Stated limitation.** The targets are not blind to earlier answers (R227). Gold and verdicts come from one model family.
+
+**Found along the way.**
+- **Mention identity is per document, which conflates cases in multi-case documents.** NTSB reports hold 5-6 accidents each, so "the pilot", "flight instructor" and "the airplane" of different accidents are one mention, and so one node. The furniture and held-out corpora (one review or complaint per document) never showed it.
+- **Fix candidate, not taken here:** a per-section mention unit for documents whose sections are separate cases. It is a construction change and needs its own step and measurement.
+
+**Tests.** `tests/test_r228_records.py`, 8 tests: each verdict file answers its sheet under the review rules with quotes in their items and its header naming the sheet; C4 and C6 recomputed from the committed files equal the committed report; the k/n above hold; lighthouses fails C3 exactly on its C4 links.
+- `uv run pytest -m "not neo4j and not postgres"`: 1789 passed. Baseline 1781.
+- `uv run ruff check .`: clean.
+
+**Runs.** No model call ($0).
+
+**R228 done 2026-10-16.** Next: R229 (figures).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
@@ -12029,6 +12081,10 @@ with its evidence and the direction a later step would take:
    reading first, then either a resolve rule or a gold revision listed as a gold correction.
 
 ## Found along the way
+- **Mention identity is per document, which conflates the cases of a multi-case document (found in R228, 2026-10-16; open, no step).**
+  - **The cause:** one mention per document and normalised name (R101, `text/mention_pass.py` `pass_rows`, and the claims' mentions).
+  - **The effect:** in NTSB reports (5-6 accidents each), "the pilot", "flight instructor" and "the airplane" of different accidents become one node. C6 found it: Cessna "flight instructor" reaches CEN22LA194 and CEN22LA244 chunks. It also leaves 24 of R227's 27 identity pairs unscorable.
+  - **A fix** (a per-section mention unit for documents whose sections are separate cases) is a construction change. It needs its own step and a measurement.
 - **An agent's quote can fail the offline citation check while being verbatim in its chunk (found in R182,
   2026-10-14; fixed in R209: a cited chunk is recorded whole, its view beside it; the replay gives 23/23).** `kg qa`/`kg qa-score` check a quote against `shown_texts`, built from the answer's
   `shown` record, which keeps one view of each chunk the agent read (`agent/system.py`, the ledger's
