@@ -1,0 +1,1878 @@
+{
+  "dataset": "furniture",
+  "written_by": "claude-opus-5-5",
+  "date": "2026-10-18",
+  "corpus": {
+    "data_dir": "data",
+    "plan": null,
+    "chunk_max_chars": 1500,
+    "chunk_min_chars": 200,
+    "chunk_overlap_chars": 0
+  },
+  "questions": [
+    {
+      "id": "FG01",
+      "type": "multi_hop",
+      "question": "A reviewer says each shelf of a bookshelf holds approximately 30-35 hardcover books without bending. How many shelf pins does that bookshelf's assembly list?",
+      "expected": {
+        "number": 20
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/vasteras_bookshelf_reviews.md#1",
+          "quote": "Each shelf holds approximately 30-35 hardcover books without any sign of bending."
+        }
+      ],
+      "records": [
+        {
+          "file": "assemblies.csv",
+          "row": {
+            "assembly_id": "A-1046",
+            "component_name": "Shelf Pins",
+            "quantity": "20",
+            "product_id": "P-1004"
+          }
+        }
+      ],
+      "sql": "SELECT a.quantity FROM products p JOIN assemblies a ON a.product_id = p.product_id WHERE p.product_name = 'Västerås Bookshelf' AND a.component_name = 'Shelf Pins'",
+      "note": "The bookshelf is the Västerås Bookshelf (@wfh_warrior, #1), the only bookshelf. Its assembly lists 20 Shelf Pins (A-1046). The tempting wrong numbers from the same assembly are 30 (Screws), 5 (Shelves) and 2 (Side Panels); the 30-35 books and the 20kg load test (#3) are review numbers, not part counts."
+    },
+    {
+      "id": "FG02",
+      "type": "multi_hop",
+      "question": "A reviewer says a lamp's LED driver uses a constant current design that eliminates flickering. How many screws does that lamp's assembly list?",
+      "expected": {
+        "number": 6
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/orebro_lamp_reviews.md#3",
+          "quote": "The LED driver utilizes a constant current design that eliminates flickering even at the lowest dimmer settings"
+        }
+      ],
+      "records": [
+        {
+          "file": "assemblies.csv",
+          "row": {
+            "assembly_id": "A-1035",
+            "component_name": "Screws",
+            "quantity": "6",
+            "product_id": "P-1005"
+          }
+        }
+      ],
+      "sql": "SELECT a.quantity FROM products p JOIN assemblies a ON a.product_id = p.product_id WHERE p.product_name = 'Örebro Lamp' AND a.component_name = 'Screws'",
+      "note": "The lamp is the Örebro Lamp (@designer_dave, #3). Its assembly lists Screws with quantity 6 (A-1035); the shade sub-assembly has no screws, so nothing is added. The other assembly rows of the lamp are all quantity 1. Another review of the same lamp (#4) says the dimmer 'sometimes flickers', which does not change the product."
+    },
+    {
+      "id": "FG03",
+      "type": "multi_hop",
+      "question": "A reviewer praises a coffee table's leg attachment for using metal-to-metal fasteners rather than threading directly into the wood. Which other product sells for the same price as that coffee table?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Helsingborg Dresser"
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/jonkoping_coffee_table_reviews.md#3",
+          "quote": "The leg attachment mechanism utilizes metal-to-metal fasteners rather than threading directly into the wood, ensuring stability over time."
+        }
+      ],
+      "records": [
+        {
+          "file": "products.csv",
+          "row": {
+            "product_name": "Jönköping Coffee Table",
+            "price": "$212"
+          }
+        },
+        {
+          "file": "products.csv",
+          "row": {
+            "product_name": "Helsingborg Dresser",
+            "price": "$212"
+          }
+        }
+      ],
+      "sql": "SELECT o.product_name FROM products p JOIN products o ON o.price = p.price AND o.product_id <> p.product_id WHERE p.product_name = 'Jönköping Coffee Table'",
+      "note": "The coffee table is the Jönköping Coffee Table (@designer_dave, #3), priced $212. The only other product at $212 is the Helsingborg Dresser. The nearest lookalike prices are the Västerås Bookshelf ($222) and the Stockholm Chair ($246); the Gothenburg Table is the other table but costs $489. The coffee table itself is not an answer ('other product')."
+    },
+    {
+      "id": "FG04",
+      "type": "multi_hop",
+      "question": "A reviewer says they expected more drawers based on a desk's description. Summing the quantities of its parts, how many pieces does that desk's drawer unit sub-assembly list?",
+      "expected": {
+        "number": 16
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/malmo_desk_reviews.md#2",
+          "quote": "the storage is helpful but honestly i expected more drawers based on the description."
+        }
+      ],
+      "records": [
+        {
+          "file": "assemblies.csv",
+          "row": {
+            "assembly_id": "A-1062",
+            "component_name": "Drawer Unit",
+            "product_id": "P-1002"
+          }
+        },
+        {
+          "file": "components.csv",
+          "row": {
+            "part_id": "S-1080",
+            "part_name": "Screws",
+            "quantity": "8",
+            "assembly_id": "A-1062"
+          }
+        }
+      ],
+      "sql": "SELECT SUM(c.quantity) FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id WHERE p.product_name = 'Malmö Desk' AND a.component_name = 'Drawer Unit'",
+      "note": "The desk is the Malmö Desk (@tallguy87, #2). Its Drawer Unit (A-1062) lists 7 parts: Drawer Front 1, Drawer Bottom 1, Drawer Sides 2, Drawer Back 1, Drawer Rails 2, Drawer Handle 1, Screws 8, which sum to 16. Counting distinct parts gives a wrong 7; the Helsingborg Dresser's drawers sub-assembly (A-1070, 15 pieces, no handle) is the lookalike."
+    },
+    {
+      "id": "FG05",
+      "type": "multi_hop",
+      "question": "A reviewer says a bed's instructions were clear and all its parts were labeled well. Counting both its assembly components and the parts of its sub-assemblies, how many screws does that bed need in total?",
+      "expected": {
+        "number": 36
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/linkoping_bed_reviews.md#0",
+          "quote": "the instructions were clear and all parts were labeled well"
+        }
+      ],
+      "records": [
+        {
+          "file": "assemblies.csv",
+          "row": {
+            "assembly_id": "A-1053",
+            "component_name": "Screws",
+            "quantity": "24",
+            "product_id": "P-1006"
+          }
+        },
+        {
+          "file": "components.csv",
+          "row": {
+            "part_id": "S-1091",
+            "sub_assembly_name": "headboard_subassembly",
+            "part_name": "Screws",
+            "quantity": "12"
+          }
+        }
+      ],
+      "sql": "SELECT (SELECT SUM(a.quantity) FROM assemblies a JOIN products p ON p.product_id = a.product_id WHERE p.product_name = 'Linköping Bed' AND a.component_name = 'Screws') + (SELECT SUM(c.quantity) FROM components c JOIN assemblies a ON a.assembly_id = c.assembly_id JOIN products p ON p.product_id = a.product_id WHERE p.product_name = 'Linköping Bed' AND c.part_name = 'Screws')",
+      "note": "The bed is the Linköping Bed (@scandi_lover, #0). Its assembly lists 24 Screws (A-1053) and its headboard sub-assembly 12 more (S-1091); the slat sub-assemblies list only wooden slats and fabric sleeves, so the total is 24 + 12 = 36. Only the assembly row gives 24, only the headboard gives 12. The headboard component has quantity 1, so no multiplication is involved."
+    },
+    {
+      "id": "FG06",
+      "type": "multi_hop",
+      "question": "A reviewer describes themselves as an electrical engineer with a passion for lighting design. What star rating did that same reviewer give the Malmö Desk?",
+      "expected": {
+        "number": 4
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/orebro_lamp_reviews.md#3",
+          "quote": "As an electrical engineer with a passion for lighting design"
+        },
+        {
+          "chunk_id": "product_reviews/orebro_lamp_reviews.md#3",
+          "quote": "- @designer_dave (Portland)"
+        },
+        {
+          "chunk_id": "product_reviews/malmo_desk_reviews.md#1",
+          "quote": "## Rating: ★★★★☆ (4/5)"
+        },
+        {
+          "chunk_id": "product_reviews/malmo_desk_reviews.md#1",
+          "quote": "- @designer_dave (Portland)"
+        }
+      ],
+      "note": "The electrical engineer is @designer_dave (Örebro Lamp #3). Their only Malmö Desk review (#1) gives 4 out of 5. The lookalike is @architect_amy, the professional architect, who gave the Malmö Desk 5 stars (#3); the 5 stars of the lamp review itself are the wrong product."
+    },
+    {
+      "id": "FG07",
+      "type": "multi_hop",
+      "question": "A reviewer says a chair is sturdy enough to support her husband, who is over 250 lbs. Which products did that reviewer review?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Linköping Bed"
+          },
+          {
+            "name": "Norrköping Nightstand"
+          },
+          {
+            "name": "Örebro Lamp"
+          },
+          {
+            "name": "Stockholm Chair"
+          },
+          {
+            "name": "Uppsala Sofa"
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/stockholm_chair_reviews.md#6",
+          "quote": "They're sturdy enough to support my husband (who's over 250 lbs) yet elegant looking."
+        },
+        {
+          "chunk_id": "product_reviews/stockholm_chair_reviews.md#6",
+          "quote": "- @entertainer_emma (Los Angeles)"
+        },
+        {
+          "chunk_id": "product_reviews/linkoping_bed_reviews.md#5",
+          "quote": "- @entertainer_emma (Los Angeles)"
+        },
+        {
+          "chunk_id": "product_reviews/norrkoping_nightstand_reviews.md#6",
+          "quote": "- @entertainer_emma (Los Angeles)"
+        },
+        {
+          "chunk_id": "product_reviews/orebro_lamp_reviews.md#6",
+          "quote": "- @entertainer_emma (Los Angeles)"
+        },
+        {
+          "chunk_id": "product_reviews/uppsala_sofa_reviews.md#6",
+          "quote": "- @entertainer_emma (Los Angeles)"
+        }
+      ],
+      "note": "The reviewer is @entertainer_emma (Stockholm Chair #6). She signs five reviews: Linköping Bed #5, Norrköping Nightstand #6, Örebro Lamp #6, Stockholm Chair #6 and Uppsala Sofa #6. The chair itself counts (the question asks every product she reviewed). She did not review the Gothenburg Table, Helsingborg Dresser, Jönköping Coffee Table, Malmö Desk or Västerås Bookshelf."
+    },
+    {
+      "id": "FG08",
+      "type": "multi_hop",
+      "question": "A reviewer says a chair started squeaking when they lean back after about three months of use. In which countries are the preferred suppliers of the parts of that chair's seat based?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Brazil"
+          },
+          {
+            "name": "China"
+          },
+          {
+            "name": "Germany"
+          },
+          {
+            "name": "India"
+          },
+          {
+            "name": "Sweden"
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/stockholm_chair_reviews.md#3",
+          "quote": "However, after about 3 months of use, I've noticed some squeaking when I lean back."
+        }
+      ],
+      "records": [
+        {
+          "file": "assemblies.csv",
+          "row": {
+            "assembly_id": "A-1037",
+            "component_name": "Seat",
+            "product_id": "P-1000"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1092",
+            "supplier_id": "SUP-001",
+            "preferred_supplier": "yes"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1093",
+            "supplier_id": "SUP-005",
+            "preferred_supplier": "yes"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1094",
+            "supplier_id": "SUP-003",
+            "preferred_supplier": "yes"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1095",
+            "supplier_id": "SUP-002",
+            "preferred_supplier": "yes"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1096",
+            "supplier_id": "SUP-004",
+            "preferred_supplier": "yes"
+          }
+        }
+      ],
+      "sql": "SELECT DISTINCT s.country FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id JOIN part_supplier_mapping m ON m.part_id = c.part_id JOIN suppliers s ON s.supplier_id = m.supplier_id WHERE p.product_name = 'Stockholm Chair' AND a.component_name = 'Seat' AND m.preferred_supplier",
+      "note": "The chair is the Stockholm Chair (@wfh_warrior, #3). Its Seat (A-1037) has five parts whose preferred suppliers are Nordic Wood Industries (Seat Base, Sweden), Brazilian Foam Solutions (Foam Padding, Brazil), Bangalore Textiles Ltd (Fabric Cover, India), Shanghai Metal Corp (Mounting Brackets, China) and German Precision Fasteners (Screws, Germany). Counting all suppliers would wrongly add Canada, United Kingdom, Italy, South Korea and Taiwan."
+    },
+    {
+      "id": "FG09",
+      "type": "multi_hop",
+      "question": "A reviewer calls a table the centerpiece of their dining room. Which parts of that table's table top are not offered by any supplier that specializes in wood?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Wood Panels"
+          },
+          {
+            "name": "Wood Glue"
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/gothenburg_table_reviews.md#0",
+          "quote": "This table is the centerpiece of our dining room!"
+        }
+      ],
+      "records": [
+        {
+          "file": "components.csv",
+          "row": {
+            "part_id": "S-1120",
+            "part_name": "Wood Panels",
+            "assembly_id": "A-1055"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1120",
+            "supplier_id": "SUP-006"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1120",
+            "supplier_id": "SUP-016"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1123",
+            "supplier_id": "SUP-009"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1123",
+            "supplier_id": "SUP-019"
+          }
+        }
+      ],
+      "sql": "SELECT DISTINCT c.part_name FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id WHERE p.product_name = 'Gothenburg Table' AND a.component_name = 'Table Top' AND NOT EXISTS (SELECT 1 FROM part_supplier_mapping m JOIN suppliers s ON s.supplier_id = m.supplier_id WHERE m.part_id = c.part_id AND s.specialty = 'Wood')",
+      "note": "The dining-room centerpiece is the Gothenburg Table (@akollegger, #0); the Jönköping Coffee Table is the 'centerpiece for our living room' (#0) and its table top lists no parts. The Gothenburg table top (A-1055) has four parts: Edge Banding and Reinforcement Strips come from the two wood suppliers, while Wood Panels come only from the hardware suppliers American Hardware Inc and Mexican Hardware Solutions and Wood Glue only from the adhesives suppliers. The name 'Wood Panels' is the trap: it is not supplied by a wood specialist."
+    },
+    {
+      "id": "FG10",
+      "type": "aggregation",
+      "question": "What do the preferred suppliers charge in total, in dollars, for one of each part of the Örebro Lamp's shade?",
+      "expected": {
+        "number": 62.91
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1130",
+            "supplier_id": "SUP-002",
+            "unit_cost": "$18.23"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1131",
+            "supplier_id": "SUP-003",
+            "unit_cost": "$9.08"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1132",
+            "supplier_id": "SUP-008",
+            "unit_cost": "$6.63"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1133",
+            "supplier_id": "SUP-002",
+            "unit_cost": "$28.97"
+          }
+        }
+      ],
+      "sql": "SELECT ROUND(SUM(CAST(replace(m.unit_cost, '$', '') AS DOUBLE)), 2) FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id JOIN part_supplier_mapping m ON m.part_id = c.part_id WHERE p.product_name = 'Örebro Lamp' AND a.component_name = 'Shade' AND m.preferred_supplier",
+      "note": "The shade (A-1033) has four parts, each with quantity 1: Shade Frame $18.23 (Shanghai Metal Corp), Shade Fabric $9.08 (Bangalore Textiles Ltd), Diffuser $6.63 (Sydney Glass Works) and Mounting Ring $28.97 (Shanghai Metal Corp), all preferred; 18.23 + 9.08 + 6.63 + 28.97 = 62.91. Summing the non-preferred offers instead gives 31.23 + 43.95 + 43.01 + 17.19 = 135.38; summing both gives 198.29."
+    },
+    {
+      "id": "FG11",
+      "type": "aggregation",
+      "question": "Summing the quantities of its parts, how many pieces does the Uppsala Sofa's frame sub-assembly list?",
+      "expected": {
+        "number": 52
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "components.csv",
+          "row": {
+            "part_id": "S-1104",
+            "part_name": "Support Slats",
+            "quantity": "12",
+            "assembly_id": "A-1012"
+          }
+        },
+        {
+          "file": "components.csv",
+          "row": {
+            "part_id": "S-1106",
+            "part_name": "Screws",
+            "quantity": "32",
+            "assembly_id": "A-1012"
+          }
+        }
+      ],
+      "sql": "SELECT SUM(c.quantity) FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id WHERE p.product_name = 'Uppsala Sofa' AND a.component_name = 'Frame'",
+      "note": "The frame sub-assembly (A-1012) lists Base Frame 1, Back Frame 1, Side Frames 2, Support Slats 12, Corner Brackets 4 and Screws 32: 1 + 1 + 2 + 12 + 4 + 32 = 52. Counting distinct parts gives 6; the Frame component itself has quantity 1 in the sofa's assembly."
+    },
+    {
+      "id": "FG12",
+      "type": "aggregation",
+      "question": "Which sub-assembly lists the largest number of different parts?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Drawer Unit",
+            "aliases": [
+              "drawer_unit_subassembly",
+              "Malmö Desk drawer unit",
+              "Malmö Desk's drawer unit",
+              "Malmö Desk Drawer Unit",
+              "drawer unit sub-assembly",
+              "drawer unit subassembly"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "components.csv",
+          "row": {
+            "sub_assembly_name": "drawer_unit_subassembly",
+            "part_id": "S-1079",
+            "part_name": "Drawer Handle"
+          }
+        }
+      ],
+      "sql": "SELECT a.component_name FROM components c JOIN assemblies a ON a.assembly_id = c.assembly_id GROUP BY a.assembly_id, a.component_name HAVING COUNT(DISTINCT c.part_name) = (SELECT MAX(n) FROM (SELECT COUNT(DISTINCT part_name) AS n FROM components GROUP BY assembly_id))",
+      "note": "The answer is named by its component (Drawer Unit), the name a reader sees; the raw sub-assembly id drawer_unit_subassembly is an alias. The Malmö Desk's drawer unit sub-assembly lists 7 different parts (Drawer Front, Drawer Bottom, Drawer Sides, Drawer Back, Drawer Rails, Drawer Handle, Screws). The runners-up have 6: the Helsingborg Dresser's drawers sub-assembly (the same parts without the handle) and the Uppsala Sofa's frame. Counting rows by quantity is not asked; the bed slat sub-assemblies have 2 parts each."
+    },
+    {
+      "id": "FG13",
+      "type": "aggregation",
+      "question": "How many Helsingborg Dresser reviews report spending five hours or more on its assembly?",
+      "expected": {
+        "number": 3
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#0",
+          "quote": "Took me over 5 hours and I consider myself handy!"
+        },
+        {
+          "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#2",
+          "quote": "took me and my roommate like 6 hours"
+        },
+        {
+          "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#5",
+          "quote": "it took nearly 7 hours and a lot of improvisation"
+        }
+      ],
+      "note": "Three reviews report five hours or more: @furniture_lover92 'over 5 hours' (#0), @college_student 'like 6 hours' (#2) and @familyfirst 'nearly 7 hours' (#5). Not counted: @angry_customer gave up after 3 hours (#1), @diydan stopped 'After 4 hours' when he found warped panels (#4), and @woodworker_amy took about 3 hours, plus 10 minutes of sanding (#6)."
+    },
+    {
+      "id": "FG14",
+      "type": "aggregation",
+      "question": "Of which products does a reviewer say they bought more than one unit?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Norrköping Nightstand"
+          },
+          {
+            "name": "Stockholm Chair"
+          },
+          {
+            "name": "Västerås Bookshelf"
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/norrkoping_nightstand_reviews.md#1",
+          "quote": "I purchased two of these nightstands for our master bedroom"
+        },
+        {
+          "chunk_id": "product_reviews/stockholm_chair_reviews.md#6",
+          "quote": "I purchased six of these chairs for my dining table"
+        },
+        {
+          "chunk_id": "product_reviews/vasteras_bookshelf_reviews.md#1",
+          "quote": "I purchased two Västerås Bookshelves for my home office"
+        }
+      ],
+      "note": "Three reviews state a purchase of several units: two Norrköping Nightstands (@petite_patty, #1), six Stockholm Chairs (@entertainer_emma, #6) and two Västerås Bookshelves (@wfh_warrior, #1). @entertainer_emma's 'our Norrköping Nightstands' (#6) is the same product again. The librarian who 'purchased many bookshelves over the years' (Västerås #3) speaks of bookshelves in general; the 'two of the drawers' (Helsingborg #3) and the 'family of four' are not purchases. The Örebro Lamp reviewer bought one lamp."
+    },
+    {
+      "id": "FG15",
+      "type": "aggregation",
+      "question": "Which products do reviewers say have reinforced corner blocks?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Linköping Bed"
+          },
+          {
+            "name": "Uppsala Sofa"
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/linkoping_bed_reviews.md#3",
+          "quote": "The frame utilizes proper joinery techniques with reinforced corner blocks and center supports"
+        },
+        {
+          "chunk_id": "product_reviews/uppsala_sofa_reviews.md#3",
+          "quote": "The frame construction utilizes proper joinery techniques with reinforced corner blocks"
+        }
+      ],
+      "note": "Two reviews mention reinforced corner blocks: @woodworker_amy on the Linköping Bed (#3) and @designer_dave on the Uppsala Sofa (#3). Lookalikes: 'proper joinery techniques' alone (Malmö Desk #3), impeccable joinery (Gothenburg Table #3), veneer chipping at the corners (Jönköping Coffee Table #4) and a corner that arrived damaged (Norrköping Nightstand #5). The Corner Brackets part of the sofa's frame is table data, not what reviewers say."
+    },
+    {
+      "id": "FG16",
+      "type": "aggregation",
+      "question": "Among the suppliers that offer more than ten parts, which one has the longest average lead time?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Canadian Timber Products"
+          }
+        ]
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1160",
+            "supplier_id": "SUP-011",
+            "lead_time_days": "30"
+          }
+        }
+      ],
+      "sql": "SELECT s.name FROM part_supplier_mapping m JOIN suppliers s ON s.supplier_id = m.supplier_id GROUP BY s.name HAVING COUNT(DISTINCT m.part_id) > 10 ORDER BY AVG(m.lead_time_days) DESC LIMIT 1",
+      "note": "Six suppliers offer more than ten parts: Canadian Timber Products (32 parts, average 17.72 days), Shanghai Metal Corp (15, 16.73), Italian Textile Design (22, 16.64), Korean Metal Works (15, 16.0), Bangalore Textiles Ltd (22, 14.77) and Nordic Wood Industries (32, 14.66). Without the filter Sydney Glass Works would win with its single 27-day offer, and Taiwan Precision Parts (6 parts, 23.67) would come second."
+    },
+    {
+      "id": "FG17",
+      "type": "aggregation",
+      "question": "Which product has the lowest average star rating across its reviews?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Helsingborg Dresser"
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#1",
+          "quote": "## Rating: ★☆☆☆☆ (1/5)"
+        },
+        {
+          "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#4",
+          "quote": "## Rating: ★☆☆☆☆ (1/5)"
+        },
+        {
+          "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#2",
+          "quote": "## Rating: ★★☆☆☆ (2/5)"
+        },
+        {
+          "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#3",
+          "quote": "## Rating: ★★☆☆☆ (2/5)"
+        },
+        {
+          "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#5",
+          "quote": "## Rating: ★★☆☆☆ (2/5)"
+        },
+        {
+          "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#0",
+          "quote": "## Rating: ★★★☆☆ (3/5)"
+        },
+        {
+          "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#6",
+          "quote": "## Rating: ★★★★★ (5/5)"
+        }
+      ],
+      "note": "The Helsingborg Dresser's seven ratings are 3, 1, 2, 2, 1, 2, 5, an average of about 2.29. Eight products average exactly 4.0 (each has ratings 5, 4, 3, 5, 2, 4, 5 or the same multiset) and the Stockholm Chair averages about 4.43, so the dresser is lowest by a wide margin."
+    },
+    {
+      "id": "FG18",
+      "type": "aggregation",
+      "question": "Which reviewers gave five stars in every review they wrote?",
+      "expected": {
+        "entities": [
+          {
+            "name": "@akollegger",
+            "aliases": [
+              "akollegger"
+            ]
+          },
+          {
+            "name": "@architect_amy",
+            "aliases": [
+              "architect_amy"
+            ]
+          },
+          {
+            "name": "@bookworm_betty",
+            "aliases": [
+              "bookworm_betty"
+            ]
+          },
+          {
+            "name": "@scandi_lover",
+            "aliases": [
+              "scandi_lover"
+            ]
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/gothenburg_table_reviews.md#0",
+          "quote": "- @akollegger (Cambridge)"
+        },
+        {
+          "chunk_id": "product_reviews/malmo_desk_reviews.md#3",
+          "quote": "- @architect_amy (Seattle)"
+        },
+        {
+          "chunk_id": "product_reviews/vasteras_bookshelf_reviews.md#3",
+          "quote": "- @bookworm_betty (Seattle)"
+        },
+        {
+          "chunk_id": "product_reviews/stockholm_chair_reviews.md#0",
+          "quote": "- @scandi_lover (Minneapolis)"
+        },
+        {
+          "chunk_id": "product_reviews/linkoping_bed_reviews.md#5",
+          "quote": "## Rating: ★★★★☆ (4/5)"
+        }
+      ],
+      "note": "@scandi_lover wrote eight reviews (Jönköping, Linköping, Malmö, Norrköping, Örebro, Stockholm, Uppsala, Västerås), all 5/5; @akollegger (Gothenburg #0), @architect_amy (Malmö #3) and @bookworm_betty (Västerås #3) each wrote one 5/5 review. Near misses: @entertainer_emma gave four 5s but a 4 to the Linköping Bed (#5); @woodworker_amy gave the Gothenburg Table a 4 (#6); @designer_dave has several 4s. The other handles all have a rating below five."
+    },
+    {
+      "id": "FG19",
+      "type": "aggregation",
+      "question": "Which part has the smallest minimum order quantity of any supplier offer?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Base Frame"
+          }
+        ]
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1101",
+            "supplier_id": "SUP-002",
+            "minimum_order_quantity": "10"
+          }
+        }
+      ],
+      "sql": "SELECT part_name FROM part_supplier_mapping WHERE minimum_order_quantity = (SELECT MIN(minimum_order_quantity) FROM part_supplier_mapping)",
+      "note": "Shanghai Metal Corp's offer for the Base Frame (S-1101, the Uppsala Sofa's frame) has a minimum order of 10, the only offer below 11. Four offers tie at 11 and are the near misses: Drawer Sides (S-1076, Canadian Timber Products), Screws (S-1080, Taiwan Precision Parts), Foam Insert (S-1097, UK Foam Manufacturers) and Wood Panels (S-1120, American Hardware Inc)."
+    },
+    {
+      "id": "FG20",
+      "type": "structured_filter",
+      "question": "By part name, which parts are offered only by suppliers that specialize in hardware?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Cable Clips"
+          },
+          {
+            "name": "Shelf Support Holes"
+          },
+          {
+            "name": "Wood Panels"
+          },
+          {
+            "name": "Zip Ties"
+          },
+          {
+            "name": "Zipper"
+          }
+        ]
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1120",
+            "supplier_id": "SUP-006"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1118",
+            "supplier_id": "SUP-016"
+          }
+        },
+        {
+          "file": "suppliers.csv",
+          "row": {
+            "supplier_id": "SUP-006",
+            "specialty": "Hardware"
+          }
+        },
+        {
+          "file": "suppliers.csv",
+          "row": {
+            "supplier_id": "SUP-016",
+            "specialty": "Hardware"
+          }
+        }
+      ],
+      "sql": "SELECT m.part_name FROM part_supplier_mapping m JOIN suppliers s ON s.supplier_id = m.supplier_id GROUP BY m.part_name HAVING bool_and(s.specialty = 'Hardware')",
+      "note": "The two hardware suppliers, American Hardware Inc (SUP-006) and Mexican Hardware Solutions (SUP-016), are the only suppliers of Zipper (both sofa cushions), Shelf Support Holes, Wood Panels (the Gothenburg table top), Cable Clips and Zip Ties. 'Wood Panels' is the surprising member; the singular 'Wood Panel' of the Helsingborg Dresser's side panels comes from the wood suppliers and does not count."
+    },
+    {
+      "id": "FG21",
+      "type": "structured_filter",
+      "question": "For how many of the Linköping Bed's wooden slat part ids does the preferred supplier quote a unit cost below $15?",
+      "expected": {
+        "number": 4
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1136",
+            "supplier_id": "SUP-001",
+            "unit_cost": "$5.06"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1138",
+            "supplier_id": "SUP-001",
+            "unit_cost": "$13.69"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1148",
+            "supplier_id": "SUP-001",
+            "unit_cost": "$10.99"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1158",
+            "supplier_id": "SUP-001",
+            "unit_cost": "$10.09"
+          }
+        }
+      ],
+      "sql": "SELECT COUNT(DISTINCT c.part_id) FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id JOIN part_supplier_mapping m ON m.part_id = c.part_id WHERE p.product_name = 'Linköping Bed' AND c.part_name = 'Wooden Slat' AND m.preferred_supplier AND CAST(replace(m.unit_cost, '$', '') AS DOUBLE) < 15",
+      "note": "The bed has 15 Wooden Slat part ids (slats_subassembly and bed_slat_1 to bed_slat_14), all preferred from Nordic Wood Industries. Four are below $15: S-1136 $5.06, S-1138 $13.69, S-1148 $10.99 and S-1158 $10.09; the next cheapest is S-1154 at $19.85. Counting Canadian Timber Products' non-preferred offers below $15 would give a different set (S-1134, S-1140, S-1144, S-1146, S-1158)."
+    },
+    {
+      "id": "FG22",
+      "type": "structured_filter",
+      "question": "Which products priced under $300 has @college_student reviewed?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Helsingborg Dresser"
+          },
+          {
+            "name": "Malmö Desk"
+          },
+          {
+            "name": "Västerås Bookshelf"
+          }
+        ]
+      },
+      "route": "exact",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#2",
+          "quote": "- @college_student (Boston)"
+        },
+        {
+          "chunk_id": "product_reviews/malmo_desk_reviews.md#5",
+          "quote": "- @college_student (Boston)"
+        },
+        {
+          "chunk_id": "product_reviews/vasteras_bookshelf_reviews.md#2",
+          "quote": "- @college_student (Boston)"
+        },
+        {
+          "chunk_id": "product_reviews/linkoping_bed_reviews.md#2",
+          "quote": "- @college_student (Boston)"
+        }
+      ],
+      "records": [
+        {
+          "file": "products.csv",
+          "row": {
+            "product_name": "Helsingborg Dresser",
+            "price": "$212"
+          }
+        },
+        {
+          "file": "products.csv",
+          "row": {
+            "product_name": "Malmö Desk",
+            "price": "$289"
+          }
+        },
+        {
+          "file": "products.csv",
+          "row": {
+            "product_name": "Västerås Bookshelf",
+            "price": "$222"
+          }
+        },
+        {
+          "file": "products.csv",
+          "row": {
+            "product_name": "Linköping Bed",
+            "price": "$790"
+          }
+        }
+      ],
+      "note": "@college_student signs four reviews: Helsingborg Dresser ($212, #2), Linköping Bed ($790, #2), Malmö Desk ($289, #5) and Västerås Bookshelf ($222, #2). The bed is over $300 and drops out. The Malmö Desk review says 'I'm a college student' and is signed @college_student, so it counts."
+    },
+    {
+      "id": "FG23",
+      "type": "structured_filter",
+      "question": "For the screws of which sub-assemblies does Taiwan Precision Parts quote a lower unit cost than German Precision Fasteners?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Back Rest",
+            "aliases": [
+              "back_rest_subassembly",
+              "Stockholm Chair back rest",
+              "Stockholm Chair's back rest",
+              "Stockholm Chair Back Rest",
+              "back rest sub-assembly"
+            ]
+          },
+          {
+            "name": "Drawer Unit",
+            "aliases": [
+              "drawer_unit_subassembly",
+              "Malmö Desk drawer unit",
+              "Malmö Desk's drawer unit",
+              "Malmö Desk Drawer Unit",
+              "drawer unit sub-assembly"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1080",
+            "supplier_id": "SUP-014",
+            "unit_cost": "$24.58"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1080",
+            "supplier_id": "SUP-004",
+            "unit_cost": "$40.33"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1111",
+            "supplier_id": "SUP-014",
+            "unit_cost": "$8.14"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1111",
+            "supplier_id": "SUP-004",
+            "unit_cost": "$41.81"
+          }
+        }
+      ],
+      "sql": "SELECT a.component_name FROM components c JOIN assemblies a ON a.assembly_id = c.assembly_id JOIN part_supplier_mapping t ON t.part_id = c.part_id AND t.supplier_id = 'SUP-014' JOIN part_supplier_mapping g ON g.part_id = c.part_id AND g.supplier_id = 'SUP-004' WHERE CAST(replace(t.unit_cost, '$', '') AS DOUBLE) < CAST(replace(g.unit_cost, '$', '') AS DOUBLE)",
+      "note": "The answers are named by their components (Back Rest, Drawer Unit); the raw sub-assembly ids are aliases. Both suppliers quote all six screw parts. Taiwan is cheaper for the Malmö Desk's drawer unit (S-1080: $24.58 vs $40.33) and the Stockholm Chair's back rest (S-1111: $8.14 vs $41.81). German Precision Fasteners is cheaper for the Helsingborg drawers (S-1086), the Linköping headboard (S-1091, $27.97 vs $29.78, the close one), the Stockholm seat (S-1096) and the Uppsala frame (S-1106)."
+    },
+    {
+      "id": "FG24",
+      "type": "structured_filter",
+      "question": "Which products priced under $300 have a product description that mentions design?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Malmö Desk"
+          },
+          {
+            "name": "Stockholm Chair"
+          }
+        ]
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "products.csv",
+          "row": {
+            "product_name": "Stockholm Chair",
+            "price": "$246",
+            "description": "Ergonomic design with minimalist Scandinavian style"
+          }
+        },
+        {
+          "file": "products.csv",
+          "row": {
+            "product_name": "Malmö Desk",
+            "price": "$289",
+            "description": "Functional design with ample storage solutions"
+          }
+        },
+        {
+          "file": "products.csv",
+          "row": {
+            "product_name": "Gothenburg Table",
+            "price": "$489",
+            "description": "Modern design that brings people together"
+          }
+        }
+      ],
+      "sql": "SELECT product_name FROM products WHERE CAST(replace(price, '$', '') AS INTEGER) < 300 AND lower(description) LIKE '%design%'",
+      "note": "Three descriptions contain 'design': Stockholm Chair ('Ergonomic design ...', $246), Gothenburg Table ('Modern design ...', $489) and Malmö Desk ('Functional design ...', $289). The Gothenburg Table is over $300. Reviews that praise a design do not count: the question is about the product description."
+    },
+    {
+      "id": "FG25",
+      "type": "structured_filter",
+      "question": "Which parts of the Uppsala Sofa's frame does the preferred supplier offer for less than $20?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Corner Brackets"
+          },
+          {
+            "name": "Screws"
+          },
+          {
+            "name": "Side Frames"
+          }
+        ]
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1103",
+            "supplier_id": "SUP-002",
+            "unit_cost": "$4.41"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1105",
+            "supplier_id": "SUP-002",
+            "unit_cost": "$19.78"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1106",
+            "supplier_id": "SUP-004",
+            "unit_cost": "$14.0"
+          }
+        }
+      ],
+      "sql": "SELECT c.part_name FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id JOIN part_supplier_mapping m ON m.part_id = c.part_id WHERE p.product_name = 'Uppsala Sofa' AND a.component_name = 'Frame' AND m.preferred_supplier AND CAST(replace(m.unit_cost, '$', '') AS DOUBLE) < 20",
+      "note": "Preferred prices for the frame (A-1012): Side Frames $4.41, Corner Brackets $19.78 and Screws $14.00 are below $20; Base Frame $41.42, Back Frame $41.48 and Support Slats $30.33 are not. Corner Brackets is the close call. Using the non-preferred offers instead would give only Support Slats ($8.80 from Canadian Timber Products); Corner Brackets cost $20.63 there."
+    },
+    {
+      "id": "FG26",
+      "type": "structured_filter",
+      "question": "Which suppliers specializing in adhesives quote a lead time of under 10 days for at least one part?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Cape Town Adhesives"
+          }
+        ]
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1129",
+            "supplier_id": "SUP-009",
+            "lead_time_days": "7"
+          }
+        },
+        {
+          "file": "suppliers.csv",
+          "row": {
+            "supplier_id": "SUP-009",
+            "specialty": "Adhesives"
+          }
+        }
+      ],
+      "sql": "SELECT DISTINCT s.name FROM part_supplier_mapping m JOIN suppliers s ON s.supplier_id = m.supplier_id WHERE s.specialty = 'Adhesives' AND m.lead_time_days < 10",
+      "note": "The two adhesives suppliers offer the same two parts. Cape Town Adhesives delivers the Adhesive Pads (S-1129) in 7 days and the Wood Glue (S-1123) in 17; Singapore Adhesive Tech takes 17 days for the glue and 30 for the pads, so it does not count."
+    },
+    {
+      "id": "FG27",
+      "type": "structured_filter",
+      "question": "Which suppliers that offer at least one part never ask for a minimum order of more than 70 units?",
+      "expected": {
+        "entities": [
+          {
+            "name": "German Precision Fasteners"
+          },
+          {
+            "name": "Sydney Glass Works"
+          },
+          {
+            "name": "UK Foam Manufacturers"
+          }
+        ]
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1080",
+            "supplier_id": "SUP-004",
+            "minimum_order_quantity": "66"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1132",
+            "supplier_id": "SUP-008",
+            "minimum_order_quantity": "48"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1112",
+            "supplier_id": "SUP-015",
+            "minimum_order_quantity": "59"
+          }
+        }
+      ],
+      "sql": "SELECT s.name FROM part_supplier_mapping m JOIN suppliers s ON s.supplier_id = m.supplier_id GROUP BY s.name HAVING MAX(m.minimum_order_quantity) <= 70",
+      "note": "Largest minimum orders per supplier: Sydney Glass Works 48 (its one offer), UK Foam Manufacturers 59, German Precision Fasteners 66; the next is Cape Town Adhesives at 75, then Singapore Adhesive Tech at 90. The four suppliers with no offers at all (the electronics and packaging suppliers) are excluded by 'offer at least one part', although they never ask for anything."
+    },
+    {
+      "id": "FG28",
+      "type": "structured_filter",
+      "question": "By part name, which parts can be had from a non-preferred supplier in fewer than 7 days?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Cable Tray"
+          },
+          {
+            "name": "Corner Brackets"
+          },
+          {
+            "name": "Diffuser"
+          },
+          {
+            "name": "Fabric Sleeve"
+          },
+          {
+            "name": "Foam Padding"
+          },
+          {
+            "name": "Wooden Slat"
+          }
+        ]
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1093",
+            "supplier_id": "SUP-015",
+            "lead_time_days": "5",
+            "preferred_supplier": "no"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1105",
+            "supplier_id": "SUP-012",
+            "lead_time_days": "5",
+            "preferred_supplier": "no"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1126",
+            "supplier_id": "SUP-012",
+            "lead_time_days": "6",
+            "preferred_supplier": "no"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1132",
+            "supplier_id": "SUP-018",
+            "lead_time_days": "6",
+            "preferred_supplier": "no"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1136",
+            "supplier_id": "SUP-011",
+            "lead_time_days": "6",
+            "preferred_supplier": "no"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1145",
+            "supplier_id": "SUP-013",
+            "lead_time_days": "6",
+            "preferred_supplier": "no"
+          }
+        }
+      ],
+      "sql": "SELECT DISTINCT part_name FROM part_supplier_mapping WHERE NOT preferred_supplier AND lead_time_days < 7",
+      "note": "Seven non-preferred offers take under 7 days: Foam Padding S-1093 (5), Corner Brackets S-1105 (5), Cable Tray S-1126 (6), Diffuser S-1132 (6), Wooden Slat S-1136 and S-1142 (6) and Fabric Sleeve S-1145 (6), six part names. Preferred offers that fast do not count: Drawer Back S-1084 (4), Fabric Cover S-1109 (5), Wood Panels S-1120 (5) and two Fabric Sleeves at 6. Offers at exactly 7 days (for example Taiwan's Screws S-1080) are not fewer than 7."
+    },
+    {
+      "id": "FG29",
+      "type": "disambiguation",
+      "question": "What unit cost in dollars does Mexican Hardware Solutions quote for the zipper of the Uppsala Sofa's back cushion?",
+      "expected": {
+        "number": 3.16
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "components.csv",
+          "row": {
+            "sub_assembly_name": "back_cushion_subassembly",
+            "part_id": "S-1114",
+            "part_name": "Zipper"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1114",
+            "supplier_id": "SUP-016",
+            "unit_cost": "$3.16"
+          }
+        }
+      ],
+      "sql": "SELECT CAST(replace(m.unit_cost, '$', '') AS DOUBLE) FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id JOIN part_supplier_mapping m ON m.part_id = c.part_id JOIN suppliers s ON s.supplier_id = m.supplier_id WHERE p.product_name = 'Uppsala Sofa' AND a.component_name = 'Back Cushion' AND c.part_name = 'Zipper' AND s.name = 'Mexican Hardware Solutions'",
+      "note": "The sofa has two zippers: the back cushion's (S-1114) and the seat cushion's (S-1099). Mexican Hardware Solutions quotes $3.16 for the back cushion zipper and $23.33 for the seat cushion zipper; the preferred American Hardware Inc quotes $23.78 (back) and $18.64 (seat). Only $3.16 is right."
+    },
+    {
+      "id": "FG30",
+      "type": "disambiguation",
+      "question": "What minimum order quantity does UK Foam Manufacturers set for the foam insert of the Uppsala Sofa's seat cushion?",
+      "expected": {
+        "number": 11
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "components.csv",
+          "row": {
+            "sub_assembly_name": "seat_cushion_subassembly",
+            "part_id": "S-1097",
+            "part_name": "Foam Insert"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1097",
+            "supplier_id": "SUP-015",
+            "minimum_order_quantity": "11"
+          }
+        }
+      ],
+      "sql": "SELECT m.minimum_order_quantity FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id JOIN part_supplier_mapping m ON m.part_id = c.part_id JOIN suppliers s ON s.supplier_id = m.supplier_id WHERE p.product_name = 'Uppsala Sofa' AND a.component_name = 'Seat Cushion' AND c.part_name = 'Foam Insert' AND s.name = 'UK Foam Manufacturers'",
+      "note": "The seat cushion's foam insert is S-1097, for which UK Foam Manufacturers asks a minimum order of 11 (Brazilian Foam Solutions, the preferred supplier, asks 71). The back cushion has its own foam insert, S-1112, where UK Foam asks 59 and Brazilian Foam 99. The Stockholm Chair's 'Foam Padding' is a different part."
+    },
+    {
+      "id": "FG31",
+      "type": "disambiguation",
+      "question": "Which supplier quotes the shorter lead time for the edge banding of the Helsingborg Dresser's side panels?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Canadian Timber Products"
+          }
+        ]
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1117",
+            "supplier_id": "SUP-011",
+            "lead_time_days": "17"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1117",
+            "supplier_id": "SUP-001",
+            "lead_time_days": "19"
+          }
+        }
+      ],
+      "sql": "SELECT s.name FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id JOIN part_supplier_mapping m ON m.part_id = c.part_id JOIN suppliers s ON s.supplier_id = m.supplier_id WHERE p.product_name = 'Helsingborg Dresser' AND a.component_name = 'Side Panels' AND c.part_name = 'Edge Banding' ORDER BY m.lead_time_days LIMIT 1",
+      "note": "Edge Banding is a part of two sub-assemblies. For the dresser's side panels (S-1117), Canadian Timber Products quotes 17 days and the preferred Nordic Wood Industries 19. For the Gothenburg Table's table top (S-1121) it is the other way round: Nordic 8 days, Canadian Timber 18. Answering from the table's part, or naming the preferred supplier, gives the wrong Nordic Wood Industries."
+    },
+    {
+      "id": "FG32",
+      "type": "disambiguation",
+      "question": "Which part names appear in the sub-assemblies of more than one product?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Drawer Back"
+          },
+          {
+            "name": "Drawer Bottom"
+          },
+          {
+            "name": "Drawer Front"
+          },
+          {
+            "name": "Drawer Rails"
+          },
+          {
+            "name": "Drawer Sides"
+          },
+          {
+            "name": "Edge Banding"
+          },
+          {
+            "name": "Mounting Brackets"
+          },
+          {
+            "name": "Screws"
+          }
+        ]
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "components.csv",
+          "row": {
+            "part_id": "S-1090",
+            "part_name": "Mounting Brackets",
+            "assembly_id": "A-1048"
+          }
+        },
+        {
+          "file": "components.csv",
+          "row": {
+            "part_id": "S-1095",
+            "part_name": "Mounting Brackets",
+            "assembly_id": "A-1037"
+          }
+        },
+        {
+          "file": "components.csv",
+          "row": {
+            "part_id": "S-1119",
+            "part_name": "Mounting Brackets",
+            "assembly_id": "A-1067"
+          }
+        },
+        {
+          "file": "components.csv",
+          "row": {
+            "part_id": "S-1117",
+            "part_name": "Edge Banding",
+            "assembly_id": "A-1067"
+          }
+        },
+        {
+          "file": "components.csv",
+          "row": {
+            "part_id": "S-1121",
+            "part_name": "Edge Banding",
+            "assembly_id": "A-1055"
+          }
+        }
+      ],
+      "sql": "SELECT c.part_name FROM components c JOIN assemblies a ON a.assembly_id = c.assembly_id GROUP BY c.part_name HAVING COUNT(DISTINCT a.product_id) > 1",
+      "note": "Screws appear in five products' sub-assemblies, Mounting Brackets in three (Linköping headboard, Stockholm seat, Helsingborg side panels), and Edge Banding plus the five drawer parts (Front, Bottom, Sides, Back, Rails) in two (Malmö drawer unit and Helsingborg drawers; Edge Banding in the Helsingborg side panels and the Gothenburg table top). Lookalikes that repeat only within one product do not count: Foam Padding and Fabric Cover (Stockholm seat and back rest), Foam Insert, Cushion Cover, Zipper and Batting (both Uppsala cushions), Wooden Slat and Fabric Sleeve (15 Linköping slat sub-assemblies). Drawer Handle is a part only in the Malmö Desk; the Norrköping 'Drawer Handle' is an assembly component, not a sub-assembly part. 'Wood Panel' and 'Wood Panels' are different names."
+    },
+    {
+      "id": "FG33",
+      "type": "disambiguation",
+      "question": "Which part does the Malmö Desk's drawer unit list that the Helsingborg Dresser's drawers sub-assembly does not?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Drawer Handle"
+          }
+        ]
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "components.csv",
+          "row": {
+            "sub_assembly_name": "drawer_unit_subassembly",
+            "part_id": "S-1079",
+            "part_name": "Drawer Handle"
+          }
+        }
+      ],
+      "sql": "SELECT c.part_name FROM components c JOIN assemblies a ON a.assembly_id = c.assembly_id JOIN products p ON p.product_id = a.product_id WHERE p.product_name = 'Malmö Desk' AND a.component_name = 'Drawer Unit' AND c.part_name NOT IN (SELECT c2.part_name FROM components c2 JOIN assemblies a2 ON a2.assembly_id = c2.assembly_id JOIN products p2 ON p2.product_id = a2.product_id WHERE p2.product_name = 'Helsingborg Dresser' AND a2.component_name = 'Drawers')",
+      "note": "The two drawer sub-assemblies share Drawer Front, Drawer Bottom, Drawer Sides, Drawer Back, Drawer Rails and Screws (with the same quantities); only the Malmö drawer unit adds a Drawer Handle (S-1079). The dresser lists its handles separately, as the assembly component 'Drawer Handles' (A-1071, quantity 4), which is not part of its drawers sub-assembly. The reverse difference is empty."
+    },
+    {
+      "id": "FG34",
+      "type": "disambiguation",
+      "question": "According to a reviewer, what did a toddler spill on the Uppsala Sofa?",
+      "expected": {
+        "text": "Juice."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/uppsala_sofa_reviews.md#0",
+          "quote": "our toddler spilled juice on it last week, and it was so easy to remove the cover and wash it"
+        }
+      ],
+      "note": "@scandi_lover (#0) says their toddler spilled juice on the sofa. The other spill on the same sofa is @interior_whiz's wine (#2), which she does not attribute to a toddler; the 'spilled drinks' that the Gothenburg Table's surface resisted (#5) belong to another product. 'Wine' is wrong."
+    },
+    {
+      "id": "FG35",
+      "type": "disambiguation",
+      "question": "Which reviewer says the lower shelf of the Jönköping Coffee Table is handy for storing remote controls?",
+      "expected": {
+        "entities": [
+          {
+            "name": "@home_chef",
+            "aliases": [
+              "home_chef"
+            ]
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/jonkoping_coffee_table_reviews.md#5",
+          "quote": "the lower shelf is handy for storing remote controls and magazines"
+        },
+        {
+          "chunk_id": "product_reviews/jonkoping_coffee_table_reviews.md#5",
+          "quote": "- @home_chef (Chicago)"
+        }
+      ],
+      "note": "@home_chef (#5) keeps remote controls and magazines on the shelf. Lookalikes on the same table: @scandi_lover's shelf stores 'books and magazines' (#0), @artsy_andy's holds art books (#2) and @designer_dave's carries 'heavy art books' (#3). The shared word 'magazines' is the trap; only #5 mentions remote controls."
+    },
+    {
+      "id": "FG36",
+      "type": "negation_sensitive",
+      "question": "Which products do reviewers say do not squeak?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Linköping Bed"
+          },
+          {
+            "name": "Uppsala Sofa"
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/linkoping_bed_reviews.md#0",
+          "quote": "The bed is rock solid - absolutely no squeaking or movement."
+        },
+        {
+          "chunk_id": "product_reviews/linkoping_bed_reviews.md#6",
+          "quote": "The frame has remained solid with no squeaking or wobbling despite daily use."
+        },
+        {
+          "chunk_id": "product_reviews/uppsala_sofa_reviews.md#6",
+          "quote": "The frame feels incredibly solid - no squeaking or wobbling."
+        }
+      ],
+      "note": "Three reviews deny squeaking: Linköping Bed #0 and #6 and Uppsala Sofa #6. Both products also have a complaint (Linköping #2: the slats 'make noise sometimes'; Uppsala #4: the frame 'creaks'), which does not cancel the denials. The Stockholm Chair is the lookalike to leave out: its only squeak mention is a complaint (#3, 'some squeaking when I lean back'). The Helsingborg drawers' scraping sound is not squeaking either."
+    },
+    {
+      "id": "FG37",
+      "type": "negation_sensitive",
+      "question": "Which products have a review saying the assembly instructions were clear?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Gothenburg Table"
+          },
+          {
+            "name": "Linköping Bed"
+          },
+          {
+            "name": "Malmö Desk"
+          },
+          {
+            "name": "Västerås Bookshelf"
+          },
+          {
+            "name": "Örebro Lamp"
+          }
+        ]
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/gothenburg_table_reviews.md#3",
+          "quote": "Assembly was straightforward with clear instructions."
+        },
+        {
+          "chunk_id": "product_reviews/linkoping_bed_reviews.md#0",
+          "quote": "the instructions were clear and all parts were labeled well"
+        },
+        {
+          "chunk_id": "product_reviews/malmo_desk_reviews.md#0",
+          "quote": "Assembly took about 2 hours but the instructions were clear."
+        },
+        {
+          "chunk_id": "product_reviews/orebro_lamp_reviews.md#1",
+          "quote": "Assembly was straightforward with clear instructions."
+        },
+        {
+          "chunk_id": "product_reviews/vasteras_bookshelf_reviews.md#1",
+          "quote": "The assembly instructions were clear"
+        },
+        {
+          "chunk_id": "product_reviews/vasteras_bookshelf_reviews.md#6",
+          "quote": "Assembly was straightforward with clear instructions."
+        },
+        {
+          "chunk_id": "product_reviews/stockholm_chair_reviews.md#1",
+          "quote": "the assembly instructions could have been clearer"
+        }
+      ],
+      "note": "Clear instructions are stated for the Gothenburg Table (#3), Linköping Bed (#0), Malmö Desk (#0), Örebro Lamp (#1) and Västerås Bookshelf (#1, #6; #3 also calls them precise). The trap is the Stockholm Chair: 'could have been clearer' (#1) says the opposite and does not count. 'Straightforward with the included instructions' (Linköping #5, Malmö #6) and 'carefully follow the instructions' (Helsingborg #6) do not call the instructions clear; the Gothenburg Table still counts despite #2's 'confusing'."
+    },
+    {
+      "id": "FG38",
+      "type": "negation_sensitive",
+      "question": "Which components of the Helsingborg Dresser's assembly have no parts listed for them?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Allen Key"
+          },
+          {
+            "name": "Back Panel"
+          },
+          {
+            "name": "Bottom Panel"
+          },
+          {
+            "name": "Drawer Handles"
+          },
+          {
+            "name": "Screws"
+          },
+          {
+            "name": "Top Panel"
+          }
+        ]
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "assemblies.csv",
+          "row": {
+            "assembly_id": "A-1066",
+            "component_name": "Top Panel",
+            "product_id": "P-1007"
+          }
+        },
+        {
+          "file": "assemblies.csv",
+          "row": {
+            "assembly_id": "A-1067",
+            "component_name": "Side Panels",
+            "product_id": "P-1007"
+          }
+        },
+        {
+          "file": "assemblies.csv",
+          "row": {
+            "assembly_id": "A-1070",
+            "component_name": "Drawers",
+            "product_id": "P-1007"
+          }
+        }
+      ],
+      "sql": "SELECT a.component_name FROM products p JOIN assemblies a ON a.product_id = p.product_id WHERE p.product_name = 'Helsingborg Dresser' AND NOT EXISTS (SELECT 1 FROM components c WHERE c.assembly_id = a.assembly_id)",
+      "note": "The dresser's assembly has eight components. Only Side Panels (A-1067) and Drawers (A-1070) have sub-assembly parts; the other six (Top Panel, Bottom Panel, Back Panel, Drawer Handles, Screws, Allen Key) have none. Mounting Brackets and Screws inside the side panels or drawers do not give the assembly-level Screws component parts of its own."
+    },
+    {
+      "id": "FG39",
+      "type": "negation_sensitive",
+      "question": "Among the products that have sub-assembly parts listed, which have no part offered by a supplier specializing in wood?",
+      "expected": {
+        "entities": [
+          {
+            "name": "Örebro Lamp"
+          }
+        ]
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "assemblies.csv",
+          "row": {
+            "assembly_id": "A-1033",
+            "component_name": "Shade",
+            "product_id": "P-1005"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1132",
+            "supplier_id": "SUP-018"
+          }
+        },
+        {
+          "file": "part_supplier_mapping.csv",
+          "row": {
+            "part_id": "S-1131",
+            "supplier_id": "SUP-013"
+          }
+        }
+      ],
+      "sql": "SELECT DISTINCT p.product_name FROM products p JOIN assemblies a ON a.product_id = p.product_id JOIN components c ON c.assembly_id = a.assembly_id WHERE p.product_id NOT IN (SELECT a2.product_id FROM assemblies a2 JOIN components c2 ON c2.assembly_id = a2.assembly_id JOIN part_supplier_mapping m ON m.part_id = c2.part_id JOIN suppliers s ON s.supplier_id = m.supplier_id WHERE s.specialty = 'Wood')",
+      "note": "Seven products have sub-assembly parts. Six of them have at least one wood-supplied part (Malmö drawer fronts, Helsingborg drawer and side-panel wood, Linköping headboard panel and slats, Stockholm seat base and back panel, Uppsala support slats, Gothenburg edge banding). The Örebro Lamp's only sub-assembly, the shade, takes metal, fabric and glass parts. The Jönköping Coffee Table, Norrköping Nightstand and Västerås Bookshelf have no parts at all and are excluded by the question's first clause."
+    },
+    {
+      "id": "FG40",
+      "type": "negation_sensitive",
+      "question": "How many Örebro Lamp reviews say the lamp's switch broke?",
+      "expected": {
+        "number": 0
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/orebro_lamp_reviews.md#2",
+          "quote": "the switch feels kinda cheap and i'm worried it might break eventually"
+        },
+        {
+          "chunk_id": "product_reviews/orebro_lamp_reviews.md#4",
+          "quote": "The dimmer switch is finicky and sometimes flickers at lower settings."
+        }
+      ],
+      "note": "No review reports a broken switch. @interior_whiz (#2) only worries that it 'might break eventually', a possibility, and @angry_customer (#4) calls the dimmer switch finicky and flickering, which is a fault but not a break. The shade that arrived with a small dent (#5) is not the switch. Counting #2 gives a wrong 1."
+    },
+    {
+      "id": "FG41",
+      "type": "negation_sensitive",
+      "question": "Which products' assemblies list no screws?",
+      "expected": {
+        "entities": []
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "assemblies.csv",
+          "row": {
+            "assembly_id": "A-1035",
+            "component_name": "Screws",
+            "product_id": "P-1005"
+          }
+        },
+        {
+          "file": "assemblies.csv",
+          "row": {
+            "assembly_id": "A-1016",
+            "component_name": "Screws",
+            "product_id": "P-1003"
+          }
+        }
+      ],
+      "sql": "SELECT p.product_name FROM products p WHERE NOT EXISTS (SELECT 1 FROM assemblies a WHERE a.product_id = p.product_id AND a.component_name = 'Screws')",
+      "note": "Every one of the ten products has a Screws component in its assembly, from 6 (Örebro Lamp) to 36 (Helsingborg Dresser), so the answer is the empty set. Lookalikes that are not screw-free: the products without an Allen Key (Uppsala Sofa, Örebro Lamp) and the Stockholm Chair, whose reviewer says no tools were needed except the Allen key."
+    },
+    {
+      "id": "FG42",
+      "type": "negation_sensitive",
+      "question": "How many Helsingborg Dresser reviews say the drawers slide smoothly or perfectly?",
+      "expected": {
+        "number": 1
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#6",
+          "quote": "the drawers now slide perfectly"
+        },
+        {
+          "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#0",
+          "quote": "don't allow the drawers to slide smoothly"
+        },
+        {
+          "chunk_id": "product_reviews/helsingborg_dresser_reviews.md#2",
+          "quote": "we still couldn't get the drawers to slide right"
+        }
+      ],
+      "note": "Only @woodworker_amy (#6) says the drawers now slide perfectly, after sanding and lubricating the rails. @furniture_lover92 (#0) says the rails 'don't allow the drawers to slide smoothly' and @college_student (#2) 'couldn't get the drawers to slide right': both negated and not counted. The dresser's own description ('smooth-gliding mechanism') is not a review."
+    },
+    {
+      "id": "FG43",
+      "type": "lookup",
+      "question": "What power consumption in watts does a reviewer give for the Örebro Lamp?",
+      "expected": {
+        "number": 12
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/orebro_lamp_reviews.md#3",
+          "quote": "The power consumption is remarkably efficient at only 12W while providing illuminance equivalent to a traditional 75W incandescent."
+        }
+      ],
+      "note": "@designer_dave (#3) gives 12W. The 75W in the same sentence is the incandescent bulb the lamp's light is compared with, not the lamp's consumption."
+    },
+    {
+      "id": "FG44",
+      "type": "lookup",
+      "question": "What surface area does a reviewer give for the Malmö Desk?",
+      "expected": {
+        "text": "140cm x 65cm."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/malmo_desk_reviews.md#1",
+          "quote": "The surface area (140cm x 65cm) is perfect for my dual monitor setup with room to spare."
+        }
+      ],
+      "note": "@designer_dave (#1) gives 140cm x 65cm. The other table dimensions in the corpus belong to other products: 180cm x 90cm (Gothenburg Table) and 110cm x 60cm (Jönköping Coffee Table)."
+    },
+    {
+      "id": "FG45",
+      "type": "lookup",
+      "question": "What kind of joinery does a reviewer say the Norrköping Nightstand's drawer uses?",
+      "expected": {
+        "text": "Dovetail joinery (rather than stapled construction)."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/norrkoping_nightstand_reviews.md#3",
+          "quote": "The drawer employs proper dovetail joinery rather than the stapled construction common at this price point."
+        }
+      ],
+      "note": "@woodworker_amy (#3) says the drawer uses dovetail joinery. The same review says the case (not the drawer) uses mortise and tenon joints, which is the wrong answer for the drawer; mortise and tenon is also what the Västerås Bookshelf's vertical supports use."
+    },
+    {
+      "id": "FG46",
+      "type": "lookup",
+      "question": "At least how many distinct finish layers does a reviewer count on the Jönköping Coffee Table?",
+      "expected": {
+        "number": 3
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/jonkoping_coffee_table_reviews.md#3",
+          "quote": "The surface employs a multi-layer finish (I count at least 3 distinct layers) with proper sanding between coats"
+        }
+      ],
+      "note": "@designer_dave (#3) counts at least 3 distinct layers. No other review counts finish layers."
+    },
+    {
+      "id": "FG47",
+      "type": "lookup",
+      "question": "How many people does a reviewer say the Uppsala Sofa seats comfortably?",
+      "expected": {
+        "text": "Three to four people."
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/uppsala_sofa_reviews.md#6",
+          "quote": "It's the perfect size for our apartment living room, comfortably seating 3-4 people."
+        }
+      ],
+      "note": "@entertainer_emma (#6) says 3-4 people. The Gothenburg Table's '6-8 people' belongs to another product, and 'two people' in other Uppsala reviews (#0, #5) is how many are needed for assembly. '3 to 4' or '3-4 people' is right."
+    },
+    {
+      "id": "FG48",
+      "type": "lookup",
+      "question": "What is the website of Spanish Glass Industries?",
+      "expected": {
+        "entities": [
+          {
+            "name": "www.spanishglass.es",
+            "aliases": [
+              "spanishglass.es"
+            ]
+          }
+        ]
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "suppliers.csv",
+          "row": {
+            "supplier_id": "SUP-018",
+            "name": "Spanish Glass Industries",
+            "website": "www.spanishglass.es"
+          }
+        }
+      ],
+      "sql": "SELECT website FROM suppliers WHERE name = 'Spanish Glass Industries'",
+      "note": "SUP-018's website is www.spanishglass.es. The other glass supplier, Sydney Glass Works, has www.sydneyglass.com.au; the contact email info@spanishglass.es is not the website."
+    },
+    {
+      "id": "FG49",
+      "type": "lookup",
+      "question": "How many hours did a reviewer say assembling the Gothenburg Table took with two people?",
+      "expected": {
+        "number": 1
+      },
+      "route": "retrieval",
+      "chunks": [
+        {
+          "chunk_id": "product_reviews/gothenburg_table_reviews.md#0",
+          "quote": "Assembly took about an hour with two people."
+        }
+      ],
+      "note": "@akollegger (#0) says about an hour with two people. @woodworker_amy (#6) also says the table needs two people but gives no time; the 6 months in #0 is how long the table has been owned. Other two-person times belong to other products (Linköping Bed about 2 hours, Uppsala Sofa about 45 minutes)."
+    },
+    {
+      "id": "FG50",
+      "type": "lookup",
+      "question": "How does the product catalogue describe the Helsingborg Dresser?",
+      "expected": {
+        "text": "Spacious drawers with smooth-gliding mechanism."
+      },
+      "route": "exact",
+      "records": [
+        {
+          "file": "products.csv",
+          "row": {
+            "product_name": "Helsingborg Dresser",
+            "description": "Spacious drawers with smooth-gliding mechanism",
+            "product_id": "P-1007"
+          }
+        }
+      ],
+      "note": "The products table describes the Helsingborg Dresser as 'Spacious drawers with smooth-gliding mechanism'. Reviews of the dresser contradict it (sticking drawer rails), but the question asks for the catalogue's description, not the reviewers' verdict. The Jönköping Coffee Table, which has the same price, is described as a 'Centerpiece for your living room with hidden storage'."
+    }
+  ]
+}

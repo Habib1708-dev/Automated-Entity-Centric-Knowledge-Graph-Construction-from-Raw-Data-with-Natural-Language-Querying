@@ -16,7 +16,9 @@ a query over the tables; run files in `tests/gold/r189/`, with the same controls
 ledger's run files (`tests/gold/r194/`) are experiment A's 8 failures and 5 controls drawn by seed from R185's
 10, copied unchanged from R185's run files. R205: the outcome files (`tests/gold/outcomes/`) pass the
 per-file checks and hold, per dataset, two questions expecting each outcome other than an answer and four
-answerable controls copied unchanged from the third confirmation set. No Neo4j, no LLM.
+answerable controls copied unchanged from the third confirmation set. R235: the final benchmark's files
+(`_qa_final.json`, four datasets) pass the per-file checks and the benchmark's size, type mix and novelty.
+No Neo4j, no LLM.
 """
 
 import json
@@ -61,7 +63,20 @@ TABLE_OPS = [f"{name}_qa_sql.json" for name in CONFIRM_DATASETS]
 # R219: ten fresh questions on three datasets for the combined agent's validation (plan R217-R220), written
 # blind after R218; the per-file checks hold for them too
 VALIDATION = [f"{name}_qa_confirm4.json" for name in ("furniture", "heldout", "lighthouses")]
-GOLD_FILES = [*REAL, "generality_qa.json", *FRESH, *BENCH, *CONFIRM, *SEMANTIC, *TABLE_OPS, *VALIDATION]
+# R235: the final benchmark (plan R235-R237), 50 unseen questions on each of the four selected datasets,
+# written blind for one run of the final engine; held to the R152 benchmark's checks
+FINAL = [f"{name}_qa_final.json" for name in ("ntsb", "furniture", "heldout", "generality")]
+GOLD_FILES = [
+    *REAL,
+    "generality_qa.json",
+    *FRESH,
+    *BENCH,
+    *CONFIRM,
+    *SEMANTIC,
+    *TABLE_OPS,
+    *VALIDATION,
+    *FINAL,
+]
 
 
 @pytest.fixture(scope="module", params=GOLD_FILES)
@@ -128,7 +143,7 @@ def test_the_generality_corpus_spans_at_least_three_domains_in_about_30_document
     assert any(p.suffix == ".csv" for p in Path(corpus).rglob("*"))
 
 
-@pytest.mark.parametrize("name", BENCH)
+@pytest.mark.parametrize("name", BENCH + FINAL)
 def test_a_benchmark_file_asks_fifty_questions_of_every_type_none_asked_before(name):
     """R152: 50 questions, every type at least six times, about four in five scored by code, and no question
     an earlier gold file of its dataset already asks (compared after normalising case and spacing)."""
@@ -138,7 +153,7 @@ def test_a_benchmark_file_asks_fifty_questions_of_every_type_none_asked_before(n
     assert {t: counts[t] for t in QuestionType if counts[t] < 6} == {}
     by_code = [q for q in gold.questions if q.expected.entities is not None or q.expected.number is not None]
     assert len(by_code) >= 35
-    dataset = name.removesuffix("_qa_bench.json")
+    dataset = name.split("_qa_")[0]
     earlier = {
         norm(q.question)
         for other in QA_GOLD.glob(f"{dataset}_qa*.json")
