@@ -43,18 +43,10 @@ PATH="/path/to/biber217:$PATH" /path/to/tectonic.exe --keep-logs --outdir build 
 
 In Git Bash, write the biber folder as `/c/...`: a `C:` in PATH is read as a separator.
 
-## Before submission (Stage 8 status, 2026-10-16)
+## Before submission (2026-10-17)
 
-The PDF compiles with no warnings, every citation resolves to a verified entry, every reference resolves, and every
-count in the chapters matches the evidence registry. Three items need the author; each prints as a red
-"to check" note until it is done (`grep -rn checknote thesis/`):
-1. **Furniture data source** (Chapter 3): confirm that the dataset came with the DeepLearning.AI course material,
-   then remove the note or correct the attribution.
-2. **Declaration** (front matter): check the draft wording, including the statement on AI assistance, against the
-   faculty's required text and the university's AI-use policy.
-3. **Acknowledgments** (front matter): the author's own text.
-
-Also confirm the faculty's formatting rules (margins, font size, spacing, citation style) against the defaults in
+All open items are closed and no "to check" note remains (`grep -rn checknote thesis/` finds only the macro). The author confirmed
+the furniture data origin and the declaration wording, and no faculty formatting rules apply beyond the defaults in
 `preamble.tex`. Appendices A, D and F are generated: after a change to the prompts, tools or gold, run
 `uv run python thesis/tools/export_appendix.py` from the repository root.
 
