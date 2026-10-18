@@ -12322,6 +12322,138 @@ Stage 6, captioned and indexed; fonts sized for a landscape page (8.1 pt printed
 
 **R234 done 2026-10-16.**
 
+### Plan R235-R237: the final benchmark, 200 unseen questions on the four selected datasets (accepted 2026-10-18)
+
+**The ask.** The user, 2026-10-18, after reviewing the results slide (440 questions pooled over the engines of
+R157-R179): "make a final evaluation benchmark test on 50 benchmark test items for the 4 datasets ... in a new
+isolated branch ... use the current default adopted agentic system". Read as 50 per dataset (R152's size), on
+NTSB, furniture, held-out and generality (the four of R230-R231), answered by `agent` at the preset's `low`
+thinking (the system the R217-R220 verdict kept), at this branch's code. Estimate about $3.2-3.6 from R178's
+$0.0167 a question; stop and ask if over $4.5.
+
+**Why.** Every earlier number of the query engine pools engines that changed between sets (R157-R179), and the
+engine changed again after R179 (R202-R207: the security screen, the five outcomes, evidence integrity). This
+set measures the final engine once, on all four datasets, with one code version for every answer.
+
+**Branch.** `final-benchmark`, in the worktree `.claude/worktrees/final-benchmark`, branched from `main` after
+`web-interface` was fast-forwarded into it (a51685b); the worktree's `.env` points `CACHE_DIR` and
+`MLFLOW_TRACKING_URI` at the main checkout's, so cached reloads stay free and the runs land in the one store.
+R232-R234 are taken on branch `thesis`.
+
+**Steps, strictly one after another:**
+- **R235** 50 new gold questions per dataset (`tests/gold/qa/<dataset>_qa_final.json`, ids FG/HG/GG/NG01-50),
+  R152's type mix, at least 35 scored by code, no `outcome` questions (comparable with R157). Written by writer
+  subagents (Claude Opus 5.5 as in R152, one per dataset; the first Fable 5.1 writers stopped at the account's
+  Fable limit before writing anything) from the sources, the chunked corpus and the earlier gold only:
+  no `out/`, MLflow, verdict, outcome record, figure, roadmap, agent or query code opened. The lead of this
+  session read R178-R179's failure analysis, so it writes and reviews no question. The corpora are small and
+  much asked (generality: 32 chunks, about 170 earlier questions), so writers prefer unused facts and reuse a
+  fact only in a question that asks something new of it, never as a rewording. One independent adversarial
+  review per file (Opus 5.5, a fresh subagent), fixing in place. The gold-file tests extended to the set ($0).
+- **R236** `agent` on the 200 questions, each graph reloaded from cache by R178's recipe ($0 reloads), one
+  `kg qa ... --system agent` per dataset (paid, the user's yes of 2026-10-18; the run guard asks again).
+- **R237** Judged by meaning (Claude Opus 5.5, the judge model of R157-R179; two blind judges per file, a lead
+  judge for disagreements, scope "all"), both scores by `kg qa-score`, per dataset, per type and pooled with
+  Wilson intervals, compared with R157-R179 (other questions and engines: not attributed to any change),
+  failures traced ($0).
+
+### R235. 50 new gold questions on each of the four selected datasets, the final benchmark set (done 2026-10-18; $0, no run)
+- **Scope:** `tests/gold/qa/<dataset>_qa_final.json`, ids NG/FG/HG/GG01-50, written by Claude Opus 5.5 (one
+  writer subagent per dataset) from the source files, the corpus as the pipeline chunks it (a dump of chunk ids
+  and verbatim text, and the staged tables, made by `tests/qa_corpus.rebuild_corpus`) and the earlier gold
+  only; writers and reviewers opened no `out/`, MLflow, verdict, outcome record, figure, roadmap, agent, query
+  or pipeline code. The lead of this session wrote and reviewed no question. Every answer derived twice, every
+  `sql` with companion queries.
+- **Shape** (n = 50 each; every type at least 6; R152's mix):
+
+  | | NTSB | furniture | held-out | generality | **pooled (200)** |
+  |---|---|---|---|---|---|
+  | scored by code | 45 | 45 | 44 | 42 | **176** |
+  | routes exact / retrieval | 28 / 22 | 31 / 19 | 31 / 19 | 5 / 45 | 95 / 105 |
+
+- **One independent adversarial review per file** (Opus 5.5, fresh subagents; every answer re-derived before
+  reading the writer's note, every chunk searched for other wordings, novelty checked by fact against every
+  earlier question of the dataset), fixing in place:
+  - NTSB: NG42 replaced (a hedged "may have been prevented" set, mislabelled negation and open to more
+    members by meaning); 49 confirmed.
+  - Held-out: HG09 and HG22 replaced (repeats of H04/HB04 and H03/H10 by fact), HG08 reworded (the recall
+    covers the Mustang too), HG02 alias "KON", HG13 note (mean, not median).
+  - Furniture: every answer confirmed; FG12/FG23 expect the natural names "Drawer Unit" / "Back Rest" (raw
+    sub-assembly ids kept as aliases), FG06/FG14/FG46 reworded, FG04's note arithmetic fixed.
+  - Generality: 12 replaced as reused facts (the reviewer's report said 11 and listed 12) with only trivial arithmetic or a mirrored filter added (GG02, GG04,
+    GG06, GG08, GG09, GG16, GG18, GG29, GG31, GG32, GG34, GG36), GG44 reworded (the 65 °C limit is stated
+    only next to one pump), GG01/GG12 hard cases relabelled. The replacements were written by the reviewer
+    and had no second review.
+- **Read with care:** the corpora are small and much asked (generality 32 chunks, now about 220 questions), so
+  some questions reread lists earlier filters used (GG21, GG22, GG24, GG25: no unused numeric list remains)
+  or reach an earlier fact through new evidence (HG05, HG12, HG40); the reviewers listed them and kept the
+  strongest versions. Several NTSB questions name a table ("the crew table"), the style of the earlier NTSB
+  gold. Gold, review and (in R237) judge come from one model family.
+- **Verified:** `tests/test_qa_gold_files.py` runs the per-file checks and the 50-question benchmark check
+  (size, type mix, at least 35 by code, no wording repeat) on the four files: 16 passed.
+- **R235 done 2026-10-18.** Next: R236, `agent` on the 200 questions (paid, about $3.2-3.6).
+
+### R236. The final engine's `agent` on the 200 questions (done 2026-10-18; $4.395)
+- **Asked and approved:** the user's request of 2026-10-18 (estimate $3.2-3.6). Furniture, run first, cost
+  $1.363 ($0.027 a question against R178's $0.0167): the run stopped and asked; the user chose "All 150 (~$4.1
+  more)".
+- **Runs** (`tests/gold/r236/runs.json`, git b05d341, `kg --preset P qa .../<dataset>_qa_final.json --system
+  agent --out out/r236_<dataset>`): furniture on the graph as loaded (digest equal to its build's); held-out,
+  NTSB and generality reloaded from cache by R178's recipe (generation $0, every triple and mention
+  byte-identical to the pinned builds, every digest equal to `datasets.yaml`'s); each `--out` folder seeded
+  with the build's plan, schema, profile and staging before any model call.
+- **Exact match on the code-scored questions** (24 free-text answers wait for R237's judge):
+
+  | | furniture | held-out | NTSB | generality | **pooled** |
+  |---|---|---|---|---|---|
+  | exact match (code-scored) | 43/45 | 37/44 | 41/45 | 40/42 | **161/176** |
+  | cost (MLflow `cost_usd`) | $1.363 | $1.208 | $1.024 | $0.800 | **$4.395** |
+  | LLM calls | 277 | 244 | 198 | 207 | 926 |
+  | outcomes other than an answer | 2 insufficient_evidence | 2 insufficient_evidence | 0 | 0 | 4 |
+
+- **Cost against R178:** 1.0-1.7M prompt tokens per 50 questions; $0.022 a question pooled, about 1.3 times
+  R178's $0.0167. Not traced here; the engine has changed since R178 (R202-R207: the security screen, five
+  outcomes, evidence-integrity tool output).
+- **R236 done 2026-10-18.** Next: R237, judged by meaning ($0).
+
+### R237. The final benchmark judged, compared with R157-R179, and its failures traced (done 2026-10-18; $0)
+- **Judge:** Claude Opus 5.5 (subagents of this session, the judge model of R157-R179), two blind judges per
+  dataset with R71's rules, scope "all", each reading a sheet of the gold and the answer fields only. The two
+  agreed on all 200 verdicts; the lead judge ruled on the one gold doubt (NG19: the events row names its
+  airport by id, OIN, with an empty name, at 11 statute miles; gold kept). Files:
+  `tests/gold/r237/<dataset>_final_agent_{meaning,verdicts}.json` (`verdicts`: the free-text answers only, for
+  exact match), scored by `kg qa-score` into `out/r237/{exact,meaning}/<dataset>`.
+- **Results** (the final engine, git b05d341; n = 50 per dataset; 95% Wilson intervals):
+
+  | | NTSB | furniture | held-out | generality | **pooled (200)** |
+  |---|---|---|---|---|---|
+  | exact match | 46 | 48 | 43 | 48 | **185 (92.5%, 88.0-95.4)** |
+  | by meaning | 49 | 48 | 44 | 50 | **191 (95.5%, 91.7-97.6)** |
+
+  By type, by meaning (exact): multi_hop 36/36 (35), aggregation 34/38 (34), structured_filter 34/36 (30),
+  disambiguation 28/28 (28), negation_sensitive 25/28 (25), lookup 34/34 (33).
+- **Compared with the earlier sets on the same four datasets** (other questions and other engines, one run each;
+  two-proportion z-tests, by meaning): R157 195/200 (p = 0.28), R166 77/80 (p = 0.78), R173 78/80 (p = 0.44),
+  R179 75/80 (p = 0.54), the 440 pooled 425/440 (p = 0.50). No difference is significant: the final engine
+  measures at the level of the earlier engines.
+- **Exact match against meaning** (6 questions right by meaning only, all answer form): NG26 (airport names in
+  `entities`, the accident ids in the text), NG27 (a place for an accident id), NG50, HG03, HG18, GG24/GG25
+  ("Core BF-1" for BF-1).
+- **Causes of the 9 failures by meaning** (from the answers):
+
+  | Cause | Questions |
+  |---|---|
+  | false abstention: `insufficient_evidence` on an answerable question (R204-R206's outcomes) | FG18 (five-star-only reviewers), FG39 (products with no wood-specialist part), HG24 (recalls naming www.nhtsa.gov), HG38 (recalls without a manufacturer's number) |
+  | a set missing one member | NG19 (the row with an empty airport name), HG17 (a speed written "10-15 MPH"), HG39 (a second "expected to be mailed" recall) |
+  | arithmetic slip | HG10 (counts 6, lists 7), HG13 (right vehicle, a wrong average stated) |
+
+  The false abstentions are the new failure mode of the final engine: 4 of 200 (2%), on aggregation and
+  negation questions over every record; R206 measured 0/4 false abstentions on furniture controls.
+- **Read with care:** one run, one model family for gold, review and judge; held-out remains the hardest
+  dataset (44/50, 6 of the 9 failures); the questions count as seen after this step.
+- **R237 done 2026-10-18; plan R235-R237 done.** Next: the user decides (the results slide; whether the false
+  abstentions get a step).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
