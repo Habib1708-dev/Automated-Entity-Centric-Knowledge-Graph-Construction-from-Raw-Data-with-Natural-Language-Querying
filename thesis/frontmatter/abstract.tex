@@ -19,10 +19,11 @@ datasets --- including one never seen during development --- with every judged l
 
 Questions are answered by an agent that calls read-only tools one at a time: graph navigation, fused and reranked text
 retrieval, exhaustive word search, and typed queries that code compiles to Cypher or SQL. Code checks every call,
-citation and answer outcome, and a deterministic screen refuses requests to change the data. On 440 unseen questions
-the engine answered 96.6\,\% right by meaning and 95.7\,\% by exact match, far more than retrieval-only baselines, at
-about 1.6 US cents and ten seconds per question. Its remaining errors lie mainly in literal reading of retrieved
-passages. Reference answers and judgements come from a different model family than the system under test, a
+citation and answer outcome, and a deterministic screen refuses requests to change the data. On a final benchmark of
+200 new blind questions, the final engine answered 95.5\,\% right by meaning and 92.5\,\% by exact match, at about 2.2
+US cents and 12 seconds per question; earlier versions measured the same level on 440 other unseen questions
+(96.6\,\%), far more than retrieval-only baselines. Its remaining errors lie mainly in how it reads its evidence: a
+member of a set left out, or an answer the sources hold judged insufficient. Reference answers and judgements come from a different model family than the system under test, a
 limitation stated with every judged result.
 
 \vspace{1em}

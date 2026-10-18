@@ -29,9 +29,9 @@ engine had failed them; their rates describe those failures only.
 \paragraph{Which engine was measured.} The engine changed between measurements, and each result belongs to the
 version that produced it. \Cref{tab:engine-versions} names them. In particular, the benchmark measured the engine
 frozen as \texttt{query-engine-r151}; the passage reranker (R199), the screen (R202), the outcome labels (R204) and the
-evidence-integrity changes (R207--R210) came later. The final engine was measured on answers only by the outcome set
-(\cref{sec:ch07-safety}) and by one targeted comparison (\cref{sec:ch07-ablations}); the high accuracy reported below is
-therefore that of the versions named, not a measurement of the final code on fresh questions.
+evidence-integrity changes (R207--R210) came later. The final engine was therefore measured separately, once, on a
+final benchmark of 200 new blind questions (R235--R237, \cref{sec:ch07-unseen}); the earlier measurements belong to
+the versions named.
 
 \begin{table}[htbp]
 \centering
@@ -51,6 +51,7 @@ Thinking, filter, SQL, ledger (R182--R195) & the R176 engine and variants of it 
 Passage reranking (R198, R201) & retrieval only, no answers \\
 Outcomes (R206) & after the reranker, screen and outcomes (R199--R204) \\
 Outcomes recheck, R219 & after evidence integrity (R207--R210): the final engine \\
+Final benchmark (R236--R237) & the final engine (git \texttt{b05d341}) \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -193,6 +194,15 @@ answer against 2--7.
 
 \section{Accuracy on Unseen Questions}\label{sec:ch07-unseen}
 
+\paragraph{The final engine.} The final engine --- every change of \cref{ch06}, at low thinking --- was measured once
+on a final benchmark: 50 new questions per dataset, written blind after the last change by writers who opened no
+output, record or roadmap, each file reviewed once by an independent reviewer (\cref{sec:ch03-ground-truth}). It
+answered 191 of 200 right by meaning (95.5\,\%, Wilson interval 91.7--97.6\,\%) and 185 by exact match (92.5\,\%,
+88.0--95.4\,\%): 49 on NTSB, 48 on furniture, 44 on NHTSA and 50 on generality by meaning. Two blind judges agreed on
+every verdict. The result does not differ from any earlier measurement on the same four datasets (two-proportion
+$z$-tests, all $p \geq 0.28$; against the 440 questions below, $p = 0.50$). It is the headline result of the query
+engine: one engine version, one run, every answer on the code described in \cref{ch06}.
+
 \paragraph{The benchmark.} After the engine was frozen, 50 new questions per dataset were written blind and reviewed
 twice (\cref{sec:ch03-ground-truth}). On the four thesis datasets the frozen engine answered 193 of 200 right by exact
 match and 195 by meaning (97.5\,\%, Wilson interval 94.3--98.9\,\%; \cref{fig:qa-by-dataset}). Every NTSB question ---
@@ -209,10 +219,11 @@ circle: by meaning; lines: 95\,\% Wilson intervals; counts are k/n.}
 
 \paragraph{Confirmation sets.} The benchmark's failures were analysed and fixed, and each round of fixes was followed
 by a new set of 20 questions per dataset, written before the fixes existed or blind to them. \Cref{tab:unseen}
-summarises the four measurements. None of the differences between them is significant (two-proportion $z$-tests, all
-$p \geq 0.13$ by meaning). Since every set has different questions, the four values are best read as repeated
-measurements of one level --- about 94--98\,\% by meaning --- and not as a trend that the fixes produced. Pooled over all
-440 unseen questions, the engines answered 421 right by exact match and 425 by meaning (96.6\,\%, 94.4--97.9\,\%).
+summarises the four measurements with the final one. None of the differences between them is significant
+(two-proportion $z$-tests, all $p \geq 0.13$ by meaning). Since every set has different questions, the values are best
+read as repeated measurements of one level --- about 94--98\,\% by meaning --- and not as a trend that the fixes
+produced. Pooled over the 440 unseen questions of R157--R179, the engines of those steps answered 421 right by exact
+match and 425 by meaning (96.6\,\%, 94.4--97.9\,\%).
 
 \begin{table}[htbp]
 \centering
@@ -228,7 +239,9 @@ Confirmation 1 (R166) & + R161--R164 & 80 & 77 & 77 (89.5--98.7\,\%) \\
 Confirmation 2 (R173) & + R167--R170 & 80 & 78 & 78 (91.3--99.3\,\%) \\
 Confirmation 3 (R179) & + R175--R176 & 80 & 73 & 75 (86.2--97.3\,\%) \\
 \midrule
-All & & 440 & 421 & 425 (94.4--97.9\,\%) \\
+R157--R179 pooled & & 440 & 421 & 425 (94.4--97.9\,\%) \\
+\midrule
+Final benchmark (R237) & final & 200 & 185 & 191 (91.7--97.6\,\%) \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -236,7 +249,10 @@ All & & 440 & 421 & 425 (94.4--97.9\,\%) \\
 \paragraph{By question type.} \Cref{fig:qa-by-type} breaks the first three measurements down by type. Aggregation is
 the weakest type in the benchmark (34/37) and the first confirmation set (13/15); lookups, multi-hop and
 disambiguation questions were answered right in every set. With 12--17 questions per type in a confirmation set, the
-intervals overlap widely and no type can be called the weakest with confidence.
+intervals overlap widely and no type can be called the weakest with confidence. On the final benchmark (by meaning,
+exact match in brackets) multi-hop questions were answered 36/36 (35), lookups 34/34 (33), disambiguation 28/28 (28),
+structured filters 34/36 (30), aggregation 34/38 (34) and negation-sensitive questions 25/28 (25): aggregation and
+negation are again the weakest types.
 
 \begin{sidewaysfigure}
 \centering
@@ -308,10 +324,21 @@ After the evidence-integrity changes the same 12 questions gave identical outcom
 mechanism works on one dataset; with two questions per outcome and gold written by the judge's model family, it does
 not show that the outcomes generalise. The other 48 questions were not run.
 
+\paragraph{False abstentions.} The final benchmark measures the other side on a larger set: all its 200 questions are
+answerable, and the engine answered 196 and abstained on 4, each time with \emph{insufficient evidence} although the
+sources state the answer (2.0\,\%, two each on furniture and NHTSA). All four ask for every record or reviewer that
+meets a condition --- reviewers who gave five stars in every review, products with no part from a wood specialist,
+recalls that name one website, recalls without the manufacturer's own number --- and the agent said its results were
+incomplete, or that the text held no such mention, rather than computing the set. An abstention is never counted as right, so these four are among the
+benchmark's nine errors (\cref{sec:ch07-errors}).
+
 \section{Latency, Tokens and Cost}\label{sec:ch07-cost}
 
-\Cref{tab:cost} summarises the engine's cost and latency on the unseen sets. A question costs about 1.6--1.7 cents
-at list prices and takes about 10 seconds on average, of which about 95\,\% is the model's time. Furniture, whose
+\Cref{tab:cost} summarises the engine's cost and latency on the unseen sets. Up to R179 a question cost about 1.6--1.7
+cents at list prices and took about 10 seconds on average, of which about 95\,\% is the model's time. The final engine
+costs more: 2.2 cents and 12.4 seconds on average per question on the final benchmark, with 1.0--1.7 million prompt
+tokens per 50 questions. The cause was not traced; the engine changed in several ways after R179 (reranker, screen,
+outcomes, evidence integrity), and the final benchmark has other questions. Furniture, whose
 questions need the most calls (3--4 per question), is the most expensive dataset (about 2 cents per question);
 generality the cheapest (about 1 cent). At low thinking the model spends no thinking tokens; at medium it spends about
 2{,}000 per question and the cost per question rises to about 5 cents.
@@ -329,8 +356,14 @@ Benchmark (R157) & 3.200 & 0.0160 & 10.2 & 9.2 & 17.2 \\
 Confirmation 1 (R166) & 1.314 & 0.0164 & 10.8 & 9.5 & 16.6 \\
 Confirmation 2 (R173) & 1.327 & 0.0166 & 9.9 & 8.3 & 17.6 \\
 Confirmation 3 (R179) & 1.374 & 0.0172 & 11.4 & 10.3 & 18.7 \\
+\midrule
+Final benchmark (R236) & 4.395 & 0.0220 & 12.4 & 9.7--12.5 & 14.1--25.8 \\
 \bottomrule
 \end{tabular}
+
+\smallskip
+{\footnotesize Final benchmark: the median and 90th percentile are given as the range over its four runs, one per
+dataset.}
 \end{table}
 
 \section{Error Analysis}\label{sec:ch07-errors}
@@ -358,11 +391,19 @@ cases, and code had dropped nothing; it excluded the passage because its wording
 a limit of the reading model, not of retrieval or of the graph, and the targeted ablations of \cref{sec:ch07-ablations}
 show that a separate judge of the evidence, not a better prompt, is what moves it.
 
+\paragraph{The final benchmark.} The final engine's nine wrong answers by meaning fall into three groups. Four are
+the false abstentions of \cref{sec:ch07-safety}, a failure mode that came with the outcome labels (R204). Three are sets missing one member: an accident whose table row names its airport only by its code,
+a speed written as ``10-15 MPH'', and a second recall whose letters were ``expected to be mailed''. Two are slips: a
+count of six for a list of seven standards, and the right vehicle stated with a wrong average. Six of the nine are on
+NHTSA, again the hardest dataset. The six answers right by meaning but wrong by exact match are all answer form, such as
+``Core BF-1'' for the record BF-1.
+
 \section{Discussion}\label{sec:ch07-discussion}
 
 \paragraph{RQ3: how accurately can a tool-using agent answer questions over tables and text, with verifiable
-citations?} On 440 unseen questions over four datasets, the engines answered 96.6\,\% right by meaning and 95.7\,\% by
-exact match, including all 50 benchmark questions on the one dataset never seen during development; on paired sets the agent
+citations?} The final engine answered 191 of 200 new blind questions over four datasets right by meaning (95.5\,\%) and
+185 by exact match (92.5\,\%), the level the earlier engines measured on 440 other unseen questions (96.6\,\% and
+95.7\,\%), including all 50 benchmark questions on the one dataset never seen during development; on paired sets the agent
 answered far more questions than retrieval-only readers (for example 63 against at most 31 of 68 on NHTSA). Its
 advantage lies where the anchor graph and the typed queries do exact work: questions about records, joins and counts,
 which readers of five passages cannot answer. Every answer cites identifiers that tools returned, and code verifies

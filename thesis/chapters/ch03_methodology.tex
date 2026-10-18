@@ -14,7 +14,7 @@ The work follows a design-science approach~\cite{hevner2004design}: an artefact 
 builder and the query engine) is built to address a practical problem, and its design is justified by
 evaluating it rather than by argument alone. Three choices give this general approach its specific form.
 
-\paragraph{Small, measured steps.} The system was developed in a sequence of numbered steps (R0 to R231 in
+\paragraph{Small, measured steps.} The system was developed in a sequence of numbered steps (R0 to R237 in
 the project roadmap). Each step addressed one concern, ended in runnable and tested code, and was recorded
 with its commit, its cost and the measurements it made. The step identifiers are used throughout this thesis
 as experiment identifiers; \cref{app:complete-result-tables} maps each one to its records.
@@ -208,7 +208,10 @@ each question, the names it starts from, the records it should reach and its evi
 benchmark questions were written after the query engine was frozen, and each confirmation set before the
 fixes it was meant to confirm existed; their writers opened no output, verdict or failure analysis. Each file
 was then reviewed twice by independent reviewers, who re-derived every answer from the sources, re-ran every
-structured query and checked that no question repeated a fact asked before, and corrected in a third pass.
+structured query and checked that no question repeated a fact asked before, and corrected in a third pass. The
+final benchmark, written after the last change to the engine to measure it once, follows the same rules with one
+independent review per file, which fixed the file in place (15 of 200 questions replaced, 14 of them as repeats of earlier facts).
+Its writers and reviewers were Claude Opus~5.5.
 
 \begin{table}[htbp]
 \centering
@@ -224,6 +227,7 @@ Fresh & after a round of failure analysis & 10 on each of three datasets \\
 Benchmark & after the engine was frozen; reviewed twice & 50 per dataset (200 on the four) \\
 Confirmation 1--3 & each after a round of fixes, blind to the fixes' cases & 20 per dataset per set (80 on the four) \\
 Outcomes & for the five answer outcomes; 8 non-answerable and 4 answerable per dataset & 12 per dataset \\
+Final benchmark & after the engine's last change; reviewed once & 50 per dataset (200 on the four) \\
 \bottomrule
 \end{tabularx}
 \end{table}
@@ -269,8 +273,8 @@ missing a part of the gold answer, or giving only part of a value, is wrong; ``t
 when the source does say.
 
 \paragraph{The judging protocol.} For question answering, two judges work blind and independently on each
-answer file; a third, lead judge resolves their disagreements. On the 250-question benchmark the two blind
-judges agreed on every verdict. For builder outputs, one blind judge labels each batch, and the lead reviews
+answer file; a third, lead judge resolves their disagreements. On the 250-question benchmark and on the
+200-question final benchmark the two blind judges agreed on every verdict. For builder outputs, one blind judge labels each batch, and the lead reviews
 every verdict other than \emph{valid} and a seeded random 10\,\% of the valid ones. Builder verdicts use five
 labels: \emph{valid}; \emph{valid alternative} (right, though not as the gold has it); \emph{incorrect};
 \emph{ambiguous} (the text honestly supports both readings); and \emph{unjudgeable}. From them three rates are

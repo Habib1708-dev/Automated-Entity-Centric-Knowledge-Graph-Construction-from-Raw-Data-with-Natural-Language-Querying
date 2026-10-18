@@ -12454,6 +12454,20 @@ R232-R234 are taken on branch `thesis`.
 - **R237 done 2026-10-18; plan R235-R237 done.** Next: the user decides (the results slide; whether the false
   abstentions get a step).
 
+### R238. The thesis and its results updated with the final benchmark (done 2026-10-18; $0, no run; branch `thesis`)
+- **The user's decision, 2026-10-18:** the final benchmark (R235-R237) becomes the headline result of the query
+  engine; the 440 questions of R157-R179 stay as the earlier measurements it agrees with. Built from the LaTeX source
+  on this branch (`final-benchmark` merged in first, bd67c56), PDF `thesis_final_2026-10-18.pdf`.
+- **What changed:** abstract (95.5 % by meaning, 92.5 % exact on 200 new blind questions, 2.2 cents and 12 s);
+  ch03 (steps R0-R237, the final benchmark in Table 3.3 and in the review and judging protocol); ch06 (cost
+  sentence); ch07 (the final engine in 7.1 and Table 7.1, a final-engine paragraph and row in 7.5 and Table 7.5, by
+  type, false abstentions in 7.7, a row in Table 7.7, the nine failures in 7.9, RQ3); ch08 (cost, threats table);
+  ch09 (summary, RQ3, limitations, future work); Appendix E (run row and records), Appendix G (cost);
+  `evidence_registry.csv` EV74-EV78.
+- **Not changed:** the figures (R231's three figures still show R157-R173); the excluded dataset's appendix (the
+  final benchmark did not run it).
+- **R238 done 2026-10-18.**
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

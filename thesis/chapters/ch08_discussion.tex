@@ -137,7 +137,7 @@ only express what their language allows; about half of the fixes between the con
 language. Free SQL
 is more expressive and answered more of the targeted failures, but moves trust from the compiler to a parser check.
 
-\paragraph{Cost and latency against accuracy.} The agent costs about 1.6 cents and 10 seconds per question, against
+\paragraph{Cost and latency against accuracy.} The agent costs about 1.6--2.2 cents and 10--12 seconds per question, against
 0.1 cent and 2--7 seconds for a retrieval-only reader, and answers far more questions. Medium thinking answers more of
 the hardest questions at about three times the cost and latency.
 
@@ -170,7 +170,7 @@ Threat & Why it matters & Mitigation and remaining risk \\
 Gold and judge from one model family & the judge may share the gold writer's blind spots; no human agreement figure exists & gold written before outputs, verbatim evidence, recorded corrections, exact match always reported; remains the largest threat \\
 Small corpora & intervals are wide; scale untested & every rate with $n$ and a Wilson interval; claims limited to small corpora \\
 Development on seen data & three datasets shaped the fixes & blind fresh, benchmark and confirmation sets; one dataset unseen throughout \\
-Engine versions & the headline accuracy predates the final engine's last changes & each result tied to its version (\cref{tab:engine-versions}) \\
+Engine versions & the engine changed between the earlier measurements & each result tied to its version (\cref{tab:engine-versions}); the final engine measured once on a final blind benchmark \\
 Dataset selection & a fifth dataset was excluded after measurement & pre-defined criterion, timing and all its numbers disclosed (\cref{sec:ch03-datasets}, \cref{app:excluded-dataset}) \\
 Targeted sets & chosen because the engine failed them & rates read only as effects on failures; controls included \\
 Single runs & a model's output can vary between runs & responses cached, so analyses replay exactly; fresh runs not repeated \\

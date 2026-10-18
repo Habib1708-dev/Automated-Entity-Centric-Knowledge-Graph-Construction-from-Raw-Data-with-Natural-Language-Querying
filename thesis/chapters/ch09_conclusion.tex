@@ -21,10 +21,11 @@ question is about and leads from them to the passages that concern them, with id
 evidenced links and a rule that a shared node finds passages but never proves a fact. Judged as an index, by criteria
 fixed in advance, the anchor graph passed every hard gate on four datasets.
 
-The query engine answered 425 of 440 unseen questions right by meaning (96.6\,\%; 421 by exact match) on those four
-datasets, far more than retrieval-only readers on the same questions, at about 1.6 cents and 10 seconds per question.
-Its remaining errors lie mostly in how the model reads: passages that state a missing answer in other words are found
-and then left out.
+The final query engine answered 191 of 200 new blind questions right by meaning (95.5\,\%; 185 by exact match) on those
+four datasets, at about 2.2 cents and 12 seconds per question; its earlier versions measured the same level on 440
+other unseen questions (96.6\,\%), far more than retrieval-only readers on the same questions. Its remaining errors lie
+mostly in how the model reads: passages that state a missing answer in other words are found and then left out, and
+a few answerable questions are judged to lack evidence.
 
 \section{Answers to the Research Questions}\label{sec:ch09-answers}
 
@@ -45,11 +46,12 @@ connections. The anchor graph is not a better ranker of evidence than vector sea
 what a passage is about and which record a name refers to (\cref{ch04,ch05}).
 
 \paragraph{RQ3 --- How accurately can a tool-using agent answer questions over tables and text, with verifiable
-citations?} With 96.6\,\% accuracy by meaning on 440 unseen questions, and far more than retrieval-only readers on paired
+citations?} With 95.5\,\% accuracy by meaning (92.5\,\% by exact match) for the final engine on 200 new blind questions,
+96.6\,\% for its earlier versions on 440 other unseen questions, and far more than retrieval-only readers on paired
 sets (for example 63 against at most 31 of 68 development questions on the NHTSA data), most clearly on questions
 about records, joins and counts. Every answer cites identifiers that tools returned, and code checks them. The
-accuracy belongs to the engine versions measured; the final engine was measured on answers only on small sets, and
-the share of accuracy the graph itself provides was not isolated (\cref{ch07,ch08}).
+final engine was measured once, in one run; the comparison with retrieval-only readers was made with earlier
+versions; and the share of accuracy the graph itself provides was not isolated (\cref{ch07,ch08}).
 
 \paragraph{RQ4 --- How do retrieval, tool design and reasoning budget affect accuracy, cost and latency?} Fused card
 lists find start nodes (203 of 213 targets in the 15 shown) and a model reranker raises passage recall from 0.831 to
@@ -83,8 +85,9 @@ intervals, and every number traced to its run, its record and its commit.
 \item The corpora are small and share one form; scale and other forms are untested.
 \item Three of the four datasets were used during development; one dataset was excluded after a measurement, under a
 criterion fixed in advance.
-\item The headline accuracy predates the final engine's last changes, and the final engine was measured on answers
-only on small sets; the outcome labels were measured on one dataset (12 questions).
+\item The final engine was measured once, in one run of 200 questions with one review per gold file; its comparison
+with retrieval-only readers was made with earlier versions; its non-answer outcomes were measured on one dataset (12
+questions), and it abstained wrongly on 4 of 200 answerable questions.
 \item The graph's contribution to answer accuracy was not isolated by an ablation.
 \item Mention identity is per document, which fails on documents that describe several events.
 \item Stored facts cover a minority of what the text states; they are kept but not relied on.
@@ -93,9 +96,11 @@ only on small sets; the outcome labels were measured on one dataset (12 question
 \section{Future Work}\label{sec:ch09-future}
 
 \paragraph{Measure what is missing.} The most informative experiments are the cheapest: the engine without its graph
-tools on the benchmark questions, to isolate the graph's contribution; the final engine on a fresh blind set; the
-outcome set on all four datasets (48 questions not yet run); and a human check of a random sample of verdicts, to
-give the judge an agreement figure.
+tools on the final benchmark's questions, to isolate the graph's contribution; the retrieval-only readers on the same
+questions, to repeat the baseline comparison on the final engine; the outcome set on all four datasets (48 questions
+not yet run); and a human check of a random sample of verdicts, to give the judge an agreement figure. The false
+abstentions of the final benchmark call for a check that an abstention on a question over every record is not
+followed by a query that would have answered it.
 
 \paragraph{Improve the engine where it fails.} The free-SQL tool is the most promising upgrade and needs a measurement
 on fresh questions before adoption. The dominant remaining error, literal reading, responded only to a separate judge

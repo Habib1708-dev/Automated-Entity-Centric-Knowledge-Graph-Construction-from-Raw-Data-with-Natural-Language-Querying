@@ -103,12 +103,15 @@ R157 benchmark & 50 / 50 of 50 (\texttt{fbf2339f}) & 46 / 46 of 50 (\texttt{fb74
 R166 confirmation 1 & 19 / 19 of 20 (\texttt{00372eb4}) & 19 / 19 of 20 (\texttt{2f56dbd5}) & 19 / 19 of 20 (\texttt{94ba4784}) & 20 / 20 of 20 (\texttt{80eb7c27}) \\
 R173 confirmation 2 & 19 / 19 of 20 (\texttt{ec1a6518}) & 20 / 20 of 20 (\texttt{35afadc8}) & 19 / 19 of 20 (\texttt{e4899ff3}) & 20 / 20 of 20 (\texttt{2e7fa121}) \\
 R179 confirmation 3 & 20 / 20 of 20 (\texttt{544e71e0}) & 18 / 18 of 20 (\texttt{0fdf90be}) & 15 / 17 of 20 (\texttt{dd99ba2a}) & 20 / 20 of 20 (\texttt{c344c8d5}) \\
+\midrule
+R237 final benchmark & 46 / 49 of 50 (\texttt{92a4dec1}) & 48 / 48 of 50 (\texttt{e500df45}) & 43 / 44 of 50 (\texttt{c302e11f}) & 48 / 50 of 50 (\texttt{1577d318}) \\
 \bottomrule
 \end{tabular}
 \end{table}
 
 Per-question outcomes, verdicts and causes are in \path{tests/gold/r157/}, \texttt{r166/}, \texttt{r173/} and
-\texttt{r179/} (\texttt{outcomes.json}). The builder's judged reports are in \path{tests/gold/r110/},
+\texttt{r179/} (\texttt{outcomes.json}); those of the final benchmark in \path{tests/gold/r237/} (verdicts) and
+\path{tests/gold/r236/runs.json} (runs, costs and graph digests). The builder's judged reports are in \path{tests/gold/r110/},
 \texttt{r111/}, \texttt{r103/}, \texttt{r108/}, \texttt{r109/}, \texttt{r226/} and \texttt{r228/}, with the MLflow
 runs named in them. The evidence registry of the thesis sources (\path{thesis/evidence_registry.csv}) lists every
 number in the text with its step, record, run and commit.
@@ -154,8 +157,9 @@ cd thesis && latexmk -xelatex main.tex          # or Tectonic with biber 2.17
 \end{lstlisting}
 
 \section*{Cost}
-At list prices, a build costs \$0.37--1.42, a question about \$0.016 at low thinking, and the whole sequence of
-unseen-question runs on the four datasets \$7.22. Judging was done in a Claude session at no API cost. Embedding calls
+At list prices, a build costs \$0.37--1.42, a question about \$0.016 at low thinking up to R179 and \$0.022 on the final
+engine, and the whole sequence of unseen-question runs on the four datasets \$7.22 up to R179 and \$11.61 with the
+final benchmark (\$4.395). Judging was done in a Claude session at no API cost. Embedding calls
 are not priced.
 
 \chapter{The Excluded Dataset}\label{app:excluded-dataset}
