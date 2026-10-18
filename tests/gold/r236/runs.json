@@ -1,0 +1,58 @@
+{
+ "step": "R236: the final engine's `agent` (preset low thinking) on the 200 questions of the final benchmark (R235), one run per dataset",
+ "approved": "the user, 2026-10-18: 'Alright you may proceed and make a final evaluation benchmark test on 50 benchmark test items for the 4 datasets' (estimate $3.2-3.6); after furniture cost $1.363 (the engine at $0.027 a question), asked again and chose 'All 150 (~$4.1 more)'",
+ "git_sha": "b05d341",
+ "commands": [
+  "kg --preset <quality|heldout|ntsb|generality_gemini> qa tests/gold/qa/<dataset>_qa_final.json --system agent --out out/r236_<dataset>",
+  "reloads ($0 generation, every LLM answer from the cache; R178's recipe): kg --preset P reset | build DATA | (pinned profile copied back) | ingest-text DATA | extract --from-build BUILD | link | GEMINI_API_KEY=invalid mention-pass | resolve | attach | index --cards template, each --out out/r236_<dataset>, with plan.json, text_schema.json, profile.json and staging copied from BUILD first; triples.jsonl and mentions.jsonl byte-identical to BUILD's, every digest equal to datasets.yaml's"
+ ],
+ "runs": {
+  "furniture": {
+   "run": "e500df45692f4fba9ecc1c5f5e1a6b42",
+   "graph_digest": "392a170ecc10",
+   "graph": "as loaded (the working Neo4j held the furniture build, digest equal); out/r236_furniture seeded from out/r165_furniture_build",
+   "answers": "out/r236_furniture/answers_agent.jsonl",
+   "cost_usd": 1.3629,
+   "llm_calls": 277,
+   "exact_code_scored": "43/45",
+   "unjudged_free_text": 5,
+   "outcomes": {"answer": 48, "insufficient_evidence": 2}
+  },
+  "heldout": {
+   "run": "c302e11fe30c4175ae64974ac9ad1187",
+   "graph_digest": "bc7c5a1efe3d",
+   "graph": "reloaded from out/r165_heldout_build into out/r236_heldout",
+   "answers": "out/r236_heldout/answers_agent.jsonl",
+   "cost_usd": 1.2083,
+   "llm_calls": 244,
+   "exact_code_scored": "37/44",
+   "unjudged_free_text": 6,
+   "outcomes": {"answer": 48, "insufficient_evidence": 2}
+  },
+  "ntsb": {
+   "run": "92a4dec1936d4692889e8dd13709b9aa",
+   "graph_digest": "c7f20fa9c187",
+   "graph": "reloaded from out/r165_ntsb_build into out/r236_ntsb",
+   "answers": "out/r236_ntsb/answers_agent.jsonl",
+   "cost_usd": 1.0243,
+   "llm_calls": 198,
+   "exact_code_scored": "41/45",
+   "unjudged_free_text": 5,
+   "outcomes": {"answer": 50}
+  },
+  "generality": {
+   "run": "1577d3186c9242d99efb48c220f192fd",
+   "graph_digest": "f79f9411ea81",
+   "graph": "reloaded from out/r156_generality into out/r236_generality",
+   "answers": "out/r236_generality/answers_agent.jsonl",
+   "cost_usd": 0.7997,
+   "llm_calls": 207,
+   "exact_code_scored": "40/42",
+   "unjudged_free_text": 8,
+   "outcomes": {"answer": 50}
+  }
+ },
+ "cost_usd": 4.3952,
+ "exact_code_scored_pooled": "161/176",
+ "unjudged_free_text": 24
+}

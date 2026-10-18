@@ -12336,6 +12336,29 @@ R232-R234 are taken on branch `thesis`.
   (size, type mix, at least 35 by code, no wording repeat) on the four files: 16 passed.
 - **R235 done 2026-10-18.** Next: R236, `agent` on the 200 questions (paid, about $3.2-3.6).
 
+### R236. The final engine's `agent` on the 200 questions (done 2026-10-18; $4.395)
+- **Asked and approved:** the user's request of 2026-10-18 (estimate $3.2-3.6). Furniture, run first, cost
+  $1.363 ($0.027 a question against R178's $0.0167): the run stopped and asked; the user chose "All 150 (~$4.1
+  more)".
+- **Runs** (`tests/gold/r236/runs.json`, git b05d341, `kg --preset P qa .../<dataset>_qa_final.json --system
+  agent --out out/r236_<dataset>`): furniture on the graph as loaded (digest equal to its build's); held-out,
+  NTSB and generality reloaded from cache by R178's recipe (generation $0, every triple and mention
+  byte-identical to the pinned builds, every digest equal to `datasets.yaml`'s); each `--out` folder seeded
+  with the build's plan, schema, profile and staging before any model call.
+- **Exact match on the code-scored questions** (24 free-text answers wait for R237's judge):
+
+  | | furniture | held-out | NTSB | generality | **pooled** |
+  |---|---|---|---|---|---|
+  | exact match (code-scored) | 43/45 | 37/44 | 41/45 | 40/42 | **161/176** |
+  | cost (MLflow `cost_usd`) | $1.363 | $1.208 | $1.024 | $0.800 | **$4.395** |
+  | LLM calls | 277 | 244 | 198 | 207 | 926 |
+  | outcomes other than an answer | 2 insufficient_evidence | 2 insufficient_evidence | 0 | 0 | 4 |
+
+- **Cost against R178:** 1.0-1.7M prompt tokens per 50 questions; $0.022 a question pooled, about 1.3 times
+  R178's $0.0167. Not traced here; the engine has changed since R178 (R202-R207: the security screen, five
+  outcomes, evidence-integrity tool output).
+- **R236 done 2026-10-18.** Next: R237, judged by meaning ($0).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's
