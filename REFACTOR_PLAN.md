@@ -12359,6 +12359,44 @@ R232-R234 are taken on branch `thesis`.
   outcomes, evidence-integrity tool output).
 - **R236 done 2026-10-18.** Next: R237, judged by meaning ($0).
 
+### R237. The final benchmark judged, compared with R157-R179, and its failures traced (done 2026-10-18; $0)
+- **Judge:** Claude Opus 5.5 (subagents of this session, the judge model of R157-R179), two blind judges per
+  dataset with R71's rules, scope "all", each reading a sheet of the gold and the answer fields only. The two
+  agreed on all 200 verdicts; the lead judge ruled on the one gold doubt (NG19: the events row names its
+  airport by id, OIN, with an empty name, at 11 statute miles; gold kept). Files:
+  `tests/gold/r237/<dataset>_final_agent_{meaning,verdicts}.json` (`verdicts`: the free-text answers only, for
+  exact match), scored by `kg qa-score` into `out/r237/{exact,meaning}/<dataset>`.
+- **Results** (the final engine, git b05d341; n = 50 per dataset; 95% Wilson intervals):
+
+  | | NTSB | furniture | held-out | generality | **pooled (200)** |
+  |---|---|---|---|---|---|
+  | exact match | 46 | 48 | 43 | 48 | **185 (92.5%, 88.0-95.4)** |
+  | by meaning | 49 | 48 | 44 | 50 | **191 (95.5%, 91.7-97.6)** |
+
+  By type, by meaning (exact): multi_hop 36/36 (35), aggregation 34/38 (34), structured_filter 34/36 (30),
+  disambiguation 28/28 (28), negation_sensitive 25/28 (25), lookup 34/34 (33).
+- **Compared with the earlier sets on the same four datasets** (other questions and other engines, one run each;
+  two-proportion z-tests, by meaning): R157 195/200 (p = 0.28), R166 77/80 (p = 0.78), R173 78/80 (p = 0.44),
+  R179 75/80 (p = 0.54), the 440 pooled 425/440 (p = 0.50). No difference is significant: the final engine
+  measures at the level of the earlier engines.
+- **Exact match against meaning** (6 questions right by meaning only, all answer form): NG26 (airport names in
+  `entities`, the accident ids in the text), NG27 (a place for an accident id), NG50, HG03, HG18, GG24/GG25
+  ("Core BF-1" for BF-1).
+- **Causes of the 9 failures by meaning** (from the answers):
+
+  | Cause | Questions |
+  |---|---|
+  | false abstention: `insufficient_evidence` on an answerable question (R204-R206's outcomes) | FG18 (five-star-only reviewers), FG39 (products with no wood-specialist part), HG24 (recalls naming www.nhtsa.gov), HG38 (recalls without a manufacturer's number) |
+  | a set missing one member | NG19 (the row with an empty airport name), HG17 (a speed written "10-15 MPH"), HG39 (a second "expected to be mailed" recall) |
+  | arithmetic slip | HG10 (counts 6, lists 7), HG13 (right vehicle, a wrong average stated) |
+
+  The false abstentions are the new failure mode of the final engine: 4 of 200 (2%), on aggregation and
+  negation questions over every record; R206 measured 0/4 false abstentions on furniture controls.
+- **Read with care:** one run, one model family for gold, review and judge; held-out remains the hardest
+  dataset (44/50, 6 of the 9 failures); the questions count as seen after this step.
+- **R237 done 2026-10-18; plan R235-R237 done.** Next: the user decides (the results slide; whether the false
+  abstentions get a step).
+
 ## Known limitations (the refinement arm stopped at R108)
 The user's decision, 2026-10-07: the anchor-graph refinement arm (R97-R108) stops at R108; what it leaves is
 recorded here as known limitations and future work, not optimised now. The state it stops in, on R103's

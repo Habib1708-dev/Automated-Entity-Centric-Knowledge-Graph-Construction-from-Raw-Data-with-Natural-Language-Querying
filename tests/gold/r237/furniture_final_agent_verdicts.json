@@ -1,0 +1,37 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-18",
+  "run_id": "e500df45692f4fba9ecc1c5f5e1a6b42",
+  "git_sha": "b05d341"
+ },
+ "gold": "tests/gold/qa/furniture_qa_final.json",
+ "answers": "out/r236_furniture/answers_agent.jsonl",
+ "verdicts": [
+  {
+   "question_id": "FG34",
+   "correct": true,
+   "reason": "Juice, as expected."
+  },
+  {
+   "question_id": "FG44",
+   "correct": true,
+   "reason": "140cm x 65cm, as expected."
+  },
+  {
+   "question_id": "FG45",
+   "correct": true,
+   "reason": "Dovetail joinery; the stapled-construction contrast is a qualifier."
+  },
+  {
+   "question_id": "FG47",
+   "correct": true,
+   "reason": "3-4 people, as expected."
+  },
+  {
+   "question_id": "FG50",
+   "correct": true,
+   "reason": "Quotes the catalogue description exactly."
+  }
+ ]
+}

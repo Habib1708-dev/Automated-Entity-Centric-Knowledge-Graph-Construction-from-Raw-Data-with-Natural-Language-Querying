@@ -1,0 +1,263 @@
+{
+ "judge": {
+  "model": "claude-opus-5-5",
+  "date": "2026-10-18",
+  "run_id": "1577d3186c9242d99efb48c220f192fd",
+  "git_sha": "b05d341"
+ },
+ "gold": "tests/gold/qa/generality_qa_final.json",
+ "answers": "out/r236_generality/answers_agent.jsonl",
+ "scope": "all",
+ "verdicts": [
+  {
+   "question_id": "GG01",
+   "correct": true,
+   "reason": "Names Jonathan Pike, the Soil Ecology group leader, not the Finance Office author."
+  },
+  {
+   "question_id": "GG02",
+   "correct": true,
+   "reason": "Says the poster drew more questions than any other in her session, as expected."
+  },
+  {
+   "question_id": "GG03",
+   "correct": true,
+   "reason": "3 June 2025 is the expected date of the Peat as a carbon archive seminar."
+  },
+  {
+   "question_id": "GG04",
+   "correct": true,
+   "reason": "About 60 visitors at Harbour Station, equals expected 60."
+  },
+  {
+   "question_id": "GG05",
+   "correct": true,
+   "reason": "2 Hydra P-40 pumps, equals expected 2."
+  },
+  {
+   "question_id": "GG06",
+   "correct": true,
+   "reason": "2018, Aiko Tanaka start year, equals expected."
+  },
+  {
+   "question_id": "GG07",
+   "correct": true,
+   "reason": "20 days, equals expected."
+  },
+  {
+   "question_id": "GG08",
+   "correct": true,
+   "reason": "HP40-1183, the pump whose seal failed in March."
+  },
+  {
+   "question_id": "GG09",
+   "correct": true,
+   "reason": "2 votes against, equals expected."
+  },
+  {
+   "question_id": "GG10",
+   "correct": true,
+   "reason": "3 documents, equals expected."
+  },
+  {
+   "question_id": "GG11",
+   "correct": true,
+   "reason": "4 documents, equals expected."
+  },
+  {
+   "question_id": "GG12",
+   "correct": true,
+   "reason": "4 documents, equals expected; listed documents match the gold note."
+  },
+  {
+   "question_id": "GG13",
+   "correct": true,
+   "reason": "Exactly Maria Lopez and Samuel Osei."
+  },
+  {
+   "question_id": "GG14",
+   "correct": true,
+   "reason": "6.6 m, equals expected."
+  },
+  {
+   "question_id": "GG15",
+   "correct": true,
+   "reason": "Town hall boiler, the smallest 2025 line."
+  },
+  {
+   "question_id": "GG16",
+   "correct": true,
+   "reason": "Exactly Judith Pike and Gareth Lowe."
+  },
+  {
+   "question_id": "GG17",
+   "correct": true,
+   "reason": "Eastgate library roof at 420,000 pounds, as expected."
+  },
+  {
+   "question_id": "GG18",
+   "correct": true,
+   "reason": "North Station, as expected."
+  },
+  {
+   "question_id": "GG19",
+   "correct": true,
+   "reason": "Exactly HP40-1183 and HP40-2291."
+  },
+  {
+   "question_id": "GG20",
+   "correct": true,
+   "reason": "Only HP40-2291, as expected."
+  },
+  {
+   "question_id": "GG21",
+   "correct": true,
+   "reason": "Same three 2026 lines; Harbour Street resurfacing is the carried-over line."
+  },
+  {
+   "question_id": "GG22",
+   "correct": true,
+   "reason": "Exactly the library roof and the drainage second phase."
+  },
+  {
+   "question_id": "GG23",
+   "correct": true,
+   "reason": "Harbour Station only, as expected."
+  },
+  {
+   "question_id": "GG24",
+   "correct": true,
+   "reason": "Exactly AB-17, AB-19, BF-1."
+  },
+  {
+   "question_id": "GG25",
+   "correct": true,
+   "reason": "Exactly AB-18, BF-1, BF-2."
+  },
+  {
+   "question_id": "GG26",
+   "correct": true,
+   "reason": "Exactly the three expected roles."
+  },
+  {
+   "question_id": "GG27",
+   "correct": true,
+   "reason": "Exactly Aiko Tanaka and Maria Lopez."
+  },
+  {
+   "question_id": "GG28",
+   "correct": true,
+   "reason": "Exactly Jonathan Pike and Judith Pike."
+  },
+  {
+   "question_id": "GG29",
+   "correct": true,
+   "reason": "16:40, the 12 May meeting chaired by Jon Pike."
+  },
+  {
+   "question_id": "GG30",
+   "correct": true,
+   "reason": "S-104, as expected."
+  },
+  {
+   "question_id": "GG31",
+   "correct": true,
+   "reason": "Before the end of June 2025, as expected."
+  },
+  {
+   "question_id": "GG32",
+   "correct": true,
+   "reason": "12 cm, equals expected."
+  },
+  {
+   "question_id": "GG33",
+   "correct": true,
+   "reason": "310,000 pounds, equals expected."
+  },
+  {
+   "question_id": "GG34",
+   "correct": true,
+   "reason": "13:45, as expected."
+  },
+  {
+   "question_id": "GG35",
+   "correct": true,
+   "reason": "41 l/s, equals expected."
+  },
+  {
+   "question_id": "GG36",
+   "correct": true,
+   "reason": "No; finished 25 August, a week ahead of the deadline."
+  },
+  {
+   "question_id": "GG37",
+   "correct": true,
+   "reason": "Says none, both June readings below 65 C; expected empty set."
+  },
+  {
+   "question_id": "GG38",
+   "correct": true,
+   "reason": "Says none; BF-4 missed for the lent corer; expected empty set."
+  },
+  {
+   "question_id": "GG39",
+   "correct": true,
+   "reason": "Finance Office only, as expected."
+  },
+  {
+   "question_id": "GG40",
+   "correct": true,
+   "reason": "KV12-0457 only, as expected."
+  },
+  {
+   "question_id": "GG41",
+   "correct": true,
+   "reason": "No; still moves when leaned on, nobody fixed it."
+  },
+  {
+   "question_id": "GG42",
+   "correct": true,
+   "reason": "No, the committee accepted the explanation; the parenthetical cause is a qualifier."
+  },
+  {
+   "question_id": "GG43",
+   "correct": true,
+   "reason": "5 m, equals expected."
+  },
+  {
+   "question_id": "GG44",
+   "correct": true,
+   "reason": "65 C, equals expected."
+  },
+  {
+   "question_id": "GG45",
+   "correct": true,
+   "reason": "4.5 mm/s, equals expected."
+  },
+  {
+   "question_id": "GG46",
+   "correct": true,
+   "reason": "10 working days, equals expected."
+  },
+  {
+   "question_id": "GG47",
+   "correct": true,
+   "reason": "The control room, as expected."
+  },
+  {
+   "question_id": "GG48",
+   "correct": true,
+   "reason": "Gives the exact title Sediment in motion: first results from the flume."
+  },
+  {
+   "question_id": "GG49",
+   "correct": true,
+   "reason": "Helen Achterberg, as expected."
+  },
+  {
+   "question_id": "GG50",
+   "correct": true,
+   "reason": "River gauging survey, as expected."
+  }
+ ]
+}
